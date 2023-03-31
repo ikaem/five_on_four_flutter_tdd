@@ -162,3 +162,18 @@ Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info
 [very_good_analysis_badge]: https://img.shields.io/badge/style-very_good_analysis-B22C89.svg
 [very_good_analysis_link]: https://pub.dev/packages/very_good_analysis
 [very_good_cli_link]: https://github.com/VeryGoodOpenSource/very_good_cli
+
+
+auth flow
+
+    1. The AuthStatusAppRepository would hold a BehaviorSubject of type AuthModel?.
+
+    2. AuthRemoteDataSource will provide a way to get the auth data from the remote data source.
+
+    3. AuthRepository will use AuthRemoteDataSource to get auth data and provide it to other parts of the app.
+
+    4. AuthService (in the Application Layer) will be responsible for setting the AuthStatusAppRepository based on the auth data obtained from AuthRepository.
+
+    5. AuthStatusController (in the Presentation Layer) will observe the AuthStatusAppRepository, and hold a ChangeNotifier that indicates if the user is logged in or not.
+
+    6. The AuthStatusController will pass this ChangeNotifier to the GoRouter wrapper, which will use it to redirect to the main screen or login screen depending on the current auth status.

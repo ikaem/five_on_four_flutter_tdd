@@ -1,6 +1,7 @@
-import 'package:five_on_four_flutter_tdd/features/auth/presentation/screens/register/screen.dart';
+import 'package:five_on_four_flutter_tdd/core/routing/app_routes.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/utils/constants/auth_keys_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -34,12 +35,7 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 8),
             TextButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const RegisterScreen(),
-                  ),
-                );
+                context.go(AppRoutes.registerScreenPath);
               },
               child: const Text('Register'),
             ),

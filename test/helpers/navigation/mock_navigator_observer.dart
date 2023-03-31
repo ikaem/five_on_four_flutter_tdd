@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// TODO this is not used anymore
 class MockNavigatorObserver extends NavigatorObserver {
   final List<Route<dynamic>> _history = [];
   List<Route<dynamic>> get history => _history;
