@@ -2,20 +2,28 @@
 import 'package:five_on_four_flutter_tdd/core/presentation/screens/main/screen.dart';
 import 'package:five_on_four_flutter_tdd/core/presentation/screens/splash/screen.dart';
 import 'package:five_on_four_flutter_tdd/core/routing/app_routes.dart';
+import 'package:five_on_four_flutter_tdd/features/auth/domain/models/auth/model.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/presentation/screens/login/screen.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/presentation/screens/register/screen.dart';
-import 'package:five_on_four_flutter_tdd/features/auth/presentation/state/controllers/auth_status/controller.dart';
+import 'package:five_on_four_flutter_tdd/features/auth/presentation/state/controllers/auth_status/providers/app_controller/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
   AppRouter({
-    required AuthController authController,
-  }) : _authController = authController;
+    // required AsyncValue<AuthModel?> authStatus,
+    required this.widgetRef,
+  });
+  // }) : authStatus = authStatus;
 
-  final AuthController _authController;
+  final WidgetRef widgetRef;
+
+  // final AsyncValue<AuthModel?> authStatus;
+  late AsyncValue<AuthModel?> authStatus =
+      widgetRef.watch(authStatusAppControllerProvider);
 
   late final GoRouter router = GoRouter(
-    refreshListenable: _authController,
+    // refreshListenable: authStatus
 
     // navigatorKey: rootNavigatorKey,
     // TODO not sure if this is needed at a ll
@@ -30,16 +38,16 @@ class AppRouter {
       // _matchCreateRoute,
     ],
     redirect: (context, state) {
-      final bool isAuthenticated = _authController.isAuthenticated;
-      final bool isLoading = _authController.isLoading;
+      final bool isLoading = authStatus is AsyncLoading;
+
+      final bool isAuthenticated =
+          authStatus is AsyncData && authStatus.value != null;
+      final bool isNotAuthenticated =
+          authStatus is AsyncData && authStatus.value == null;
 
       if (isLoading) return AppRoutes.splashScreenPath;
-      // if (isAuthenticated) return AppRoutes.loginScreenPath;
 
-      // return AppRoutes.mainScreenPath;
-
-// TODO test only
-      if (!isAuthenticated) {
+      if (isNotAuthenticated) {
         // conver this to functiona for readability
         switch (state.location) {
           case AppRoutes.registerScreenPath:
@@ -50,33 +58,68 @@ class AppRouter {
         }
       }
 
-      // if (!isAuthenticated) {
-      //   // conver this to functiona for readability
-      //   switch (state.location) {
-      //     case AppRoutes.registerScreenPath:
-      //       return AppRoutes.registerScreenPath;
+      if (isAuthenticated) {
+        switch (state.location) {
+          case AppRoutes.loginScreenPath:
+          case AppRoutes.registerScreenPath:
+          case AppRoutes.splashScreenPath:
+            return AppRoutes.mainScreenPath;
 
-      //     default:
-      //       return AppRoutes.loginScreenPath;
-      //   }
-      // }
-
-      // if (isAuthenticated) {
-      switch (state.location) {
-        case AppRoutes.loginScreenPath:
-        case AppRoutes.registerScreenPath:
-        case AppRoutes.splashScreenPath:
-          return AppRoutes.mainScreenPath;
-
-        default:
-          return state.location;
+          default:
+            return state.location;
+        }
       }
-      // }
 
-      // return null;
-
-      // return null;
+      return null;
     },
+//     redirect: (context, state) {
+//       final bool isAuthenticated = authStatus is Auth
+//       final bool isLoading = _authController.isLoading;
+
+//       if (isLoading) return AppRoutes.splashScreenPath;
+//       // if (isAuthenticated) return AppRoutes.loginScreenPath;
+
+//       // return AppRoutes.mainScreenPath;
+
+// // TODO test only
+//       if (!isAuthenticated) {
+//         // conver this to functiona for readability
+//         switch (state.location) {
+//           case AppRoutes.registerScreenPath:
+//             return AppRoutes.registerScreenPath;
+
+//           default:
+//             return AppRoutes.loginScreenPath;
+//         }
+//       }
+
+//       // if (!isAuthenticated) {
+//       //   // conver this to functiona for readability
+//       //   switch (state.location) {
+//       //     case AppRoutes.registerScreenPath:
+//       //       return AppRoutes.registerScreenPath;
+
+//       //     default:
+//       //       return AppRoutes.loginScreenPath;
+//       //   }
+//       // }
+
+//       // if (isAuthenticated) {
+//       switch (state.location) {
+//         case AppRoutes.loginScreenPath:
+//         case AppRoutes.registerScreenPath:
+//         case AppRoutes.splashScreenPath:
+//           return AppRoutes.mainScreenPath;
+
+//         default:
+//           return state.location;
+//       }
+//       // }
+
+//       // return null;
+
+//       // return null;
+    // },
     // refreshListenable: _initialDataProvider,
     // redirect: (context, state) {
     //   if (_initialDataProvider.isLoading) {

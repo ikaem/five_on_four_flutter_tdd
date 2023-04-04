@@ -19,6 +19,7 @@ class AuthStatusAppRepository implements AuthStatusRepository {
   @override
   Future<void> setAuth(AuthModel? auth) async {
     _authSink.add(auth);
+    // _authSink.add(null);
   }
 
   @override

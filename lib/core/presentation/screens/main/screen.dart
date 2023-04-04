@@ -1,6 +1,6 @@
 import 'package:five_on_four_flutter_tdd/core/domain/values/initial_data/value.dart';
-import 'package:five_on_four_flutter_tdd/core/presentation/state/controllers/initial_data/controller.dart';
-import 'package:five_on_four_flutter_tdd/core/presentation/state/controllers/initial_data/providers/controller_provider.dart';
+import 'package:five_on_four_flutter_tdd/core/presentation/state/controllers/initial_data/providers/app_controller/provider.dart';
+
 import 'package:five_on_four_flutter_tdd/features/auth/utils/constants/auth_keys_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,8 +15,8 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  late final InitialDataController _initialDataController =
-      ref.read(initialDataControllerProvider.notifier);
+  // late final InitialDataController _initialDataController =
+  //     ref.read(initialDataControllerProvider);
 
   @override
   void initState() {
@@ -29,8 +29,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     // return Container(
     //   key: Key(AuthKeysConstants.mainScreenScaffoldKey),
     // );
-    final AsyncValue<InitialDataValue> initialDataState =
-        ref.watch(initialDataControllerProvider);
+    final AsyncValue<InitialDataValue?> initialDataState =
+        ref.watch(initialDataAppControllerProvider);
 
     // if (initialDataState.isLoading) {
     //   return Scaffold(
@@ -58,6 +58,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   }
 
   Future<void> _loadInitialData() async {
-    await _initialDataController.onLoadInitialData();
+    // await _initialDataController.onLoadInitialData();
   }
 }

@@ -6,21 +6,21 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authStatusAppControllerHash() =>
-    r'27ac2c210403c616b2391ab49c0c479d4cff4ad9';
+String _$initialDataServiceHash() =>
+    r'cab35eee21c9364d7970c401e6a182eb6c2fbc0f';
 
-/// See also [AuthStatusAppController].
-@ProviderFor(AuthStatusAppController)
-final authStatusAppControllerProvider = AutoDisposeAsyncNotifierProvider<
-    AuthStatusAppController, AuthModel?>.internal(
-  AuthStatusAppController.new,
-  name: r'authStatusAppControllerProvider',
+/// See also [initialDataService].
+@ProviderFor(initialDataService)
+final initialDataServiceProvider =
+    AutoDisposeProvider<InitialDataService>.internal(
+  initialDataService,
+  name: r'initialDataServiceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$authStatusAppControllerHash,
+      : _$initialDataServiceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$AuthStatusAppController = AutoDisposeAsyncNotifier<AuthModel?>;
+typedef InitialDataServiceRef = AutoDisposeProviderRef<InitialDataService>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
