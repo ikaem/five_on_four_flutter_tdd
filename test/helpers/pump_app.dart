@@ -1,3 +1,4 @@
+// lets this one stay becuase of mock navigator observer patterns n
 
 // extension PumpApp on WidgetTester {
 //   Future<void> pumpApp(
@@ -39,3 +40,28 @@
 //     // ),
 //   }
 // }
+import 'package:five_on_four_flutter_tdd/l10n/l10n.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+
+extension PumpAppExtension on WidgetTester {
+  Future<void> pumpApp({
+    required GoRouter router,
+    required List<Override> providerScopeOverrides,
+  }) async {
+    return pumpWidget(
+      ProviderScope(
+        overrides: providerScopeOverrides,
+        child: MaterialApp.router(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          routeInformationProvider: router.routeInformationProvider,
+          routeInformationParser: router.routeInformationParser,
+          routerDelegate: router.routerDelegate,
+        ),
+      ),
+    );
+  }
+}

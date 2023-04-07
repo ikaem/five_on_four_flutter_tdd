@@ -7,12 +7,11 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$initialDataServiceHash() =>
-    r'cab35eee21c9364d7970c401e6a182eb6c2fbc0f';
+    r'62155849bb44e0c9acd30fbb855787112fe61216';
 
 /// See also [initialDataService].
 @ProviderFor(initialDataService)
-final initialDataServiceProvider =
-    AutoDisposeProvider<InitialDataService>.internal(
+final initialDataServiceProvider = Provider<InitialDataService>.internal(
   initialDataService,
   name: r'initialDataServiceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,5 +21,5 @@ final initialDataServiceProvider =
   allTransitiveDependencies: null,
 );
 
-typedef InitialDataServiceRef = AutoDisposeProviderRef<InitialDataService>;
+typedef InitialDataServiceRef = ProviderRef<InitialDataService>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

@@ -1,4 +1,6 @@
 import 'package:five_on_four_flutter_tdd/core/routing/app_router.dart';
+import 'package:five_on_four_flutter_tdd/features/auth/domain/models/auth/model.dart';
+import 'package:five_on_four_flutter_tdd/features/auth/presentation/state/controllers/auth_status/providers/app_controller/provider.dart';
 
 import 'package:five_on_four_flutter_tdd/l10n/l10n.dart';
 import 'package:flutter/material.dart';
@@ -9,12 +11,12 @@ class App extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext widgetContext, WidgetRef ref) {
-    // final AsyncValue<AuthModel?> authStatus =
-    //     ref.watch(authStatusAppControllerProvider);
+    final AsyncValue<AuthModel?> authStatus =
+        ref.watch(authStatusAppControllerProvider);
 
     final AppRouter appRouter = AppRouter(
-      // authStatus: authStatus,
-      widgetRef: ref,
+      authStatus: authStatus,
+      // widgetRef: ref,
     );
     // final AppRouter appRouter = AppRouter();
 

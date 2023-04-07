@@ -1,172 +1,171 @@
-// import 'package:five_on_four_flutter_tdd/core/routing/app_router.dart';
-// import 'package:five_on_four_flutter_tdd/core/routing/app_routes.dart';
-// import 'package:five_on_four_flutter_tdd/features/auth/presentation/screens/login/screen.dart';
-// import 'package:five_on_four_flutter_tdd/features/auth/presentation/screens/register/screen.dart';
-// import 'package:five_on_four_flutter_tdd/features/auth/utils/constants/auth_keys_constants.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_test/flutter_test.dart';
+import 'package:five_on_four_flutter_tdd/core/routing/app_routes.dart';
+import 'package:five_on_four_flutter_tdd/features/auth/presentation/screens/login/screen.dart';
+import 'package:five_on_four_flutter_tdd/features/auth/presentation/screens/register/screen.dart';
+import 'package:five_on_four_flutter_tdd/features/auth/utils/constants/auth_keys_constants.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 
-// import '../../../../../helpers/navigation/mock_app_router.dart';
-// import '../../../../../helpers/pump_app.dart';
+import '../../../../../helpers/helpers.dart';
+import '../../../../../helpers/navigation/mock_app_router.dart';
 
-void main() {}
+void main() {
+  group(
+    "Testing Register Screen UI",
+    () {
+      testWidgets(
+        "Register Screen should have a Text Field with email label",
+        (widgetTester) async {
+          final MockAppRouter mockAppRouter = MockAppRouter(
+            initialAppRoute: AppRoutes.registerScreenRoute,
+            routes: [
+              MockAppRouter.createGoRoute(
+                appRouteValue: AppRoutes.registerScreenRoute,
+                screen: RegisterScreen(),
+              )
+            ],
+          );
 
+          await widgetTester.pumpApp(
+            router: mockAppRouter.router,
+            providerScopeOverrides: [],
+          );
 
-// void main() {
-//   group('Testing Register Screen UI', () {
-//     testWidgets("Register Screen should have a Text Field with 'email' label",
-//         (widgetTester) async {
-//       final AppRouter mockAppRouter = MockAppRouter(
-//         initialAppRoute: AppRoutes.loginScreenRoute,
-//         routes: [
-//           MockAppRouter.createGoRoute(
-//             appRouteValue: AppRoutes.loginScreenRoute,
-//             screen: RegisterScreen(),
-//           )
-//         ],
-//       );
+          final emailTextFieldFinder = find.widgetWithText(TextField, 'Email');
+          expect(emailTextFieldFinder, findsOneWidget);
+        },
+      );
 
-//       await widgetTester.pumpApp(
-//         // widget: const RegisterScreen(),
-//         appRouter: mockAppRouter,
-//       );
+      testWidgets(
+        "Register Screen should have a Text Field with password label",
+        (widgetTester) async {
+          final MockAppRouter mockAppRouter = MockAppRouter(
+            initialAppRoute: AppRoutes.registerScreenRoute,
+            routes: [
+              MockAppRouter.createGoRoute(
+                appRouteValue: AppRoutes.registerScreenRoute,
+                screen: RegisterScreen(),
+              )
+            ],
+          );
 
-//       final emailTextFieldFinder = find.widgetWithText(TextField, 'Email');
-//       expect(emailTextFieldFinder, findsOneWidget);
-//     });
+          await widgetTester.pumpApp(
+            router: mockAppRouter.router,
+            providerScopeOverrides: [],
+          );
 
-//     testWidgets(
-//         "Register Screen should have a Text Field with 'password' label",
-//         (widgetTester) async {
-//       final AppRouter mockAppRouter = MockAppRouter(
-//         initialAppRoute: AppRoutes.loginScreenRoute,
-//         routes: [
-//           MockAppRouter.createGoRoute(
-//             appRouteValue: AppRoutes.loginScreenRoute,
-//             screen: RegisterScreen(),
-//           )
-//         ],
-//       );
+          final passwordTextFieldFinder =
+              find.widgetWithText(TextField, 'Password');
+          expect(passwordTextFieldFinder, findsOneWidget);
+        },
+      );
 
-//       await widgetTester.pumpApp(
-//         // widget: const RegisterScreen(),
-//         appRouter: mockAppRouter,
-//       );
+      testWidgets(
+        "Register Screen should have a Text Field with nickname label",
+        (widgetTester) async {
+          final MockAppRouter mockAppRouter = MockAppRouter(
+            initialAppRoute: AppRoutes.registerScreenRoute,
+            routes: [
+              MockAppRouter.createGoRoute(
+                appRouteValue: AppRoutes.registerScreenRoute,
+                screen: RegisterScreen(),
+              )
+            ],
+          );
 
-//       final passwordTextFieldFinder =
-//           find.widgetWithText(TextField, 'Password');
-//       expect(passwordTextFieldFinder, findsOneWidget);
-//     });
+          await widgetTester.pumpApp(
+            router: mockAppRouter.router,
+            providerScopeOverrides: [],
+          );
 
-//     testWidgets(
-//         "Register Screen should have a Text Field with 'nickname' label",
-//         (widgetTester) async {
-//       final AppRouter mockAppRouter = MockAppRouter(
-//         initialAppRoute: AppRoutes.loginScreenRoute,
-//         routes: [
-//           MockAppRouter.createGoRoute(
-//             appRouteValue: AppRoutes.loginScreenRoute,
-//             screen: RegisterScreen(),
-//           )
-//         ],
-//       );
+          final passwordTextFieldFinder =
+              find.widgetWithText(TextField, 'Nickname');
+          expect(passwordTextFieldFinder, findsOneWidget);
+        },
+      );
 
-//       await widgetTester.pumpApp(
-//         // widget: const RegisterScreen(),
-//         appRouter: mockAppRouter,
-//       );
+      testWidgets(
+        "Register Screen should have a Register button",
+        (widgetTester) async {
+          final MockAppRouter mockAppRouter = MockAppRouter(
+            initialAppRoute: AppRoutes.registerScreenRoute,
+            routes: [
+              MockAppRouter.createGoRoute(
+                appRouteValue: AppRoutes.registerScreenRoute,
+                screen: RegisterScreen(),
+              )
+            ],
+          );
 
-//       final nicknameTextFieldFinder =
-//           find.widgetWithText(TextField, 'Nickname');
-//       expect(nicknameTextFieldFinder, findsOneWidget);
-//     });
+          await widgetTester.pumpApp(
+            router: mockAppRouter.router,
+            providerScopeOverrides: [],
+          );
 
-//     testWidgets('Register Screen should have a register button',
-//         (widgetTester) async {
-//       final AppRouter mockAppRouter = MockAppRouter(
-//         initialAppRoute: AppRoutes.loginScreenRoute,
-//         routes: [
-//           MockAppRouter.createGoRoute(
-//             appRouteValue: AppRoutes.loginScreenRoute,
-//             screen: RegisterScreen(),
-//           )
-//         ],
-//       );
+          final loginButtonFinder =
+              find.widgetWithText(ElevatedButton, 'Register');
+          expect(loginButtonFinder, findsOneWidget);
+        },
+      );
 
-//       await widgetTester.pumpApp(
-//         // widget: const RegisterScreen(),
-//         appRouter: mockAppRouter,
-//       );
+      testWidgets(
+        "Register Screen should have a Login button",
+        (widgetTester) async {
+          final MockAppRouter mockAppRouter = MockAppRouter(
+            initialAppRoute: AppRoutes.registerScreenRoute,
+            routes: [
+              MockAppRouter.createGoRoute(
+                appRouteValue: AppRoutes.registerScreenRoute,
+                screen: RegisterScreen(),
+              )
+            ],
+          );
 
-//       final registerButtonFinder =
-//           find.widgetWithText(ElevatedButton, 'Register');
-//       expect(registerButtonFinder, findsOneWidget);
-//     });
+          await widgetTester.pumpApp(
+            router: mockAppRouter.router,
+            providerScopeOverrides: [],
+          );
 
-//     testWidgets(
-//         'Register Screen should have a button that navigates to Login Screen',
-//         (widgetTester) async {
-//       final AppRouter mockAppRouter = MockAppRouter(
-//         initialAppRoute: AppRoutes.loginScreenRoute,
-//         routes: [
-//           MockAppRouter.createGoRoute(
-//             appRouteValue: AppRoutes.loginScreenRoute,
-//             screen: RegisterScreen(),
-//           )
-//         ],
-//       );
+          final registerButtonFinder = find.widgetWithText(TextButton, 'Login');
 
-//       await widgetTester.pumpApp(
-//         // widget: const RegisterScreen(),
-//         appRouter: mockAppRouter,
-//       );
+          expect(registerButtonFinder, findsOneWidget);
+        },
+      );
+    },
+  );
 
-//       final loginButtonFinder = find.widgetWithText(TextButton, 'Login');
-//       expect(loginButtonFinder, findsOneWidget);
-//     });
-//   });
+  group("Testing Register Screen functionality", () {
+    testWidgets("Tapping on Login button should navigate to Login Screen",
+        (widgetTester) async {
+      final MockAppRouter mockAppRouter = MockAppRouter(
+        initialAppRoute: AppRoutes.registerScreenRoute,
+        routes: [
+          MockAppRouter.createGoRoute(
+            appRouteValue: AppRoutes.loginScreenRoute,
+            screen: LoginScreen(),
+          ),
+          MockAppRouter.createGoRoute(
+            appRouteValue: AppRoutes.registerScreenRoute,
+            screen: RegisterScreen(),
+          ),
+        ],
+      );
 
-//   group('Testing Register Screen functionality', () {
-//     testWidgets("Tapping on 'Login' button should navigate to LoginScreen",
-//         (widgetTester) async {
-//       // final MockNavigatorObserver mockNavigatorObserver =
-//       //     MockNavigatorObserver();
+      await widgetTester.pumpApp(
+        router: mockAppRouter.router,
+        providerScopeOverrides: [],
+      );
 
-//       // await widgetTester.pumpApp(
-//       //   const RegisterScreen(),
-//       //   mockNavigatorObserver,
-//       // );
+      final Finder registerButtonFinder =
+          find.widgetWithText(TextButton, 'Login');
 
-//       final AppRouter mockAppRouter = MockAppRouter(
-//         initialAppRoute: AppRoutes.registerScreenRoute,
-//         routes: [
-//           MockAppRouter.createGoRoute(
-//             appRouteValue: AppRoutes.loginScreenRoute,
-//             screen: LoginScreen(),
-//           ),
-//           MockAppRouter.createGoRoute(
-//             appRouteValue: AppRoutes.registerScreenRoute,
-//             screen: RegisterScreen(),
-//           ),
-//         ],
-//       );
+      await widgetTester.tap(registerButtonFinder);
 
-//       await widgetTester.pumpApp(
-//         // widget: const RegisterScreen(),
-//         appRouter: mockAppRouter,
-//       );
+      await widgetTester.pumpAndSettle();
 
-//       final Finder loginButtonFinder = find.widgetWithText(TextButton, "Login");
+      final Finder loginScreenFinder =
+          find.byKey(const Key(AuthKeysConstants.loginScreenScaffoldKey));
 
-//       expect(loginButtonFinder, findsOneWidget);
-
-//       await widgetTester.tap(loginButtonFinder);
-//       await widgetTester.pumpAndSettle();
-
-//       final loginScreenFinder =
-//           find.byKey(const Key(AuthKeysConstants.loginScreenScaffoldKey));
-
-//       expect(loginScreenFinder, findsOneWidget);
-//     });
-//   });
-// }
+      expect(loginScreenFinder, findsOneWidget);
+    });
+  });
+}

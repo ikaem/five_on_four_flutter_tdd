@@ -120,7 +120,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part "provider.g.dart";
 
-@riverpod
+@Riverpod(keepAlive: true)
 class AuthStatusAppController extends _$AuthStatusAppController
     implements AuthStatusController {
   late final AuthService authService = ref.read(authServiceProvider);
@@ -129,6 +129,7 @@ class AuthStatusAppController extends _$AuthStatusAppController
   @override
   Future<AuthModel?> build() async {
     final AuthModel? auth = await _initializeController();
+    print("MAKE THIS WORK!!!!: ${auth.toString()}");
     return auth;
 
     // ok, so i could get first value for the stream, and return it

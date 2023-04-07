@@ -22,20 +22,23 @@ class AuthAppService implements AuthService {
   Future<void> checkAuth() async {
     final auth = await authRepository.checkAuth();
 
-    await authStatusRepository.setAuth(auth);
+    // TODO
+    print("WE ARE CHECKING INITIAL AUTH: $auth");
+
+    authStatusRepository.setAuth(auth);
   }
 
   @override
   Future<void> login(LoginCredentialsArgs args) async {
     final auth = await authRepository.login(args);
 
-    await authStatusRepository.setAuth(auth);
+    authStatusRepository.setAuth(auth);
   }
 
   @override
   Future<void> logout() async {
     await authRepository.logout();
-    await authStatusRepository.setAuth(null);
+    authStatusRepository.setAuth(null);
   }
 
   @override
@@ -45,6 +48,6 @@ class AuthAppService implements AuthService {
       email: args.email,
       password: args.password,
     );
-    await authStatusRepository.setAuth(auth);
+    authStatusRepository.setAuth(auth);
   }
 }

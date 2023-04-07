@@ -1,4 +1,3 @@
-
 import 'package:five_on_four_flutter_tdd/core/application/services/initial_data/providers/app_service/provider.dart';
 import 'package:five_on_four_flutter_tdd/core/application/services/initial_data/service.dart';
 import 'package:five_on_four_flutter_tdd/core/domain/values/initial_data/value.dart';
@@ -17,11 +16,17 @@ class InitialDataAppController extends _$InitialDataAppController
 
   @override
   AsyncValue<InitialDataValue?> build() {
-    return AsyncValue.data(null);
+    // Future<InitialDataValue?> build() async {
+    // return null;
+
+    // return AsyncValue.data(null);
+    return AsyncValue.loading();
   }
 
   Future<void> onLoadInitialData() async {
-    state = const AsyncValue.loading();
+    // state = const AsyncValue.loading();
+
+    print("IS THIS PRINTED!!!!!!!!");
 
     state = await AsyncValue.guard(() async {
       final Future<List<MatchModel>> invitedMatchesFuture =

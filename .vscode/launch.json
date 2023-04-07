@@ -29,6 +29,13 @@
       "type": "dart",
       "program": "lib/main_production.dart",
       "args": ["--flavor", "production", "--target", "lib/main_production.dart"]
+    },
+    {
+      "name": "Flutter Tests",
+      "type": "dart",
+      "request": "launch",
+      "program": "${workspaceFolder}/test/features/core/presentation/screens/main/screen_test.dart",
+      "args": ["--no-sound-null-safety"]
     }
   ]
 }

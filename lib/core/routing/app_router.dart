@@ -5,22 +5,21 @@ import 'package:five_on_four_flutter_tdd/core/routing/app_routes.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/domain/models/auth/model.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/presentation/screens/login/screen.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/presentation/screens/register/screen.dart';
-import 'package:five_on_four_flutter_tdd/features/auth/presentation/state/controllers/auth_status/providers/app_controller/provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
   AppRouter({
-    // required AsyncValue<AuthModel?> authStatus,
-    required this.widgetRef,
+    required this.authStatus,
+    // required this.widgetRef,
   });
   // }) : authStatus = authStatus;
 
-  final WidgetRef widgetRef;
+  // final WidgetRef widgetRef;
 
-  // final AsyncValue<AuthModel?> authStatus;
-  late AsyncValue<AuthModel?> authStatus =
-      widgetRef.watch(authStatusAppControllerProvider);
+  final AsyncValue<AuthModel?> authStatus;
+  // late AsyncValue<AuthModel?> authStatus =
+  //     widgetRef.watch(authStatusAppControllerProvider);
 
   late final GoRouter router = GoRouter(
     // refreshListenable: authStatus

@@ -12,7 +12,7 @@ part "provider.g.dart";
 AuthService authService(AuthServiceRef ref) {
   final AuthRepository authRepository = ref.read(authRepositoryProvider);
   final AuthStatusRepository authStatusRepository =
-      ref.read(authStatusRepositoryProvider);
+      ref.watch(authStatusRepositoryProvider);
 
   final AuthService service = AuthAppService(
     authRepository: authRepository,

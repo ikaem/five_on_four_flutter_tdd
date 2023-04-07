@@ -20,10 +20,11 @@ class InitialDataAppService implements InitialDataService {
   // TODO add and use weather feature for getting weather later
 
   Future<List<MatchModel>> getCurrentPlayerInvitedMatches() async {
-    final AuthModel? authModel = authStatusRepository.getAuthStatus();
+    final AuthModel? authModel = await authStatusRepository.getAuthStatus();
     // if we dont get auth, we set it to null. but it is null already anyhow
     if (authModel == null) {
-      authStatusRepository.setAuth(null);
+      // TODO dont do this - it is already null
+      // authStatusRepository.setAuth(null);
 
       throw AuthExceptionUnauthorized(
           message: "There is no player currently signed in");
@@ -37,10 +38,10 @@ class InitialDataAppService implements InitialDataService {
   }
 
   Future<List<MatchModel>> getCurrentPlayerJoinedMatches() async {
-    final AuthModel? authModel = authStatusRepository.getAuthStatus();
+    final AuthModel? authModel = await authStatusRepository.getAuthStatus();
     // if we dont get auth, we wi
     if (authModel == null) {
-      authStatusRepository.setAuth(null);
+      // authStatusRepository.setAuth(null);
 
       throw AuthExceptionUnauthorized(
           message: "There is no player currently signed in");
@@ -53,10 +54,10 @@ class InitialDataAppService implements InitialDataService {
   }
 
   Future<MatchInfoModel> getCurrentPlayerNextMatch() async {
-    final AuthModel? authModel = authStatusRepository.getAuthStatus();
+    final AuthModel? authModel = await authStatusRepository.getAuthStatus();
     // if we dont get auth, we wi
     if (authModel == null) {
-      authStatusRepository.setAuth(null);
+      // authStatusRepository.setAuth(null);
 
       throw AuthExceptionUnauthorized(
           message: "There is no player currently signed in");

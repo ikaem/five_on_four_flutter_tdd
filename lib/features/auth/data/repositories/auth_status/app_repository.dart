@@ -10,6 +10,7 @@ class AuthStatusAppRepository implements AuthStatusRepository {
 
   StreamSink<AuthModel?> get _authSink => _authBehaviorSubject.sink;
   Stream<AuthModel?> get authStream => _authBehaviorSubject.distinct();
+  // Stream<AuthModel?> get authStream => _authBehaviorSubject.stream;
 
   @override
   Stream<AuthModel?> observeAuthStatus() {
@@ -17,14 +18,24 @@ class AuthStatusAppRepository implements AuthStatusRepository {
   }
 
   @override
-  Future<void> setAuth(AuthModel? auth) async {
+  void setAuth(AuthModel? auth) {
     _authSink.add(auth);
+    // TODO test
+    print("THIS IS SETTING AUTH!!!!!!!!!: $auth");
+    // _authBehaviorSubject.add(auth);
     // _authSink.add(null);
   }
 
   @override
-  AuthModel? getAuthStatus() {
+  Future<AuthModel?> getAuthStatus() async {
+    // authStream.first.then((value) {
+    //   // TODO test
+    // });
     final AuthModel? authStatus = _authBehaviorSubject.valueOrNull;
+    print("THIS IS GETTING AUTH!!!!!!!!: $authStatus");
+    // final AuthModel? authStatus = await authStream.first;
+
+    // TOOD t
 
     return authStatus;
   }

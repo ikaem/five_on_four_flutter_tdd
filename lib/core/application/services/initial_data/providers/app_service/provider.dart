@@ -8,13 +8,13 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part "provider.g.dart";
 
-@riverpod
+@Riverpod(keepAlive: true)
 InitialDataService initialDataService(InitialDataServiceRef ref) {
   final MatchesRepository matchesRepository =
       ref.read(matchesRepositoryProvider);
 
   final AuthStatusRepository authStatusRepository =
-      ref.read(authStatusRepositoryProvider);
+      ref.watch(authStatusRepositoryProvider);
 
   final InitialDataService initialDataService = InitialDataAppService(
     matchesRepository: matchesRepository,
