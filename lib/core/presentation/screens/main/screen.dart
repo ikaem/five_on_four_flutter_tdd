@@ -2,10 +2,12 @@ import 'dart:developer';
 
 import 'package:five_on_four_flutter_tdd/core/domain/values/initial_data/value.dart';
 import 'package:five_on_four_flutter_tdd/core/presentation/state/controllers/initial_data/providers/app_controller/provider.dart';
+import 'package:five_on_four_flutter_tdd/core/routing/app_routes.dart';
 
 import 'package:five_on_four_flutter_tdd/features/auth/utils/constants/auth_keys_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({
@@ -28,6 +30,19 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue<InitialDataValue?>>(initialDataAppControllerProvider,
+        (previous, next) {
+      next.when(
+        data: (data) {
+          // TODO navigate here
+          log("Logging when should navigating to home screen");
+          context.go(AppRoutes.homeScreenPath);
+        },
+        error: (error, stackTrace) => null,
+        loading: () => null,
+      );
+    });
+
     // return Container(
     //   key: Key(AuthKeysConstants.mainScreenScaffoldKey),
     // );
@@ -45,9 +60,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       key: Key(AuthKeysConstants.mainScreenScaffoldKey),
       body: initialDataState.when(
         // data: (data) => SizedBox.shrink(),
-        data: (data) => Center(
-          child: Text("Some data has loaded"),
-        ),
+        // data: (data) => Center(
+        //   child: Text("Some data has loaded"),
+        // ),
+        data: (data) => SizedBox.shrink(),
         error: (error, stackTrace) {
           print("Here i am logging!!!!!!!!!!!!!!: $error");
           return Center(
@@ -62,17 +78,19 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   }
 
   Future<void> _initializeScreen() async {
-    ref.listen<AsyncValue<InitialDataValue?>>(initialDataAppControllerProvider,
-        (previous, next) {
-      next.when(
-        data: (data) {
-          // TODO navigate here
-          log("Logging when should navigating to home screen");
-        },
-        error: (error, stackTrace) => null,
-        loading: () => null,
-      );
-    });
+    // REF.listen can only be used in build method
+// /*     ref.listen<AsyncValue<InitialDataValue?>>(initialDataAppControllerProvider,
+//         (previous, next) {
+//       next.when(
+//         data: (data) {
+//           // TODO navigate here
+//           log("Logging when should navigating to home screen");
+//           context.go(AppRoutes.homeScreenPath);
+//         },
+//         error: (error, stackTrace) => null,
+//         loading: () => null,
+//       );
+//     }); */
 
     final InitialDataAppController initialDataAppController =
         ref.read(initialDataAppControllerProvider.notifier);

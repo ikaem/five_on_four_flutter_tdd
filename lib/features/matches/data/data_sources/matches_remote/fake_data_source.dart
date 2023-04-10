@@ -123,4 +123,172 @@ final List<MatchRemoteDTO> joinedMatches = [
       ),
     ],
   ),
+  MatchRemoteDTO(
+    id: "2",
+    name: "Match 2",
+    participants: [
+      MatchParticipantRemoteDTO(
+          id: "3",
+          playerId: "1",
+          matchId: "2",
+          nickname: "Player 1",
+          status: "confirmed",
+          createdAt: 1617355557658,
+          expiresAt: null // 1 hour later
+          ),
+      MatchParticipantRemoteDTO(
+        id: "4",
+        playerId: "3",
+        matchId: "2",
+        nickname: "Player 3",
+        status: "confirmed",
+        createdAt: 1617355557658,
+        expiresAt: null, // 1 hour later
+      ),
+    ],
+  ),
+  MatchRemoteDTO(
+    id: "2",
+    name: "Match 2",
+    participants: [
+      MatchParticipantRemoteDTO(
+          id: "3",
+          playerId: "1",
+          matchId: "2",
+          nickname: "Player 1",
+          status: "confirmed",
+          createdAt: 1617355557658,
+          expiresAt: null // 1 hour later
+          ),
+      MatchParticipantRemoteDTO(
+        id: "4",
+        playerId: "3",
+        matchId: "2",
+        nickname: "Player 3",
+        status: "confirmed",
+        createdAt: 1617355557658,
+        expiresAt: null, // 1 hour later
+      ),
+    ],
+  ),
+  MatchRemoteDTO(
+    id: "2",
+    name: "Match 2",
+    participants: [
+      MatchParticipantRemoteDTO(
+          id: "3",
+          playerId: "1",
+          matchId: "2",
+          nickname: "Player 1",
+          status: "confirmed",
+          createdAt: 1617355557658,
+          expiresAt: null // 1 hour later
+          ),
+      MatchParticipantRemoteDTO(
+        id: "4",
+        playerId: "3",
+        matchId: "2",
+        nickname: "Player 3",
+        status: "confirmed",
+        createdAt: 1617355557658,
+        expiresAt: null, // 1 hour later
+      ),
+    ],
+  ),
+  MatchRemoteDTO(
+    id: "2",
+    name: "Match 2",
+    participants: [
+      MatchParticipantRemoteDTO(
+          id: "3",
+          playerId: "1",
+          matchId: "2",
+          nickname: "Player 1",
+          status: "confirmed",
+          createdAt: 1617355557658,
+          expiresAt: null // 1 hour later
+          ),
+      MatchParticipantRemoteDTO(
+        id: "4",
+        playerId: "3",
+        matchId: "2",
+        nickname: "Player 3",
+        status: "confirmed",
+        createdAt: 1617355557658,
+        expiresAt: null, // 1 hour later
+      ),
+    ],
+  ),
+  MatchRemoteDTO(
+    id: "2",
+    name: "Match 2",
+    participants: [
+      MatchParticipantRemoteDTO(
+          id: "3",
+          playerId: "1",
+          matchId: "2",
+          nickname: "Player 1",
+          status: "confirmed",
+          createdAt: 1617355557658,
+          expiresAt: null // 1 hour later
+          ),
+      MatchParticipantRemoteDTO(
+        id: "4",
+        playerId: "3",
+        matchId: "2",
+        nickname: "Player 3",
+        status: "confirmed",
+        createdAt: 1617355557658,
+        expiresAt: null, // 1 hour later
+      ),
+    ],
+  ),
+  MatchRemoteDTO(
+    id: "2",
+    name: "Match 2",
+    participants: [
+      MatchParticipantRemoteDTO(
+          id: "3",
+          playerId: "1",
+          matchId: "2",
+          nickname: "Player 1",
+          status: "confirmed",
+          createdAt: 1617355557658,
+          expiresAt: null // 1 hour later
+          ),
+      MatchParticipantRemoteDTO(
+        id: "4",
+        playerId: "3",
+        matchId: "2",
+        nickname: "Player 3",
+        status: "confirmed",
+        createdAt: 1617355557658,
+        expiresAt: null, // 1 hour later
+      ),
+    ],
+  ),
+  MatchRemoteDTO(
+    id: "2",
+    name: "Match 2",
+    participants: [
+      MatchParticipantRemoteDTO(
+          id: "3",
+          playerId: "1",
+          matchId: "2",
+          nickname: "Player 1",
+          status: "confirmed",
+          createdAt: 1617355557658,
+          expiresAt: null // 1 hour later
+          ),
+      MatchParticipantRemoteDTO(
+        id: "4",
+        playerId: "3",
+        matchId: "2",
+        nickname: "Player 3",
+        status: "confirmed",
+        createdAt: 1617355557658,
+        expiresAt: null, // 1 hour later
+      ),
+    ],
+  ),
 ];

@@ -7,6 +7,7 @@ abstract class AppRoutes {
   static const mainScreenPath = '/main';
   static const loginScreenPath = '/login';
   static const registerScreenPath = '/register';
+  static const homeScreenPath = '/home';
   // static const matchesScreenPath = '/matches';
   // static const playersScreenPath = '/players';
   // static const matchCreateScreenPath = '/match-create';
@@ -18,7 +19,7 @@ abstract class AppRoutes {
 
   static AppRouteValue get mainScreenRoute => const AppRouteValue(
         path: '$mainScreenPath',
-        name: 'Home',
+        name: 'Main',
       );
 
   static AppRouteValue get loginScreenRoute => const AppRouteValue(
@@ -29,6 +30,10 @@ abstract class AppRoutes {
   static AppRouteValue get registerScreenRoute => const AppRouteValue(
         path: '$registerScreenPath',
         name: 'Register',
+      );
+  static AppRouteValue get homeScreenRoute => const AppRouteValue(
+        path: '$homeScreenPath',
+        name: 'Home',
       );
 
   // static AppRouteValue get matches => const AppRouteValue(

@@ -16,9 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$InitialDataValue {
-  List<MatchModel>? get invitedMatches => throw _privateConstructorUsedError;
-  List<MatchModel>? get joinedMatches => throw _privateConstructorUsedError;
-  MatchInfoModel? get nextMatch => throw _privateConstructorUsedError;
+  List<MatchModel> get invitedMatches => throw _privateConstructorUsedError;
+  List<MatchModel> get joinedMatches => throw _privateConstructorUsedError;
+  MatchInfoModel get nextMatch => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $InitialDataValueCopyWith<InitialDataValue> get copyWith =>
@@ -32,11 +32,11 @@ abstract class $InitialDataValueCopyWith<$Res> {
       _$InitialDataValueCopyWithImpl<$Res, InitialDataValue>;
   @useResult
   $Res call(
-      {List<MatchModel>? invitedMatches,
-      List<MatchModel>? joinedMatches,
-      MatchInfoModel? nextMatch});
+      {List<MatchModel> invitedMatches,
+      List<MatchModel> joinedMatches,
+      MatchInfoModel nextMatch});
 
-  $MatchInfoModelCopyWith<$Res>? get nextMatch;
+  $MatchInfoModelCopyWith<$Res> get nextMatch;
 }
 
 /// @nodoc
@@ -52,34 +52,30 @@ class _$InitialDataValueCopyWithImpl<$Res, $Val extends InitialDataValue>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? invitedMatches = freezed,
-    Object? joinedMatches = freezed,
-    Object? nextMatch = freezed,
+    Object? invitedMatches = null,
+    Object? joinedMatches = null,
+    Object? nextMatch = null,
   }) {
     return _then(_value.copyWith(
-      invitedMatches: freezed == invitedMatches
+      invitedMatches: null == invitedMatches
           ? _value.invitedMatches
           : invitedMatches // ignore: cast_nullable_to_non_nullable
-              as List<MatchModel>?,
-      joinedMatches: freezed == joinedMatches
+              as List<MatchModel>,
+      joinedMatches: null == joinedMatches
           ? _value.joinedMatches
           : joinedMatches // ignore: cast_nullable_to_non_nullable
-              as List<MatchModel>?,
-      nextMatch: freezed == nextMatch
+              as List<MatchModel>,
+      nextMatch: null == nextMatch
           ? _value.nextMatch
           : nextMatch // ignore: cast_nullable_to_non_nullable
-              as MatchInfoModel?,
+              as MatchInfoModel,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $MatchInfoModelCopyWith<$Res>? get nextMatch {
-    if (_value.nextMatch == null) {
-      return null;
-    }
-
-    return $MatchInfoModelCopyWith<$Res>(_value.nextMatch!, (value) {
+  $MatchInfoModelCopyWith<$Res> get nextMatch {
+    return $MatchInfoModelCopyWith<$Res>(_value.nextMatch, (value) {
       return _then(_value.copyWith(nextMatch: value) as $Val);
     });
   }
@@ -94,12 +90,12 @@ abstract class _$$_InitialDataValueCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<MatchModel>? invitedMatches,
-      List<MatchModel>? joinedMatches,
-      MatchInfoModel? nextMatch});
+      {List<MatchModel> invitedMatches,
+      List<MatchModel> joinedMatches,
+      MatchInfoModel nextMatch});
 
   @override
-  $MatchInfoModelCopyWith<$Res>? get nextMatch;
+  $MatchInfoModelCopyWith<$Res> get nextMatch;
 }
 
 /// @nodoc
@@ -113,23 +109,23 @@ class __$$_InitialDataValueCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? invitedMatches = freezed,
-    Object? joinedMatches = freezed,
-    Object? nextMatch = freezed,
+    Object? invitedMatches = null,
+    Object? joinedMatches = null,
+    Object? nextMatch = null,
   }) {
     return _then(_$_InitialDataValue(
-      invitedMatches: freezed == invitedMatches
+      invitedMatches: null == invitedMatches
           ? _value._invitedMatches
           : invitedMatches // ignore: cast_nullable_to_non_nullable
-              as List<MatchModel>?,
-      joinedMatches: freezed == joinedMatches
+              as List<MatchModel>,
+      joinedMatches: null == joinedMatches
           ? _value._joinedMatches
           : joinedMatches // ignore: cast_nullable_to_non_nullable
-              as List<MatchModel>?,
-      nextMatch: freezed == nextMatch
+              as List<MatchModel>,
+      nextMatch: null == nextMatch
           ? _value.nextMatch
           : nextMatch // ignore: cast_nullable_to_non_nullable
-              as MatchInfoModel?,
+              as MatchInfoModel,
     ));
   }
 }
@@ -138,34 +134,30 @@ class __$$_InitialDataValueCopyWithImpl<$Res>
 
 class _$_InitialDataValue implements _InitialDataValue {
   const _$_InitialDataValue(
-      {required final List<MatchModel>? invitedMatches,
-      required final List<MatchModel>? joinedMatches,
+      {required final List<MatchModel> invitedMatches,
+      required final List<MatchModel> joinedMatches,
       required this.nextMatch})
       : _invitedMatches = invitedMatches,
         _joinedMatches = joinedMatches;
 
-  final List<MatchModel>? _invitedMatches;
+  final List<MatchModel> _invitedMatches;
   @override
-  List<MatchModel>? get invitedMatches {
-    final value = _invitedMatches;
-    if (value == null) return null;
+  List<MatchModel> get invitedMatches {
     if (_invitedMatches is EqualUnmodifiableListView) return _invitedMatches;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_invitedMatches);
   }
 
-  final List<MatchModel>? _joinedMatches;
+  final List<MatchModel> _joinedMatches;
   @override
-  List<MatchModel>? get joinedMatches {
-    final value = _joinedMatches;
-    if (value == null) return null;
+  List<MatchModel> get joinedMatches {
     if (_joinedMatches is EqualUnmodifiableListView) return _joinedMatches;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_joinedMatches);
   }
 
   @override
-  final MatchInfoModel? nextMatch;
+  final MatchInfoModel nextMatch;
 
   @override
   String toString() {
@@ -201,16 +193,16 @@ class _$_InitialDataValue implements _InitialDataValue {
 
 abstract class _InitialDataValue implements InitialDataValue {
   const factory _InitialDataValue(
-      {required final List<MatchModel>? invitedMatches,
-      required final List<MatchModel>? joinedMatches,
-      required final MatchInfoModel? nextMatch}) = _$_InitialDataValue;
+      {required final List<MatchModel> invitedMatches,
+      required final List<MatchModel> joinedMatches,
+      required final MatchInfoModel nextMatch}) = _$_InitialDataValue;
 
   @override
-  List<MatchModel>? get invitedMatches;
+  List<MatchModel> get invitedMatches;
   @override
-  List<MatchModel>? get joinedMatches;
+  List<MatchModel> get joinedMatches;
   @override
-  MatchInfoModel? get nextMatch;
+  MatchInfoModel get nextMatch;
   @override
   @JsonKey(ignore: true)
   _$$_InitialDataValueCopyWith<_$_InitialDataValue> get copyWith =>

@@ -7,16 +7,17 @@ part 'value.freezed.dart';
 @freezed
 class InitialDataValue with _$InitialDataValue {
   const factory InitialDataValue({
-    required List<MatchModel>? invitedMatches,
-    required List<MatchModel>? joinedMatches,
-    required MatchInfoModel? nextMatch,
+    required List<MatchModel> invitedMatches,
+    required List<MatchModel> joinedMatches,
+    required MatchInfoModel nextMatch,
   }) = _InitialDataValue;
 
-  factory InitialDataValue.empty() {
-    return InitialDataValue(
-      invitedMatches: null,
-      joinedMatches: null,
-      nextMatch: null,
-    );
-  }
+// TODO this is not needed
+  // factory InitialDataValue.empty() {
+  //   return InitialDataValue(
+  //     invitedMatches: null,
+  //     joinedMatches: null,
+  //     nextMatch: null,
+  //   );
+  // }
 }

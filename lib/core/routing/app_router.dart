@@ -1,4 +1,5 @@
 // this might or might not be instantiated later
+import 'package:five_on_four_flutter_tdd/core/presentation/screens/home/screen.dart';
 import 'package:five_on_four_flutter_tdd/core/presentation/screens/main/screen.dart';
 import 'package:five_on_four_flutter_tdd/core/presentation/screens/splash/screen.dart';
 import 'package:five_on_four_flutter_tdd/core/routing/app_routes.dart';
@@ -33,6 +34,7 @@ class AppRouter {
       _loginRoute,
       _registerRoute,
       _mainRoute,
+      _homeRoute,
       // _matchRoute,
       // _matchCreateRoute,
     ],
@@ -192,6 +194,13 @@ class AppRouter {
     name: AppRoutes.registerScreenRoute.name,
     // TODO check if page builder will make .go naivgation actuvate back otpion on screen
     builder: (context, state) => const RegisterScreen(),
+  );
+
+  final GoRoute _homeRoute = GoRoute(
+    path: AppRoutes.homeScreenRoute.path,
+    name: AppRoutes.homeScreenRoute.name,
+    // TODO check if page builder will make .go naivgation actuvate back otpion on screen
+    builder: (context, state) => const HomeScreen(),
   );
 
   // final GoRoute _playersRoute = GoRoute(
