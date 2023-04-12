@@ -1,5 +1,5 @@
-import 'package:five_on_four_flutter_tdd/core/routing/app_routes.dart';
-import 'package:five_on_four_flutter_tdd/features/auth/utils/constants/auth_keys_constants.dart';
+import 'package:five_on_four_flutter_tdd/features/core/utils/constants/widget_keys_constants.dart';
+import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,7 +9,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: const Key(AuthKeysConstants.loginScreenScaffoldKey),
+      key: const Key(WidgetKeysConstants.loginScreenScaffoldKey),
       appBar: AppBar(title: const Text('Login')),
       body: Center(
         child: Column(

@@ -1,7 +1,7 @@
-import 'package:five_on_four_flutter_tdd/core/routing/app_routes.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/presentation/screens/login/screen.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/presentation/screens/register/screen.dart';
-import 'package:five_on_four_flutter_tdd/features/auth/utils/constants/auth_keys_constants.dart';
+import 'package:five_on_four_flutter_tdd/features/core/utils/constants/widget_keys_constants.dart';
+import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -28,6 +28,7 @@ void main() {
           await widgetTester.pumpApp(
             router: mockAppRouter.router,
             providerScopeOverrides: [],
+            providerContainer: null,
           );
 
           final emailTextFieldFinder = find.widgetWithText(TextField, 'Email');
@@ -51,6 +52,7 @@ void main() {
           await widgetTester.pumpApp(
             router: mockAppRouter.router,
             providerScopeOverrides: [],
+            providerContainer: null,
           );
 
           final passwordTextFieldFinder =
@@ -75,6 +77,7 @@ void main() {
           await widgetTester.pumpApp(
             router: mockAppRouter.router,
             providerScopeOverrides: [],
+            providerContainer: null,
           );
 
           final loginButtonFinder =
@@ -99,6 +102,7 @@ void main() {
           await widgetTester.pumpApp(
             router: mockAppRouter.router,
             providerScopeOverrides: [],
+            providerContainer: null,
           );
 
           final registerButtonFinder =
@@ -130,6 +134,7 @@ void main() {
       await widgetTester.pumpApp(
         router: mockAppRouter.router,
         providerScopeOverrides: [],
+        providerContainer: null,
       );
 
       final Finder registerButtonFinder =
@@ -140,7 +145,7 @@ void main() {
       await widgetTester.pumpAndSettle();
 
       final Finder registerScreenFinder =
-          find.byKey(const Key(AuthKeysConstants.registerScreenScaffoldKey));
+          find.byKey(const Key(WidgetKeysConstants.registerScreenScaffoldKey));
 
       expect(registerScreenFinder, findsOneWidget);
     });

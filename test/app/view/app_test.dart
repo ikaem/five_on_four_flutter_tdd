@@ -13,10 +13,10 @@
 
 // import 'app_test.mocks.dart';
 
-import 'package:five_on_four_flutter_tdd/core/presentation/screens/splash/screen.dart';
-import 'package:five_on_four_flutter_tdd/core/routing/app_routes.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/data/data_sources/auth_local/providers/fake_data_source/provider.dart';
-import 'package:five_on_four_flutter_tdd/features/auth/utils/constants/auth_keys_constants.dart';
+import 'package:five_on_four_flutter_tdd/features/core/utils/constants/widget_keys_constants.dart';
+import 'package:five_on_four_flutter_tdd/features/core/presentation/screens/splash/screen.dart';
+import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -55,11 +55,12 @@ void main() {
                 (ref) => mockAuthLocalDataSource,
               )
             ],
+            providerContainer: null,
           );
 
           // await widgetTester.pumpAndSettle();
           final splashScreenFinder = find.byKey(
-            const Key(AuthKeysConstants.splashScreenScaffoldKey),
+            const Key(WidgetKeysConstants.splashScreenScaffoldKey),
           );
 
           expect(splashScreenFinder, findsOneWidget);

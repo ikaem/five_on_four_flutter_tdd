@@ -3,12 +3,12 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
+import 'dart:async' as _i3;
 
-import 'package:five_on_four_flutter_tdd/features/auth/domain/models/auth/model.dart'
-    as _i3;
-import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfaces/auth_status_repository.dart'
+import 'package:five_on_four_flutter_tdd/features/auth/data/repositories/auth_status/app_repository.dart'
     as _i2;
+import 'package:five_on_four_flutter_tdd/features/auth/domain/models/auth/model.dart'
+    as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -22,17 +22,30 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-/// A class which mocks [AuthStatusRepository].
+/// A class which mocks [AuthStatusAppRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAuthStatusRepository extends _i1.Mock
-    implements _i2.AuthStatusRepository {
-  MockAuthStatusRepository() {
+class MockAuthStatusAppRepository extends _i1.Mock
+    implements _i2.AuthStatusAppRepository {
+  MockAuthStatusAppRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  void setAuth(_i3.AuthModel? auth) => super.noSuchMethod(
+  _i3.Stream<_i4.AuthModel?> get authStream => (super.noSuchMethod(
+        Invocation.getter(#authStream),
+        returnValue: _i3.Stream<_i4.AuthModel?>.empty(),
+      ) as _i3.Stream<_i4.AuthModel?>);
+  @override
+  _i3.Stream<_i4.AuthModel?> observeAuthStatus() => (super.noSuchMethod(
+        Invocation.method(
+          #observeAuthStatus,
+          [],
+        ),
+        returnValue: _i3.Stream<_i4.AuthModel?>.empty(),
+      ) as _i3.Stream<_i4.AuthModel?>);
+  @override
+  void setAuth(_i4.AuthModel? auth) => super.noSuchMethod(
         Invocation.method(
           #setAuth,
           [auth],
@@ -40,19 +53,11 @@ class MockAuthStatusRepository extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  _i4.Stream<_i3.AuthModel?> observeAuthStatus() => (super.noSuchMethod(
-        Invocation.method(
-          #observeAuthStatus,
-          [],
-        ),
-        returnValue: _i4.Stream<_i3.AuthModel?>.empty(),
-      ) as _i4.Stream<_i3.AuthModel?>);
-  @override
-  _i4.Future<_i3.AuthModel?> getAuthStatus() => (super.noSuchMethod(
+  _i3.Future<_i4.AuthModel?> getAuthStatus() => (super.noSuchMethod(
         Invocation.method(
           #getAuthStatus,
           [],
         ),
-        returnValue: _i4.Future<_i3.AuthModel?>.value(),
-      ) as _i4.Future<_i3.AuthModel?>);
+        returnValue: _i3.Future<_i4.AuthModel?>.value(),
+      ) as _i3.Future<_i4.AuthModel?>);
 }

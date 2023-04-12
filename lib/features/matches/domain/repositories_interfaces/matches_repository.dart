@@ -6,4 +6,6 @@ abstract class MatchesRepository {
   Future<List<MatchModel>> getPlayerJoinedMatches(String playerId);
 
   Future<List<MatchModel>> getPlayerInvitedMatches(String playerId);
+
+  Future<MatchModel> getMatch(String matchId);
 }

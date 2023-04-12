@@ -1,6 +1,6 @@
-import 'package:five_on_four_flutter_tdd/core/routing/app_router.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/domain/models/auth/model.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/presentation/state/controllers/auth_status/providers/app_controller/provider.dart';
+import 'package:five_on_four_flutter_tdd/routing/app_router.dart';
 
 import 'package:five_on_four_flutter_tdd/l10n/l10n.dart';
 import 'package:five_on_four_flutter_tdd/theme/app_theme.dart';

@@ -13,7 +13,7 @@ class MatchesAppRepository implements MatchesRepository {
   @override
   Future<List<MatchModel>> getPlayerInvitedMatches(String playerId) async {
     final List<MatchRemoteDTO> remoteMatches =
-        await remoteDataSource.getPlayerInvitedMatches(playerId);
+        await remoteDataSource.getInvitedMatchesForPlayer(playerId);
 
     return remoteMatches.map((dto) => MatchModel.fromRemoteDto(dto)).toList();
   }
@@ -21,7 +21,7 @@ class MatchesAppRepository implements MatchesRepository {
   @override
   Future<List<MatchModel>> getPlayerJoinedMatches(String playerId) async {
     final List<MatchRemoteDTO> remoteMatches =
-        await remoteDataSource.getPlayerJoinedMatches(playerId);
+        await remoteDataSource.getJoinedMatchesForPlayer(playerId);
 
     return remoteMatches.map((dto) => MatchModel.fromRemoteDto(dto)).toList();
   }
@@ -29,9 +29,20 @@ class MatchesAppRepository implements MatchesRepository {
   @override
   Future<MatchModel> getPlayerNextMatch(String playerId) async {
     final MatchRemoteDTO remoteMatch =
-        await remoteDataSource.getPlayerNextMatch(playerId);
+        await remoteDataSource.getNextMatchForPlayer(playerId);
     final MatchModel match = MatchModel.fromRemoteDto(remoteMatch);
 
     return match;
+  }
+
+  @override
+  Future<MatchModel> getMatch(String matchId) async {
+    final MatchRemoteDTO remoteDTO = await remoteDataSource.getMatch(matchId);
+
+    final MatchModel match = MatchModel.fromRemoteDto(remoteDTO);
+
+    return match;
+
+    // TODO later we will get data from database
   }
 }

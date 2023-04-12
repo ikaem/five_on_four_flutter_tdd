@@ -1,4 +1,4 @@
-import 'package:five_on_four_flutter_tdd/core/domain/values/app_route/value.dart';
+import 'package:five_on_four_flutter_tdd/features/core/domain/values/app_route/value.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

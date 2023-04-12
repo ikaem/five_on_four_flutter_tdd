@@ -4,21 +4,30 @@ import 'package:five_on_four_flutter_tdd/features/matches/data/dtos/match_remote
 
 class MatchesRemoteFakeDataSource implements MatchesRemoteDataSource {
   @override
-  Future<List<MatchRemoteDTO>> getPlayerInvitedMatches(String playerId) async {
+  Future<List<MatchRemoteDTO>> getInvitedMatchesForPlayer(
+      String playerId) async {
     await Future.delayed(Duration(milliseconds: 200));
     return invitedMatches;
   }
 
   @override
-  Future<List<MatchRemoteDTO>> getPlayerJoinedMatches(String playerId) async {
+  Future<List<MatchRemoteDTO>> getJoinedMatchesForPlayer(
+      String playerId) async {
     await Future.delayed(Duration(milliseconds: 200));
     return joinedMatches;
   }
 
   @override
-  Future<MatchRemoteDTO> getPlayerNextMatch(String playerId) async {
+  Future<MatchRemoteDTO> getNextMatchForPlayer(String playerId) async {
     await Future.delayed(Duration(milliseconds: 200));
     return joinedMatches[0];
+  }
+
+  @override
+  Future<MatchRemoteDTO> getMatch(String matchId) async {
+    await Future<void>.delayed(Duration(milliseconds: 200));
+
+    return _singleMatch;
   }
 }
 
@@ -292,3 +301,28 @@ final List<MatchRemoteDTO> joinedMatches = [
     ],
   ),
 ];
+
+final MatchRemoteDTO _singleMatch = MatchRemoteDTO(
+  id: "2",
+  name: "Match 2",
+  participants: [
+    MatchParticipantRemoteDTO(
+        id: "3",
+        playerId: "1",
+        matchId: "2",
+        nickname: "Player 1",
+        status: "confirmed",
+        createdAt: 1617355557658,
+        expiresAt: null // 1 hour later
+        ),
+    MatchParticipantRemoteDTO(
+      id: "4",
+      playerId: "3",
+      matchId: "2",
+      nickname: "Player 3",
+      status: "confirmed",
+      createdAt: 1617355557658,
+      expiresAt: null, // 1 hour later
+    ),
+  ],
+);

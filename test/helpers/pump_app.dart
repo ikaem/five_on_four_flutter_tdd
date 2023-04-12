@@ -50,10 +50,12 @@ extension PumpAppExtension on WidgetTester {
   Future<void> pumpApp({
     required GoRouter router,
     required List<Override> providerScopeOverrides,
+    required ProviderContainer? providerContainer,
   }) async {
     return pumpWidget(
       ProviderScope(
         overrides: providerScopeOverrides,
+        parent: providerContainer,
         child: MaterialApp.router(
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,

@@ -15,9 +15,9 @@
 // import '../../../../../helpers/helpers.dart';
 // import '../../../../../helpers/navigation/mock_app_router.dart';
 
-import 'package:five_on_four_flutter_tdd/core/presentation/screens/main/screen.dart';
-import 'package:five_on_four_flutter_tdd/core/routing/app_routes.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/data/repositories/auth_status/providers/app_repository/provider.dart';
+import 'package:five_on_four_flutter_tdd/features/core/presentation/screens/main/screen.dart';
+import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -121,10 +121,10 @@ void main() {
           //     MockAuthLocalDataSource();
 
 // TODO potentually, this can go up
-          final MockAuthStatusRepository mockAuthStatusRepository =
-              MockAuthStatusRepository();
+          final MockAuthStatusAppRepository mockAuthStatusAppRepository =
+              MockAuthStatusAppRepository();
 
-          when(mockAuthStatusRepository.getAuthStatus())
+          when(mockAuthStatusAppRepository.getAuthStatus())
               .thenAnswer((realInvocation) => Future.value(testAuthModel));
 
           final MockAppRouter mockAppRouter = MockAppRouter(
@@ -150,9 +150,10 @@ void main() {
             // providerScopeOverrides: [],
             providerScopeOverrides: [
               authStatusRepositoryProvider.overrideWith(
-                (ref) => mockAuthStatusRepository,
+                (ref) => mockAuthStatusAppRepository,
               )
             ],
+            providerContainer: null,
           );
 
           // debugDumpApp();
@@ -164,20 +165,23 @@ void main() {
           //     Text, "There was an error fetching initial data");
 
           // final Finder errorTextFinder = find.byType(Text);
-          final Finder errorTextFinder = find.byWidgetPredicate((widget) {
+          debugDumpApp();
+          final Finder dataContentFinder = find.byWidgetPredicate((widget) {
             final bool isMatch =
-                widget is Text && widget.data == "Some data has loaded";
+                // widget is Text && widget.data == "Some data has loaded";
+                widget is SizedBox;
 
             return isMatch;
           });
 
           // TODO test
-          expect(errorTextFinder, findsOneWidget);
+          expect(dataContentFinder, findsOneWidget);
         },
         tags: [
           "main_screen",
         ],
         // TODO skip for now until know what to return from main screen when data loads - probably just sized box shrink
+        // TODO this test will fail iimmediately because we immediately redirect ot other page
         skip: true,
       );
     },

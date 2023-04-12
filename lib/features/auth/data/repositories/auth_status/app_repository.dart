@@ -26,6 +26,7 @@ class AuthStatusAppRepository implements AuthStatusRepository {
     // _authSink.add(null);
   }
 
+// TODO no need for this to be async
   @override
   Future<AuthModel?> getAuthStatus() async {
     // authStream.first.then((value) {
