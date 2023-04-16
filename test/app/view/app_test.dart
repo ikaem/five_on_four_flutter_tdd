@@ -15,7 +15,6 @@
 
 import 'package:five_on_four_flutter_tdd/features/auth/data/data_sources/auth_local/providers/fake_data_source/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/constants/widget_keys_constants.dart';
-import 'package:five_on_four_flutter_tdd/features/core/presentation/screens/splash/screen.dart';
 import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -39,12 +38,13 @@ void main() {
               .thenAnswer((realInvocation) => Future.value(testAuthLocalDTO));
 
           final MockAppRouter mockAppRouter = MockAppRouter(
-            initialAppRoute: AppRoutes.splashScreenRoute,
+            initialAppRoute: AppRoutes.splashScreenRouteValue,
             routes: [
-              MockAppRouter.createGoRoute(
-                appRouteValue: AppRoutes.splashScreenRoute,
-                screen: SplashScreen(),
-              )
+              AppRoutes.splashRoute,
+              // MockAppRouter.createGoRoute(
+              //   appRouteValue: AppRoutes.splashScreenRoute,
+              //   screen: SplashScreen(),
+              // )
             ],
           );
 

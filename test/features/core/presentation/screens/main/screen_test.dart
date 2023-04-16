@@ -16,7 +16,6 @@
 // import '../../../../../helpers/navigation/mock_app_router.dart';
 
 import 'package:five_on_four_flutter_tdd/features/auth/data/repositories/auth_status/providers/app_repository/provider.dart';
-import 'package:five_on_four_flutter_tdd/features/core/presentation/screens/main/screen.dart';
 import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -128,12 +127,14 @@ void main() {
               .thenAnswer((realInvocation) => Future.value(testAuthModel));
 
           final MockAppRouter mockAppRouter = MockAppRouter(
-            initialAppRoute: AppRoutes.mainScreenRoute,
+            initialAppRoute: AppRoutes.mainScreenRouteValue,
             routes: [
-              MockAppRouter.createGoRoute(
-                appRouteValue: AppRoutes.mainScreenRoute,
-                screen: MainScreen(),
-              )
+              AppRoutes.mainRoute,
+
+              // MockAppRouter.createGoRoute(
+              //   appRouteValue: AppRoutes.mainScreenRouteValue,
+              //   screen: MainScreen(),
+              // )
             ],
           );
 

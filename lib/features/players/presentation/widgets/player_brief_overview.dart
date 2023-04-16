@@ -3,6 +3,7 @@ import 'package:five_on_four_flutter_tdd/theme/constants/dimensions_constants.da
 import 'package:five_on_four_flutter_tdd/theme/constants/spacing_constants.dart';
 import 'package:flutter/material.dart';
 
+// TODO this could potnetially be reused as well
 class PlayerBriefOverview extends StatelessWidget {
   const PlayerBriefOverview({super.key});
 
@@ -71,8 +72,9 @@ class PlayerBriefOverview extends StatelessWidget {
           width: DimensionsConstants.d50,
           height: DimensionsConstants.d50,
           decoration: BoxDecoration(
-              // borderRadius: BorderRadius.circular(DimensionsConstants.d10),
-              ),
+            color: ColorConstants.red,
+            // borderRadius: BorderRadius.circular(DimensionsConstants.d10),
+          ),
           // TODO test fails because of this - come back to it
           // child: ClipRRect(
           //   borderRadius: BorderRadius.circular(DimensionsConstants.d10),

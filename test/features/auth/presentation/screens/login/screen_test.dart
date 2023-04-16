@@ -1,5 +1,3 @@
-import 'package:five_on_four_flutter_tdd/features/auth/presentation/screens/login/screen.dart';
-import 'package:five_on_four_flutter_tdd/features/auth/presentation/screens/register/screen.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/constants/widget_keys_constants.dart';
 import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
 import 'package:flutter/material.dart';
@@ -16,12 +14,13 @@ void main() {
         "Login Screen should have a Text Field with email label",
         (widgetTester) async {
           final MockAppRouter mockAppRouter = MockAppRouter(
-            initialAppRoute: AppRoutes.loginScreenRoute,
+            initialAppRoute: AppRoutes.loginScreenRouteValue,
             routes: [
-              MockAppRouter.createGoRoute(
-                appRouteValue: AppRoutes.loginScreenRoute,
-                screen: LoginScreen(),
-              )
+              AppRoutes.loginRoute,
+              // MockAppRouter.createGoRoute(
+              //   appRouteValue: AppRoutes.loginScreenRouteValue,
+              //   screen: LoginScreen(),
+              // )
             ],
           );
 
@@ -40,12 +39,13 @@ void main() {
         "Login Screen should have a Text Field with password label",
         (widgetTester) async {
           final MockAppRouter mockAppRouter = MockAppRouter(
-            initialAppRoute: AppRoutes.loginScreenRoute,
+            initialAppRoute: AppRoutes.loginScreenRouteValue,
             routes: [
-              MockAppRouter.createGoRoute(
-                appRouteValue: AppRoutes.loginScreenRoute,
-                screen: LoginScreen(),
-              )
+              AppRoutes.loginRoute,
+              // MockAppRouter.createGoRoute(
+              //   appRouteValue: AppRoutes.loginScreenRouteValue,
+              //   screen: LoginScreen(),
+              // )
             ],
           );
 
@@ -65,12 +65,14 @@ void main() {
         "Login Screen should have a Login button",
         (widgetTester) async {
           final MockAppRouter mockAppRouter = MockAppRouter(
-            initialAppRoute: AppRoutes.loginScreenRoute,
+            initialAppRoute: AppRoutes.loginScreenRouteValue,
             routes: [
-              MockAppRouter.createGoRoute(
-                appRouteValue: AppRoutes.loginScreenRoute,
-                screen: LoginScreen(),
-              )
+              AppRoutes.loginRoute,
+
+              // MockAppRouter.createGoRoute(
+              //   appRouteValue: AppRoutes.loginScreenRouteValue,
+              //   screen: LoginScreen(),
+              // )
             ],
           );
 
@@ -90,12 +92,14 @@ void main() {
         "Login Screen should have a Register button",
         (widgetTester) async {
           final MockAppRouter mockAppRouter = MockAppRouter(
-            initialAppRoute: AppRoutes.loginScreenRoute,
+            initialAppRoute: AppRoutes.loginScreenRouteValue,
             routes: [
-              MockAppRouter.createGoRoute(
-                appRouteValue: AppRoutes.loginScreenRoute,
-                screen: LoginScreen(),
-              )
+              AppRoutes.loginRoute,
+
+              // MockAppRouter.createGoRoute(
+              //   appRouteValue: AppRoutes.loginScreenRouteValue,
+              //   screen: LoginScreen(),
+              // )
             ],
           );
 
@@ -118,16 +122,19 @@ void main() {
     testWidgets("Tapping on Register button should navigate to Register Screen",
         (widgetTester) async {
       final MockAppRouter mockAppRouter = MockAppRouter(
-        initialAppRoute: AppRoutes.loginScreenRoute,
+        initialAppRoute: AppRoutes.loginScreenRouteValue,
         routes: [
-          MockAppRouter.createGoRoute(
-            appRouteValue: AppRoutes.loginScreenRoute,
-            screen: LoginScreen(),
-          ),
-          MockAppRouter.createGoRoute(
-            appRouteValue: AppRoutes.registerScreenRoute,
-            screen: RegisterScreen(),
-          ),
+          AppRoutes.loginRoute,
+          AppRoutes.registerRoute,
+
+          // MockAppRouter.createGoRoute(
+          //   appRouteValue: AppRoutes.loginScreenRouteValue,
+          //   screen: LoginScreen(),
+          // ),
+          // MockAppRouter.createGoRoute(
+          //   appRouteValue: AppRoutes.registerScreenRouteValue,
+          //   screen: RegisterScreen(),
+          // ),
         ],
       );
 

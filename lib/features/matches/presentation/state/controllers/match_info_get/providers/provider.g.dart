@@ -7,7 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$matchInfoGetAppControllerHash() =>
-    r'4570a4cce6a2656b8f8956e78d4999b776c30111';
+    r'f20f6d0827c04ebe3326e64bd115544df3880fe0';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -34,7 +34,7 @@ abstract class _$MatchInfoGetAppController
     extends BuildlessAutoDisposeAsyncNotifier<MatchInfoModel?> {
   late final String matchId;
 
-  Future<MatchInfoModel?> build(
+  FutureOr<MatchInfoModel?> build(
     String matchId,
   );
 }
@@ -119,7 +119,7 @@ class MatchInfoGetAppControllerProvider
   }
 
   @override
-  Future<MatchInfoModel?> runNotifierBuild(
+  FutureOr<MatchInfoModel?> runNotifierBuild(
     covariant MatchInfoGetAppController notifier,
   ) {
     return notifier.build(

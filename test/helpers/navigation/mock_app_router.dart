@@ -1,5 +1,4 @@
 import 'package:five_on_four_flutter_tdd/features/core/domain/values/app_route/value.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class MockAppRouter {
@@ -16,17 +15,20 @@ class MockAppRouter {
     routes: routes,
   );
 
-  static GoRoute createGoRoute({
-    required AppRouteValue appRouteValue,
-    required Widget screen,
-  }) {
-    final GoRoute route = GoRoute(
-      path: appRouteValue.path,
-      builder: (context, state) => screen,
-    );
+// TODO not needed
+  // static GoRoute createGoRoute({
+  //   required AppRouteValue appRouteValue,
+  //   // required Widget screen,
+  //   required Widget Function(BuildContext, GoRouterState)? builder,
+  // }) {
+  //   final GoRoute route = GoRoute(
+  //     path: appRouteValue.path,
+  //     builder: builder,
+  //     // builder: (context, state) => screen,
+  //   );
 
-    return route;
-  }
+  //   return route;
+  // }
 
   // @override
   // AsyncValue<AuthModel?> authStatus;

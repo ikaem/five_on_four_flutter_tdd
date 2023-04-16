@@ -9,22 +9,13 @@ part "provider.g.dart";
 @riverpod
 class MatchInfoGetAppController extends _$MatchInfoGetAppController
     implements MatchInfoGetController {
-  // TODO this is not possible
-  // MatchInfoGetAppController({
-  //   required this.matchId,
-  // });
-
-  // final String matchId;
-
   late final MatchesService authService = ref.read(matchesServiceProvider);
 
   @override
-  Future<MatchInfoModel?> build(String matchId) async {
-    // final AsyncValue<MatchInfoModel> result = await _onLoadMatchInfo(matchId);
-    await _onLoadMatchInfo(matchId);
+  FutureOr<MatchInfoModel?> build(String matchId) async {
+    // TODO key here is not to await - if we await, null will be returned
+    _onLoadMatchInfo(matchId);
     return null;
-
-    // return result.value;
   }
 
   // TODO not sure i need this
@@ -35,15 +26,29 @@ class MatchInfoGetAppController extends _$MatchInfoGetAppController
   }
 
   Future<void> _onLoadMatchInfo(String matchId) async {
-    final AsyncValue<MatchInfoModel> result = await AsyncValue.guard(
-      () async {
-        final MatchInfoModel matchInfoModel =
-            await authService.getMatchInfo(matchId);
+    state = AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      final MatchInfoModel matchInfoModel =
+          await authService.getMatchInfo(matchId);
 
-        return matchInfoModel;
-      },
-    );
-
-    state = result;
+      return matchInfoModel;
+    });
   }
+
+// TODO this works in combi with bel,o returning one, but what about error handling
+  // @override
+  // FutureOr<MatchInfoModel?> build(String matchId) async {
+  //   final MatchInfoModel? value = await _onLoadMatchInfo(matchId);
+  //   return value;
+  // }
+// TODO this works easy, but what about error handling
+  // Future<MatchInfoModel?> _onLoadMatchInfo(String matchId) async {
+  //   try {
+  //     final MatchInfoModel matchInfoModel =
+  //         await authService.getMatchInfo(matchId);
+
+  //     return matchInfoModel;
+  //   } catch (e) {}
+  //   return null;
+  // }
 }

@@ -1,9 +1,4 @@
 import 'package:five_on_four_flutter_tdd/features/auth/domain/models/auth/model.dart';
-import 'package:five_on_four_flutter_tdd/features/auth/presentation/screens/login/screen.dart';
-import 'package:five_on_four_flutter_tdd/features/auth/presentation/screens/register/screen.dart';
-import 'package:five_on_four_flutter_tdd/features/core/presentation/screens/home/screen.dart';
-import 'package:five_on_four_flutter_tdd/features/core/presentation/screens/main/screen.dart';
-import 'package:five_on_four_flutter_tdd/features/core/presentation/screens/splash/screen.dart';
 import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -26,14 +21,16 @@ class AppRouter {
 
     // navigatorKey: rootNavigatorKey,
     // TODO not sure if this is needed at a ll
-    initialLocation: AppRoutes.splashScreenRoute.path,
+    initialLocation: AppRoutes.splashScreenRouteValue.path,
     routes: [
       // _shellRoute,
-      _splashRoute,
-      _loginRoute,
-      _registerRoute,
-      _mainRoute,
-      _homeRoute,
+      AppRoutes.splashRoute,
+      AppRoutes.loginRoute,
+      AppRoutes.registerRoute,
+      AppRoutes.mainRoute,
+      AppRoutes.homeRoute,
+      AppRoutes.matchInfoRoute,
+      AppRoutes.errorRoute,
       // _matchRoute,
       // _matchCreateRoute,
     ],
@@ -162,45 +159,6 @@ class AppRouter {
   //   // TODO check if page builder will make .go naivgation actuvate back otpion on screen
   //   builder: (context, state) => const HomeScreen(),
   // );
-
-  final GoRoute _splashRoute = GoRoute(
-    path: AppRoutes.splashScreenRoute.path,
-    name: AppRoutes.splashScreenRoute.name,
-    builder: (context, state) => SplashScreen(),
-    // builder: (context, state) {
-    // return const Center(
-    //   child: CircularProgressIndicator(),
-    // );
-    // },
-  );
-
-  final GoRoute _mainRoute = GoRoute(
-    path: AppRoutes.mainScreenRoute.path,
-    name: AppRoutes.mainScreenRoute.name,
-    // TODO check if page builder will make .go naivgation actuvate back otpion on screen
-    builder: (context, state) => const MainScreen(),
-  );
-
-  final GoRoute _loginRoute = GoRoute(
-    path: AppRoutes.loginScreenRoute.path,
-    name: AppRoutes.loginScreenRoute.name,
-    // TODO check if page builder will make .go naivgation actuvate back otpion on screen
-    builder: (context, state) => const LoginScreen(),
-  );
-
-  final GoRoute _registerRoute = GoRoute(
-    path: AppRoutes.registerScreenRoute.path,
-    name: AppRoutes.registerScreenRoute.name,
-    // TODO check if page builder will make .go naivgation actuvate back otpion on screen
-    builder: (context, state) => const RegisterScreen(),
-  );
-
-  final GoRoute _homeRoute = GoRoute(
-    path: AppRoutes.homeScreenRoute.path,
-    name: AppRoutes.homeScreenRoute.name,
-    // TODO check if page builder will make .go naivgation actuvate back otpion on screen
-    builder: (context, state) => const HomeScreen(),
-  );
 
   // final GoRoute _playersRoute = GoRoute(
   //   path: AppRoutes.players.path,
