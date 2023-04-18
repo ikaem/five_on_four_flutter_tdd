@@ -7,7 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$matchInfoGetAppControllerHash() =>
-    r'f20f6d0827c04ebe3326e64bd115544df3880fe0';
+    r'afac16b714af5fe3fd8fb474e6469c4748cabb0d';
 
 /// Copied from Dart SDK
 class _SystemHash {

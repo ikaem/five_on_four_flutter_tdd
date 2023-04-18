@@ -31,6 +31,23 @@ abstract class AppTheme {
       colorScheme: AppColorScheme.colorSchemeLight,
       scaffoldBackgroundColor: ColorConstants.greenLight,
       textTheme: AppTextTheme.textTheme,
+      inputDecorationTheme: InputDecorationTheme(
+        labelStyle: AppTextTheme.bodySmall.copyWith(
+          color: ColorConstants.white,
+        ),
+/*         labelStyle: TextStyle(
+          color: ColorConstants.white,
+          fontSize: fontsi
+        ), */
+        enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+          color: ColorConstants.white,
+        )),
+        focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+          color: ColorConstants.yellow,
+        )),
+      ),
     );
 
     return theme;

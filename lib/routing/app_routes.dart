@@ -5,6 +5,7 @@ import 'package:five_on_four_flutter_tdd/features/core/presentation/screens/erro
 import 'package:five_on_four_flutter_tdd/features/core/presentation/screens/home/screen.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/screens/main/screen.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/screens/splash/screen.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/presentation/screens/match_create/screen.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/screens/match_info/screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -19,6 +20,7 @@ abstract class AppRoutes {
   static const homeScreenPath = '/home';
   static const matchInfoScreenPath = '/matchInfo/$idPlaceholder';
   static const errorScreenPath = '/error/$errorMessagePlaceholder';
+  static const matchCreateScreenPath = '/match_create';
   // static const matchesScreenPath = '/matches';
   // static const playersScreenPath = '/players';
   // static const matchCreateScreenPath = '/match-create';
@@ -55,6 +57,11 @@ abstract class AppRoutes {
   static AppRouteValue get errorScreenRouteValue => const AppRouteValue(
         path: '$errorScreenPath',
         name: 'Error',
+      );
+
+  static AppRouteValue get matchCreateScreenRouteValue => const AppRouteValue(
+        path: '$matchCreateScreenPath',
+        name: 'MatchCreate',
       );
 
   static final GoRoute splashRoute = GoRoute(
@@ -122,6 +129,12 @@ abstract class AppRoutes {
 
       return ErrorScreen(message: message);
     },
+  );
+
+  static final GoRoute matchCreateRoute = GoRoute(
+    path: AppRoutes.matchCreateScreenRouteValue.path,
+    name: AppRoutes.matchCreateScreenRouteValue.name,
+    builder: (context, state) => MatchCreateScreen(),
   );
 
   // static AppRouteValue get matches => const AppRouteValue(

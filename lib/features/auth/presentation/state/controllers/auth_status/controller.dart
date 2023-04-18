@@ -6,6 +6,7 @@
 
 // this will be app controller
 
+// TODO none of this is needed anymore
 import 'dart:async';
 
 abstract class AuthStatusController {

@@ -1,23 +1,24 @@
-import 'package:five_on_four_flutter_tdd/features/auth/domain/models/auth/model.dart';
+import 'package:five_on_four_flutter_tdd/features/auth/presentation/state/controllers/auth_status_new/controller.dart';
 import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
   AppRouter({
-    required this.authStatus,
+    required AuthStatusNewController authController,
+    // required this.authStatus,
     // required this.widgetRef,
-  });
+  }) : _authController = authController;
   // }) : authStatus = authStatus;
+  final AuthStatusNewController _authController;
 
   // final WidgetRef widgetRef;
 
-  final AsyncValue<AuthModel?> authStatus;
+  // final AsyncValue<AuthModel?> authStatus;
   // late AsyncValue<AuthModel?> authStatus =
   //     widgetRef.watch(authStatusAppControllerProvider);
 
   late final GoRouter router = GoRouter(
-    // refreshListenable: authStatus
+    refreshListenable: _authController,
 
     // navigatorKey: rootNavigatorKey,
     // TODO not sure if this is needed at a ll
@@ -31,16 +32,20 @@ class AppRouter {
       AppRoutes.homeRoute,
       AppRoutes.matchInfoRoute,
       AppRoutes.errorRoute,
+      AppRoutes.matchCreateRoute,
       // _matchRoute,
       // _matchCreateRoute,
     ],
     redirect: (context, state) {
-      final bool isLoading = authStatus is AsyncLoading;
+      // final bool isLoading = authStatus is AsyncLoading;
+      final bool isLoading = _authController.isLoading;
+      final bool isAuthenticated = _authController.isAuthenticated;
+      final bool isNotAuthenticated = !_authController.isAuthenticated;
 
-      final bool isAuthenticated =
-          authStatus is AsyncData && authStatus.value != null;
-      final bool isNotAuthenticated =
-          authStatus is AsyncData && authStatus.value == null;
+      // final bool isAuthenticated =
+      //     authStatus is AsyncData && authStatus.value != null;
+      // final bool isNotAuthenticated =
+      //     authStatus is AsyncData && authStatus.value == null;
 
       if (isLoading) return AppRoutes.splashScreenPath;
 
