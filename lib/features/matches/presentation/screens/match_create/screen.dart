@@ -1,5 +1,11 @@
+import 'dart:async';
+
+import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/inputs/streamed_date_field.dart';
+import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/inputs/streamed_text_field.dart';
+import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/inputs/streamed_time_field.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/enums/match_participant_status.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match_participant/model.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/match_create/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_participant_brief_card.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/constants.dart';
@@ -11,16 +17,75 @@ class MatchCreateScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MatchCreateScreenView();
+    // final MatchCreateAppController matchCreateController =
+    //     ref.watch(matchCreateAppControllerProvider.notifier);
+
+    // final Stream<String> matchNameStream =
+    //     matchCreateController.matchNameStream;
+    // final Stream<String> locationNameStream =
+    //     matchCreateController.locationNameStream;
+    // final Stream<String> locationAddressStream =
+    //     matchCreateController.locationAddressStream;
+    // final Stream<String> locationCityStream =
+    //     matchCreateController.locationCityStream;
+    // final Stream<String> locationCountryStream =
+    //     matchCreateController.locationCountryStream;
+    // final Stream<DateTime?> dateStream = matchCreateController.dateStream;
+    // final Stream<TimeOfDay> timeStream = matchCreateController.timeStream;
+
+    return MatchCreateScreenView(
+        // matchNameStream: matchNameStream,
+        // locationNameStream: locationNameStream,
+        );
   }
 }
 
 // TODO move to its own file later
-class MatchCreateScreenView extends StatelessWidget {
-  const MatchCreateScreenView({super.key});
+class MatchCreateScreenView extends ConsumerWidget {
+  const MatchCreateScreenView(
+
+      //   {
+      //   super.key,
+      //   required this.matchNameStream,
+      //   required this.locationNameStream,
+      //   required this.locationAddressStream,
+      //   required this.locationCityStream,
+      //   required this.locationCountryStream,
+      //   required this.dateStream,
+      //   required this.timeStream,
+      // }
+      );
+
+  // final Stream<String> matchNameStream;
+  // final Stream<String> locationNameStream;
+  // final Stream<String> locationAddressStream;
+  // final Stream<String> locationCityStream;
+  // final Stream<String> locationCountryStream;
+  // final Stream<DateTime?> dateStream;
+  // final Stream<TimeOfDay> timeStream;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+    WidgetRef ref,
+  ) {
+// TODO test
+    final MatchCreateAppController matchCreateController =
+        ref.watch(matchCreateAppControllerProvider.notifier);
+
+    final Stream<String> matchNameStream =
+        matchCreateController.matchNameStream;
+    final Stream<String> locationNameStream =
+        matchCreateController.locationNameStream;
+    final Stream<String> locationAddressStream =
+        matchCreateController.locationAddressStream;
+    final Stream<String> locationCityStream =
+        matchCreateController.locationCityStream;
+    final Stream<String> locationCountryStream =
+        matchCreateController.locationCountryStream;
+    final Stream<DateTime?> dateStream = matchCreateController.dateStream;
+    final Stream<TimeOfDay> timeStream = matchCreateController.timeStream;
+
     final ThemeData theme = Theme.of(context);
     final TextTheme themeText = theme.textTheme;
 
@@ -125,7 +190,7 @@ class MatchCreatePlayersInviteInputs extends StatelessWidget {
 }
 
 // TODO move this elsewhere of make private
-class MatchCreateBasicInputs extends StatelessWidget {
+class MatchCreateBasicInputs extends StatefulWidget {
   const MatchCreateBasicInputs({
     super.key,
     required this.sectionLabelStyle,
@@ -134,7 +199,29 @@ class MatchCreateBasicInputs extends StatelessWidget {
   final TextStyle sectionLabelStyle;
 
   @override
+  State<MatchCreateBasicInputs> createState() => _MatchCreateBasicInputsState();
+}
+
+class _MatchCreateBasicInputsState extends State<MatchCreateBasicInputs> {
+// TODO not sure if we need the controllers - we will have data in the provider instead
+
+  final TextEditingController _matchNameController = TextEditingController();
+  final TextEditingController _locationNameController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _countryController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _timeController = TextEditingController();
+
+  @override
+  void dispose() {
+    _disposeWidget();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // TODO potentually“, tis should access its own provider streams
     final ThemeData theme = Theme.of(context);
     final TextTheme themeText = theme.textTheme;
 
@@ -154,56 +241,76 @@ class MatchCreateBasicInputs extends StatelessWidget {
         children: [
           // TODO all of these need to be wrapped in their own streams for validation - will need to create some helpers for validat
           // TODO this could potentially be a custom widget
-          TextField(
-            decoration: InputDecoration(
-              labelText: "Match name",
-              // labelStyle: TextStyle(color: ColorConstants.white),
-              // enabledBorder: UnderlineInputBorder(
-              //   borderSide: BorderSide(
-              //     color: ColorConstants.white,
-              //     width: 2.0,
-              //   ),
-              // ),
-            ),
+          // TextField(
+          //   decoration: InputDecoration(
+          //     labelText: "Match name",
+          //     // labelStyle: TextStyle(color: ColorConstants.white),
+          //     // enabledBorder: UnderlineInputBorder(
+          //     //   borderSide: BorderSide(
+          //     //     color: ColorConstants.white,
+          //     //     width: 2.0,
+          //     //   ),
+          //     // ),
+          //   ),
+          // ),
+          StreamedTextField(
+            fieldController: _matchNameController,
+            // TODO just for testing
+            // stream: StreamController<String>().stream,
+            stream: Stream.value(""),
+            onChanged: (value) {},
+            labelText: "Match name",
           ),
           SizedBox(
             height: SpacingConstants.xxLarge,
           ),
           Text(
             "location",
-            style: sectionLabelStyle,
+            style: widget.sectionLabelStyle,
           ),
           SizedBox(
             height: SpacingConstants.medium,
           ),
-          TextField(
-            decoration: InputDecoration(
-              labelText: "Location name",
-            ),
+          StreamedTextField(
+            fieldController: _locationNameController,
+            // TODO just for testing
+            // stream: StreamController<String>().stream,
+            stream: Stream.value(""),
+            onChanged: (value) {},
+            labelText: "Location name",
           ),
           SizedBox(
             height: SpacingConstants.medium,
           ),
-          TextField(
-            decoration: InputDecoration(
-              labelText: "Address",
-            ),
+          StreamedTextField(
+            fieldController: _addressController,
+            // TODO just for testing
+            // stream: StreamController<String>().stream,
+            stream: Stream.value(""),
+            onChanged: (value) {},
+            labelText: "Address",
           ),
           SizedBox(
             height: SpacingConstants.medium,
           ),
-          TextField(
-            decoration: InputDecoration(
-              labelText: "City",
-            ),
+          StreamedTextField(
+            fieldController: _cityController,
+            // TODO just for testing
+            // stream: StreamController<String>().stream,
+            stream: Stream.value(""),
+            onChanged: (value) {},
+            labelText: "City",
           ),
           SizedBox(
             height: SpacingConstants.medium,
           ),
-          TextField(
-            decoration: InputDecoration(
-              labelText: "Country",
-            ),
+          StreamedTextField(
+            fieldController: _countryController,
+            // TODO just for testing
+            // stream: StreamController<String>().stream,
+            stream: Stream.value(""),
+            onChanged: (value) {},
+            labelText: "Country",
           ),
           SizedBox(
             height: SpacingConstants.medium,
@@ -216,24 +323,58 @@ class MatchCreateBasicInputs extends StatelessWidget {
           ),
           Text(
             "date & time",
-            style: sectionLabelStyle,
+            style: widget.sectionLabelStyle,
           ),
           SizedBox(
             height: SpacingConstants.medium,
           ),
-          TextField(
-            decoration: InputDecoration(
-              labelText: "Select date",
-            ),
+          StreamedDateField(
+            fieldController: _dateController,
+            stream: Stream.value(""),
+            onChanged: (value) {},
+            labelText: "Select date",
           ),
+          // TextField(
+          //   readOnly: true,
+          //   controller: _dateController,
+          //   decoration: InputDecoration(
+          //     labelText: "Select date",
+          //   ),
+          //   onTap: () async {
+          //     final DateTime dateNow = DateTime.now();
+
+          //     DateTime? pickedDate = await showDatePicker(
+          //       context: context,
+          //       initialDate: dateNow,
+          //       firstDate: dateNow,
+          //       lastDate: dateNow.add(Duration(days: 365)),
+          //     );
+
+          //     if (pickedDate == null) return;
+
+          //     final String formattedDate =
+          //         DateFormat("dd-MM-yyyy").format(pickedDate);
+
+          //     _dateController.text = formattedDate;
+
+          //     // TODO test
+          //   },
+          // ),
           SizedBox(
             height: SpacingConstants.medium,
           ),
-          TextField(
-            decoration: InputDecoration(
-              labelText: "Select time",
-            ),
+
+          StreamedTimeField(
+            fieldController: _timeController,
+            stream: Stream.value(""),
+            onChanged: (value) {},
+            labelText: "Select time",
           ),
+          // TextField(
+          //   decoration: InputDecoration(
+          //     labelText: "Select time",
+          //   ),
+          // ),
           SizedBox(
             height: SpacingConstants.medium,
           ),
@@ -260,5 +401,15 @@ class MatchCreateBasicInputs extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _disposeWidget() {
+    _matchNameController.dispose();
+    _locationNameController.dispose();
+    _addressController.dispose();
+    _cityController.dispose();
+    _countryController.dispose();
+    _dateController.dispose();
+    _timeController.dispose();
   }
 }
