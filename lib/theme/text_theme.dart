@@ -2,6 +2,21 @@ import 'package:five_on_four_flutter_tdd/theme/constants/font_size_constants.dar
 import 'package:flutter/material.dart';
 
 abstract class AppTextTheme {
+  static const TextStyle titleLarge = TextStyle(
+    fontSize: FontSizeConstants.large,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const TextStyle titleMedium = TextStyle(
+    fontSize: FontSizeConstants.mediumLarge,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const TextStyle titleSmall = TextStyle(
+    fontSize: FontSizeConstants.medium,
+    fontWeight: FontWeight.bold,
+  );
+
   static const TextStyle displayLarge = TextStyle(
     fontSize: FontSizeConstants.xxxLarge,
     fontWeight: FontWeight.bold,
@@ -11,7 +26,7 @@ abstract class AppTextTheme {
     fontSize: FontSizeConstants.xxLarge,
     fontWeight: FontWeight.bold,
   );
-
+// TODO fonts should probably be adjsuted - sizes and names and such
   static const TextStyle displaySmall = TextStyle(
     fontSize: FontSizeConstants.xLarge,
     fontWeight: FontWeight.bold,
@@ -57,5 +72,8 @@ abstract class AppTextTheme {
     labelLarge: labelLarge,
     labelMedium: labelMedium,
     labelSmall: labelSmall,
+    titleLarge: titleLarge,
+    titleMedium: titleMedium,
+    titleSmall: titleSmall,
   );
 }

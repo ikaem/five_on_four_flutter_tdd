@@ -6,21 +6,21 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$matchCreateAppControllerHash() =>
-    r'37174ef453bfc48c33ba4bcb79043521629a93f7';
+String _$playersAppRepositoryHash() =>
+    r'a8273d08fa7f89cbdd89fd73abae627bd436d245';
 
-/// See also [MatchCreateAppController].
-@ProviderFor(MatchCreateAppController)
-final matchCreateAppControllerProvider = AutoDisposeNotifierProvider<
-    MatchCreateAppController, AsyncValue<void>>.internal(
-  MatchCreateAppController.new,
-  name: r'matchCreateAppControllerProvider',
+/// See also [playersAppRepository].
+@ProviderFor(playersAppRepository)
+final playersAppRepositoryProvider =
+    AutoDisposeProvider<PlayersRepository>.internal(
+  playersAppRepository,
+  name: r'playersAppRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$matchCreateAppControllerHash,
+      : _$playersAppRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$MatchCreateAppController = AutoDisposeNotifier<AsyncValue<void>>;
+typedef PlayersAppRepositoryRef = AutoDisposeProviderRef<PlayersRepository>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$MatchParticipantModel {
   String get id => throw _privateConstructorUsedError;
-  String get userId => throw _privateConstructorUsedError;
+  String get playerId => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
   MatchParticipantStatus get status => throw _privateConstructorUsedError;
   int get createdAt => throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ abstract class $MatchParticipantModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String userId,
+      String playerId,
       String nickname,
       MatchParticipantStatus status,
       int createdAt,
@@ -58,7 +58,7 @@ class _$MatchParticipantModelCopyWithImpl<$Res,
   @override
   $Res call({
     Object? id = null,
-    Object? userId = null,
+    Object? playerId = null,
     Object? nickname = null,
     Object? status = null,
     Object? createdAt = null,
@@ -69,9 +69,9 @@ class _$MatchParticipantModelCopyWithImpl<$Res,
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
+      playerId: null == playerId
+          ? _value.playerId
+          : playerId // ignore: cast_nullable_to_non_nullable
               as String,
       nickname: null == nickname
           ? _value.nickname
@@ -103,7 +103,7 @@ abstract class _$$_MatchParticipantModelCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      String userId,
+      String playerId,
       String nickname,
       MatchParticipantStatus status,
       int createdAt,
@@ -122,7 +122,7 @@ class __$$_MatchParticipantModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? userId = null,
+    Object? playerId = null,
     Object? nickname = null,
     Object? status = null,
     Object? createdAt = null,
@@ -133,9 +133,9 @@ class __$$_MatchParticipantModelCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
+      playerId: null == playerId
+          ? _value.playerId
+          : playerId // ignore: cast_nullable_to_non_nullable
               as String,
       nickname: null == nickname
           ? _value.nickname
@@ -162,7 +162,7 @@ class __$$_MatchParticipantModelCopyWithImpl<$Res>
 class _$_MatchParticipantModel implements _MatchParticipantModel {
   const _$_MatchParticipantModel(
       {required this.id,
-      required this.userId,
+      required this.playerId,
       required this.nickname,
       required this.status,
       required this.createdAt,
@@ -171,7 +171,7 @@ class _$_MatchParticipantModel implements _MatchParticipantModel {
   @override
   final String id;
   @override
-  final String userId;
+  final String playerId;
   @override
   final String nickname;
   @override
@@ -183,7 +183,7 @@ class _$_MatchParticipantModel implements _MatchParticipantModel {
 
   @override
   String toString() {
-    return 'MatchParticipantModel(id: $id, userId: $userId, nickname: $nickname, status: $status, createdAt: $createdAt, invitationExpirationTime: $invitationExpirationTime)';
+    return 'MatchParticipantModel(id: $id, playerId: $playerId, nickname: $nickname, status: $status, createdAt: $createdAt, invitationExpirationTime: $invitationExpirationTime)';
   }
 
   @override
@@ -192,7 +192,8 @@ class _$_MatchParticipantModel implements _MatchParticipantModel {
         (other.runtimeType == runtimeType &&
             other is _$_MatchParticipantModel &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.playerId, playerId) ||
+                other.playerId == playerId) &&
             (identical(other.nickname, nickname) ||
                 other.nickname == nickname) &&
             (identical(other.status, status) || other.status == status) &&
@@ -204,7 +205,7 @@ class _$_MatchParticipantModel implements _MatchParticipantModel {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, userId, nickname, status,
+  int get hashCode => Object.hash(runtimeType, id, playerId, nickname, status,
       createdAt, invitationExpirationTime);
 
   @JsonKey(ignore: true)
@@ -218,7 +219,7 @@ class _$_MatchParticipantModel implements _MatchParticipantModel {
 abstract class _MatchParticipantModel implements MatchParticipantModel {
   const factory _MatchParticipantModel(
       {required final String id,
-      required final String userId,
+      required final String playerId,
       required final String nickname,
       required final MatchParticipantStatus status,
       required final int createdAt,
@@ -227,7 +228,7 @@ abstract class _MatchParticipantModel implements MatchParticipantModel {
   @override
   String get id;
   @override
-  String get userId;
+  String get playerId;
   @override
   String get nickname;
   @override

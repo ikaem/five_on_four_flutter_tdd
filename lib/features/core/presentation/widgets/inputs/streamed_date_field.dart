@@ -11,23 +11,20 @@ class StreamedDateField extends StatelessWidget {
     required this.labelText,
   });
 
-// TODO not sure if we need the controller
   final TextEditingController fieldController;
-  // TODO not sure if this should always be a String - it probably should
-  final Stream<String> stream;
-  final ValueSetter<String> onChanged;
+  final Stream<DateTime?> stream;
+  final ValueSetter<DateTime?> onChanged;
   final String labelText;
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<String>(
+    return StreamBuilder<DateTime?>(
       builder: (context, snapshot) {
         final bool hasError = snapshot.hasError;
+
         return TextField(
-          // TODO user should not be able to edit text
           readOnly: true,
           controller: fieldController,
-          onChanged: onChanged,
           decoration: InputDecoration(
             icon: Icon(
               Icons.calendar_today,
@@ -48,11 +45,17 @@ class StreamedDateField extends StatelessWidget {
               lastDate: dateNow.add(Duration(days: 365)),
             );
 
-            if (pickedDate == null) return;
+            if (pickedDate == null) {
+              onChanged(null);
+              fieldController.text = "";
+
+              return;
+            }
 
             final String formattedDate =
                 DateFormat("dd-MM-yyyy").format(pickedDate);
 
+            onChanged(pickedDate);
             fieldController.text = formattedDate;
           },
         );

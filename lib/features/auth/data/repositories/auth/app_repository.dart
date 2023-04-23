@@ -6,7 +6,7 @@ import 'package:five_on_four_flutter_tdd/features/auth/domain/models/auth/model.
 import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfaces/auth_repository.dart';
 
 class AuthAppRepository implements AuthRepository {
-  AuthAppRepository({
+  const AuthAppRepository({
     required this.remoteDataSource,
     required this.localDataSource,
   });

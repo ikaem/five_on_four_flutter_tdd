@@ -8,7 +8,7 @@ part 'model.freezed.dart';
 class MatchParticipantModel with _$MatchParticipantModel {
   const factory MatchParticipantModel({
     required String id,
-    required String userId,
+    required String playerId,
     required String nickname,
     required MatchParticipantStatus status,
     required int createdAt,
@@ -27,7 +27,7 @@ class MatchParticipantModel with _$MatchParticipantModel {
 
     final MatchParticipantModel participant = MatchParticipantModel(
       id: dto.id,
-      userId: dto.id,
+      playerId: dto.id,
       nickname: dto.nickname,
       status: status,
       createdAt: dto.createdAt,

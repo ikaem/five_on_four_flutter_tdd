@@ -3,7 +3,7 @@ import 'package:five_on_four_flutter_tdd/features/core/utils/constants/reg_exp_c
 typedef FieldValidator<T> = bool Function(T value);
 
 mixin ValidationMixin {
-  bool isFieldEmpty(String fieldValue) => fieldValue.isEmpty;
+  bool isFieldEmpty(String? fieldValue) => fieldValue?.isEmpty ?? true;
   bool isFieldEmail(String fieldValue) =>
       RegExpConstants.validEmail.hasMatch(fieldValue);
   bool isFieldValidPassword(String fieldValue) =>

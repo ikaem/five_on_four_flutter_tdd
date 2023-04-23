@@ -13,19 +13,22 @@ class StreamedTextField extends StatelessWidget {
 // TODO not sure if we need the controller
   final TextEditingController fieldController;
   // TODO not sure if this should always be a String - it probably should
-  final Stream<String> stream;
+  final Stream<String?> stream;
   final ValueSetter<String> onChanged;
   final String labelText;
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<String>(
+    return StreamBuilder<String?>(
       builder: (context, snapshot) {
         final bool hasError = snapshot.hasError;
 
         return TextField(
           controller: fieldController,
-          onChanged: onChanged,
+          onChanged: (value) {
+            // TODO test
+            onChanged(value);
+          },
           decoration: InputDecoration(
             labelText: labelText,
             labelStyle: TextStyle(

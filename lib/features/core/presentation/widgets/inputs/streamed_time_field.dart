@@ -1,6 +1,9 @@
+import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/inputs/streamed_time_field.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+export "package:five_on_four_flutter_tdd/features/core/utils/utils.dart";
 
 class StreamedTimeField extends StatelessWidget {
   const StreamedTimeField({
@@ -14,20 +17,18 @@ class StreamedTimeField extends StatelessWidget {
 // TODO not sure if we need the controller
   final TextEditingController fieldController;
   // TODO not sure if this should always be a String - it probably should
-  final Stream<String> stream;
-  final ValueSetter<String> onChanged;
+  final Stream<TimeOfDay?> stream;
+  final ValueSetter<TimeOfDay?> onChanged;
   final String labelText;
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<String>(
+    return StreamBuilder<TimeOfDay?>(
       builder: (context, snapshot) {
         final bool hasError = snapshot.hasError;
         return TextField(
-          // TODO user should not be able to edit text
           readOnly: true,
           controller: fieldController,
-          onChanged: onChanged,
           decoration: InputDecoration(
             icon: Icon(
               Icons.access_time,
@@ -46,19 +47,32 @@ class StreamedTimeField extends StatelessWidget {
               initialTime: timeOfDay,
             );
 
-            if (pickedTime == null) return;
+            if (pickedTime == null) {
+              onChanged(null);
+              fieldController.text = "";
 
-            final DateTime timeWithDate = DateTime(
-              DateTime.now().year,
-              DateTime.now().month,
-              DateTime.now().day,
-              pickedTime.hour,
-              pickedTime.minute,
-            );
+              return;
+            }
+
+            final DateTime picketTimeWithTodayDate =
+                pickedTime.nowWithTodayDate;
+
+            // TODO COME BACK TO THIS
+            // final TimeOfDay nowDate = TimeOfDay.now();
+            // final DateTime nowWithTodayDate =
+            //     nowDate.nowWithTodayDate.add(Duration(minutes: -1));
+
+            // if (!picketTimeWithTodayDate.isAfter(nowWithTodayDate)) {
+            //   onChanged(null);
+            //   fieldController.text = "";
+
+            //   return;
+            // }
 
             final String formattedTime =
-                DateFormat("h:mm a").format(timeWithDate);
+                DateFormat("h:mm a").format(picketTimeWithTodayDate);
 
+            onChanged(pickedTime);
             fieldController.text = formattedTime;
           },
         );
