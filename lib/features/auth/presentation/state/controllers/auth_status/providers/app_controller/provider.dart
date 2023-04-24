@@ -11,6 +11,7 @@ part "provider.g.dart";
 @Riverpod(keepAlive: true)
 class AuthStatusAppController extends _$AuthStatusAppController
     implements AuthStatusController {
+  // TODO this can be accessed in the initializer as well
   late final AuthService authService = ref.read(authServiceProvider);
   late final StreamSubscription<AuthModel?> _authStatusStreamSubscription;
 

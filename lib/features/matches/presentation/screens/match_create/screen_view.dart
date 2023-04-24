@@ -19,6 +19,10 @@ class MatchCreateScreenView extends ConsumerWidget {
     final MatchCreateController matchCreateController =
         ref.watch(matchCreateAppControllerProvider.notifier);
 
+// TODO this needs value, and it needs the notifier itself
+    // final PlayersSearchController playersSearchController =
+    //     ref.watch(playersSearchAppControllerProvider);
+
     final ThemeData theme = Theme.of(context);
     final TextTheme themeText = theme.textTheme;
 

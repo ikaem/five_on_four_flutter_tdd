@@ -7,6 +7,26 @@ abstract class PlayersRemoteDataSource {
       PlayersSearchFilters filters);
 }
 
+// TODO create this with freezed, so we have copy with
 // TODO move this to values
 @immutable
-class PlayersSearchFilters {}
+class PlayersSearchFilters {
+  const PlayersSearchFilters({
+    required this.searchTerm,
+  });
+  final String searchTerm;
+
+  // PlayersSearchFilters.copyWith({
+  //   String? newSearchTerm,
+  // }) {
+  //   searchTerm = newSearchTerm ?? searchTerm;
+  // }
+
+  PlayersSearchFilters copyWith({
+    String? searchTerm,
+  }) {
+    return PlayersSearchFilters(
+      searchTerm: searchTerm ?? this.searchTerm,
+    );
+  }
+}

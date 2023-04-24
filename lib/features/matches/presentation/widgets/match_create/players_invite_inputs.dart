@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 
 // TODO test - typedefs can go here, sure
 typedef OnTapParticipantInvitation = void Function(
-    MatchParticipantInvitationValue invitation);
+  MatchParticipantInvitationValue invitation,
+);
 
 // TODO potentially, this should be called fifferently
 class MatchCreatePlayersInviteInputs extends StatelessWidget {
@@ -19,6 +20,7 @@ class MatchCreatePlayersInviteInputs extends StatelessWidget {
     required this.participantsInvitationsStream,
     required this.onAddParticipantInvitation,
     required this.onRemoveParticipantInvitation,
+    // required this.searchedPlayersValue,
   });
 
   final TextStyle sectionLabelStyle;
@@ -28,6 +30,7 @@ class MatchCreatePlayersInviteInputs extends StatelessWidget {
 
   final OnTapParticipantInvitation onAddParticipantInvitation;
   final OnTapParticipantInvitation onRemoveParticipantInvitation;
+  // final AsyncValue<List<PlayerModel>> searchedPlayersValue;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +49,12 @@ class MatchCreatePlayersInviteInputs extends StatelessWidget {
                 style: sectionLabelStyle,
               ),
               IconButton(
-                onPressed: _onOpenInvitationDialog(context: context),
+                // TODO this wont work - becuase async value will not be updated - will need to access provider in the view itself
+                onPressed: _onOpenInvitationDialog(
+                  context: context,
+                  participantsInvitationsStream: participantsInvitationsStream,
+                  // searchedPlayersValue: searchedPlayersValue,
+                ),
                 icon: Icon(
                   Icons.add_circle,
                   color: ColorConstants.red,
@@ -67,6 +75,7 @@ class MatchCreatePlayersInviteInputs extends StatelessWidget {
                 if (data == null) return SizedBox.shrink();
 
                 return ListView.separated(
+                  // TODO not sure if this shrink wrap is needed - try to remove it
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: data.length,
@@ -95,11 +104,19 @@ class MatchCreatePlayersInviteInputs extends StatelessWidget {
   // TODO this will be calling a dialog functions defined elsewhere
   Future<void> Function() _onOpenInvitationDialog({
     required BuildContext context,
+    required Stream<List<MatchParticipantInvitationValue>>
+        participantsInvitationsStream,
+    // required AsyncValue<List<PlayerModel>> searchedPlayersValue,
   }) =>
       () async {
         await DialogOpener.contentDialog<void>(
           context: context,
-          content: MatchInviteParticipantsView(),
+          content: MatchInviteParticipantsView(
+            // searchedPlayersValue: searchedPlayersValue,
+            participantsInvitationsStream: participantsInvitationsStream,
+            onTapRemoveInvitation: onRemoveParticipantInvitation,
+            onTapAddInvitation: onAddParticipantInvitation,
+          ),
           title: "Invite match participants",
         );
 
