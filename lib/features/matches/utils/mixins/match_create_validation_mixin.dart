@@ -103,7 +103,19 @@ mixin MatchCreateValidationMixin on ValidationMixin {
     },
   );
 
-  FormFieldError? _validateMatchName(String value) {
+  // FormFieldError? _validateMatchName(String value) {
+  //   final bool isEmpty = isFieldEmpty(value);
+
+  //   FormFieldError? error;
+
+  //   if (isEmpty) {
+  //     error = FormFieldError.empty;
+  //   }
+
+  //   return error;
+  // }
+
+  FormFieldError? _validateGenericText(String? value) {
     final bool isEmpty = isFieldEmpty(value);
 
     FormFieldError? error;
@@ -115,21 +127,10 @@ mixin MatchCreateValidationMixin on ValidationMixin {
     return error;
   }
 
-  FormFieldError? _validateGenericText(String value) {
+  FormFieldError? _validateLocationCountry(String? value) {
     final bool isEmpty = isFieldEmpty(value);
-
-    FormFieldError? error;
-
-    if (isEmpty) {
-      error = FormFieldError.empty;
-    }
-
-    return error;
-  }
-
-  FormFieldError? _validateLocationCountry(String value) {
-    final bool isEmpty = isFieldEmpty(value);
-    final bool isValid = isFieldValid<String>(value, checkIsCountryCodeCorrect);
+    final bool isValid =
+        isFieldValid<String?>(value, checkIsCountryCodeCorrect);
 
     FormFieldError? error;
 
@@ -199,11 +200,11 @@ mixin MatchCreateValidationMixin on ValidationMixin {
   // TODO test - use this for inputs validation strea, but maybe also for on submit validation
   // TODO for now, return true or false, but later, it should probably return validation value
   MatchCreateInputsValidationValue validateInputs({
-    required String matchNameValue,
-    required String locationNameValue,
-    required String locationAddressValue,
-    required String locationCityValue,
-    required String locationCountryValue,
+    required String? matchNameValue,
+    required String? locationNameValue,
+    required String? locationAddressValue,
+    required String? locationCityValue,
+    required String? locationCountryValue,
     required DateTime? dateValue,
     required TimeOfDay? timeValue,
   }) {
@@ -223,7 +224,7 @@ mixin MatchCreateValidationMixin on ValidationMixin {
         MatchCreateInputsValidationValue(
       matchNameError: matchNameError,
       locationNameError: locationNameError,
-      locationAddressnput: locationAddressnput,
+      locationAddressError: locationAddressnput,
       locationCityError: locationCityError,
       locationCountryError: locationCountryError,
       dateError: dateError,
@@ -242,7 +243,7 @@ class MatchCreateInputsValidationValue {
   const MatchCreateInputsValidationValue({
     required this.matchNameError,
     required this.locationNameError,
-    required this.locationAddressnput,
+    required this.locationAddressError,
     required this.locationCityError,
     required this.locationCountryError,
     required this.dateError,
@@ -251,7 +252,7 @@ class MatchCreateInputsValidationValue {
 
   final FormFieldError? matchNameError;
   final FormFieldError? locationNameError;
-  final FormFieldError? locationAddressnput;
+  final FormFieldError? locationAddressError;
   final FormFieldError? locationCityError;
   final FormFieldError? locationCountryError;
   final FormFieldError? dateError;
@@ -260,7 +261,7 @@ class MatchCreateInputsValidationValue {
   bool get areInputsValid {
     if (matchNameError != null) return false;
     if (locationNameError != null) return false;
-    if (locationAddressnput != null) return false;
+    if (locationAddressError != null) return false;
     if (locationCityError != null) return false;
     if (locationCountryError != null) return false;
     if (dateError != null) return false;

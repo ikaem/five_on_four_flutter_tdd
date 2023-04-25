@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:five_on_four_flutter_tdd/features/core/utils/mixins/validation.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participant_invitation/value.dart';
@@ -15,52 +14,6 @@ part "provider.g.dart";
 class MatchCreateAppController extends _$MatchCreateAppController
     with ValidationMixin, MatchCreateValidationMixin
     implements MatchCreateController {
-// TODO this needs to get the match service - or match create service, i dont know anymore
-
-// TODO might need seeded to kickoff the validation
-  final BehaviorSubject<String> _matchNameSubject = BehaviorSubject();
-  final BehaviorSubject<String> _locationNameSubject = BehaviorSubject();
-  final BehaviorSubject<String> _locationAddressSubject = BehaviorSubject();
-  final BehaviorSubject<String> _locationCitySubject = BehaviorSubject();
-  final BehaviorSubject<String> _locationCountrySubject = BehaviorSubject();
-  final BehaviorSubject<DateTime?> _dateSubject = BehaviorSubject();
-  final BehaviorSubject<TimeOfDay?> _timeSubject = BehaviorSubject();
-  final BehaviorSubject<bool> _joinMatchSubject = BehaviorSubject.seeded(false);
-
-  // TODO test
-  final BehaviorSubject<List<MatchParticipantInvitationValue>>
-      _participantInvitationsSubject = BehaviorSubject.seeded(invitations);
-
-  StreamSink<String> get _matchNameSink => _matchNameSubject.sink;
-  StreamSink<String> get _locationNameSink => _locationNameSubject.sink;
-  StreamSink<String> get _locationAddressSink => _locationAddressSubject.sink;
-  StreamSink<String> get _locationCitySink => _locationCitySubject.sink;
-  StreamSink<String> get _locationCountrySink => _locationCountrySubject.sink;
-  StreamSink<DateTime?> get _dateSink => _dateSubject.sink;
-  StreamSink<TimeOfDay?> get _timeSink => _timeSubject.sink;
-  StreamSink<bool> get _joinMatchSink => _joinMatchSubject.sink;
-
-  // TODO test
-  StreamSink<List<MatchParticipantInvitationValue>>
-      get _participantInvitationsSink => _participantInvitationsSubject.sink;
-
-  Stream<String> get _matchNameStream => _matchNameSubject.distinct();
-  Stream<String> get _locationNameStream => _locationNameSubject.distinct();
-  Stream<String> get _locationAddressStream =>
-      _locationAddressSubject.distinct();
-  Stream<String> get _locationCityStream => _locationCitySubject.distinct();
-  Stream<String> get _locationCountryStream =>
-      _locationCountrySubject.distinct();
-  Stream<DateTime?> get _dateStream => _dateSubject.distinct();
-  Stream<TimeOfDay?> get _timeStream => _timeSubject.distinct();
-  Stream<bool> get _joinMatchStream => _joinMatchSubject.distinct();
-
-  // TODO test
-  // TODO for distinct to work properly, we have to use freezed, or override equality operator for this
-  Stream<List<MatchParticipantInvitationValue>>
-      get _participantInvitationsStream =>
-          _participantInvitationsSubject.distinct();
-
   @override
   Stream<String> get matchNameValidationStream =>
       _matchNameStream.transform(genericTextValidationTransformer);
@@ -104,13 +57,33 @@ class MatchCreateAppController extends _$MatchCreateAppController
         ],
         (values) {
           // TODO not sure if i should access subject directly here
-          final String matchName = _matchNameSubject.value;
-          final String locationName = _locationNameSubject.value;
-          final String locationAddress = _locationAddressSubject.value;
-          final String locationCity = _locationCitySubject.value;
-          final String locationCountry = _locationCountrySubject.value;
-          final DateTime? date = _dateSubject.value;
-          final TimeOfDay? time = _timeSubject.value;
+          // TODO do orNull here
+          // final String matchName = _matchNameSubject.value;
+          // final String locationName = _locationNameSubject.value;
+          // final String locationAddress = _locationAddressSubject.value;
+          // final String locationCity = _locationCitySubject.value;
+          // final String locationCountry = _locationCountrySubject.value;
+          // final DateTime? date = _dateSubject.value;
+          // final TimeOfDay? time = _timeSubject.value;
+
+          // final MatchCreateInputsValidationValue validationValue =
+          //     validateInputs(
+          //   matchNameValue: matchName,
+          //   locationNameValue: locationName,
+          //   locationAddressValue: locationAddress,
+          //   locationCityValue: locationCity,
+          //   locationCountryValue: locationCountry,
+          //   dateValue: date,
+          //   timeValue: time,
+          // );
+
+          final String? matchName = _matchNameSubject.valueOrNull;
+          final String? locationName = _locationNameSubject.valueOrNull;
+          final String? locationAddress = _locationAddressSubject.valueOrNull;
+          final String? locationCity = _locationCitySubject.valueOrNull;
+          final String? locationCountry = _locationCountrySubject.valueOrNull;
+          final DateTime? date = _dateSubject.valueOrNull;
+          final TimeOfDay? time = _timeSubject.valueOrNull;
 
           final MatchCreateInputsValidationValue validationValue =
               validateInputs(
@@ -212,7 +185,44 @@ class MatchCreateAppController extends _$MatchCreateAppController
 
   @override
   Future<void> onSubmit() async {
-    log("submitting...");
+    final MatchCreateInputsValidationValue validationValue = validateInputs(
+      matchNameValue: _matchNameSubject.valueOrNull,
+      locationNameValue: _locationNameSubject.valueOrNull,
+      locationAddressValue: _locationAddressSubject.valueOrNull,
+      locationCityValue: _locationCitySubject.valueOrNull,
+      locationCountryValue: _locationCountrySubject.valueOrNull,
+      dateValue: _dateSubject.valueOrNull,
+      timeValue: _timeSubject.valueOrNull,
+    );
+
+    if (!validationValue.areInputsValid) {
+      _populateInvalidInputErrors(validationValue);
+      return;
+    }
+
+    // TODO now we create match data
+  }
+
+  // TODO move this below
+  void _populateInvalidInputErrors(
+    MatchCreateInputsValidationValue validationValue,
+  ) {
+    // TODO not liking nested is here
+    // TODO make helpers for this
+    if (validationValue.matchNameError != null)
+      _matchNameSink.addError(validationValue.matchNameError!);
+    if (validationValue.locationNameError != null)
+      _locationNameSink.addError(validationValue.locationNameError!);
+    if (validationValue.locationAddressError != null)
+      _locationAddressSink.addError(validationValue.locationAddressError!);
+    if (validationValue.locationCityError != null)
+      _locationCitySink.addError(validationValue.locationCityError!);
+    if (validationValue.locationCountryError != null)
+      _locationCountrySink.addError(validationValue.locationCountryError!);
+    if (validationValue.dateError != null)
+      _dateSink.addError(validationValue.dateError!);
+    if (validationValue.timeError != null)
+      _timeSink.addError(validationValue.timeError!);
   }
 
   @override
@@ -231,6 +241,52 @@ class MatchCreateAppController extends _$MatchCreateAppController
     await _timeSubject.close();
     await _joinMatchSubject.close();
   }
+
+  // TODO this needs to get the match service - or match create service, i dont know anymore
+
+// TODO might need seeded to kickoff the validation
+  final BehaviorSubject<String> _matchNameSubject = BehaviorSubject();
+  final BehaviorSubject<String> _locationNameSubject = BehaviorSubject();
+  final BehaviorSubject<String> _locationAddressSubject = BehaviorSubject();
+  final BehaviorSubject<String> _locationCitySubject = BehaviorSubject();
+  final BehaviorSubject<String> _locationCountrySubject = BehaviorSubject();
+  final BehaviorSubject<DateTime?> _dateSubject = BehaviorSubject();
+  final BehaviorSubject<TimeOfDay?> _timeSubject = BehaviorSubject();
+  final BehaviorSubject<bool> _joinMatchSubject = BehaviorSubject.seeded(false);
+
+  // TODO test
+  final BehaviorSubject<List<MatchParticipantInvitationValue>>
+      _participantInvitationsSubject = BehaviorSubject.seeded(invitations);
+
+  StreamSink<String> get _matchNameSink => _matchNameSubject.sink;
+  StreamSink<String> get _locationNameSink => _locationNameSubject.sink;
+  StreamSink<String> get _locationAddressSink => _locationAddressSubject.sink;
+  StreamSink<String> get _locationCitySink => _locationCitySubject.sink;
+  StreamSink<String> get _locationCountrySink => _locationCountrySubject.sink;
+  StreamSink<DateTime?> get _dateSink => _dateSubject.sink;
+  StreamSink<TimeOfDay?> get _timeSink => _timeSubject.sink;
+  StreamSink<bool> get _joinMatchSink => _joinMatchSubject.sink;
+
+  // TODO test
+  StreamSink<List<MatchParticipantInvitationValue>>
+      get _participantInvitationsSink => _participantInvitationsSubject.sink;
+
+  Stream<String> get _matchNameStream => _matchNameSubject.distinct();
+  Stream<String> get _locationNameStream => _locationNameSubject.distinct();
+  Stream<String> get _locationAddressStream =>
+      _locationAddressSubject.distinct();
+  Stream<String> get _locationCityStream => _locationCitySubject.distinct();
+  Stream<String> get _locationCountryStream =>
+      _locationCountrySubject.distinct();
+  Stream<DateTime?> get _dateStream => _dateSubject.distinct();
+  Stream<TimeOfDay?> get _timeStream => _timeSubject.distinct();
+  Stream<bool> get _joinMatchStream => _joinMatchSubject.distinct();
+
+  // TODO test
+  // TODO for distinct to work properly, we have to use freezed, or override equality operator for this
+  Stream<List<MatchParticipantInvitationValue>>
+      get _participantInvitationsStream =>
+          _participantInvitationsSubject.distinct();
 }
 
 // TODO test  - remove this later

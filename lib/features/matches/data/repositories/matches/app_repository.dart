@@ -2,6 +2,8 @@ import 'package:five_on_four_flutter_tdd/features/matches/data/data_sources/matc
 import 'package:five_on_four_flutter_tdd/features/matches/data/dtos/match_remote/dto.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/repositories_interfaces/matches_repository.dart';
+import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
 
 class MatchesAppRepository implements MatchesRepository {
   MatchesAppRepository({
@@ -44,5 +46,18 @@ class MatchesAppRepository implements MatchesRepository {
     return match;
 
     // TODO later we will get data from database
+  }
+
+  @override
+  Future<String> createMatch({
+    required NewMatchValue matchData,
+    required PlayerModel currentPlayer,
+  }) async {
+    final String id = await remoteDataSource.createMatch(
+      matchData: matchData,
+      currentPlayer: currentPlayer,
+    );
+
+    return id;
   }
 }

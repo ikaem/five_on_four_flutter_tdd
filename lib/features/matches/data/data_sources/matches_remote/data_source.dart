@@ -1,4 +1,6 @@
 import 'package:five_on_four_flutter_tdd/features/matches/data/dtos/match_remote/dto.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
+import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 
 abstract class MatchesRemoteDataSource {
   Future<List<MatchRemoteDTO>> getJoinedMatchesForPlayer(
@@ -14,4 +16,9 @@ abstract class MatchesRemoteDataSource {
   );
 
   Future<MatchRemoteDTO> getMatch(String matchId);
+
+  Future<String> createMatch({
+    required NewMatchValue matchData,
+    required PlayerModel currentPlayer,
+  });
 }
