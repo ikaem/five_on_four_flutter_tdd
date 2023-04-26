@@ -18,7 +18,7 @@ class AppRouter {
   //     widgetRef.watch(authStatusAppControllerProvider);
 
   late final GoRouter router = GoRouter(
-    refreshListenable: _authController,
+    // refreshListenable: _authController,
 
     // navigatorKey: rootNavigatorKey,
     // TODO not sure if this is needed at a ll
@@ -37,43 +37,51 @@ class AppRouter {
       // _matchCreateRoute,
     ],
     redirect: (context, state) {
-      // final bool isLoading = authStatus is AsyncLoading;
-      final bool isLoading = _authController.isLoading;
-      final bool isAuthenticated = _authController.isAuthenticated;
-      final bool isNotAuthenticated = !_authController.isAuthenticated;
-
-      // final bool isAuthenticated =
-      //     authStatus is AsyncData && authStatus.value != null;
-      // final bool isNotAuthenticated =
-      //     authStatus is AsyncData && authStatus.value == null;
-
-      if (isLoading) return AppRoutes.splashScreenPath;
-
-      if (isNotAuthenticated) {
-        // conver this to functiona for readability
-        switch (state.location) {
-          case AppRoutes.registerScreenPath:
-            return AppRoutes.registerScreenPath;
-
-          default:
-            return AppRoutes.loginScreenPath;
-        }
-      }
-
-      if (isAuthenticated) {
-        switch (state.location) {
-          case AppRoutes.loginScreenPath:
-          case AppRoutes.registerScreenPath:
-          case AppRoutes.splashScreenPath:
-            return AppRoutes.mainScreenPath;
-
-          default:
-            return state.location;
-        }
-      }
-
+      final authController = _authController;
       return null;
+
+      // TODO test
     },
+
+    // TODO test
+    // redirect: (context, state) {
+    //   // final bool isLoading = authStatus is AsyncLoading;
+    //   final bool isLoading = _authController.isLoading;
+    //   final bool isAuthenticated = _authController.isAuthenticated;
+    //   final bool isNotAuthenticated = !_authController.isAuthenticated;
+
+    //   // final bool isAuthenticated =
+    //   //     authStatus is AsyncData && authStatus.value != null;
+    //   // final bool isNotAuthenticated =
+    //   //     authStatus is AsyncData && authStatus.value == null;
+
+    //   if (isLoading) return AppRoutes.splashScreenPath;
+
+    //   if (isNotAuthenticated) {
+    //     // conver this to functiona for readability
+    //     switch (state.location) {
+    //       case AppRoutes.registerScreenPath:
+    //         return AppRoutes.registerScreenPath;
+
+    //       default:
+    //         return AppRoutes.loginScreenPath;
+    //     }
+    //   }
+
+    //   if (isAuthenticated) {
+    //     switch (state.location) {
+    //       case AppRoutes.loginScreenPath:
+    //       case AppRoutes.registerScreenPath:
+    //       case AppRoutes.splashScreenPath:
+    //         return AppRoutes.mainScreenPath;
+
+    //       default:
+    //         return state.location;
+    //     }
+    //   }
+
+    //   return null;
+    // },
 //     redirect: (context, state) {
 //       final bool isAuthenticated = authStatus is Auth
 //       final bool isLoading = _authController.isLoading;

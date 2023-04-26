@@ -108,6 +108,7 @@ abstract class AppRoutes {
     name: AppRoutes.matchInfoScreenRouteValue.name,
     // TODO check if page builder will make .go naivgation actuvate back otpion on screen
     builder: (context, state) {
+      // TODO test
       final String? matchId = state.params["id"];
       if (matchId == null) {
         return ErrorScreen(

@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:five_on_four_flutter_tdd/features/core/utils/mixins/validation.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/providers/provider.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participant_invitation/value.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/match_create/controller.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/utils/mixins/match_create_validation_mixin.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +17,8 @@ part "provider.g.dart";
 class MatchCreateAppController extends _$MatchCreateAppController
     with ValidationMixin, MatchCreateValidationMixin
     implements MatchCreateController {
+  late final MatchesService _matchesService = ref.read(matchesServiceProvider);
+
   @override
   Stream<String> get matchNameValidationStream =>
       _matchNameStream.transform(genericTextValidationTransformer);
@@ -56,27 +61,6 @@ class MatchCreateAppController extends _$MatchCreateAppController
           _timeStream,
         ],
         (values) {
-          // TODO not sure if i should access subject directly here
-          // TODO do orNull here
-          // final String matchName = _matchNameSubject.value;
-          // final String locationName = _locationNameSubject.value;
-          // final String locationAddress = _locationAddressSubject.value;
-          // final String locationCity = _locationCitySubject.value;
-          // final String locationCountry = _locationCountrySubject.value;
-          // final DateTime? date = _dateSubject.value;
-          // final TimeOfDay? time = _timeSubject.value;
-
-          // final MatchCreateInputsValidationValue validationValue =
-          //     validateInputs(
-          //   matchNameValue: matchName,
-          //   locationNameValue: locationName,
-          //   locationAddressValue: locationAddress,
-          //   locationCityValue: locationCity,
-          //   locationCountryValue: locationCountry,
-          //   dateValue: date,
-          //   timeValue: time,
-          // );
-
           final String? matchName = _matchNameSubject.valueOrNull;
           final String? locationName = _locationNameSubject.valueOrNull;
           final String? locationAddress = _locationAddressSubject.valueOrNull;
@@ -100,12 +84,6 @@ class MatchCreateAppController extends _$MatchCreateAppController
         },
       );
 
-  // @override
-  // void onChangeParticipantInvitations(
-  //     List<MatchParticipantInvitationValue> value) {
-  //   _participantInvitationsSink.add(value);
-  // }
-
   @override
   void onAddParticipantInvitation(
     MatchParticipantInvitationValue invitation,
@@ -117,7 +95,6 @@ class MatchCreateAppController extends _$MatchCreateAppController
         .any((element) => element.playerId == invitation.playerId);
     if (isInvitationPresent) return;
 
-    // currentInvitations.add(invitation);
     final List<MatchParticipantInvitationValue> updatedInvitations = [
       ...currentInvitations,
       invitation,
@@ -142,10 +119,6 @@ class MatchCreateAppController extends _$MatchCreateAppController
   @override
   void onChangeMatchName(String value) {
     _matchNameSink.add(value);
-
-    // TODO test something
-    final me = "";
-    //
   }
 
   @override
@@ -201,6 +174,32 @@ class MatchCreateAppController extends _$MatchCreateAppController
     }
 
     // TODO now we create match data
+
+    final NewMatchValue matchData = NewMatchValue(
+      matchName: _matchNameSubject.value,
+      locationName: _locationNameSubject.value,
+      locationAddress: _locationAddressSubject.value,
+      locationCity: _locationCitySubject.value,
+      locationCountry: _locationCountrySubject.value,
+      date: _dateSubject.value!,
+      time: _timeSubject.value!,
+      isOrganizerJoined: _joinMatchSubject.value,
+      invitedPlayers: _participantInvitationsSubject.value,
+    );
+
+    state = AsyncValue.loading();
+
+    try {
+      final String id = await _matchesService.createMatch(matchData);
+
+      state = AsyncValue.data(id);
+    } catch (e) {
+      // avoid guard because cannot debug errors easily
+
+      state = AsyncValue.error(e, StackTrace.current);
+    }
+
+    // TODO test
   }
 
   // TODO move this below
@@ -226,7 +225,8 @@ class MatchCreateAppController extends _$MatchCreateAppController
   }
 
   @override
-  AsyncValue<void> build() {
+  AsyncValue<String> build() {
+    // TODO note that this does not need to return actual value - but because of it, state value will always be nullable
     return AsyncValue.loading();
   }
 

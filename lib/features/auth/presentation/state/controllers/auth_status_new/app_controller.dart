@@ -38,7 +38,8 @@ class AuthStatusNewAppController extends ChangeNotifier
     super.dispose();
   }
 
-  Future<AuthModel?> _initializeController() async {
+  Future<void> _initializeController() async {
+    await Future.delayed(Duration(seconds: 2));
     _checkAuth();
 
     _authStatusStreamSubscription = authService.authStatusStream.listen((auth) {
@@ -48,7 +49,6 @@ class AuthStatusNewAppController extends ChangeNotifier
       _auth = auth;
       notifyListeners();
     });
-    return null;
   }
 
   Future<void> _checkAuth() async {

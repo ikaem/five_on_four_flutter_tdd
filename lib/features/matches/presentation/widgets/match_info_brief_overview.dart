@@ -31,10 +31,13 @@ class MatchInfoBriefOverview extends StatelessWidget {
       onTap: () {
         print("tapped on the stuff");
         // TODO using push named, because path has that :d in it- try to normalize that somehow
-        context.pushNamed(AppRoutes.matchInfoScreenRouteValue.name, params: {
-          // TODO should use this id as constnats somewhere
-          AppConstants.idKey: match.id,
-        });
+        context.pushNamed(
+          AppRoutes.matchInfoScreenRouteValue.name,
+          params: {
+            // TODO should use this id as constnats somewhere
+            AppConstants.idKey: match.id,
+          },
+        );
       },
       child: Container(
         decoration: BoxDecoration(
