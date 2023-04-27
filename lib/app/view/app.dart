@@ -1,5 +1,6 @@
 import 'package:five_on_four_flutter_tdd/features/auth/presentation/state/controllers/auth_status_new/app_controller.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/presentation/state/controllers/auth_status_new/providers/provider.dart';
+import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/initial_data/providers/app_controller/provider.dart';
 import 'package:five_on_four_flutter_tdd/routing/app_router.dart';
 
 import 'package:five_on_four_flutter_tdd/l10n/l10n.dart';
@@ -20,10 +21,13 @@ class _AppState extends ConsumerState<App> {
 
   late final AuthStatusNewAppController authContoller =
       ref.read(authStatusNewAppControllerProvider);
+  late final InitialDataAppController initialDataAppController =
+      ref.read(initialDataAppControllerProvider.notifier);
 
   late final AppRouter appRouter = AppRouter(
     // authStatus: authStatus,
     authController: authContoller,
+    onPopToHomeScreen: initialDataAppController.onLoadInitialData,
     // widgetRef: ref,
   );
 

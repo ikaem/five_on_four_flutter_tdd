@@ -1,15 +1,21 @@
 import 'package:five_on_four_flutter_tdd/features/auth/presentation/state/controllers/auth_status_new/controller.dart';
 import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
+import 'package:five_on_four_flutter_tdd/routing/route_observers/home_screen_route_observer.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
   AppRouter({
     required AuthStatusNewController authController,
+    required VoidCallback onPopToHomeScreen,
+
     // required this.authStatus,
     // required this.widgetRef,
-  }) : _authController = authController;
+  })  : _authController = authController,
+        _onPopToHomeScreen = onPopToHomeScreen;
   // }) : authStatus = authStatus;
   final AuthStatusNewController _authController;
+  final VoidCallback _onPopToHomeScreen;
 
   // final WidgetRef widgetRef;
 
@@ -23,6 +29,9 @@ class AppRouter {
     // navigatorKey: rootNavigatorKey,
     // TODO not sure if this is needed at a ll
     initialLocation: AppRoutes.splashScreenRouteValue.path,
+    observers: [
+      _homeScreenRouteObserver,
+    ],
     routes: [
       // _shellRoute,
       AppRoutes.splashRoute,
@@ -84,6 +93,7 @@ class AppRouter {
 
       return null;
     },
+
 //     redirect: (context, state) {
 //       final bool isAuthenticated = authStatus is Auth
 //       final bool isLoading = _authController.isLoading;
@@ -206,4 +216,11 @@ class AppRouter {
   //     return const MatchCreateScreen();
   //   },
   // );
+
+  // TODO test
+  // TOOD this could be a class that just holds instances of these observers
+  late final HomeScreenRouteObserver _homeScreenRouteObserver =
+      HomeScreenRouteObserver(
+    onPopToHomeScreen: _onPopToHomeScreen,
+  );
 }

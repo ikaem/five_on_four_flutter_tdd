@@ -8,19 +8,71 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 // class HomeScreen extends ConsumerWidget {
-class HomeScreen extends ConsumerWidget {
+// class HomeScreen extends ConsumerWidget {
+//   const HomeScreen({super.key});
+
+//   @override
+//   // Widget build(BuildContext context, WidgetRef ref) {
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final AsyncValue<InitialDataValue?> initialData =
+//         ref.watch(initialDataAppControllerProvider);
+
+//     final InitialDataValue initialDataValue = initialData.value!;
+//     // final initialDataValue = controller.state.value!;
+
+//     return Scaffold(
+//       key: const Key(WidgetKeysConstants.homeScreenScaffoldKey),
+
+//       // TODO create CustomAppBar and call it FiveOn4AppBar
+//       appBar: AppBar(
+//         title: Text("Karlo's Matches"),
+//       ),
+//       floatingActionButton: FloatingActionButton(
+//         child: Icon(
+//           Icons.sports_soccer,
+//         ),
+//         onPressed: () {
+//           // TODO this renders this widget again - calls build method on each click
+//           context.pushNamed(
+//             AppRoutes.matchCreateScreenRouteValue.name,
+//           );
+//           // context.goNamed(
+//           //   AppRoutes.matchCreateScreenRouteValue.name,
+//           // );
+//           // TODO this does not render this widget again - it does not call build method on each click
+//           // Navigator.of(context).push(MaterialPageRoute(
+//           //   builder: (context) => MatchCreateScreen(),
+//           // ));
+//         },
+//       ),
+//       // TODO make a view out of this
+//       body: HomeScreenInitialDataContent(
+//         initialData: initialDataValue,
+//       ),
+//     );
+//   }
+// }
+
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  // Widget build(BuildContext context, WidgetRef ref) {
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.read(initialDataAppControllerProvider.notifier)..onLoadInitialData();
+  ConsumerState<ConsumerStatefulWidget> createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _initializeScreen();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final AsyncValue<InitialDataValue?> initialData =
         ref.watch(initialDataAppControllerProvider);
 
-    final InitialDataValue initialDataValue = initialData.value!;
-    // final initialDataValue = controller.state.value!;
+    final AsyncValue<InitialDataValue?> initialDataValue = initialData;
 
     return Scaffold(
       key: const Key(WidgetKeysConstants.homeScreenScaffoldKey),
@@ -38,38 +90,34 @@ class HomeScreen extends ConsumerWidget {
           context.pushNamed(
             AppRoutes.matchCreateScreenRouteValue.name,
           );
-          // context.goNamed(
-          //   AppRoutes.matchCreateScreenRouteValue.name,
-          // );
-          // TODO this does not render this widget again - it does not call build method on each click
-          // Navigator.of(context).push(MaterialPageRoute(
-          //   builder: (context) => MatchCreateScreen(),
-          // ));
         },
       ),
-      // TODO make a view out of this
-      body: HomeScreenInitialDataContent(
-        initialData: initialDataValue,
+      body: initialDataValue.when(
+        error: (error, stackTrace) {
+          return Center(
+            child: Text("There was an error fetching initial data"),
+          );
+        },
+        loading: () {
+          return Center(child: CircularProgressIndicator());
+        },
+        // TODO make view for this too
+        data: (data) => HomeScreenInitialDataContent(
+          initialData: data!,
+        ),
       ),
+
+      // TODO make a view out of this
+      // body: HomeScreenInitialDataContent(
+      //   initialData: initialDataValue,
+      // ),
     );
   }
-}
 
+  Future<void> _initializeScreen() async {
+    final InitialDataAppController initialDataAppController =
+        ref.read(initialDataAppControllerProvider.notifier);
 
-class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({super.key});
-
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends ConsumerState<HomeScreen> {
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
+    await initialDataAppController.onLoadInitialData();
   }
-
-
-  Future<void>
 }

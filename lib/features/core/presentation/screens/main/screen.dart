@@ -13,6 +13,8 @@ class MainScreen extends ConsumerStatefulWidget {
     super.key,
   });
 
+  // TODO this screen is not needed
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _MainScreenState();
 }
