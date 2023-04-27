@@ -1,33 +1,29 @@
-import 'package:five_on_four_flutter_tdd/features/auth/presentation/state/controllers/auth_status_new/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/constants/widget_keys_constants.dart';
-import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SplashScreen extends ConsumerStatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SplashScreenState();
-}
+//   @override
+//   ConsumerState<ConsumerStatefulWidget> createState() => _SplashScreenState();
+// }
 
-class _SplashScreenState extends ConsumerState<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    final value = ref.read(authStatusNewAppControllerProvider);
+// class _SplashScreenState extends ConsumerState<SplashScreen> {
+//   @override
+//   void initState() {
+//     super.initState();
+//     final value = ref.read(authStatusNewAppControllerProvider);
 
-    value.addListener(() {
-      final newValue = value;
+//     value.addListener(() {
+//       final newValue = value;
 
-      if (newValue.isAuthenticated) {
-        context.go(AppRoutes.homeScreenPath);
-      }
+//       if (newValue.isAuthenticated) {
+//         context.go(AppRoutes.homeScreenPath);
+//       }
 
-      // TODO test
-    });
-  }
+//       // TODO test
+//     });
+//   }
 
   @override
   Widget build(BuildContext context) {

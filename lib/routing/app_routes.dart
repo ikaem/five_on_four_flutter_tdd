@@ -54,6 +54,7 @@ abstract class AppRoutes {
         name: 'MatchInfo',
       );
 
+// TODO actally unable to reach error
   static AppRouteValue get errorScreenRouteValue => const AppRouteValue(
         path: '$errorScreenPath',
         name: 'Error',
