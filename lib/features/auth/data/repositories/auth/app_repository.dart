@@ -15,11 +15,6 @@ class AuthAppRepository implements AuthRepository {
 
   @override
   Future<AuthModel?> checkAuth() async {
-    // return some fake auth for now
-
-    // this will check local data source eventually
-    // await Future<void>.delayed(Duration(milliseconds: 200));
-
     final AuthLocalDTO? localDTO = await localDataSource.getAuth();
     if (localDTO == null) return null;
 

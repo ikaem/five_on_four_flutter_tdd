@@ -16,13 +16,12 @@ class HomeScreenInitialDataContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO we could make a layout out of this padding, so we have same padding everywhere in the app
+    // TODO we could make a layout out of this padding, to be reused
     return Padding(
       padding: EdgeInsets.all(SpacingConstants.small),
       child: DefaultTabController(
         length: 3,
         child: Column(
-          // TODO not sure if this is needed
           mainAxisSize: MainAxisSize.min,
           children: [
             TabBar(
@@ -65,45 +64,12 @@ class HomeScreenInitialDataContent extends StatelessWidget {
           ],
         ),
       ),
-      //   child: Column(
-      //     children: [
-      //       PlayerBriefOverview(),
-      //       SizedBox(
-      //         height: SpacingConstants.xxLarge,
-      //       ),
-      //       Expanded(
-      //         child: CustomScrollView(
-      //           slivers: [
-      //             SliverToBoxAdapter(
-      //               child: MatchInfoBriefOverview(
-      //                 matchInfo: initialData.nextMatch,
-      //               ),
-      //             ),
-      //             SliverToBoxAdapter(
-      //               child: SizedBox(
-      //                 height: SpacingConstants.xxLarge,
-      //               ),
-      //             ),
-      //             SliverFillRemaining(
-      //               child: MatchesBriefsListsTabbedOverview(
-      //                 matchesListsMap: _initialDataToMatchesListsMap(
-      //                   initialData,
-      //                 ),
-      //               ),
-      //             )
-      //           ],
-      //         ),
-      //       ),
-      //     ],
-      //   ),
     );
   }
 
   Map<String, List<MatchModel>> _initialDataToMatchesListsMap(
     InitialDataValue initialDataValue,
   ) {
-// here, i actually just need to loop over data
-
     final List<MatchModel> upcomingMatches = initialData.joinedMatches;
     final List<MatchModel> invitedMatches = initialData.invitedMatches;
 

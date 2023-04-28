@@ -22,9 +22,6 @@ class AuthAppService implements AuthService {
   Future<void> checkAuth() async {
     final auth = await authRepository.checkAuth();
 
-    // TODO
-    print("WE ARE CHECKING INITIAL AUTH: $auth");
-
     authStatusRepository.setAuth(auth);
   }
 

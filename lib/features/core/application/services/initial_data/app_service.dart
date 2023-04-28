@@ -7,8 +7,6 @@ import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match_in
 import 'package:five_on_four_flutter_tdd/features/matches/domain/repositories_interfaces/matches_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/domain/models/weather/model.dart';
 
-// lib/core/application/services/initial_data/service.dart
-
 class InitialDataAppService implements InitialDataService {
   InitialDataAppService({
     required this.matchesRepository,
@@ -17,16 +15,10 @@ class InitialDataAppService implements InitialDataService {
 
   final MatchesRepository matchesRepository;
   final AuthStatusRepository authStatusRepository;
-  // TODO add and use weather feature for getting weather later
 
   Future<List<MatchModel>> getCurrentPlayerInvitedMatches() async {
-    // TODO this could probably be exposed as just a value from the subject, so no need to await
     final AuthModel? authModel = await authStatusRepository.getAuthStatus();
-    // if we dont get auth, we set it to null. but it is null already anyhow
     if (authModel == null) {
-      // TODO dont do this - it is already null
-      // authStatusRepository.setAuth(null);
-
       throw AuthExceptionUnauthorized(
           message: "There is no player currently signed in");
     }
@@ -40,10 +32,7 @@ class InitialDataAppService implements InitialDataService {
 
   Future<List<MatchModel>> getCurrentPlayerJoinedMatches() async {
     final AuthModel? authModel = await authStatusRepository.getAuthStatus();
-    // if we dont get auth, we wi
     if (authModel == null) {
-      // authStatusRepository.setAuth(null);
-
       throw AuthExceptionUnauthorized(
           message: "There is no player currently signed in");
     }
@@ -56,10 +45,7 @@ class InitialDataAppService implements InitialDataService {
 
   Future<MatchInfoModel> getCurrentPlayerNextMatch() async {
     final AuthModel? authModel = await authStatusRepository.getAuthStatus();
-    // if we dont get auth, we wi
     if (authModel == null) {
-      // authStatusRepository.setAuth(null);
-
       throw AuthExceptionUnauthorized(
           message: "There is no player currently signed in");
     }

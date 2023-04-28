@@ -16,46 +16,10 @@ class InitialDataAppController extends _$InitialDataAppController
 
   @override
   AsyncValue<InitialDataValue?> build() {
-    // Future<InitialDataValue?> build() async {
-    // return null;
-
-    // return AsyncValue.data(null);
     return AsyncValue.loading();
   }
 
   Future<void> onLoadInitialData() async {
-    // state = const AsyncValue.loading();
-
-    print("IS THIS PRINTED!!!!!!!!");
-
-// TODO debugging is dumb this way
-    // state = await AsyncValue.guard(() async {
-    //   final Future<List<MatchModel>> invitedMatchesFuture =
-    //       initialDataService.getCurrentPlayerInvitedMatches();
-    //   final Future<List<MatchModel>> joinedMatchesFuture =
-    //       initialDataService.getCurrentPlayerJoinedMatches();
-    //   final Future<MatchInfoModel> nextMatchFuture =
-    //       initialDataService.getCurrentPlayerNextMatch();
-
-    //   final List<Object> responses = await Future.wait([
-    //     invitedMatchesFuture,
-    //     joinedMatchesFuture,
-    //     nextMatchFuture,
-    //   ]);
-
-    //   final List<MatchModel> invitedMatches = responses[0] as List<MatchModel>;
-    //   final List<MatchModel> joinedMatches = responses[1] as List<MatchModel>;
-    //   final MatchInfoModel nextMatch = responses[2] as MatchInfoModel;
-
-    //   final InitialDataValue initialDataValue = InitialDataValue(
-    //     invitedMatches: invitedMatches,
-    //     joinedMatches: joinedMatches,
-    //     nextMatch: nextMatch,
-    //   );
-
-    //   return initialDataValue;
-    // });
-
     try {
       final Future<List<MatchModel>> invitedMatchesFuture =
           initialDataService.getCurrentPlayerInvitedMatches();
@@ -80,11 +44,8 @@ class InitialDataAppController extends _$InitialDataAppController
         nextMatch: nextMatch,
       );
 
-      // state = ini
-
       state = AsyncValue.data(initialDataValue);
     } catch (e) {
-      // TODO test
       state = AsyncValue.error(e, StackTrace.current);
     }
   }

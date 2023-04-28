@@ -10,9 +10,7 @@ class StreamedTextField extends StatelessWidget {
     required this.labelText,
   });
 
-// TODO not sure if we need the controller
   final TextEditingController fieldController;
-  // TODO not sure if this should always be a String - it probably should
   final Stream<String?> stream;
   final ValueSetter<String> onChanged;
   final String labelText;
@@ -26,7 +24,6 @@ class StreamedTextField extends StatelessWidget {
         return TextField(
           controller: fieldController,
           onChanged: (value) {
-            // TODO test
             onChanged(value);
           },
           decoration: InputDecoration(

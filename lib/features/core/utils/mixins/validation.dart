@@ -14,14 +14,9 @@ mixin ValidationMixin {
   ) =>
       validator(fieldValue);
 
-  // helpers below - could be just functions here
-
   bool checkIsCountryCodeCorrect(String? value) {
-    // TODO test - we can also check if this country code actually exists
-
     if (value?.length != 2) return false;
 
-    // TODO now check if the code exists somewhere maybe in some list
     return true;
   }
 

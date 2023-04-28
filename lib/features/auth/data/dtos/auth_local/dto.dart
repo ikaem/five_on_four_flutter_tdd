@@ -9,7 +9,6 @@ class AuthLocalDTO with _$AuthLocalDTO {
     required String id,
     required String nickname,
     required String email,
-    // TODO this is not needed - or maybe is
     required int loggedInAt,
   }) = _AuthLocalDTO;
 }

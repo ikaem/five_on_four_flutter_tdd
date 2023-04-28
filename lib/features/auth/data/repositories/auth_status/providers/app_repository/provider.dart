@@ -4,7 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part "provider.g.dart";
 
-// TODO if parent is kept alive, maybe no need to keep all alive
 @Riverpod(keepAlive: true)
 AuthStatusRepository authStatusRepository(AuthStatusRepositoryRef ref) {
   final AuthStatusRepository authStatusRepository = AuthStatusAppRepository();

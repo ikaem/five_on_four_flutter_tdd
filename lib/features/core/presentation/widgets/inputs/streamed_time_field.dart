@@ -14,9 +14,7 @@ class StreamedTimeField extends StatelessWidget {
     required this.labelText,
   });
 
-// TODO not sure if we need the controller
   final TextEditingController fieldController;
-  // TODO not sure if this should always be a String - it probably should
   final Stream<TimeOfDay?> stream;
   final ValueSetter<TimeOfDay?> onChanged;
   final String labelText;
@@ -56,18 +54,6 @@ class StreamedTimeField extends StatelessWidget {
 
             final DateTime picketTimeWithTodayDate =
                 pickedTime.nowWithTodayDate;
-
-            // TODO COME BACK TO THIS
-            // final TimeOfDay nowDate = TimeOfDay.now();
-            // final DateTime nowWithTodayDate =
-            //     nowDate.nowWithTodayDate.add(Duration(minutes: -1));
-
-            // if (!picketTimeWithTodayDate.isAfter(nowWithTodayDate)) {
-            //   onChanged(null);
-            //   fieldController.text = "";
-
-            //   return;
-            // }
 
             final String formattedTime =
                 DateFormat("h:mm a").format(picketTimeWithTodayDate);

@@ -11,13 +11,4 @@ class InitialDataValue with _$InitialDataValue {
     required List<MatchModel> joinedMatches,
     required MatchInfoModel nextMatch,
   }) = _InitialDataValue;
-
-// TODO this is not needed
-  // factory InitialDataValue.empty() {
-  //   return InitialDataValue(
-  //     invitedMatches: null,
-  //     joinedMatches: null,
-  //     nextMatch: null,
-  //   );
-  // }
 }

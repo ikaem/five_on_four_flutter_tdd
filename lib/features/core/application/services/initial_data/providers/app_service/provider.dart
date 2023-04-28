@@ -8,7 +8,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part "provider.g.dart";
 
-// TODO recheck if all of these are needed everywhere to keep alive
 @Riverpod(keepAlive: true)
 InitialDataService initialDataService(InitialDataServiceRef ref) {
   final MatchesRepository matchesRepository =

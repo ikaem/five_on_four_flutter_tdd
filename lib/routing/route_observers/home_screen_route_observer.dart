@@ -7,8 +7,6 @@ class HomeScreenRouteObserver extends NavigatorObserver {
   });
 
   final VoidCallback onPopToHomeScreen;
-
-// TOOD this will need to be implemented in tests too
   @override
   void didPop(
     Route<dynamic> previousRoute,
@@ -17,7 +15,6 @@ class HomeScreenRouteObserver extends NavigatorObserver {
     final bool isCurrentRouteHomeScreen =
         currentRoute?.settings.name == AppRoutes.homeScreenRouteValue.name;
     if (isCurrentRouteHomeScreen) {
-// TODO not sure about await
       onPopToHomeScreen();
     }
     ;

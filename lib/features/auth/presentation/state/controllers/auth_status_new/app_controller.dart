@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:five_on_four_flutter_tdd/features/auth/application/services/auth/providers/app_service/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/application/services/auth/service.dart';
@@ -8,7 +7,6 @@ import 'package:five_on_four_flutter_tdd/features/auth/presentation/state/contro
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// TODO replace new
 class AuthStatusNewAppController extends ChangeNotifier
     implements AuthStatusNewController {
   AuthStatusNewAppController({
@@ -31,7 +29,6 @@ class AuthStatusNewAppController extends ChangeNotifier
   AuthModel? get auth => _auth;
   bool get isLoading => _isLoading;
 
-  //  TODO does anything call this dispose thing
   @override
   void dispose() {
     _authStatusStreamSubscription.cancel();
@@ -39,12 +36,9 @@ class AuthStatusNewAppController extends ChangeNotifier
   }
 
   Future<void> _initializeController() async {
-    // await Future.delayed(Duration(seconds: 2));
     _checkAuth();
 
     _authStatusStreamSubscription = authService.authStatusStream.listen((auth) {
-      // TODO new event
-      log("thjis is new event again: $auth");
       _isLoading = false;
       _auth = auth;
       notifyListeners();
