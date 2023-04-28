@@ -1,4 +1,4 @@
-import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participant_invitation/value.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:flutter/material.dart';
 
 @immutable
@@ -27,7 +27,7 @@ class NewMatchValue {
   // TODO for this one, we should later set its status to confirmed, or joined or something
   final bool isOrganizerJoined;
   // TODO this will need to be added separatedly to firebase - this is a subcollection
-  final List<MatchParticipantInvitationValue> invitedPlayers;
+  final List<MatchParticipationValue> invitedPlayers;
 
   // TODO
 }

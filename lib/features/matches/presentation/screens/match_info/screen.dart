@@ -21,8 +21,20 @@ class MatchInfoScreen extends ConsumerWidget {
       matchId,
     ));
 
-    return MatchInfoScreenView(
-      matchInfoState: matchInfoState,
+    return matchInfoState.when(
+      loading: () => Center(child: CircularProgressIndicator()),
+      error: (error, stackTrace) {
+        return Center(
+          child: Text("There was an error retrieving the match"),
+        );
+      },
+      data: (data) {
+        if (data == null) return SizedBox.shrink();
+
+        return MatchInfoScreenView(
+          matchInfo: data,
+        );
+      },
     );
   }
 }

@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 
 // TODO use freezed for this
 @immutable
-class MatchParticipantInvitationValue {
-  const MatchParticipantInvitationValue({
+class MatchParticipationValue {
+  const MatchParticipationValue({
     required this.playerId,
     required this.nickname,
   });
 
   // TODO should this be a model isntead?
-  factory MatchParticipantInvitationValue.fromPlayerModel(PlayerModel player) {
-    final MatchParticipantInvitationValue value =
-        MatchParticipantInvitationValue(
+  // TOOD rename this to MatchParticipationValue, to be reused for invitaitons and joining
+  factory MatchParticipationValue.fromPlayerModel(PlayerModel player) {
+    final MatchParticipationValue value = MatchParticipationValue(
       playerId: player.id,
       nickname: player.nickname,
     );

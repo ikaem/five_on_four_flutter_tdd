@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participant_invitation/value.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'dto.freezed.dart';
@@ -19,7 +19,7 @@ class MatchParticipantRemoteDTO with _$MatchParticipantRemoteDTO {
 
   // TODO only needed for dev
   factory MatchParticipantRemoteDTO.fromMatchParticipantInvitationValue({
-    required MatchParticipantInvitationValue invitationValue,
+    required MatchParticipationValue invitationValue,
     required String matchId,
     // TODO make status an enum
     required String status,

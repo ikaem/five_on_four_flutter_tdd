@@ -1,4 +1,4 @@
-import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participant_invitation/value.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_create/players_invite_inputs.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/constants.dart';
@@ -13,7 +13,7 @@ class MatchParticipantInvitationCard extends StatelessWidget {
   });
 
 // TODO not sure if i should have a brief model here
-  final MatchParticipantInvitationValue invitation;
+  final MatchParticipationValue invitation;
   final ValueSetter<String> onTapInfo;
   final OnTapParticipantInvitation onTapRemove;
 

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:five_on_four_flutter_tdd/features/core/utils/mixins/validation.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service.dart';
-import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participant_invitation/value.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/match_create/controller.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/utils/mixins/match_create_validation_mixin.dart';
@@ -46,8 +46,8 @@ class MatchCreateAppController extends _$MatchCreateAppController
 
   // TODO there is no need to validate match participants
   @override
-  Stream<List<MatchParticipantInvitationValue>>
-      get participantInvitationsStream => _participantInvitationsStream;
+  Stream<List<MatchParticipationValue>> get participantInvitationsStream =>
+      _participantInvitationsStream;
 
   @override
   Stream<bool> get inputsValidationStream => Rx.combineLatest(
@@ -86,16 +86,16 @@ class MatchCreateAppController extends _$MatchCreateAppController
 
   @override
   void onAddParticipantInvitation(
-    MatchParticipantInvitationValue invitation,
+    MatchParticipationValue invitation,
   ) {
-    final List<MatchParticipantInvitationValue> currentInvitations =
+    final List<MatchParticipationValue> currentInvitations =
         _participantInvitationsSubject.value;
 
     final bool isInvitationPresent = currentInvitations
         .any((element) => element.playerId == invitation.playerId);
     if (isInvitationPresent) return;
 
-    final List<MatchParticipantInvitationValue> updatedInvitations = [
+    final List<MatchParticipationValue> updatedInvitations = [
       ...currentInvitations,
       invitation,
     ];
@@ -105,9 +105,9 @@ class MatchCreateAppController extends _$MatchCreateAppController
 
   @override
   void onRemoveParticipantInvitation(
-    MatchParticipantInvitationValue invitation,
+    MatchParticipationValue invitation,
   ) {
-    final List<MatchParticipantInvitationValue> currentInvitations = [
+    final List<MatchParticipationValue> currentInvitations = [
       ..._participantInvitationsSubject.value
     ];
     currentInvitations
@@ -226,6 +226,12 @@ class MatchCreateAppController extends _$MatchCreateAppController
 
   @override
   AsyncValue<String> build() {
+    // TODO not sure if this is ok
+    // if build is called whenever depencency of this is cahnged (rf watch, for isntsance), will this register again? lets see
+    ref.onDispose(() {
+      dispose();
+    });
+
     // TODO note that this does not need to return actual value - but because of it, state value will always be nullable
     return AsyncValue.loading();
   }
@@ -255,7 +261,7 @@ class MatchCreateAppController extends _$MatchCreateAppController
   final BehaviorSubject<bool> _joinMatchSubject = BehaviorSubject.seeded(false);
 
   // TODO test
-  final BehaviorSubject<List<MatchParticipantInvitationValue>>
+  final BehaviorSubject<List<MatchParticipationValue>>
       _participantInvitationsSubject = BehaviorSubject.seeded(invitations);
 
   StreamSink<String> get _matchNameSink => _matchNameSubject.sink;
@@ -268,8 +274,8 @@ class MatchCreateAppController extends _$MatchCreateAppController
   StreamSink<bool> get _joinMatchSink => _joinMatchSubject.sink;
 
   // TODO test
-  StreamSink<List<MatchParticipantInvitationValue>>
-      get _participantInvitationsSink => _participantInvitationsSubject.sink;
+  StreamSink<List<MatchParticipationValue>> get _participantInvitationsSink =>
+      _participantInvitationsSubject.sink;
 
   Stream<String> get _matchNameStream => _matchNameSubject.distinct();
   Stream<String> get _locationNameStream => _locationNameSubject.distinct();
@@ -284,14 +290,13 @@ class MatchCreateAppController extends _$MatchCreateAppController
 
   // TODO test
   // TODO for distinct to work properly, we have to use freezed, or override equality operator for this
-  Stream<List<MatchParticipantInvitationValue>>
-      get _participantInvitationsStream =>
-          _participantInvitationsSubject.distinct();
+  Stream<List<MatchParticipationValue>> get _participantInvitationsStream =>
+      _participantInvitationsSubject.distinct();
 }
 
 // TODO test  - remove this later
-List<MatchParticipantInvitationValue> invitations = List.generate(
+List<MatchParticipationValue> invitations = List.generate(
   5,
-  (index) => MatchParticipantInvitationValue(
+  (index) => MatchParticipationValue(
       playerId: (index + 1).toString(), nickname: "Nickname ${index + 1}"),
 );

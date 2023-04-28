@@ -4,4 +4,5 @@ import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_matc
 abstract class MatchesService {
   Future<MatchInfoModel> getMatchInfo(String matchId);
   Future<String> createMatch(NewMatchValue matchData);
+  Future<void> joinMatch(String matchId);
 }

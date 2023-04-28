@@ -1,4 +1,4 @@
-import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participant_invitation/value.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_create/players_invite_inputs.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:five_on_four_flutter_tdd/features/players/presentation/state/controllers/players_search/providers/provider.dart';
@@ -19,8 +19,7 @@ class MatchInviteParticipantsView extends ConsumerWidget {
   });
 
   // final AsyncValue<List<PlayerModel>> searchedPlayersValue;
-  final Stream<List<MatchParticipantInvitationValue>>
-      participantsInvitationsStream;
+  final Stream<List<MatchParticipationValue>> participantsInvitationsStream;
   final OnTapParticipantInvitation onTapRemoveInvitation;
   final OnTapParticipantInvitation onTapAddInvitation;
 
@@ -73,7 +72,7 @@ class MatchInviteParticipantsView extends ConsumerWidget {
                   bottom: SpacingConstants.medium,
                 ),
               ),
-              StreamBuilder<List<MatchParticipantInvitationValue>>(
+              StreamBuilder<List<MatchParticipationValue>>(
                   stream: participantsInvitationsStream,
                   // TODO extract builder
                   builder: (context, snapshot) {
@@ -84,8 +83,7 @@ class MatchInviteParticipantsView extends ConsumerWidget {
                         ),
                       );
 
-                    final List<MatchParticipantInvitationValue>? data =
-                        snapshot.data;
+                    final List<MatchParticipationValue>? data = snapshot.data;
                     if (data == null)
                       return SliverToBoxAdapter(child: SizedBox.shrink());
 
@@ -100,8 +98,7 @@ class MatchInviteParticipantsView extends ConsumerWidget {
                         // crossAxisSpacing: ,
                       ),
                       itemBuilder: (context, index) {
-                        final MatchParticipantInvitationValue invitation =
-                            data[index];
+                        final MatchParticipationValue invitation = data[index];
 
                         return Container(
                           width: 80,
@@ -200,8 +197,8 @@ class MatchInviteParticipantsView extends ConsumerWidget {
                               GestureDetector(
                                 onTap: () {
                                   onTapAddInvitation(
-                                    MatchParticipantInvitationValue
-                                        .fromPlayerModel(player),
+                                    MatchParticipationValue.fromPlayerModel(
+                                        player),
                                   );
                                 },
                                 child: Icon(

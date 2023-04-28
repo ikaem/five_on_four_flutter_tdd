@@ -2,7 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/data/data_sources/matches_remote/data_source.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/data/dtos/match_participant_remote/dto.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/data/dtos/match_remote/dto.dart';
-import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participant_invitation/value.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/exceptions/match_exceptions.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 
@@ -83,7 +84,7 @@ class MatchesRemoteFakeDataSource implements MatchesRemoteDataSource {
     final bool isOrganizerJoining = matchData.isOrganizerJoined;
     if (isOrganizerJoining)
       matchData.invitedPlayers.add(
-        MatchParticipantInvitationValue.fromPlayerModel(currentPlayer),
+        MatchParticipationValue.fromPlayerModel(currentPlayer),
       );
 
     final MatchRemoteDTO newMatch = MatchRemoteDTO.fromNewMatchValue(
@@ -94,6 +95,49 @@ class MatchesRemoteFakeDataSource implements MatchesRemoteDataSource {
     return matchId;
 
 // final String matchId =
+  }
+
+  @override
+  Future<void> joinMatch({
+    required String matchId,
+    required MatchParticipationValue matchParticipation,
+  }) async {
+    // TODO finfd the match
+    final MatchRemoteDTO? match = combinedMatches.firstWhereOrNull(
+      (match) => match.id == matchId,
+    );
+
+    // if match no exist
+    if (match == null)
+      throw MatchExceptionNotFoundRemote(message: "Match: $matchId");
+
+    // find the participant already
+    final MatchParticipantRemoteDTO? existingParticipant = match.participants
+        .firstWhereOrNull(
+            (element) => element.playerId == matchParticipation.playerId);
+
+    // if participant already joined
+    if (existingParticipant != null) {
+      throw MatchExceptionPlayerAlreadyJoined(
+          message: "Match: $matchId, player: ${matchParticipation.playerId}");
+    }
+
+    // join
+    final MatchParticipantRemoteDTO participant =
+        MatchParticipantRemoteDTO.fromMatchParticipantInvitationValue(
+      invitationValue: matchParticipation,
+      matchId: matchId,
+      // TODO this should be an enum
+      status: "confirmed",
+    );
+    match.participants.add(participant);
+
+// TODO how to replace
+    final int matchIndex = combinedMatches.indexWhere(
+      (match) => match.id == matchId,
+    );
+
+    combinedMatches[matchIndex] = match;
   }
 
   // TODO test

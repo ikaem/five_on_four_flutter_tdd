@@ -2,6 +2,7 @@ import 'package:five_on_four_flutter_tdd/features/matches/data/data_sources/matc
 import 'package:five_on_four_flutter_tdd/features/matches/data/dtos/match_remote/dto.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/repositories_interfaces/matches_repository.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
 
@@ -59,5 +60,16 @@ class MatchesAppRepository implements MatchesRepository {
     );
 
     return id;
+  }
+
+  @override
+  Future<void> joinMatch({
+    required String matchId,
+    required MatchParticipationValue matchParticipation,
+  }) async {
+    await remoteDataSource.joinMatch(
+      matchId: matchId,
+      matchParticipation: matchParticipation,
+    );
   }
 }

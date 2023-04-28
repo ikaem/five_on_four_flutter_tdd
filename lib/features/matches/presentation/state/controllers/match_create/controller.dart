@@ -1,4 +1,4 @@
-import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participant_invitation/value.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:flutter/material.dart';
 
 abstract class MatchCreateController {
@@ -13,8 +13,7 @@ abstract class MatchCreateController {
   Stream<TimeOfDay?> get timeValidationStream;
   Stream<bool> get joinMatchValidationStream;
   Stream<bool> get inputsValidationStream;
-  Stream<List<MatchParticipantInvitationValue>>
-      get participantInvitationsStream;
+  Stream<List<MatchParticipationValue>> get participantInvitationsStream;
 
 // input change handlers
   void onChangeMatchName(String value);
@@ -28,10 +27,10 @@ abstract class MatchCreateController {
   // void onChangeParticipantInvitations(
   //     List<MatchParticipantInvitationValue> value);
   void onRemoveParticipantInvitation(
-    MatchParticipantInvitationValue invitation,
+    MatchParticipationValue invitation,
   );
   void onAddParticipantInvitation(
-    MatchParticipantInvitationValue invitation,
+    MatchParticipationValue invitation,
   );
 
   // form submission

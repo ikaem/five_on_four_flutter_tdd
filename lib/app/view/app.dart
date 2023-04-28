@@ -18,8 +18,13 @@ class App extends ConsumerStatefulWidget {
 class _AppState extends ConsumerState<App> {
   late final AuthStatusNewAppController authContoller =
       ref.read(authStatusNewAppControllerProvider);
+
+  // TODO test only
+
   late final InitialDataAppController initialDataAppController =
       ref.read(initialDataAppControllerProvider.notifier);
+
+  // WHAT
 
   late final AppRouter appRouter = AppRouter(
     authController: authContoller,

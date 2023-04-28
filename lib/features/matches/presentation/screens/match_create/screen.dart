@@ -7,6 +7,8 @@ class MatchCreateScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // final value = ref.watch(matchJoinAppControllerProvider);
+
     return MatchCreateScreenView();
   }
 }

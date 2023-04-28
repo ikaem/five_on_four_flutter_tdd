@@ -1,5 +1,5 @@
 import 'package:five_on_four_flutter_tdd/features/core/utils/helpers/dialog_opener.dart';
-import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participant_invitation/value.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_create/participant_invitation_card.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_create/players_invite_view.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 
 // TODO test - typedefs can go here, sure
 typedef OnTapParticipantInvitation = void Function(
-  MatchParticipantInvitationValue invitation,
+  MatchParticipationValue invitation,
 );
 
 // TODO potentially, this should be called fifferently
@@ -25,8 +25,7 @@ class MatchCreatePlayersInviteInputs extends StatelessWidget {
 
   final TextStyle sectionLabelStyle;
 
-  final Stream<List<MatchParticipantInvitationValue>>
-      participantsInvitationsStream;
+  final Stream<List<MatchParticipationValue>> participantsInvitationsStream;
 
   final OnTapParticipantInvitation onAddParticipantInvitation;
   final OnTapParticipantInvitation onRemoveParticipantInvitation;
@@ -62,7 +61,7 @@ class MatchCreatePlayersInviteInputs extends StatelessWidget {
               ),
             ],
           ),
-          StreamBuilder<List<MatchParticipantInvitationValue>>(
+          StreamBuilder<List<MatchParticipationValue>>(
               stream: participantsInvitationsStream,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting)
@@ -70,8 +69,7 @@ class MatchCreatePlayersInviteInputs extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   );
 
-                final List<MatchParticipantInvitationValue>? data =
-                    snapshot.data;
+                final List<MatchParticipationValue>? data = snapshot.data;
                 if (data == null) return SizedBox.shrink();
 
                 return ListView.separated(
@@ -83,8 +81,7 @@ class MatchCreatePlayersInviteInputs extends StatelessWidget {
                     height: SpacingConstants.medium,
                   ),
                   itemBuilder: (context, index) {
-                    final MatchParticipantInvitationValue invitation =
-                        data[index];
+                    final MatchParticipationValue invitation = data[index];
 
                     return MatchParticipantInvitationCard(
                       // TODO using key because there might be removal of invitations
@@ -104,7 +101,7 @@ class MatchCreatePlayersInviteInputs extends StatelessWidget {
   // TODO this will be calling a dialog functions defined elsewhere
   Future<void> Function() _onOpenInvitationDialog({
     required BuildContext context,
-    required Stream<List<MatchParticipantInvitationValue>>
+    required Stream<List<MatchParticipationValue>>
         participantsInvitationsStream,
     // required AsyncValue<List<PlayerModel>> searchedPlayersValue,
   }) =>
