@@ -1,4 +1,5 @@
 import 'package:five_on_four_flutter_tdd/features/matches/data/dtos/match_participant_remote/dto.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/enums/match_participant_status.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -13,7 +14,6 @@ class MatchRemoteDTO with _$MatchRemoteDTO {
   }) = _MatchRemoteDTO;
 
   // TODO needed only for dev
-
   factory MatchRemoteDTO.fromNewMatchValue({
     required String matchId,
     required String organizerId,
@@ -25,8 +25,8 @@ class MatchRemoteDTO with _$MatchRemoteDTO {
 // TODO THIS WILL need to be filtered elsewhere to add player to match if they are joining
       final String participantStatus =
           matchValue.isOrganizerJoined && e.playerId == organizerId
-              ? "confirmed"
-              : "joined";
+              ? MatchParticipantStatus.joined.name
+              : MatchParticipantStatus.invited.name;
 
       final MatchParticipantRemoteDTO participantRemoteDTO =
           MatchParticipantRemoteDTO.fromMatchParticipantInvitationValue(

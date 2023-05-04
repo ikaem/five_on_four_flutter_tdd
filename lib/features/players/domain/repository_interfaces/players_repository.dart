@@ -6,4 +6,6 @@ abstract class PlayersRepository {
   Future<List<PlayerModel>> getSearchedPlayers(
     PlayersSearchFilters filters,
   );
+
+  Future<PlayerModel> getPlayer(String playerId);
 }

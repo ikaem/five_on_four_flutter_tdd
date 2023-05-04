@@ -1,3 +1,4 @@
+import 'package:five_on_four_flutter_tdd/features/matches/data/data_sources/matches_remote/data_source.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
@@ -21,4 +22,13 @@ abstract class MatchesRepository {
     required String matchId,
     required MatchParticipationValue matchParticipation,
   });
+
+  Future<void> unjoinMatch({
+    required String matchId,
+    required MatchParticipationValue matchParticipation,
+  });
+
+  Future<List<MatchModel>> getSearchedMatches(
+    MatchesSearchFilters filters,
+  );
 }

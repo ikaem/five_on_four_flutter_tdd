@@ -19,8 +19,8 @@ final PlayersSearchFilters _initialFilters = PlayersSearchFilters(
 class PlayersSearchAppController extends _$PlayersSearchAppController
     implements PlayersSearchController {
 // TODO tis needs service
-  late final PlayersGetService playersGetService =
-      ref.read(playersGetAppServiceProvider);
+  late final PlayersService playersService =
+      ref.read(playersAppServiceProvider);
 
   final BehaviorSubject<PlayersSearchFilters> _filtersSubject =
       // BehaviorSubject.seeded(_initialFilters);
@@ -51,7 +51,7 @@ class PlayersSearchAppController extends _$PlayersSearchAppController
     state = AsyncValue.loading();
 
     state = await AsyncValue.guard(() async {
-      final results = await playersGetService.handleSearchPlayers(filters);
+      final results = await playersService.handleSearchPlayers(filters);
 
       return results;
     });
@@ -79,7 +79,11 @@ class PlayersSearchAppController extends _$PlayersSearchAppController
   void _initializeController() {
     // TODO disposeal
 
-    _filtersSubscription = _filtersSubject.stream.listen((event) {
+// TODO this should ebnounce
+    _filtersSubscription = _filtersSubject.stream
+        .debounceTime(Duration(milliseconds: 500))
+        .listen((event) {
+      // TODO test
       _onSearchPlayers(event);
     });
 
@@ -89,7 +93,4 @@ class PlayersSearchAppController extends _$PlayersSearchAppController
       await _filtersSubject.close();
     });
   }
-
-  @override
-  void close() {}
 }

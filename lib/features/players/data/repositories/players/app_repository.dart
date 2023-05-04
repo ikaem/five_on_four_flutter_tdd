@@ -22,4 +22,14 @@ class PlayersAppRepository implements PlayersRepository {
 
     return players;
   }
+
+  @override
+  Future<PlayerModel> getPlayer(String playerId) async {
+    final PlayerRemoteDTO playerRemoteDTO =
+        await _playersRemoteDataSource.getPlayer(playerId);
+
+    final PlayerModel playerModel = PlayerModel.fromRemoteDTO(playerRemoteDTO);
+
+    return playerModel;
+  }
 }

@@ -7,12 +7,12 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part "provider.g.dart";
 
 @riverpod
-PlayersGetService playersGetAppService(PlayersGetAppServiceRef ref) {
+PlayersService playersAppService(PlayersAppServiceRef ref) {
   final PlayersRepository playersRepository =
       ref.read(playersAppRepositoryProvider);
 
-  final PlayersGetService playersGetService =
-      PlayersGetAppService(playersRepository: playersRepository);
+  final PlayersService playersService =
+      PlayersAppService(playersRepository: playersRepository);
 
-  return playersGetService;
+  return playersService;
 }

@@ -7,7 +7,16 @@ import 'package:five_on_four_flutter_tdd/features/core/presentation/screens/home
 import 'package:five_on_four_flutter_tdd/features/core/presentation/screens/splash/screen.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/screens/match_create/screen.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/screens/match_info/screen.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/presentation/screens/matches/screen.dart';
+import 'package:five_on_four_flutter_tdd/features/players/presentation/screens/player_info/screen.dart';
+import 'package:five_on_four_flutter_tdd/features/players/presentation/screens/players/screen.dart';
+
+import 'package:five_on_four_flutter_tdd/routing/app_routing_scaffold.dart';
 import 'package:go_router/go_router.dart';
+
+// as per https://snehmehta.medium.com/dynamic-bottom-navigation-with-go-router-flutter-power-series-part-1-2437e2d72546
+// https://codewithandrea.com/articles/flutter-bottom-navigation-bar-nested-routes-gorouter-beamer/
+// https://www.kodeco.com/28987851-flutter-navigator-2-0-using-go_router
 
 abstract class AppRoutes {
   static const String idPlaceholder = ':id';
@@ -21,6 +30,9 @@ abstract class AppRoutes {
   static const matchInfoScreenPath = '/matchInfo/$idPlaceholder';
   static const errorScreenPath = '/error/$errorMessagePlaceholder';
   static const matchCreateScreenPath = '/match_create';
+  static const matchesScreenPath = '/matches';
+  static const playersScreenPath = '/players';
+  static const playerInfoScreenPath = '/playerInfo/$idPlaceholder';
 
   static AppRouteValue get splashScreenRouteValue => const AppRouteValue(
         path: '$splashScreenPath',
@@ -56,6 +68,21 @@ abstract class AppRoutes {
         name: 'MatchCreate',
       );
 
+  static AppRouteValue get matchesScreenRouteValue => const AppRouteValue(
+        path: '$matchesScreenPath',
+        name: 'Matches',
+      );
+
+  static AppRouteValue get playersScreenRouteValue => const AppRouteValue(
+        path: '$playersScreenPath',
+        name: 'Players',
+      );
+
+  static AppRouteValue get playerInfoScreenRouteValue => const AppRouteValue(
+        path: '$playerInfoScreenPath',
+        name: 'PlayerInfo',
+      );
+
   static final GoRoute splashRoute = GoRoute(
     path: AppRoutes.splashScreenRouteValue.path,
     name: AppRoutes.splashScreenRouteValue.name,
@@ -72,12 +99,6 @@ abstract class AppRoutes {
     path: AppRoutes.registerScreenRouteValue.path,
     name: AppRoutes.registerScreenRouteValue.name,
     builder: (context, state) => const RegisterScreen(),
-  );
-
-  static final GoRoute homeRoute = GoRoute(
-    path: AppRoutes.homeScreenRouteValue.path,
-    name: AppRoutes.homeScreenRouteValue.name,
-    builder: (context, state) => const HomeScreen(),
   );
 
   static final GoRoute matchInfoRoute = GoRoute(
@@ -97,6 +118,23 @@ abstract class AppRoutes {
     },
   );
 
+  static final GoRoute playerInfoRoute = GoRoute(
+    path: AppRoutes.playerInfoScreenRouteValue.path,
+    name: AppRoutes.playerInfoScreenRouteValue.name,
+    builder: (context, state) {
+      final String? playerId = state.params["id"];
+      if (playerId == null) {
+        return ErrorScreen(
+            message:
+                "Invalid player id supplied when navigating to PlayerInfo Screen");
+      }
+
+      return PlayerInfoScreen(
+        playerId: playerId,
+      );
+    },
+  );
+
   static final GoRoute errorRoute = GoRoute(
     path: AppRoutes.errorScreenRouteValue.path,
     name: AppRoutes.errorScreenRouteValue.name,
@@ -111,5 +149,35 @@ abstract class AppRoutes {
     path: AppRoutes.matchCreateScreenRouteValue.path,
     name: AppRoutes.matchCreateScreenRouteValue.name,
     builder: (context, state) => MatchCreateScreen(),
+  );
+
+  static final ShellRoute shellRoute = ShellRoute(
+    // TODO not sure this is needed at all - might be
+    // navigatorKey: shellNavigatorKey,
+    builder: (context, state, child) =>
+        AppRoutingScaffold(currentSubrouteWidgetContent: child),
+    routes: [
+      homeRoute,
+      matchesRoute,
+      playersRoute,
+    ],
+  );
+
+  static final GoRoute homeRoute = GoRoute(
+    path: AppRoutes.homeScreenRouteValue.path,
+    name: AppRoutes.homeScreenRouteValue.name,
+    builder: (context, state) => const HomeScreen(),
+  );
+
+  static final GoRoute matchesRoute = GoRoute(
+    path: AppRoutes.matchesScreenRouteValue.path,
+    name: AppRoutes.matchesScreenRouteValue.name,
+    builder: (context, state) => MatchesScreen(),
+  );
+
+  static final GoRoute playersRoute = GoRoute(
+    path: AppRoutes.playersScreenRouteValue.path,
+    name: AppRoutes.playersScreenRouteValue.name,
+    builder: (context, state) => PlayersScreen(),
   );
 }

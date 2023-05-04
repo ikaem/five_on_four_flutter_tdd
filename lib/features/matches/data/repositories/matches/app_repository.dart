@@ -72,4 +72,26 @@ class MatchesAppRepository implements MatchesRepository {
       matchParticipation: matchParticipation,
     );
   }
+
+  Future<void> unjoinMatch({
+    required String matchId,
+    required MatchParticipationValue matchParticipation,
+  }) async {
+    await remoteDataSource.unjoinMatch(
+      matchId: matchId,
+      matchParticipation: matchParticipation,
+    );
+  }
+
+  @override
+  Future<List<MatchModel>> getSearchedMatches(
+      MatchesSearchFilters filters) async {
+    final List<MatchRemoteDTO> dtoResults =
+        await remoteDataSource.getSearchedMatches(filters);
+
+    final List<MatchModel> matches =
+        dtoResults.map((e) => MatchModel.fromRemoteDto(e)).toList();
+
+    return matches;
+  }
 }

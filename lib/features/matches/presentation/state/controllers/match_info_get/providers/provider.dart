@@ -9,12 +9,12 @@ part "provider.g.dart";
 @riverpod
 class MatchInfoGetAppController extends _$MatchInfoGetAppController
     implements MatchInfoGetController {
-  late final MatchesService authService = ref.read(matchesServiceProvider);
+  late final MatchesService matchesService = ref.read(matchesServiceProvider);
 
   @override
   FutureOr<MatchInfoModel?> build(String matchId) async {
     // TODO key here is not to await - if we await, null will be returned
-    _onLoadMatchInfo(matchId);
+    _onLoadMatchInfo();
     return null;
   }
 
@@ -25,15 +25,29 @@ class MatchInfoGetAppController extends _$MatchInfoGetAppController
     throw UnimplementedError();
   }
 
-  Future<void> _onLoadMatchInfo(String matchId) async {
-    state = AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      final MatchInfoModel matchInfoModel =
-          await authService.getMatchInfo(matchId);
+  @override
+  Future<void> onReloadMatch() async => _onLoadMatchInfo();
 
-      return matchInfoModel;
-    });
+  Future<void> _onLoadMatchInfo() async {
+    state = AsyncValue.loading();
+    // state = await AsyncValue.guard(() async {
+    //   final MatchInfoModel matchInfoModel =
+    //       await authService.getMatchInfo(matchId);
+
+    //   return matchInfoModel;
+    // });
+
+    try {
+      final MatchInfoModel matchInfoModel =
+          await matchesService.getMatchInfo(matchId);
+
+      state = AsyncValue.data(matchInfoModel);
+    } catch (e) {
+      state = AsyncValue.error(e, StackTrace.current);
+    }
   }
+
+  // TODO test - make htis explicit
 
 // TODO this works in combi with bel,o returning one, but what about error handling
   // @override

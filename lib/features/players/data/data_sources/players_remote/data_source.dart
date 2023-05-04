@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 abstract class PlayersRemoteDataSource {
   // TODO eventually, we will have to create some filters here later
   Future<List<PlayerRemoteDTO>> getSearchedPlayers(
-      PlayersSearchFilters filters);
+    PlayersSearchFilters filters,
+  );
+
+  Future<PlayerRemoteDTO> getPlayer(String playerId);
 }
 
 // TODO create this with freezed, so we have copy with

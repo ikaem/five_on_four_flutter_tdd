@@ -41,3 +41,14 @@ class MatchExceptionPlayerAlreadyJoined implements Exception {
   @override
   String toString() => "MatchExceptionPlayerAlreadyJoined: $message";
 }
+
+class MatchExceptionPlayerAlreadyUnjoined implements Exception {
+  const MatchExceptionPlayerAlreadyUnjoined({
+    required this.message,
+  });
+
+  final String message;
+
+  @override
+  String toString() => "MatchExceptionPlayerAlreadyUnjoined: $message";
+}

@@ -7,7 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$playersSearchAppControllerHash() =>
-    r'b940053f20177687b454f76ba457b689885d1e83';
+    r'61da010905dd518838ce6e3ddc9ef301ed06c8a6';
 
 /// See also [PlayersSearchAppController].
 @ProviderFor(PlayersSearchAppController)

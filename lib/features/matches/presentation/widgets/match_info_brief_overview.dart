@@ -29,8 +29,6 @@ class MatchInfoBriefOverview extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        print("tapped on the stuff");
-        // TODO using push named, because path has that :d in it- try to normalize that somehow
         context.pushNamed(
           AppRoutes.matchInfoScreenRouteValue.name,
           params: {

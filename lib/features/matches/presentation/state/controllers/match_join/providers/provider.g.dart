@@ -7,7 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$matchJoinAppControllerHash() =>
-    r'c7bda35ff4ef00c64ca0d0a9488c65bbecc34239';
+    r'efb06fd2191c291531341f08a14ab6b5bac1559a';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -33,9 +33,11 @@ class _SystemHash {
 abstract class _$MatchJoinAppController
     extends BuildlessAutoDisposeNotifier<AsyncValue<void>> {
   late final MatchModel match;
+  late final void Function() onMatchJoinAction;
 
   AsyncValue<void> build({
     required MatchModel match,
+    required void Function() onMatchJoinAction,
   });
 }
 
@@ -51,9 +53,11 @@ class MatchJoinAppControllerFamily extends Family<AsyncValue<void>> {
   /// See also [MatchJoinAppController].
   MatchJoinAppControllerProvider call({
     required MatchModel match,
+    required void Function() onMatchJoinAction,
   }) {
     return MatchJoinAppControllerProvider(
       match: match,
+      onMatchJoinAction: onMatchJoinAction,
     );
   }
 
@@ -63,6 +67,7 @@ class MatchJoinAppControllerFamily extends Family<AsyncValue<void>> {
   ) {
     return call(
       match: provider.match,
+      onMatchJoinAction: provider.onMatchJoinAction,
     );
   }
 
@@ -87,8 +92,11 @@ class MatchJoinAppControllerProvider extends AutoDisposeNotifierProviderImpl<
   /// See also [MatchJoinAppController].
   MatchJoinAppControllerProvider({
     required this.match,
+    required this.onMatchJoinAction,
   }) : super.internal(
-          () => MatchJoinAppController()..match = match,
+          () => MatchJoinAppController()
+            ..match = match
+            ..onMatchJoinAction = onMatchJoinAction,
           from: matchJoinAppControllerProvider,
           name: r'matchJoinAppControllerProvider',
           debugGetCreateSourceHash:
@@ -101,16 +109,20 @@ class MatchJoinAppControllerProvider extends AutoDisposeNotifierProviderImpl<
         );
 
   final MatchModel match;
+  final void Function() onMatchJoinAction;
 
   @override
   bool operator ==(Object other) {
-    return other is MatchJoinAppControllerProvider && other.match == match;
+    return other is MatchJoinAppControllerProvider &&
+        other.match == match &&
+        other.onMatchJoinAction == onMatchJoinAction;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, match.hashCode);
+    hash = _SystemHash.combine(hash, onMatchJoinAction.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -121,6 +133,7 @@ class MatchJoinAppControllerProvider extends AutoDisposeNotifierProviderImpl<
   ) {
     return notifier.build(
       match: match,
+      onMatchJoinAction: onMatchJoinAction,
     );
   }
 }

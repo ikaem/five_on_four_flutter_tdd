@@ -15,7 +15,7 @@ class MatchParticipantInvitationCard extends StatelessWidget {
 // TODO not sure if i should have a brief model here
   final MatchParticipationValue invitation;
   final ValueSetter<String> onTapInfo;
-  final OnTapParticipantInvitation onTapRemove;
+  final OnTapParticipation onTapRemove;
 
   @override
   Widget build(BuildContext context) {

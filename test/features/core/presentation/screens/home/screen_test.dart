@@ -29,17 +29,17 @@ void main() {
             final MockInitialDataAppService mockInitialDataAppService =
                 MockInitialDataAppService();
 
-            when(mockInitialDataAppService.getCurrentPlayerInvitedMatches())
+            when(mockInitialDataAppService._getCurrentPlayerInvitedMatches())
                 .thenAnswer(
               (realInvocation) {
                 return Future.value([]);
               },
             );
-            when(mockInitialDataAppService.getCurrentPlayerJoinedMatches())
+            when(mockInitialDataAppService._getCurrentPlayerJoinedMatches())
                 .thenAnswer(
               (realInvocation) => Future.value([]),
             );
-            when(mockInitialDataAppService.getCurrentPlayerNextMatch())
+            when(mockInitialDataAppService._getCurrentPlayerNextMatch())
                 .thenAnswer(
               (realInvocation) => Future.value(testMatchInfoModel),
             );
@@ -107,17 +107,17 @@ void main() {
       final MockInitialDataAppService mockInitialDataAppService =
           MockInitialDataAppService();
 
-      when(mockInitialDataAppService.getCurrentPlayerInvitedMatches())
+      when(mockInitialDataAppService._getCurrentPlayerInvitedMatches())
           .thenAnswer(
         (realInvocation) {
           return Future.value([]);
         },
       );
-      when(mockInitialDataAppService.getCurrentPlayerJoinedMatches())
+      when(mockInitialDataAppService._getCurrentPlayerJoinedMatches())
           .thenAnswer(
         (realInvocation) => Future.value([]),
       );
-      when(mockInitialDataAppService.getCurrentPlayerNextMatch()).thenAnswer(
+      when(mockInitialDataAppService._getCurrentPlayerNextMatch()).thenAnswer(
         (realInvocation) => Future.value(testMatchInfoModel),
       );
 

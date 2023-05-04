@@ -15,7 +15,7 @@ class AppRouter {
 
   late final GoRouter router = GoRouter(
     refreshListenable: _authController,
-
+// TODO not sure if navigator key is needed
     // navigatorKey: rootNavigatorKey,
     initialLocation: AppRoutes.splashScreenRouteValue.path,
     observers: [
@@ -23,11 +23,13 @@ class AppRouter {
     ],
     routes: [
       // _shellRoute,
+      AppRoutes.shellRoute,
       AppRoutes.splashRoute,
       AppRoutes.loginRoute,
       AppRoutes.registerRoute,
-      AppRoutes.homeRoute,
+      // AppRoutes.homeRoute,
       AppRoutes.matchInfoRoute,
+      AppRoutes.playerInfoRoute,
       AppRoutes.errorRoute,
       AppRoutes.matchCreateRoute,
     ],

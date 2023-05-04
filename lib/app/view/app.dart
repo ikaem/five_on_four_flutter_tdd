@@ -34,6 +34,7 @@ class _AppState extends ConsumerState<App> {
   @override
   Widget build(BuildContext widgetContext) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       // TODO make this a constant
       restorationScopeId: 'five_on_4_app',
       theme: AppTheme.lightTheme,

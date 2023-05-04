@@ -23,6 +23,7 @@ class MatchBriefsList extends StatelessWidget {
             vertical: SpacingConstants.medium / 2,
           ),
           child: MatchBriefCard(
+            key: ValueKey(match.id),
             match: match,
           ),
         );

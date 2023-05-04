@@ -2,14 +2,19 @@ import 'package:five_on_four_flutter_tdd/features/core/utils/helpers/dialog_open
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_create/participant_invitation_card.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_create/players_invite_view.dart';
+import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/dimensions_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/spacing_constants.dart';
 import 'package:flutter/material.dart';
 
 // TODO test - typedefs can go here, sure
-typedef OnTapParticipantInvitation = void Function(
-  MatchParticipationValue invitation,
+typedef OnTapPlayer = void Function(
+  PlayerModel player,
+);
+
+typedef OnTapParticipation = void Function(
+  MatchParticipationValue participation,
 );
 
 // TODO potentially, this should be called fifferently
@@ -27,8 +32,8 @@ class MatchCreatePlayersInviteInputs extends StatelessWidget {
 
   final Stream<List<MatchParticipationValue>> participantsInvitationsStream;
 
-  final OnTapParticipantInvitation onAddParticipantInvitation;
-  final OnTapParticipantInvitation onRemoveParticipantInvitation;
+  final OnTapParticipation onAddParticipantInvitation;
+  final OnTapParticipation onRemoveParticipantInvitation;
   // final AsyncValue<List<PlayerModel>> searchedPlayersValue;
 
   @override

@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/data/data_sources/matches_remote/data_source.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/data/dtos/match_participant_remote/dto.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/data/dtos/match_remote/dto.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/enums/match_participant_status.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/exceptions/match_exceptions.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
@@ -12,17 +13,19 @@ class MatchesRemoteFakeDataSource implements MatchesRemoteDataSource {
   Future<List<MatchRemoteDTO>> getInvitedMatchesForPlayer(
       String playerId) async {
     await Future.delayed(Duration(milliseconds: 200));
-    final List<MatchRemoteDTO> invitedMatches = combinedMatches.where(
+
+    final allMatches = combinedMatches;
+    final List<MatchRemoteDTO> invitedMatches = allMatches.where(
       (match) {
         // TODO test
-        final MatchParticipantRemoteDTO? currentPlayer =
+        final MatchParticipantRemoteDTO? invitedParticipation =
             match.participants.firstWhereOrNull((participant) {
           return participant.playerId == playerId &&
-              participant.status == "invited";
+              participant.status == MatchParticipantStatus.invited.name;
         });
 
         // TODO TEST
-        if (currentPlayer == null) return false;
+        if (invitedParticipation == null) return false;
 
         return true;
       },
@@ -41,7 +44,7 @@ class MatchesRemoteFakeDataSource implements MatchesRemoteDataSource {
         final MatchParticipantRemoteDTO? currentPlayer = match.participants
             .firstWhereOrNull((participant) =>
                 participant.playerId == playerId &&
-                participant.status == "confirmed");
+                participant.status == MatchParticipantStatus.joined.name);
 
         // TODO TEST
         if (currentPlayer == null) return false;
@@ -63,7 +66,15 @@ class MatchesRemoteFakeDataSource implements MatchesRemoteDataSource {
   Future<MatchRemoteDTO> getMatch(String matchId) async {
     await Future<void>.delayed(Duration(milliseconds: 200));
 
-    return combinedMatches[0];
+    final allMatches = combinedMatches;
+
+    final MatchRemoteDTO? match =
+        allMatches.firstWhereOrNull((element) => element.id == matchId);
+
+    if (match == null)
+      throw MatchExceptionNotFoundRemote(message: "Match id: $matchId");
+
+    return match;
   }
 
 // TODO test
@@ -102,6 +113,7 @@ class MatchesRemoteFakeDataSource implements MatchesRemoteDataSource {
     required String matchId,
     required MatchParticipationValue matchParticipation,
   }) async {
+    final allMatches = combinedMatches;
     // TODO finfd the match
     final MatchRemoteDTO? match = combinedMatches.firstWhereOrNull(
       (match) => match.id == matchId,
@@ -116,31 +128,139 @@ class MatchesRemoteFakeDataSource implements MatchesRemoteDataSource {
         .firstWhereOrNull(
             (element) => element.playerId == matchParticipation.playerId);
 
-    // if participant already joined
-    if (existingParticipant != null) {
+    // TODO test this
+    // first we check if there is no participant - then we join and return
+
+    if (existingParticipant == null) {
+      final MatchParticipantRemoteDTO participant =
+          MatchParticipantRemoteDTO.fromMatchParticipantInvitationValue(
+        invitationValue: matchParticipation,
+        matchId: matchId,
+        // TODO this should be an enum
+        status: MatchParticipantStatus.joined.name,
+      );
+
+      final List<MatchParticipantRemoteDTO> matchParticipants = [
+        ...match.participants,
+      ];
+      // TODO this should be a function to be reused
+      matchParticipants.add(participant);
+      final MatchRemoteDTO updatedMatch =
+          match.copyWith(participants: matchParticipants);
+
+      //
+
+      final int matchIndex = combinedMatches.indexWhere(
+        (match) => match.id == updatedMatch.id,
+      );
+
+      combinedMatches[matchIndex] = updatedMatch;
+
+      final newCombined = combinedMatches;
+
+      return;
+    }
+
+// TODO no need for tghis really -or is there?
+    final bool hasExistingParticipantConfirmed =
+        existingParticipant.status == MatchParticipantStatus.joined.name;
+
+    if (hasExistingParticipantConfirmed) {
       throw MatchExceptionPlayerAlreadyJoined(
           message: "Match: $matchId, player: ${matchParticipation.playerId}");
     }
 
-    // join
-    final MatchParticipantRemoteDTO participant =
-        MatchParticipantRemoteDTO.fromMatchParticipantInvitationValue(
-      invitationValue: matchParticipation,
-      matchId: matchId,
-      // TODO this should be an enum
-      status: "confirmed",
-    );
-    match.participants.add(participant);
+    // now we know participant exists, but has not confirmed
+    final MatchParticipantRemoteDTO updatedParticipant = existingParticipant
+        .copyWith(status: MatchParticipantStatus.joined.name);
 
-// TODO how to replace
+    final int participantIndex =
+        match.participants.indexWhere((p) => p.id == updatedParticipant.id);
+
+    final List<MatchParticipantRemoteDTO> matchParticipants = [
+      ...match.participants,
+    ];
+
+    matchParticipants[participantIndex] = updatedParticipant;
+
+    final MatchRemoteDTO updatedMatch =
+        match.copyWith(participants: matchParticipants);
+
+    // match.participants[participantIndex] = updatedParticipant;
+
+    // match.participants.removeAt(participantIndex);
+
     final int matchIndex = combinedMatches.indexWhere(
-      (match) => match.id == matchId,
+      (match) => match.id == updatedMatch.id,
     );
 
-    combinedMatches[matchIndex] = match;
+    combinedMatches[matchIndex] = updatedMatch;
+
+    final newCombined = combinedMatches;
+
+    //
+
+    // TODO test
   }
 
   // TODO test
+
+  Future<void> unjoinMatch({
+    required String matchId,
+    required MatchParticipationValue matchParticipation,
+  }) async {
+    final allMatches = combinedMatches;
+    // TODO finfd the match
+    final MatchRemoteDTO? match = combinedMatches.firstWhereOrNull(
+      (match) => match.id == matchId,
+    );
+
+    // if match no exist
+    if (match == null)
+      throw MatchExceptionNotFoundRemote(message: "Match: $matchId");
+
+    // find the participant already
+    final MatchParticipantRemoteDTO? existingParticipant = match.participants
+        .firstWhereOrNull(
+            (element) => element.playerId == matchParticipation.playerId);
+
+    if (existingParticipant == null) {
+      throw MatchExceptionPlayerAlreadyUnjoined(
+          message: "Match: $matchId, player: ${matchParticipation.playerId}");
+    }
+
+// now we know participation is not null
+
+    // now create new participants wihtout this participant
+    final List<MatchParticipantRemoteDTO> matchParticipants = [
+      ...match.participants,
+    ];
+
+    matchParticipants
+        .removeWhere((p) => p.playerId == matchParticipation.playerId);
+    // create new match with updated participants
+    final MatchRemoteDTO updatedMatch =
+        match.copyWith(participants: matchParticipants);
+
+    final int matchIndex = combinedMatches.indexWhere(
+      (match) => match.id == updatedMatch.id,
+    );
+
+    // insert new match into matches to replace existing one
+    combinedMatches[matchIndex] = updatedMatch;
+
+    final newCombined = combinedMatches;
+
+    //
+  }
+
+  @override
+  Future<List<MatchRemoteDTO>> getSearchedMatches(
+      MatchesSearchFilters filters) async {
+    await Future<void>.delayed(Duration(milliseconds: 500));
+
+    return combinedMatches;
+  }
 }
 
 final List<MatchRemoteDTO> combinedMatches = [
@@ -153,7 +273,7 @@ final List<MatchRemoteDTO> combinedMatches = [
         playerId: "1",
         matchId: "1",
         nickname: "Player 1",
-        status: "invited",
+        status: MatchParticipantStatus.invited.name,
         createdAt: 1617355557658,
         expiresAt: 1617355557658 + 60 * 60 * 1000, // 1 hour later
       ),
@@ -162,7 +282,7 @@ final List<MatchRemoteDTO> combinedMatches = [
         playerId: "2",
         matchId: "1",
         nickname: "Player 2",
-        status: "invited",
+        status: MatchParticipantStatus.invited.name,
         createdAt: 1617355557658,
         expiresAt: 1617355557658 + 60 * 60 * 1000, // 1 hour later
       ),
@@ -177,7 +297,7 @@ final List<MatchRemoteDTO> combinedMatches = [
         playerId: "1",
         matchId: "2",
         nickname: "Player 1",
-        status: "invited",
+        status: MatchParticipantStatus.invited.name,
         createdAt: 1617355557658,
         expiresAt: 1617355557658 + 60 * 60 * 1000, // 1 hour later
       ),
@@ -186,7 +306,7 @@ final List<MatchRemoteDTO> combinedMatches = [
         playerId: "3",
         matchId: "2",
         nickname: "Player 3",
-        status: "invited",
+        status: MatchParticipantStatus.invited.name,
         createdAt: 1617355557658,
         expiresAt: 1617355557658 + 60 * 60 * 1000, // 1 hour later
       ),
@@ -194,14 +314,14 @@ final List<MatchRemoteDTO> combinedMatches = [
   ),
   MatchRemoteDTO(
     id: "3",
-    name: "Match 1",
+    name: "Match 3",
     participants: [
       MatchParticipantRemoteDTO(
         id: "5",
         playerId: "1",
         matchId: "3",
         nickname: "Player 1",
-        status: "confirmed",
+        status: MatchParticipantStatus.joined.name,
         createdAt: 1617355557658,
         expiresAt: null,
       ),
@@ -210,7 +330,7 @@ final List<MatchRemoteDTO> combinedMatches = [
         playerId: "2",
         matchId: "3",
         nickname: "Player 2",
-        status: "confirmed",
+        status: MatchParticipantStatus.joined.name,
         createdAt: 1617355557658,
         expiresAt: null,
       ),
@@ -218,14 +338,14 @@ final List<MatchRemoteDTO> combinedMatches = [
   ),
   MatchRemoteDTO(
     id: "4",
-    name: "Match 2",
+    name: "Match 4",
     participants: [
       MatchParticipantRemoteDTO(
         id: "7",
         playerId: "1",
         matchId: "4",
         nickname: "Player 1",
-        status: "confirmed",
+        status: MatchParticipantStatus.joined.name,
         createdAt: 1617355557658,
         expiresAt: null,
       ),
@@ -234,306 +354,10 @@ final List<MatchRemoteDTO> combinedMatches = [
         playerId: "3",
         matchId: "4",
         nickname: "Player 3",
-        status: "confirmed",
+        status: MatchParticipantStatus.joined.name,
         createdAt: 1617355557658,
         expiresAt: null,
       ),
     ],
   ),
 ];
-
-// final List<MatchRemoteDTO> invitedMatches = [
-//   MatchRemoteDTO(
-//     id: "1",
-//     name: "Match 1",
-//     participants: [
-//       MatchParticipantRemoteDTO(
-//         id: "1",
-//         playerId: "1",
-//         matchId: "1",
-//         nickname: "Player 1",
-//         status: "invited",
-//         createdAt: 1617355557658,
-//         expiresAt: 1617355557658 + 60 * 60 * 1000, // 1 hour later
-//       ),
-//       MatchParticipantRemoteDTO(
-//         id: "2",
-//         playerId: "2",
-//         matchId: "1",
-//         nickname: "Player 2",
-//         status: "invited",
-//         createdAt: 1617355557658,
-//         expiresAt: 1617355557658 + 60 * 60 * 1000, // 1 hour later
-//       ),
-//     ],
-//   ),
-//   MatchRemoteDTO(
-//     id: "2",
-//     name: "Match 2",
-//     participants: [
-//       MatchParticipantRemoteDTO(
-//         id: "3",
-//         playerId: "1",
-//         matchId: "2",
-//         nickname: "Player 1",
-//         status: "invited",
-//         createdAt: 1617355557658,
-//         expiresAt: 1617355557658 + 60 * 60 * 1000, // 1 hour later
-//       ),
-//       MatchParticipantRemoteDTO(
-//         id: "4",
-//         playerId: "3",
-//         matchId: "2",
-//         nickname: "Player 3",
-//         status: "invited",
-//         createdAt: 1617355557658,
-//         expiresAt: 1617355557658 + 60 * 60 * 1000, // 1 hour later
-//       ),
-//     ],
-//   ),
-// ];
-
-// final List<MatchRemoteDTO> joinedMatches = [
-//   MatchRemoteDTO(
-//     id: "1",
-//     name: "Match 1",
-//     participants: [
-//       MatchParticipantRemoteDTO(
-//         id: "1",
-//         playerId: "1",
-//         matchId: "1",
-//         nickname: "Player 1",
-//         status: "confirmed",
-//         createdAt: 1617355557658,
-//         expiresAt:
-//             null, // null indicates that user joined, so this field is not affecting anything anymore
-//       ),
-//       MatchParticipantRemoteDTO(
-//         id: "2",
-//         playerId: "2",
-//         matchId: "1",
-//         nickname: "Player 2",
-//         status: "confirmed",
-//         createdAt: 1617355557658,
-//         expiresAt: null, // 1 hour later
-//       ),
-//     ],
-//   ),
-//   MatchRemoteDTO(
-//     id: "2",
-//     name: "Match 2",
-//     participants: [
-//       MatchParticipantRemoteDTO(
-//           id: "3",
-//           playerId: "1",
-//           matchId: "2",
-//           nickname: "Player 1",
-//           status: "confirmed",
-//           createdAt: 1617355557658,
-//           expiresAt: null // 1 hour later
-//           ),
-//       MatchParticipantRemoteDTO(
-//         id: "4",
-//         playerId: "3",
-//         matchId: "2",
-//         nickname: "Player 3",
-//         status: "confirmed",
-//         createdAt: 1617355557658,
-//         expiresAt: null, // 1 hour later
-//       ),
-//     ],
-//   ),
-//   MatchRemoteDTO(
-//     id: "2",
-//     name: "Match 2",
-//     participants: [
-//       MatchParticipantRemoteDTO(
-//           id: "3",
-//           playerId: "1",
-//           matchId: "2",
-//           nickname: "Player 1",
-//           status: "confirmed",
-//           createdAt: 1617355557658,
-//           expiresAt: null // 1 hour later
-//           ),
-//       MatchParticipantRemoteDTO(
-//         id: "4",
-//         playerId: "3",
-//         matchId: "2",
-//         nickname: "Player 3",
-//         status: "confirmed",
-//         createdAt: 1617355557658,
-//         expiresAt: null, // 1 hour later
-//       ),
-//     ],
-//   ),
-//   MatchRemoteDTO(
-//     id: "2",
-//     name: "Match 2",
-//     participants: [
-//       MatchParticipantRemoteDTO(
-//           id: "3",
-//           playerId: "1",
-//           matchId: "2",
-//           nickname: "Player 1",
-//           status: "confirmed",
-//           createdAt: 1617355557658,
-//           expiresAt: null // 1 hour later
-//           ),
-//       MatchParticipantRemoteDTO(
-//         id: "4",
-//         playerId: "3",
-//         matchId: "2",
-//         nickname: "Player 3",
-//         status: "confirmed",
-//         createdAt: 1617355557658,
-//         expiresAt: null, // 1 hour later
-//       ),
-//     ],
-//   ),
-//   MatchRemoteDTO(
-//     id: "2",
-//     name: "Match 2",
-//     participants: [
-//       MatchParticipantRemoteDTO(
-//           id: "3",
-//           playerId: "1",
-//           matchId: "2",
-//           nickname: "Player 1",
-//           status: "confirmed",
-//           createdAt: 1617355557658,
-//           expiresAt: null // 1 hour later
-//           ),
-//       MatchParticipantRemoteDTO(
-//         id: "4",
-//         playerId: "3",
-//         matchId: "2",
-//         nickname: "Player 3",
-//         status: "confirmed",
-//         createdAt: 1617355557658,
-//         expiresAt: null, // 1 hour later
-//       ),
-//     ],
-//   ),
-//   MatchRemoteDTO(
-//     id: "2",
-//     name: "Match 2",
-//     participants: [
-//       MatchParticipantRemoteDTO(
-//           id: "3",
-//           playerId: "1",
-//           matchId: "2",
-//           nickname: "Player 1",
-//           status: "confirmed",
-//           createdAt: 1617355557658,
-//           expiresAt: null // 1 hour later
-//           ),
-//       MatchParticipantRemoteDTO(
-//         id: "4",
-//         playerId: "3",
-//         matchId: "2",
-//         nickname: "Player 3",
-//         status: "confirmed",
-//         createdAt: 1617355557658,
-//         expiresAt: null, // 1 hour later
-//       ),
-//     ],
-//   ),
-//   MatchRemoteDTO(
-//     id: "2",
-//     name: "Match 2",
-//     participants: [
-//       MatchParticipantRemoteDTO(
-//           id: "3",
-//           playerId: "1",
-//           matchId: "2",
-//           nickname: "Player 1",
-//           status: "confirmed",
-//           createdAt: 1617355557658,
-//           expiresAt: null // 1 hour later
-//           ),
-//       MatchParticipantRemoteDTO(
-//         id: "4",
-//         playerId: "3",
-//         matchId: "2",
-//         nickname: "Player 3",
-//         status: "confirmed",
-//         createdAt: 1617355557658,
-//         expiresAt: null, // 1 hour later
-//       ),
-//     ],
-//   ),
-//   MatchRemoteDTO(
-//     id: "2",
-//     name: "Match 2",
-//     participants: [
-//       MatchParticipantRemoteDTO(
-//           id: "3",
-//           playerId: "1",
-//           matchId: "2",
-//           nickname: "Player 1",
-//           status: "confirmed",
-//           createdAt: 1617355557658,
-//           expiresAt: null // 1 hour later
-//           ),
-//       MatchParticipantRemoteDTO(
-//         id: "4",
-//         playerId: "3",
-//         matchId: "2",
-//         nickname: "Player 3",
-//         status: "confirmed",
-//         createdAt: 1617355557658,
-//         expiresAt: null, // 1 hour later
-//       ),
-//     ],
-//   ),
-//   MatchRemoteDTO(
-//     id: "2",
-//     name: "Match 2",
-//     participants: [
-//       MatchParticipantRemoteDTO(
-//           id: "3",
-//           playerId: "1",
-//           matchId: "2",
-//           nickname: "Player 1",
-//           status: "confirmed",
-//           createdAt: 1617355557658,
-//           expiresAt: null // 1 hour later
-//           ),
-//       MatchParticipantRemoteDTO(
-//         id: "4",
-//         playerId: "3",
-//         matchId: "2",
-//         nickname: "Player 3",
-//         status: "confirmed",
-//         createdAt: 1617355557658,
-//         expiresAt: null, // 1 hour later
-//       ),
-//     ],
-//   ),
-// ];
-
-// final MatchRemoteDTO _singleMatch = MatchRemoteDTO(
-//   id: "2",
-//   name: "Match 2",
-//   participants: [
-//     MatchParticipantRemoteDTO(
-//         id: "3",
-//         playerId: "1",
-//         matchId: "2",
-//         nickname: "Player 1",
-//         status: "confirmed",
-//         createdAt: 1617355557658,
-//         expiresAt: null // 1 hour later
-//         ),
-//     MatchParticipantRemoteDTO(
-//       id: "4",
-//       playerId: "3",
-//       matchId: "2",
-//       nickname: "Player 3",
-//       status: "confirmed",
-//       createdAt: 1617355557658,
-//       expiresAt: null, // 1 hour later
-//     ),
-//   ],
-// );

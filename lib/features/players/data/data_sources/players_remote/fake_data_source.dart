@@ -1,5 +1,7 @@
+import 'package:collection/collection.dart';
 import 'package:five_on_four_flutter_tdd/features/players/data/data_sources/players_remote/data_source.dart';
 import 'package:five_on_four_flutter_tdd/features/players/data/dtos/player_remote/dto.dart';
+import 'package:five_on_four_flutter_tdd/features/players/domain/exceptions/player_exceptions.dart';
 
 class PlayersRemoteFakeDataSource implements PlayersRemoteDataSource {
   @override
@@ -8,6 +10,17 @@ class PlayersRemoteFakeDataSource implements PlayersRemoteDataSource {
     await Future<void>.delayed(Duration(milliseconds: 500));
 
     return _players;
+  }
+
+  @override
+  Future<PlayerRemoteDTO> getPlayer(String playerId) async {
+    final PlayerRemoteDTO? player =
+        _players.firstWhereOrNull((element) => element.id == playerId);
+
+    if (player == null)
+      throw PlayerExceptionNotFoundRemotely(message: "Player id: $playerId");
+
+    return player;
   }
 }
 
