@@ -152,7 +152,7 @@ void main() {
       await widgetTester.pumpAndSettle();
 
       final Finder registerScreenFinder =
-          find.byKey(const Key(WidgetKeysConstants.registerScreenScaffoldKey));
+          find.byKey(const Key(KeysConstants.registerScreenScaffoldKey));
 
       expect(registerScreenFinder, findsOneWidget);
     });

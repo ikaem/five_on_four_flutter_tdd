@@ -19,7 +19,6 @@ class PlayerInfoScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.read(controllerProvider.notifier);
     final value = ref.watch(controllerProvider);
 
     return value.when(
@@ -30,7 +29,6 @@ class PlayerInfoScreen extends ConsumerWidget {
       },
       loading: () => Center(child: CircularProgressIndicator()),
       data: (data) {
-        // TODO hopefully player exists
         return PlayerInfoScreenView(playerModel: data);
       },
     );

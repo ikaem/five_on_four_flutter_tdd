@@ -15,7 +15,6 @@ class AppRoutingScaffold extends StatefulWidget {
 }
 
 class _AppRoutingScaffoldState extends State<AppRoutingScaffold> {
-// TODO want this to be stateful to be able to pass context to the funciton, but also so as not to rebuild widget everytime? or that would be ok?
   int get _currentIndex => _generateBarIndexFromLocation(context);
 
   @override
@@ -31,9 +30,6 @@ class _AppRoutingScaffoldState extends State<AppRoutingScaffold> {
   }
 
   void Function(int index) _onBarItemTap(BuildContext context) => (int index) {
-        // TODO this could be a bit more elegant - to have a list of raw woutes somewhere
-        // if()
-
         if (index == 0) context.goNamed(AppRoutes.homeScreenRouteValue.name);
         if (index == 1) context.goNamed(AppRoutes.matchesScreenRouteValue.name);
         if (index == 2) context.goNamed(AppRoutes.playersScreenRouteValue.name);

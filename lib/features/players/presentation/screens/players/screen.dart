@@ -20,13 +20,13 @@ class PlayersScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeData theme = Theme.of(context);
     final TextTheme themeText = theme.textTheme;
-    // TODO separate into view too
+    // TODO in future, separate into view too
 
     final AsyncValue<List<PlayerModel>> playersSearchValue =
         ref.watch(playersSearchAppControllerProvider);
 
     return Scaffold(
-      key: const Key(WidgetKeysConstants.playersScreenScaffoldKey),
+      key: const Key(KeysConstants.playersScreenScaffoldKey),
       appBar: AppBar(
         title: Text("Players"),
       ),

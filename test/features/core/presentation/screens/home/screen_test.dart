@@ -159,7 +159,7 @@ void main() {
       await widgetTester.pumpAndSettle();
 
       final Finder matchInfoScreenFinder =
-          find.byKey(Key(WidgetKeysConstants.matchInfoScreenScaffoldKey));
+          find.byKey(Key(KeysConstants.matchInfoScreenScaffoldKey));
 
       expect(matchInfoScreenFinder, findsOneWidget);
     });

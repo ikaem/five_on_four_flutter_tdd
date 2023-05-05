@@ -8,22 +8,9 @@ class WeatherModel with _$WeatherModel {
   const factory WeatherModel({
     required String locationName,
     required double temperatureCelsius,
+    // TODO make enum eventually
     required String weatherDescription,
   }) = _WeatherModel;
-
-  // factory WeatherModel.fromRemoteDTO(WeatherRemoteDTO dto) {
-  //   final String locationName = dto.location.name;
-  //   final double temperatureCelsius = dto.current.tempC;
-  //   final String weatherDescription = dto.current.condition.text;
-
-  //   final WeatherModel model = WeatherModel(
-  //     locationName: locationName,
-  //     temperatureCelsius: temperatureCelsius,
-  //     weatherDescription: weatherDescription,
-  //   );
-
-  //   return model;
-  // }
 
   factory WeatherModel.random() {
     final Random rng = Random();
@@ -41,6 +28,3 @@ class WeatherModel with _$WeatherModel {
     return model;
   }
 }
-
-// TODO move to extensions
-

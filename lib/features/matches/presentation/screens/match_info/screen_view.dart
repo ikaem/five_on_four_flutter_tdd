@@ -45,7 +45,7 @@ class MatchInfoScreenView extends ConsumerWidget {
     // });
 
     return Scaffold(
-        key: Key(WidgetKeysConstants.matchInfoScreenScaffoldKey),
+        key: Key(KeysConstants.matchInfoScreenScaffoldKey),
         appBar: AppBar(
           actions: [
             TextButton(

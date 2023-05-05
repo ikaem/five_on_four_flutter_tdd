@@ -22,6 +22,9 @@ class SearchResultsPlayers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final TextTheme themeText = theme.textTheme;
+
     return Container(
       padding: EdgeInsets.all(
         SpacingConstants.small,
@@ -32,30 +35,45 @@ class SearchResultsPlayers extends StatelessWidget {
           DimensionsConstants.d10,
         ),
       ),
-      child: ListView.separated(
-        separatorBuilder: (context, index) {
-          return SizedBox(
-            height: SpacingConstants.small,
-          );
-        },
-        itemBuilder: (context, index) {
-          final PlayerModel player = players[index];
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            "Results",
+            style: themeText.titleSmall,
+          ),
+          SizedBox(
+            height: SpacingConstants.medium,
+          ),
+          Expanded(
+            child: ListView.separated(
+              separatorBuilder: (context, index) {
+                return SizedBox(
+                  height: SpacingConstants.small,
+                );
+              },
+              itemBuilder: (context, index) {
+                final PlayerModel player = players[index];
 
-          return PlayerBriefCard(
-            player: player,
-            tappableIcon: Icon(
-              Icons.info,
-              color: ColorConstants.white,
+                return PlayerBriefCard(
+                  player: player,
+                  tappableIcon: Icon(
+                    Icons.info,
+                    color: ColorConstants.white,
+                  ),
+                  onTapPlayer: (player) {
+                    onTapPlayerResult(
+                      context: context,
+                      playerModel: player,
+                    );
+                  },
+                );
+              },
+              itemCount: players.length,
             ),
-            onTapPlayer: (player) {
-              onTapPlayerResult(
-                context: context,
-                playerModel: player,
-              );
-            },
-          );
-        },
-        itemCount: players.length,
+          ),
+        ],
       ),
     );
   }

@@ -1,43 +1,58 @@
 import 'dart:async';
-import 'dart:developer';
 
+import 'package:five_on_four_flutter_tdd/libraries/libraries.dart';
+import 'package:five_on_four_flutter_tdd/libraries/logger/providers/provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-// TODO this could probably be replaced with riverpod somehting
-// class AppBlocObserver extends BlocObserver {
-//   const AppBlocObserver();
-
-//   @override
-//   void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
-//     super.onChange(bloc, change);
-//     log('onChange(${bloc.runtimeType}, $change)');
-//   }
-
-//   @override
-//   void onError(BlocBase<dynamic> bloc, Object error, StackTrace stackTrace) {
-//     log('onError(${bloc.runtimeType}, $error, $stackTrace)');
-//     super.onError(bloc, error, stackTrace);
-//   }
-// }
+import 'package:logger/logger.dart';
 
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   FlutterError.onError = (details) {
-    log(details.exceptionAsString(), stackTrace: details.stack);
+    final LoggerWrapper logger =
+        ProviderContainer().read(loggerWrapperProvider);
+    logger.log(
+      logLevel: Level.error,
+      message: "FlutterError: ${details.exception}",
+      stackTrace: details.stack ?? StackTrace.current,
+    );
   };
-
-// TODO we can do this eventually with provider scope
-  // Bloc.observer = const AppBlocObserver();
 
   await runZonedGuarded(
     () async {
-      //
       runApp(
         ProviderScope(
           child: await builder(),
+          observers: [AppRiverpodObserver()],
         ),
       );
     },
-    (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
+    (error, stackTrace) {
+      final LoggerWrapper logger =
+          ProviderContainer().read(loggerWrapperProvider);
+      logger.log(
+        logLevel: Level.error,
+        message: "Unhandled error: $error",
+        stackTrace: stackTrace,
+      );
+    },
   );
+}
+
+class AppRiverpodObserver extends ProviderObserver {
+  @override
+  void didUpdateProvider(
+    ProviderBase<Object?> provider,
+    Object? previousValue,
+    Object? newValue,
+    ProviderContainer container,
+  ) {
+    final LoggerWrapper logger =
+        ProviderContainer().read(loggerWrapperProvider);
+
+    logger.log(
+      logLevel: Level.info,
+      message: newValue.toString(),
+      stackTrace: StackTrace.current,
+    );
+  }
 }

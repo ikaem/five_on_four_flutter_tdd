@@ -26,7 +26,7 @@ abstract class AppTextTheme {
     fontSize: FontSizeConstants.xxLarge,
     fontWeight: FontWeight.bold,
   );
-// TODO fonts should probably be adjsuted - sizes and names and such
+
   static const TextStyle displaySmall = TextStyle(
     fontSize: FontSizeConstants.xLarge,
     fontWeight: FontWeight.bold,

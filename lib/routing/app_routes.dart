@@ -5,6 +5,7 @@ import 'package:five_on_four_flutter_tdd/features/core/presentation/screens/erro
 import 'package:five_on_four_flutter_tdd/features/core/presentation/screens/home/screen.dart';
 
 import 'package:five_on_four_flutter_tdd/features/core/presentation/screens/splash/screen.dart';
+import 'package:five_on_four_flutter_tdd/features/core/utils/constants/widget_keys_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/screens/match_create/screen.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/screens/match_info/screen.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/screens/matches/screen.dart';
@@ -152,8 +153,7 @@ abstract class AppRoutes {
   );
 
   static final ShellRoute shellRoute = ShellRoute(
-    // TODO not sure this is needed at all - might be
-    // navigatorKey: shellNavigatorKey,
+    navigatorKey: KeysConstants.shellNavigatorKey,
     builder: (context, state, child) =>
         AppRoutingScaffold(currentSubrouteWidgetContent: child),
     routes: [

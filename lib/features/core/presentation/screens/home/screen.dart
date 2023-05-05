@@ -29,7 +29,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final AsyncValue<InitialDataValue?> initialDataValue = initialData;
 
     return Scaffold(
-      key: const Key(WidgetKeysConstants.homeScreenScaffoldKey),
+      key: const Key(KeysConstants.homeScreenScaffoldKey),
 
       // TODO create CustomAppBar and call it FiveOn4AppBar
       appBar: AppBar(

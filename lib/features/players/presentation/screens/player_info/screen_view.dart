@@ -22,7 +22,7 @@ class PlayerInfoScreenView extends StatelessWidget {
     final TextTheme themeText = theme.textTheme;
 
     return Scaffold(
-      key: Key(WidgetKeysConstants.matchInfoScreenScaffoldKey),
+      key: Key(KeysConstants.matchInfoScreenScaffoldKey),
       appBar: AppBar(),
       body: Padding(
         padding: EdgeInsets.all(SpacingConstants.small),
@@ -36,7 +36,6 @@ class PlayerInfoScreenView extends StatelessWidget {
               secondaryTrailingLabel: 'Yolo',
             ),
             SizedBox(height: SpacingConstants.large),
-            // TODO make widget out of this
             Container(
               // TODO make a widget out of this container with color, and rounded space
               padding: EdgeInsets.all(SpacingConstants.small),

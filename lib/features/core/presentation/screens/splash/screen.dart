@@ -7,7 +7,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: const Key(WidgetKeysConstants.splashScreenScaffoldKey),
+      key: const Key(KeysConstants.splashScreenScaffoldKey),
       body: Column(
         children: [
           CircularProgressIndicator(),

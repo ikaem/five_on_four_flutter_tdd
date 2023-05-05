@@ -9,7 +9,7 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: const Key(WidgetKeysConstants.registerScreenScaffoldKey),
+      key: const Key(KeysConstants.registerScreenScaffoldKey),
       appBar: AppBar(title: const Text('Register')),
       body: Center(
         child: Column(

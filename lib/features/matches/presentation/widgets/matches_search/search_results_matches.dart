@@ -21,6 +21,7 @@ class SearchResultsMatches extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final TextTheme themeText = theme.textTheme;
 
+// TODO this should be probably using players search resultls as well, to make sure dry
     return Container(
       padding: EdgeInsets.all(
         SpacingConstants.small,
@@ -42,35 +43,23 @@ class SearchResultsMatches extends StatelessWidget {
           SizedBox(
             height: SpacingConstants.medium,
           ),
-          ListView.separated(
-            shrinkWrap: true,
-            separatorBuilder: (context, index) {
-              return SizedBox(
-                height: SpacingConstants.small,
-              );
-            },
-            itemBuilder: (context, index) {
-              final MatchModel match = matches[index];
+          Expanded(
+            child: ListView.separated(
+              // shrinkWrap: true,
+              separatorBuilder: (context, index) {
+                return SizedBox(
+                  height: SpacingConstants.small,
+                );
+              },
+              itemBuilder: (context, index) {
+                final MatchModel match = matches[index];
 
-              return MatchBriefCard(
-                match: match,
-              );
-
-              // return PlayerBriefCard(
-              //   player: player,
-              //   tappableIcon: Icon(
-              //     Icons.info,
-              //     color: ColorConstants.white,
-              //   ),
-              //   onTapPlayer: (player) {
-              //     onTapPlayerResult(
-              //       context: context,
-              //       playerModel: player,
-              //     );
-              //   },
-              // );
-            },
-            itemCount: matches.length,
+                return MatchBriefCard(
+                  match: match,
+                );
+              },
+              itemCount: matches.length,
+            ),
           ),
         ],
       ),

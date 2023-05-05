@@ -21,7 +21,7 @@ class MatchesScreen extends ConsumerWidget {
 
     return Scaffold(
       // resizeToAvoidBottomInset: false,
-      key: const Key(WidgetKeysConstants.matchesScreenScaffoldKey),
+      key: const Key(KeysConstants.matchesScreenScaffoldKey),
       appBar: AppBar(
         title: Text("Matches"),
       ),
@@ -68,9 +68,11 @@ class MatchesScreen extends ConsumerWidget {
                 );
               },
               data: (data) {
-                return SearchResultsMatches(
-                  matches: data,
-                  // onTapPlayerResult: _onTapPlayerResult,
+                return Expanded(
+                  child: SearchResultsMatches(
+                    matches: data,
+                    // onTapPlayerResult: _onTapPlayerResult,
+                  ),
                 );
               },
             ),
