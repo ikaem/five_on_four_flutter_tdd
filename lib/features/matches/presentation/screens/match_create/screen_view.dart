@@ -52,47 +52,6 @@ class MatchCreateScreenView extends ConsumerWidget {
               );
             },
           ),
-          // TODO come back to this
-          // Consumer(
-          //   builder: (context, ref, child) {
-          //     ref.listen(
-          //       matchCreateAppControllerProvider,
-          //       (previous, next) {
-          //         next.when(
-          //           data: (matchId) {
-          //             if (matchId == null) return;
-
-          //             context.pushReplacementNamed(
-          //               AppRoutes.matchInfoScreenRouteValue.name,
-          //               params: {
-          //                 AppConstants.idKey: matchId,
-          //               },
-          //             );
-          //           },
-          //           error: (error, stackTrace) => context.showSnackBarMessage(
-          //               "There was an issue creating the match"),
-          //           loading: () => null,
-          //         );
-          //       },
-          //     );
-
-          //     final AsyncValue<String?> matchCreateValue =
-          //         ref.watch(matchCreateAppControllerProvider);
-
-          //     return matchCreateValue.when(
-          //       loading: () => Center(child: CircularProgressIndicator()),
-          //       error: (e, st) => SizedBox.shrink(),
-          //       data: (data) => Center(
-          //         child: Text("Some data: $data"),
-          //       ),
-          //     );
-          //   },
-          // ),
-          // StreamedIconButton(
-          //   stream: matchCreateController.inputsValidationStream,
-          //   onPressed: matchCreateController.onSubmit,
-          //   icon: Icons.check,
-          // ),
         ],
       ),
       body: Padding(
@@ -105,7 +64,7 @@ class MatchCreateScreenView extends ConsumerWidget {
               onPressed: () {
                 context.pushNamed(
                   AppRoutes.errorScreenRouteValue.name,
-                  params: {
+                  pathParameters: {
                     "error_message": "",
                   },
                 );
@@ -173,7 +132,7 @@ class MatchCreateScreenView extends ConsumerWidget {
 
                 context.pushReplacementNamed(
                   AppRoutes.matchInfoScreenRouteValue.name,
-                  params: {
+                  pathParameters: {
                     AppConstants.idKey: matchId,
                   },
                 );

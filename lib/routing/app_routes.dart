@@ -106,7 +106,7 @@ abstract class AppRoutes {
     path: AppRoutes.matchInfoScreenRouteValue.path,
     name: AppRoutes.matchInfoScreenRouteValue.name,
     builder: (context, state) {
-      final String? matchId = state.params["id"];
+      final String? matchId = state.pathParameters["id"];
       if (matchId == null) {
         return ErrorScreen(
             message:
@@ -123,7 +123,7 @@ abstract class AppRoutes {
     path: AppRoutes.playerInfoScreenRouteValue.path,
     name: AppRoutes.playerInfoScreenRouteValue.name,
     builder: (context, state) {
-      final String? playerId = state.params["id"];
+      final String? playerId = state.pathParameters["id"];
       if (playerId == null) {
         return ErrorScreen(
             message:
@@ -140,7 +140,7 @@ abstract class AppRoutes {
     path: AppRoutes.errorScreenRouteValue.path,
     name: AppRoutes.errorScreenRouteValue.name,
     builder: (context, state) {
-      final String? message = state.params["error_message"];
+      final String? message = state.pathParameters["error_message"];
 
       return ErrorScreen(message: message);
     },

@@ -7,10 +7,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
+  final LoggerWrapper loggerWrapper = LoggerWrapper();
+
   FlutterError.onError = (details) {
-    final LoggerWrapper logger =
-        ProviderContainer().read(loggerWrapperProvider);
-    logger.log(
+    loggerWrapper.log(
       logLevel: Level.error,
       message: "FlutterError: ${details.exception}",
       stackTrace: details.stack ?? StackTrace.current,
@@ -22,14 +22,19 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
       runApp(
         ProviderScope(
           child: await builder(),
-          observers: [AppRiverpodObserver()],
+          overrides: [
+            loggerWrapperProvider.overrideWith((ref) => loggerWrapper)
+          ],
+          observers: [
+            AppRiverpodObserver(
+              loggerWrapper: loggerWrapper,
+            )
+          ],
         ),
       );
     },
     (error, stackTrace) {
-      final LoggerWrapper logger =
-          ProviderContainer().read(loggerWrapperProvider);
-      logger.log(
+      loggerWrapper.log(
         logLevel: Level.error,
         message: "Unhandled error: $error",
         stackTrace: stackTrace,
@@ -39,6 +44,12 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 }
 
 class AppRiverpodObserver extends ProviderObserver {
+  AppRiverpodObserver({
+    required this.loggerWrapper,
+  });
+
+  final LoggerWrapper loggerWrapper;
+
   @override
   void didUpdateProvider(
     ProviderBase<Object?> provider,
@@ -46,13 +57,17 @@ class AppRiverpodObserver extends ProviderObserver {
     Object? newValue,
     ProviderContainer container,
   ) {
-    final LoggerWrapper logger =
-        ProviderContainer().read(loggerWrapperProvider);
-
-    logger.log(
+    loggerWrapper.log(
       logLevel: Level.info,
       message: newValue.toString(),
       stackTrace: StackTrace.current,
+    );
+
+    super.didUpdateProvider(
+      provider,
+      previousValue,
+      newValue,
+      container,
     );
   }
 }

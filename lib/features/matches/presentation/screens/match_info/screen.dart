@@ -11,7 +11,6 @@ class MatchInfoScreen extends ConsumerWidget {
 
   final String matchId;
 
-// TODO make some pattern for naming providers defined here
   late final MatchInfoGetAppControllerProvider controllerProvider =
       matchInfoGetAppControllerProvider(
     matchId,

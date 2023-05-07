@@ -27,7 +27,7 @@ class MatchBriefCard extends StatelessWidget {
       onTap: () {
         context.pushNamed(
           AppRoutes.matchInfoScreenRouteValue.name,
-          params: {
+          pathParameters: {
             AppConstants.idKey: match.id,
           },
         );

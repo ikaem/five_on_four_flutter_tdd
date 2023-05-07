@@ -86,8 +86,11 @@ class PlayersScreen extends ConsumerWidget {
     required BuildContext context,
     required PlayerModel playerModel,
   }) {
-    context.pushNamed(AppRoutes.playerInfoScreenRouteValue.name, params: {
-      AppConstants.idKey: playerModel.id,
-    });
+    context.pushNamed(
+      AppRoutes.playerInfoScreenRouteValue.name,
+      pathParameters: {
+        AppConstants.idKey: playerModel.id,
+      },
+    );
   }
 }
