@@ -20,15 +20,13 @@ class AuthAppService implements AuthService {
 
   @override
   Future<void> checkAuth() async {
-    final auth = await authRepository.checkAuth();
-
+    final AuthModel? auth = await authRepository.checkAuth();
     authStatusRepository.setAuth(auth);
   }
 
   @override
   Future<void> login(LoginCredentialsArgs args) async {
-    final auth = await authRepository.login(args);
-
+    final AuthModel auth = await authRepository.login(args);
     authStatusRepository.setAuth(auth);
   }
 
