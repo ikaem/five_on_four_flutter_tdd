@@ -9,9 +9,7 @@ import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfa
     as _i3;
 import 'package:five_on_four_flutter_tdd/features/core/application/services/initial_data/app_service.dart'
     as _i5;
-import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart'
-    as _i7;
-import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match_info/model.dart'
+import 'package:five_on_four_flutter_tdd/features/core/domain/values/initial_data/value.dart'
     as _i4;
 import 'package:five_on_four_flutter_tdd/features/matches/domain/repositories_interfaces/matches_repository.dart'
     as _i2;
@@ -50,9 +48,9 @@ class _FakeAuthStatusRepository_1 extends _i1.SmartFake
         );
 }
 
-class _FakeMatchInfoModel_2 extends _i1.SmartFake
-    implements _i4.MatchInfoModel {
-  _FakeMatchInfoModel_2(
+class _FakeInitialDataValue_2 extends _i1.SmartFake
+    implements _i4.InitialDataValue {
+  _FakeInitialDataValue_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -87,36 +85,19 @@ class MockInitialDataAppService extends _i1.Mock
         ),
       ) as _i3.AuthStatusRepository);
   @override
-  _i6.Future<List<_i7.MatchModel>> getCurrentPlayerInvitedMatches() =>
+  _i6.Future<_i4.InitialDataValue> handleGetInitialData() =>
       (super.noSuchMethod(
         Invocation.method(
-          #getCurrentPlayerInvitedMatches,
+          #handleGetInitialData,
           [],
         ),
-        returnValue: _i6.Future<List<_i7.MatchModel>>.value(<_i7.MatchModel>[]),
-      ) as _i6.Future<List<_i7.MatchModel>>);
-  @override
-  _i6.Future<List<_i7.MatchModel>> getCurrentPlayerJoinedMatches() =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getCurrentPlayerJoinedMatches,
-          [],
-        ),
-        returnValue: _i6.Future<List<_i7.MatchModel>>.value(<_i7.MatchModel>[]),
-      ) as _i6.Future<List<_i7.MatchModel>>);
-  @override
-  _i6.Future<_i4.MatchInfoModel> getCurrentPlayerNextMatch() =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getCurrentPlayerNextMatch,
-          [],
-        ),
-        returnValue: _i6.Future<_i4.MatchInfoModel>.value(_FakeMatchInfoModel_2(
+        returnValue:
+            _i6.Future<_i4.InitialDataValue>.value(_FakeInitialDataValue_2(
           this,
           Invocation.method(
-            #getCurrentPlayerNextMatch,
+            #handleGetInitialData,
             [],
           ),
         )),
-      ) as _i6.Future<_i4.MatchInfoModel>);
+      ) as _i6.Future<_i4.InitialDataValue>);
 }

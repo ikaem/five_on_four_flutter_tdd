@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 extension WeatherModelExtension on WeatherModel {
   IconData getWeatherIcon() {
     switch (weatherDescription) {
-      // TODO make these cosntants
+      // TODO this should also eventually check for enum
       case 'Light rain':
         {
           return Icons.grain;
@@ -18,7 +18,7 @@ extension WeatherModelExtension on WeatherModel {
 
   String getWeatherDescription() {
     switch (weatherDescription) {
-      // TODO make these cosntants
+      // TODO this should check for enum eventually
       case 'Light rain':
         {
           return 'Light rain';

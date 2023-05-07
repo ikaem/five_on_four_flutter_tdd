@@ -1,4 +1,5 @@
 import 'package:five_on_four_flutter_tdd/features/auth/presentation/state/controllers/auth_status_new/controller.dart';
+import 'package:five_on_four_flutter_tdd/features/core/utils/constants/widget_keys_constants.dart';
 import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
 import 'package:five_on_four_flutter_tdd/routing/route_observers/home_screen_route_observer.dart';
 import 'package:flutter/material.dart';
@@ -15,19 +16,18 @@ class AppRouter {
 
   late final GoRouter router = GoRouter(
     refreshListenable: _authController,
-
-    // navigatorKey: rootNavigatorKey,
+    navigatorKey: KeysConstants.rootNavigatorKey,
     initialLocation: AppRoutes.splashScreenRouteValue.path,
     observers: [
       _homeScreenRouteObserver,
     ],
     routes: [
-      // _shellRoute,
+      AppRoutes.shellRoute,
       AppRoutes.splashRoute,
       AppRoutes.loginRoute,
       AppRoutes.registerRoute,
-      AppRoutes.homeRoute,
       AppRoutes.matchInfoRoute,
+      AppRoutes.playerInfoRoute,
       AppRoutes.errorRoute,
       AppRoutes.matchCreateRoute,
     ],
@@ -63,7 +63,8 @@ class AppRouter {
       return null;
     },
   );
-// TODO create abstract class for instnatiated observers
+
+// observers
   late final HomeScreenRouteObserver _homeScreenRouteObserver =
       HomeScreenRouteObserver(
     onPopToHomeScreen: _onPopToHomeScreen,

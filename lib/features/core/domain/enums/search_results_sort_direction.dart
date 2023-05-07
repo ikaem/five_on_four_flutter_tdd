@@ -1,0 +1,4 @@
+enum SearchResultsSortDirection {
+  ascending,
+  descending,
+}

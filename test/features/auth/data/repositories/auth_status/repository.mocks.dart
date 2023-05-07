@@ -52,12 +52,4 @@ class MockAuthStatusAppRepository extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
-  @override
-  _i3.Future<_i4.AuthModel?> getAuthStatus() => (super.noSuchMethod(
-        Invocation.method(
-          #getAuthStatus,
-          [],
-        ),
-        returnValue: _i3.Future<_i4.AuthModel?>.value(),
-      ) as _i3.Future<_i4.AuthModel?>);
 }

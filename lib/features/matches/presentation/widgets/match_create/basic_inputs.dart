@@ -59,8 +59,6 @@ class MatchCreateBasicInputs extends StatefulWidget {
 }
 
 class _MatchCreateBasicInputsState extends State<MatchCreateBasicInputs> {
-// TODO not sure if we need the controllers - we will have data in the provider instead
-// TODO but keep - it is just easier to handle iputs like that
   final TextEditingController _matchNameController = TextEditingController();
   final TextEditingController _locationNameController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
@@ -68,12 +66,6 @@ class _MatchCreateBasicInputsState extends State<MatchCreateBasicInputs> {
   final TextEditingController _countryController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _initializeWidget();
-  }
 
   @override
   void dispose() {
@@ -94,7 +86,6 @@ class _MatchCreateBasicInputsState extends State<MatchCreateBasicInputs> {
         children: [
           StreamedTextField(
             fieldController: _matchNameController,
-            // stream: widget.matchNameStream,
             stream: Stream.value(""),
             onChanged: widget.onChangeMatchName,
             labelText: "Match name",
@@ -112,8 +103,6 @@ class _MatchCreateBasicInputsState extends State<MatchCreateBasicInputs> {
           StreamedTextField(
             fieldController: _locationNameController,
             stream: widget.locationNameStream,
-            // stream: Stream.value(""),
-
             onChanged: widget.onLocationNameChange,
             labelText: "Location name",
           ),
@@ -182,14 +171,6 @@ class _MatchCreateBasicInputsState extends State<MatchCreateBasicInputs> {
     );
   }
 
-  void _initializeWidget() {
-    // TODO maybe this is not needed
-    // _dateController.addListener(() {
-    //   final String isoDate = _dateController.text;
-    //   // TODO test
-    // });
-  }
-
   void _disposeWidget() {
     _matchNameController.dispose();
     _locationNameController.dispose();
@@ -198,8 +179,5 @@ class _MatchCreateBasicInputsState extends State<MatchCreateBasicInputs> {
     _countryController.dispose();
     _dateController.dispose();
     _timeController.dispose();
-
-    // TODO test
-    // TODO no need to call remove listener because dispose will do that
   }
 }

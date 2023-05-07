@@ -19,7 +19,6 @@ class MatchParticipantModel with _$MatchParticipantModel {
     final MatchParticipantStatus status =
         MatchParticipantStatus.values.firstWhere(
       (status) {
-        // TODO test
         return status.name == dto.status;
       },
       orElse: () => MatchParticipantStatus.unknown,
@@ -27,7 +26,7 @@ class MatchParticipantModel with _$MatchParticipantModel {
 
     final MatchParticipantModel participant = MatchParticipantModel(
       id: dto.id,
-      playerId: dto.id,
+      playerId: dto.playerId,
       nickname: dto.nickname,
       status: status,
       createdAt: dto.createdAt,

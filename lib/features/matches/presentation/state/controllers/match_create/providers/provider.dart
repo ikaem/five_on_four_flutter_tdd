@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:five_on_four_flutter_tdd/features/core/utils/mixins/validation.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service.dart';
-import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participant_invitation/value.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_create_inputs_validation/value.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/match_create/controller.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/utils/mixins/match_create_validation_mixin.dart';
@@ -43,12 +44,9 @@ class MatchCreateAppController extends _$MatchCreateAppController
   @override
   Stream<bool> get joinMatchValidationStream =>
       _joinMatchStream.transform(joinMatchValidationTransformer);
-
-  // TODO there is no need to validate match participants
   @override
-  Stream<List<MatchParticipantInvitationValue>>
-      get participantInvitationsStream => _participantInvitationsStream;
-
+  Stream<List<MatchParticipationValue>> get participantInvitationsStream =>
+      _participantInvitationsStream;
   @override
   Stream<bool> get inputsValidationStream => Rx.combineLatest(
         [
@@ -60,42 +58,21 @@ class MatchCreateAppController extends _$MatchCreateAppController
           _dateStream,
           _timeStream,
         ],
-        (values) {
-          final String? matchName = _matchNameSubject.valueOrNull;
-          final String? locationName = _locationNameSubject.valueOrNull;
-          final String? locationAddress = _locationAddressSubject.valueOrNull;
-          final String? locationCity = _locationCitySubject.valueOrNull;
-          final String? locationCountry = _locationCountrySubject.valueOrNull;
-          final DateTime? date = _dateSubject.valueOrNull;
-          final TimeOfDay? time = _timeSubject.valueOrNull;
-
-          final MatchCreateInputsValidationValue validationValue =
-              validateInputs(
-            matchNameValue: matchName,
-            locationNameValue: locationName,
-            locationAddressValue: locationAddress,
-            locationCityValue: locationCity,
-            locationCountryValue: locationCountry,
-            dateValue: date,
-            timeValue: time,
-          );
-
-          return validationValue.areInputsValid;
-        },
+        inputValuesValidator,
       );
 
   @override
   void onAddParticipantInvitation(
-    MatchParticipantInvitationValue invitation,
+    MatchParticipationValue invitation,
   ) {
-    final List<MatchParticipantInvitationValue> currentInvitations =
+    final List<MatchParticipationValue> currentInvitations =
         _participantInvitationsSubject.value;
 
     final bool isInvitationPresent = currentInvitations
         .any((element) => element.playerId == invitation.playerId);
     if (isInvitationPresent) return;
 
-    final List<MatchParticipantInvitationValue> updatedInvitations = [
+    final List<MatchParticipationValue> updatedInvitations = [
       ...currentInvitations,
       invitation,
     ];
@@ -105,9 +82,9 @@ class MatchCreateAppController extends _$MatchCreateAppController
 
   @override
   void onRemoveParticipantInvitation(
-    MatchParticipantInvitationValue invitation,
+    MatchParticipationValue invitation,
   ) {
-    final List<MatchParticipantInvitationValue> currentInvitations = [
+    final List<MatchParticipationValue> currentInvitations = [
       ..._participantInvitationsSubject.value
     ];
     currentInvitations
@@ -173,8 +150,6 @@ class MatchCreateAppController extends _$MatchCreateAppController
       return;
     }
 
-    // TODO now we create match data
-
     final NewMatchValue matchData = NewMatchValue(
       matchName: _matchNameSubject.value,
       locationName: _locationNameSubject.value,
@@ -190,24 +165,17 @@ class MatchCreateAppController extends _$MatchCreateAppController
     state = AsyncValue.loading();
 
     try {
-      final String id = await _matchesService.createMatch(matchData);
+      final String id = await _matchesService.handleCreateMatch(matchData);
 
       state = AsyncValue.data(id);
     } catch (e) {
-      // avoid guard because cannot debug errors easily
-
       state = AsyncValue.error(e, StackTrace.current);
     }
-
-    // TODO test
   }
 
-  // TODO move this below
   void _populateInvalidInputErrors(
     MatchCreateInputsValidationValue validationValue,
   ) {
-    // TODO not liking nested is here
-    // TODO make helpers for this
     if (validationValue.matchNameError != null)
       _matchNameSink.addError(validationValue.matchNameError!);
     if (validationValue.locationNameError != null)
@@ -225,9 +193,11 @@ class MatchCreateAppController extends _$MatchCreateAppController
   }
 
   @override
-  AsyncValue<String> build() {
-    // TODO note that this does not need to return actual value - but because of it, state value will always be nullable
-    return AsyncValue.loading();
+  AsyncValue<String?> build() {
+    ref.onDispose(() {
+      dispose();
+    });
+    return AsyncValue.data(null);
   }
 
   @override
@@ -242,9 +212,6 @@ class MatchCreateAppController extends _$MatchCreateAppController
     await _joinMatchSubject.close();
   }
 
-  // TODO this needs to get the match service - or match create service, i dont know anymore
-
-// TODO might need seeded to kickoff the validation
   final BehaviorSubject<String> _matchNameSubject = BehaviorSubject();
   final BehaviorSubject<String> _locationNameSubject = BehaviorSubject();
   final BehaviorSubject<String> _locationAddressSubject = BehaviorSubject();
@@ -253,10 +220,8 @@ class MatchCreateAppController extends _$MatchCreateAppController
   final BehaviorSubject<DateTime?> _dateSubject = BehaviorSubject();
   final BehaviorSubject<TimeOfDay?> _timeSubject = BehaviorSubject();
   final BehaviorSubject<bool> _joinMatchSubject = BehaviorSubject.seeded(false);
-
-  // TODO test
-  final BehaviorSubject<List<MatchParticipantInvitationValue>>
-      _participantInvitationsSubject = BehaviorSubject.seeded(invitations);
+  final BehaviorSubject<List<MatchParticipationValue>>
+      _participantInvitationsSubject = BehaviorSubject.seeded([]);
 
   StreamSink<String> get _matchNameSink => _matchNameSubject.sink;
   StreamSink<String> get _locationNameSink => _locationNameSubject.sink;
@@ -266,10 +231,8 @@ class MatchCreateAppController extends _$MatchCreateAppController
   StreamSink<DateTime?> get _dateSink => _dateSubject.sink;
   StreamSink<TimeOfDay?> get _timeSink => _timeSubject.sink;
   StreamSink<bool> get _joinMatchSink => _joinMatchSubject.sink;
-
-  // TODO test
-  StreamSink<List<MatchParticipantInvitationValue>>
-      get _participantInvitationsSink => _participantInvitationsSubject.sink;
+  StreamSink<List<MatchParticipationValue>> get _participantInvitationsSink =>
+      _participantInvitationsSubject.sink;
 
   Stream<String> get _matchNameStream => _matchNameSubject.distinct();
   Stream<String> get _locationNameStream => _locationNameSubject.distinct();
@@ -281,17 +244,6 @@ class MatchCreateAppController extends _$MatchCreateAppController
   Stream<DateTime?> get _dateStream => _dateSubject.distinct();
   Stream<TimeOfDay?> get _timeStream => _timeSubject.distinct();
   Stream<bool> get _joinMatchStream => _joinMatchSubject.distinct();
-
-  // TODO test
-  // TODO for distinct to work properly, we have to use freezed, or override equality operator for this
-  Stream<List<MatchParticipantInvitationValue>>
-      get _participantInvitationsStream =>
-          _participantInvitationsSubject.distinct();
+  Stream<List<MatchParticipationValue>> get _participantInvitationsStream =>
+      _participantInvitationsSubject.distinct();
 }
-
-// TODO test  - remove this later
-List<MatchParticipantInvitationValue> invitations = List.generate(
-  5,
-  (index) => MatchParticipantInvitationValue(
-      playerId: (index + 1).toString(), nickname: "Nickname ${index + 1}"),
-);

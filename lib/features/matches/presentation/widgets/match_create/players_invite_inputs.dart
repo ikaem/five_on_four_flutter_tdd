@@ -1,5 +1,5 @@
 import 'package:five_on_four_flutter_tdd/features/core/utils/helpers/dialog_opener.dart';
-import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participant_invitation/value.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_create/participant_invitation_card.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_create/players_invite_view.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
@@ -7,12 +7,10 @@ import 'package:five_on_four_flutter_tdd/theme/constants/dimensions_constants.da
 import 'package:five_on_four_flutter_tdd/theme/constants/spacing_constants.dart';
 import 'package:flutter/material.dart';
 
-// TODO test - typedefs can go here, sure
-typedef OnTapParticipantInvitation = void Function(
-  MatchParticipantInvitationValue invitation,
+typedef OnTapParticipation = void Function(
+  MatchParticipationValue participation,
 );
 
-// TODO potentially, this should be called fifferently
 class MatchCreatePlayersInviteInputs extends StatelessWidget {
   const MatchCreatePlayersInviteInputs({
     super.key,
@@ -20,17 +18,14 @@ class MatchCreatePlayersInviteInputs extends StatelessWidget {
     required this.participantsInvitationsStream,
     required this.onAddParticipantInvitation,
     required this.onRemoveParticipantInvitation,
-    // required this.searchedPlayersValue,
   });
 
   final TextStyle sectionLabelStyle;
 
-  final Stream<List<MatchParticipantInvitationValue>>
-      participantsInvitationsStream;
+  final Stream<List<MatchParticipationValue>> participantsInvitationsStream;
 
-  final OnTapParticipantInvitation onAddParticipantInvitation;
-  final OnTapParticipantInvitation onRemoveParticipantInvitation;
-  // final AsyncValue<List<PlayerModel>> searchedPlayersValue;
+  final OnTapParticipation onAddParticipantInvitation;
+  final OnTapParticipation onRemoveParticipantInvitation;
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +44,9 @@ class MatchCreatePlayersInviteInputs extends StatelessWidget {
                 style: sectionLabelStyle,
               ),
               IconButton(
-                // TODO this wont work - becuase async value will not be updated - will need to access provider in the view itself
                 onPressed: _onOpenInvitationDialog(
                   context: context,
                   participantsInvitationsStream: participantsInvitationsStream,
-                  // searchedPlayersValue: searchedPlayersValue,
                 ),
                 icon: Icon(
                   Icons.add_circle,
@@ -62,7 +55,7 @@ class MatchCreatePlayersInviteInputs extends StatelessWidget {
               ),
             ],
           ),
-          StreamBuilder<List<MatchParticipantInvitationValue>>(
+          StreamBuilder<List<MatchParticipationValue>>(
               stream: participantsInvitationsStream,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting)
@@ -70,12 +63,10 @@ class MatchCreatePlayersInviteInputs extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   );
 
-                final List<MatchParticipantInvitationValue>? data =
-                    snapshot.data;
+                final List<MatchParticipationValue>? data = snapshot.data;
                 if (data == null) return SizedBox.shrink();
 
                 return ListView.separated(
-                  // TODO not sure if this shrink wrap is needed - try to remove it
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: data.length,
@@ -83,11 +74,9 @@ class MatchCreatePlayersInviteInputs extends StatelessWidget {
                     height: SpacingConstants.medium,
                   ),
                   itemBuilder: (context, index) {
-                    final MatchParticipantInvitationValue invitation =
-                        data[index];
+                    final MatchParticipationValue invitation = data[index];
 
                     return MatchParticipantInvitationCard(
-                      // TODO using key because there might be removal of invitations
                       key: ValueKey(invitation.playerId),
                       invitation: invitation,
                       onTapInfo: (playerId) {},
@@ -101,67 +90,20 @@ class MatchCreatePlayersInviteInputs extends StatelessWidget {
     );
   }
 
-  // TODO this will be calling a dialog functions defined elsewhere
   Future<void> Function() _onOpenInvitationDialog({
     required BuildContext context,
-    required Stream<List<MatchParticipantInvitationValue>>
+    required Stream<List<MatchParticipationValue>>
         participantsInvitationsStream,
-    // required AsyncValue<List<PlayerModel>> searchedPlayersValue,
   }) =>
       () async {
         await DialogOpener.contentDialog<void>(
           context: context,
           content: MatchInviteParticipantsView(
-            // searchedPlayersValue: searchedPlayersValue,
             participantsInvitationsStream: participantsInvitationsStream,
             onTapRemoveInvitation: onRemoveParticipantInvitation,
             onTapAddInvitation: onAddParticipantInvitation,
           ),
           title: "Invite match participants",
         );
-
-        // await showDialog<void>(
-        //   context: context,
-        //   builder: (context) {
-        //     final ThemeData theme = Theme.of(context);
-        //     final TextTheme themeText = theme.textTheme;
-
-        //     return Dialog(
-        //       child: Padding(
-        //         padding: const EdgeInsets.all(SpacingConstants.medium),
-        //         child: Column(
-        //           mainAxisSize: MainAxisSize.min,
-        //           children: [
-        //             Row(
-        //               children: [
-        //                 Expanded(
-        //                   child: Center(
-        //                     child: Text(
-        //                       "This is title",
-        //                       style: themeText.titleMedium,
-        //                     ),
-        //                   ),
-        //                 ),
-        //                 GestureDetector(
-        //                   onTap: () => Navigator.pop(context),
-        //                   child: Icon(
-        //                     Icons.cancel,
-        //                     color: ColorConstants.black,
-        //                   ),
-        //                 ),
-        //               ],
-        //             ),
-        //             Flexible(
-        //               child: MatchInviteParticipantsView(),
-        //               // child: Center(child: Text("Hello")),
-        //             ),
-        //           ],
-        //         ),
-        //       ),
-        //     );
-        //   },
-        // );
       };
 }
-
-// TODO MOVE to its own widget for now

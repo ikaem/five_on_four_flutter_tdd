@@ -9,46 +9,29 @@ part "provider.g.dart";
 @riverpod
 class MatchInfoGetAppController extends _$MatchInfoGetAppController
     implements MatchInfoGetController {
-  late final MatchesService authService = ref.read(matchesServiceProvider);
+  late final MatchesService matchesService = ref.read(matchesServiceProvider);
 
   @override
   FutureOr<MatchInfoModel?> build(String matchId) async {
-    // TODO key here is not to await - if we await, null will be returned
-    _onLoadMatchInfo(matchId);
+    // TODO key here is not to await - if we await, loading will be set to state initially
+    // TODO this could potentually be Notifier as well
+    _onLoadMatchInfo();
     return null;
   }
 
-  // TODO not sure i need this
   @override
-  Future<void> dispose() {
-    // TODO: implement dispose
-    throw UnimplementedError();
-  }
+  Future<void> onReloadMatch() async => _onLoadMatchInfo();
 
-  Future<void> _onLoadMatchInfo(String matchId) async {
+  Future<void> _onLoadMatchInfo() async {
     state = AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
+
+    try {
       final MatchInfoModel matchInfoModel =
-          await authService.getMatchInfo(matchId);
+          await matchesService.handleGetMatchInfo(matchId);
 
-      return matchInfoModel;
-    });
+      state = AsyncValue.data(matchInfoModel);
+    } catch (e) {
+      state = AsyncValue.error(e, StackTrace.current);
+    }
   }
-
-// TODO this works in combi with bel,o returning one, but what about error handling
-  // @override
-  // FutureOr<MatchInfoModel?> build(String matchId) async {
-  //   final MatchInfoModel? value = await _onLoadMatchInfo(matchId);
-  //   return value;
-  // }
-// TODO this works easy, but what about error handling
-  // Future<MatchInfoModel?> _onLoadMatchInfo(String matchId) async {
-  //   try {
-  //     final MatchInfoModel matchInfoModel =
-  //         await authService.getMatchInfo(matchId);
-
-  //     return matchInfoModel;
-  //   } catch (e) {}
-  //   return null;
-  // }
 }

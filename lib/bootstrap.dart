@@ -1,43 +1,73 @@
 import 'dart:async';
-import 'dart:developer';
 
+import 'package:five_on_four_flutter_tdd/libraries/libraries.dart';
+import 'package:five_on_four_flutter_tdd/libraries/logger/providers/provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-// TODO this could probably be replaced with riverpod somehting
-// class AppBlocObserver extends BlocObserver {
-//   const AppBlocObserver();
-
-//   @override
-//   void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
-//     super.onChange(bloc, change);
-//     log('onChange(${bloc.runtimeType}, $change)');
-//   }
-
-//   @override
-//   void onError(BlocBase<dynamic> bloc, Object error, StackTrace stackTrace) {
-//     log('onError(${bloc.runtimeType}, $error, $stackTrace)');
-//     super.onError(bloc, error, stackTrace);
-//   }
-// }
+import 'package:logger/logger.dart';
 
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
-  FlutterError.onError = (details) {
-    log(details.exceptionAsString(), stackTrace: details.stack);
-  };
+  final LoggerWrapper loggerWrapper = LoggerWrapper();
 
-// TODO we can do this eventually with provider scope
-  // Bloc.observer = const AppBlocObserver();
+  FlutterError.onError = (details) {
+    loggerWrapper.log(
+      logLevel: Level.error,
+      message: "FlutterError: ${details.exception}",
+      stackTrace: details.stack ?? StackTrace.current,
+    );
+  };
 
   await runZonedGuarded(
     () async {
-      //
       runApp(
         ProviderScope(
           child: await builder(),
+          overrides: [
+            loggerWrapperProvider.overrideWith((ref) => loggerWrapper)
+          ],
+          observers: [
+            AppRiverpodObserver(
+              loggerWrapper: loggerWrapper,
+            )
+          ],
         ),
       );
     },
-    (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
+    (error, stackTrace) {
+      loggerWrapper.log(
+        logLevel: Level.error,
+        message: "Unhandled error: $error",
+        stackTrace: stackTrace,
+      );
+    },
   );
+}
+
+class AppRiverpodObserver extends ProviderObserver {
+  AppRiverpodObserver({
+    required this.loggerWrapper,
+  });
+
+  final LoggerWrapper loggerWrapper;
+
+  @override
+  void didUpdateProvider(
+    ProviderBase<Object?> provider,
+    Object? previousValue,
+    Object? newValue,
+    ProviderContainer container,
+  ) {
+    loggerWrapper.log(
+      logLevel: Level.info,
+      message: newValue.toString(),
+      stackTrace: StackTrace.current,
+    );
+
+    super.didUpdateProvider(
+      provider,
+      previousValue,
+      newValue,
+      container,
+    );
+  }
 }

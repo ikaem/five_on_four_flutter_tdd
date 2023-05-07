@@ -180,7 +180,7 @@ void main() {
       await widgetTester.pumpAndSettle();
 
       final Finder loginScreenFinder =
-          find.byKey(const Key(WidgetKeysConstants.loginScreenScaffoldKey));
+          find.byKey(const Key(KeysConstants.loginScreenScaffoldKey));
 
       expect(loginScreenFinder, findsOneWidget);
     });

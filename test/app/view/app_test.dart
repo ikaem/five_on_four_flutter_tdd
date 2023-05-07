@@ -60,7 +60,7 @@ void main() {
 
           // await widgetTester.pumpAndSettle();
           final splashScreenFinder = find.byKey(
-            const Key(WidgetKeysConstants.splashScreenScaffoldKey),
+            const Key(KeysConstants.splashScreenScaffoldKey),
           );
 
           expect(splashScreenFinder, findsOneWidget);

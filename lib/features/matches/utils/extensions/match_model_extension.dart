@@ -12,4 +12,9 @@ extension MatchModelExtension on MatchModel {
 
     return filteredParticipants;
   }
+
+  /* TODO for readability */
+  List<MatchParticipantModel> get allParticipants => <MatchParticipantModel>[]
+    ..addAll(joinedParticipants)
+    ..addAll(invitedParticipants);
 }

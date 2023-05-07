@@ -7,7 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$initialDataAppControllerHash() =>
-    r'b47346670c71ad50bfec6477bc5e343de311bd82';
+    r'899597e0f396e51b09c6d2037e2eb5c37912161a';
 
 /// See also [InitialDataAppController].
 @ProviderFor(InitialDataAppController)

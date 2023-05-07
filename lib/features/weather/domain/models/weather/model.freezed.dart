@@ -17,7 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$WeatherModel {
   String get locationName => throw _privateConstructorUsedError;
-  double get temperatureCelsius => throw _privateConstructorUsedError;
+  double get temperatureCelsius =>
+      throw _privateConstructorUsedError; // TODO make enum eventually
   String get weatherDescription => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -129,6 +130,7 @@ class _$_WeatherModel implements _WeatherModel {
   final String locationName;
   @override
   final double temperatureCelsius;
+// TODO make enum eventually
   @override
   final String weatherDescription;
 
@@ -171,7 +173,7 @@ abstract class _WeatherModel implements WeatherModel {
   String get locationName;
   @override
   double get temperatureCelsius;
-  @override
+  @override // TODO make enum eventually
   String get weatherDescription;
   @override
   @JsonKey(ignore: true)

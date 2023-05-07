@@ -22,7 +22,7 @@ class AuthStatusAppRepository implements AuthStatusRepository {
   }
 
   @override
-  Future<AuthModel?> getAuthStatus() async {
+  AuthModel? getAuthStatus() {
     final AuthModel? authStatus = _authBehaviorSubject.valueOrNull;
 
     return authStatus;

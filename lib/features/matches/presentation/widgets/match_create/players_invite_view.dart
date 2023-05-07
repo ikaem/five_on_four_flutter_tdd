@@ -1,7 +1,8 @@
-import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participant_invitation/value.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_create/players_invite_inputs.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:five_on_four_flutter_tdd/features/players/presentation/state/controllers/players_search/providers/provider.dart';
+import 'package:five_on_four_flutter_tdd/features/players/presentation/widgets/player_brief_card.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/dimensions_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/spacing_constants.dart';
@@ -14,25 +15,16 @@ class MatchInviteParticipantsView extends ConsumerWidget {
     required this.participantsInvitationsStream,
     required this.onTapRemoveInvitation,
     required this.onTapAddInvitation,
-
-    // required this.searchedPlayersValue,
   });
 
-  // final AsyncValue<List<PlayerModel>> searchedPlayersValue;
-  final Stream<List<MatchParticipantInvitationValue>>
-      participantsInvitationsStream;
-  final OnTapParticipantInvitation onTapRemoveInvitation;
-  final OnTapParticipantInvitation onTapAddInvitation;
-
-  // TODO not sure if we should accept data here, or actually get data here - access the controller here
+  final Stream<List<MatchParticipationValue>> participantsInvitationsStream;
+  final OnTapParticipation onTapRemoveInvitation;
+  final OnTapParticipation onTapAddInvitation;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeData theme = Theme.of(context);
     final TextTheme themeText = theme.textTheme;
-
-    // final PlayersSearchController playersSearchController =
-    //     ref.read(playersSearchAppControllerProvider.notifier);
 
     final AsyncValue<List<PlayerModel>> playersSearchValue =
         ref.watch(playersSearchAppControllerProvider);
@@ -43,7 +35,6 @@ class MatchInviteParticipantsView extends ConsumerWidget {
           padding: const EdgeInsets.only(bottom: SpacingConstants.medium),
           child: TextField(
             onChanged: (value) {
-              // playersSearchController.onChangeSearchTerm(value);
               ref
                   .read(playersSearchAppControllerProvider.notifier)
                   .onChangeSearchTerm(value);
@@ -73,9 +64,8 @@ class MatchInviteParticipantsView extends ConsumerWidget {
                   bottom: SpacingConstants.medium,
                 ),
               ),
-              StreamBuilder<List<MatchParticipantInvitationValue>>(
+              StreamBuilder<List<MatchParticipationValue>>(
                   stream: participantsInvitationsStream,
-                  // TODO extract builder
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting)
                       return SliverToBoxAdapter(
@@ -84,8 +74,7 @@ class MatchInviteParticipantsView extends ConsumerWidget {
                         ),
                       );
 
-                    final List<MatchParticipantInvitationValue>? data =
-                        snapshot.data;
+                    final List<MatchParticipationValue>? data = snapshot.data;
                     if (data == null)
                       return SliverToBoxAdapter(child: SizedBox.shrink());
 
@@ -96,12 +85,9 @@ class MatchInviteParticipantsView extends ConsumerWidget {
                         maxCrossAxisExtent: 150,
                         mainAxisSpacing: 8,
                         crossAxisSpacing: 8,
-
-                        // crossAxisSpacing: ,
                       ),
                       itemBuilder: (context, index) {
-                        final MatchParticipantInvitationValue invitation =
-                            data[index];
+                        final MatchParticipationValue invitation = data[index];
 
                         return Container(
                           width: 80,
@@ -114,7 +100,6 @@ class MatchInviteParticipantsView extends ConsumerWidget {
                               DimensionsConstants.d20,
                             ),
                           ),
-                          // child: Text("Karlo"),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -146,16 +131,6 @@ class MatchInviteParticipantsView extends ConsumerWidget {
                   bottom: SpacingConstants.medium,
                 ),
               ),
-              // SliverPadding(
-              //   padding:
-              //       EdgeInsets.symmetric(vertical: SpacingConstants.medium),
-              //   sliver: SliverToBoxAdapter(
-              //     child: ElevatedButton(
-              //       child: Text("Add selected players"),
-              //       onPressed: () {},
-              //     ),
-              //   ),
-              // ),
               SliverToBoxAdapter(
                 child: Text(
                   "Search results",
@@ -184,33 +159,17 @@ class MatchInviteParticipantsView extends ConsumerWidget {
                       (context, index) {
                         final PlayerModel player = players[index];
 
-                        return Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: SpacingConstants.small,
+                        return PlayerBriefCard(
+                          player: player,
+                          tappableIcon: Icon(
+                            Icons.add_circle,
+                            color: ColorConstants.white,
                           ),
-                          child: Row(
-                            children: [
-                              Text(
-                                player.nickname,
-                                style: themeText.labelLarge,
-                              ),
-                              SizedBox(
-                                width: SpacingConstants.medium,
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  onTapAddInvitation(
-                                    MatchParticipantInvitationValue
-                                        .fromPlayerModel(player),
-                                  );
-                                },
-                                child: Icon(
-                                  Icons.add_circle,
-                                  color: ColorConstants.red,
-                                ),
-                              ),
-                            ],
-                          ),
+                          onTapPlayer: (player) {
+                            final MatchParticipationValue participationValue =
+                                MatchParticipationValue.fromPlayerModel(player);
+                            onTapAddInvitation(participationValue);
+                          },
                         );
                       },
                       childCount: players.length,

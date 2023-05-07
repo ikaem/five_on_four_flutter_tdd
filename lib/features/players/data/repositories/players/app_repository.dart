@@ -2,6 +2,7 @@ import 'package:five_on_four_flutter_tdd/features/players/data/dtos/player_remot
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:five_on_four_flutter_tdd/features/players/data/data_sources/players_remote/data_source.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/repository_interfaces/players_repository.dart';
+import 'package:five_on_four_flutter_tdd/features/players/domain/values/players_search_filters/value.dart';
 
 class PlayersAppRepository implements PlayersRepository {
   const PlayersAppRepository({
@@ -12,7 +13,7 @@ class PlayersAppRepository implements PlayersRepository {
 
   @override
   Future<List<PlayerModel>> getSearchedPlayers(
-    PlayersSearchFilters filters,
+    PlayersSearchFiltersValue filters,
   ) async {
     final List<PlayerRemoteDTO> playerDTOs =
         await _playersRemoteDataSource.getSearchedPlayers(filters);
@@ -21,5 +22,15 @@ class PlayersAppRepository implements PlayersRepository {
         playerDTOs.map((e) => PlayerModel.fromRemoteDTO(e)).toList();
 
     return players;
+  }
+
+  @override
+  Future<PlayerModel> getPlayer(String playerId) async {
+    final PlayerRemoteDTO playerRemoteDTO =
+        await _playersRemoteDataSource.getPlayer(playerId);
+
+    final PlayerModel playerModel = PlayerModel.fromRemoteDTO(playerRemoteDTO);
+
+    return playerModel;
   }
 }

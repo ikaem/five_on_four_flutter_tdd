@@ -18,8 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$AuthLocalDTO {
   String get id => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
-  String get email =>
-      throw _privateConstructorUsedError; // TODO this is not needed - or maybe is
+  String get email => throw _privateConstructorUsedError;
   int get loggedInAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -138,7 +137,6 @@ class _$_AuthLocalDTO implements _AuthLocalDTO {
   final String nickname;
   @override
   final String email;
-// TODO this is not needed - or maybe is
   @override
   final int loggedInAt;
 
@@ -183,7 +181,7 @@ abstract class _AuthLocalDTO implements AuthLocalDTO {
   String get nickname;
   @override
   String get email;
-  @override // TODO this is not needed - or maybe is
+  @override
   int get loggedInAt;
   @override
   @JsonKey(ignore: true)
