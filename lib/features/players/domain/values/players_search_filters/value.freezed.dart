@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'players_search_filters_value.dart';
+part of 'value.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PlayersSearchFiltersValue {
-  String get searchTermm => throw _privateConstructorUsedError;
+  String get searchTerm => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PlayersSearchFiltersValueCopyWith<PlayersSearchFiltersValue> get copyWith =>
@@ -29,7 +29,7 @@ abstract class $PlayersSearchFiltersValueCopyWith<$Res> {
           $Res Function(PlayersSearchFiltersValue) then) =
       _$PlayersSearchFiltersValueCopyWithImpl<$Res, PlayersSearchFiltersValue>;
   @useResult
-  $Res call({String searchTermm});
+  $Res call({String searchTerm});
 }
 
 /// @nodoc
@@ -46,12 +46,12 @@ class _$PlayersSearchFiltersValueCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? searchTermm = null,
+    Object? searchTerm = null,
   }) {
     return _then(_value.copyWith(
-      searchTermm: null == searchTermm
-          ? _value.searchTermm
-          : searchTermm // ignore: cast_nullable_to_non_nullable
+      searchTerm: null == searchTerm
+          ? _value.searchTerm
+          : searchTerm // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -66,7 +66,7 @@ abstract class _$$_PlayersSearchFiltersValueCopyWith<$Res>
       __$$_PlayersSearchFiltersValueCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String searchTermm});
+  $Res call({String searchTerm});
 }
 
 /// @nodoc
@@ -82,12 +82,12 @@ class __$$_PlayersSearchFiltersValueCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? searchTermm = null,
+    Object? searchTerm = null,
   }) {
     return _then(_$_PlayersSearchFiltersValue(
-      searchTermm: null == searchTermm
-          ? _value.searchTermm
-          : searchTermm // ignore: cast_nullable_to_non_nullable
+      searchTerm: null == searchTerm
+          ? _value.searchTerm
+          : searchTerm // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -96,14 +96,14 @@ class __$$_PlayersSearchFiltersValueCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_PlayersSearchFiltersValue implements _PlayersSearchFiltersValue {
-  const _$_PlayersSearchFiltersValue({required this.searchTermm});
+  const _$_PlayersSearchFiltersValue({required this.searchTerm});
 
   @override
-  final String searchTermm;
+  final String searchTerm;
 
   @override
   String toString() {
-    return 'PlayersSearchFiltersValue(searchTermm: $searchTermm)';
+    return 'PlayersSearchFiltersValue(searchTerm: $searchTerm)';
   }
 
   @override
@@ -111,12 +111,12 @@ class _$_PlayersSearchFiltersValue implements _PlayersSearchFiltersValue {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_PlayersSearchFiltersValue &&
-            (identical(other.searchTermm, searchTermm) ||
-                other.searchTermm == searchTermm));
+            (identical(other.searchTerm, searchTerm) ||
+                other.searchTerm == searchTerm));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, searchTermm);
+  int get hashCode => Object.hash(runtimeType, searchTerm);
 
   @JsonKey(ignore: true)
   @override
@@ -127,11 +127,11 @@ class _$_PlayersSearchFiltersValue implements _PlayersSearchFiltersValue {
 }
 
 abstract class _PlayersSearchFiltersValue implements PlayersSearchFiltersValue {
-  const factory _PlayersSearchFiltersValue(
-      {required final String searchTermm}) = _$_PlayersSearchFiltersValue;
+  const factory _PlayersSearchFiltersValue({required final String searchTerm}) =
+      _$_PlayersSearchFiltersValue;
 
   @override
-  String get searchTermm;
+  String get searchTerm;
   @override
   @JsonKey(ignore: true)
   _$$_PlayersSearchFiltersValueCopyWith<_$_PlayersSearchFiltersValue>

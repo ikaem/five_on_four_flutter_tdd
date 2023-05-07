@@ -32,7 +32,6 @@ class MatchInfoBriefOverview extends StatelessWidget {
         context.pushNamed(
           AppRoutes.matchInfoScreenRouteValue.name,
           params: {
-            // TODO should use this id as constnats somewhere
             AppConstants.idKey: match.id,
           },
         );

@@ -2,25 +2,40 @@ import 'dart:async';
 
 import 'package:five_on_four_flutter_tdd/features/core/domain/enums/form_field_error.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/mixins/validation.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_create_inputs_validation/value.dart';
 import 'package:flutter/material.dart';
 
 mixin MatchCreateValidationMixin on ValidationMixin {
-  // late StreamTransformer<String, String> matchNameValidationTransformer =
-  //     StreamTransformer<String, String>.fromHandlers(
-  //   handleData: (data, sink) {
-  //     final FormFieldError? nameError = _validateMatchName(data);
+  bool inputValuesValidator(List<Object?> values) {
+    // TODO this is old
+    // final String? matchName = _matchNameSubject.valueOrNull;
+    // final String? locationName = _locationNameSubject.valueOrNull;
+    // final String? locationAddress = _locationAddressSubject.valueOrNull;
+    // final String? locationCity = _locationCitySubject.valueOrNull;
+    // final String? locationCountry = _locationCountrySubject.valueOrNull;
+    // final DateTime? date = _dateSubject.valueOrNull;
+    // final TimeOfDay? time = _timeSubject.valueOrNull;
 
-  //     if (nameError != null) {
-  //       sink.addError(nameError);
-  //       return;
-  //     }
+    final String? matchName = values[0] as String?;
+    final String? locationName = values[1] as String?;
+    final String? locationAddress = values[2] as String?;
+    final String? locationCity = values[3] as String?;
+    final String? locationCountry = values[4] as String?;
+    final DateTime? date = values[5] as DateTime?;
+    final TimeOfDay? time = values[6] as TimeOfDay?;
 
-  //     sink.add(data);
-  //   },
-  //   handleError: (error, stackTrace, sink) {
-  //     sink.addError(FormFieldError.invalid);
-  //   },
-  // );
+    final MatchCreateInputsValidationValue validationValue = validateInputs(
+      matchNameValue: matchName,
+      locationNameValue: locationName,
+      locationAddressValue: locationAddress,
+      locationCityValue: locationCity,
+      locationCountryValue: locationCountry,
+      dateValue: date,
+      timeValue: time,
+    );
+
+    return validationValue.areInputsValid;
+  }
 
   late StreamTransformer<String, String> genericTextValidationTransformer =
       StreamTransformer<String, String>.fromHandlers(
@@ -34,9 +49,9 @@ mixin MatchCreateValidationMixin on ValidationMixin {
 
       sink.add(data);
     },
-    // handleError: (error, stackTrace, sink) {
-    //   sink.addError(FormFieldError.invalid);
-    // },
+    handleError: (error, stackTrace, sink) {
+      sink.addError(FormFieldError.invalid);
+    },
   );
 
   late StreamTransformer<String, String> locationCountryValidationTransformer =
@@ -93,27 +108,12 @@ mixin MatchCreateValidationMixin on ValidationMixin {
   late StreamTransformer<bool, bool> joinMatchValidationTransformer =
       StreamTransformer<bool, bool>.fromHandlers(
     handleData: (data, sink) {
-      // TODO no much need for validation here
-      // TODO so we dont even need this transformer
-
       sink.add(data);
     },
     handleError: (error, stackTrace, sink) {
       sink.addError(FormFieldError.invalid);
     },
   );
-
-  // FormFieldError? _validateMatchName(String value) {
-  //   final bool isEmpty = isFieldEmpty(value);
-
-  //   FormFieldError? error;
-
-  //   if (isEmpty) {
-  //     error = FormFieldError.empty;
-  //   }
-
-  //   return error;
-  // }
 
   FormFieldError? _validateGenericText(String? value) {
     final bool isEmpty = isFieldEmpty(value);
@@ -148,11 +148,6 @@ mixin MatchCreateValidationMixin on ValidationMixin {
     final bool isValid = isFieldValid<DateTime?>(value, (value) {
       if (value == null) return false;
 
-      final DateTime nowDate = DateTime.now();
-
-// TODO just testing this
-      // if (!value.isAfter(nowDate)) return false;
-
       return true;
     });
 
@@ -172,17 +167,6 @@ mixin MatchCreateValidationMixin on ValidationMixin {
     final bool isValid = isFieldValid<TimeOfDay?>(value, (value) {
       if (value == null) return false;
 
-// TODO just testing this
-
-      // final DateTime picketTimeWithTodayDate = value.nowWithTodayDate;
-      // final TimeOfDay nowDate = TimeOfDay.now();
-      // final DateTime nowWithTodayDate =
-      //     nowDate.nowWithTodayDate.add(Duration(minutes: -1));
-
-      // if (!picketTimeWithTodayDate.isAfter(nowWithTodayDate)) {
-      //   return false;
-      // }
-
       return true;
     });
 
@@ -197,8 +181,6 @@ mixin MatchCreateValidationMixin on ValidationMixin {
     return error;
   }
 
-  // TODO test - use this for inputs validation strea, but maybe also for on submit validation
-  // TODO for now, return true or false, but later, it should probably return validation value
   MatchCreateInputsValidationValue validateInputs({
     required String? matchNameValue,
     required String? locationNameValue,
@@ -232,41 +214,5 @@ mixin MatchCreateValidationMixin on ValidationMixin {
     );
 
     return validationValue;
-  }
-}
-
-// TODO move to values - also maybe reuse for non real time validation
-// and then use its properties to sent sink in the controller
-
-@immutable
-class MatchCreateInputsValidationValue {
-  const MatchCreateInputsValidationValue({
-    required this.matchNameError,
-    required this.locationNameError,
-    required this.locationAddressError,
-    required this.locationCityError,
-    required this.locationCountryError,
-    required this.dateError,
-    required this.timeError,
-  });
-
-  final FormFieldError? matchNameError;
-  final FormFieldError? locationNameError;
-  final FormFieldError? locationAddressError;
-  final FormFieldError? locationCityError;
-  final FormFieldError? locationCountryError;
-  final FormFieldError? dateError;
-  final FormFieldError? timeError;
-
-  bool get areInputsValid {
-    if (matchNameError != null) return false;
-    if (locationNameError != null) return false;
-    if (locationAddressError != null) return false;
-    if (locationCityError != null) return false;
-    if (locationCountryError != null) return false;
-    if (dateError != null) return false;
-    if (timeError != null) return false;
-
-    return true;
   }
 }

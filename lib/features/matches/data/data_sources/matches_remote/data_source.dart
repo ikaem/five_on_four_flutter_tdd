@@ -1,8 +1,8 @@
 import 'package:five_on_four_flutter_tdd/features/matches/data/dtos/match_remote/dto.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/values/matches_search_filters/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
-import 'package:flutter/material.dart';
 
 abstract class MatchesRemoteDataSource {
   Future<List<MatchRemoteDTO>> getJoinedMatchesForPlayer(
@@ -35,30 +35,6 @@ abstract class MatchesRemoteDataSource {
   });
 
   Future<List<MatchRemoteDTO>> getSearchedMatches(
-    MatchesSearchFilters filters,
+    MatchesSearchFiltersValue filters,
   );
-}
-
-// TODO move to values
-
-@immutable
-class MatchesSearchFilters {
-  const MatchesSearchFilters({
-    required this.searchTerm,
-  });
-  final String searchTerm;
-
-  // MatchesSearchFilters.copyWith({
-  //   String? newSearchTerm,
-  // }) {
-  //   searchTerm = newSearchTerm ?? searchTerm;
-  // }
-
-  MatchesSearchFilters copyWith({
-    String? searchTerm,
-  }) {
-    return MatchesSearchFilters(
-      searchTerm: searchTerm ?? this.searchTerm,
-    );
-  }
 }

@@ -21,7 +21,6 @@ class MatchParticipantRemoteDTO with _$MatchParticipantRemoteDTO {
   factory MatchParticipantRemoteDTO.fromMatchParticipantInvitationValue({
     required MatchParticipationValue invitationValue,
     required String matchId,
-    // TODO make status an enum
     required String status,
   }) {
     final DateTime nowDate = DateTime.now();

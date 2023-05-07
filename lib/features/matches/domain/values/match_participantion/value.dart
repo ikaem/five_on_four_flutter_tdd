@@ -1,16 +1,15 @@
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
-import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-// TODO use freezed for this
-@immutable
-class MatchParticipationValue {
-  const MatchParticipationValue({
-    required this.playerId,
-    required this.nickname,
-  });
+part "value.freezed.dart";
 
-  // TODO should this be a model isntead?
-  // TOOD rename this to MatchParticipationValue, to be reused for invitaitons and joining
+@freezed
+class MatchParticipationValue with _$MatchParticipationValue {
+  const factory MatchParticipationValue({
+    required String playerId,
+    required String nickname,
+  }) = _MatchParticipationValue;
+
   factory MatchParticipationValue.fromPlayerModel(PlayerModel player) {
     final MatchParticipationValue value = MatchParticipationValue(
       playerId: player.id,
@@ -19,7 +18,4 @@ class MatchParticipationValue {
 
     return value;
   }
-
-  final String playerId;
-  final String nickname;
 }

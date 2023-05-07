@@ -9,7 +9,6 @@ part "provider.g.dart";
 class PlayerInfoGetController extends _$PlayerInfoGetController {
   PlayersService get playersService => ref.read(playersAppServiceProvider);
 
-  // TODO we try just with notifier
   AsyncValue<PlayerModel> build(String playerId) {
     _onLoadPlayerInfo();
 
@@ -17,8 +16,6 @@ class PlayerInfoGetController extends _$PlayerInfoGetController {
   }
 
   Future<void> _onLoadPlayerInfo() async {
-    // state = AsyncValue.loading();
-
     try {
       final PlayerModel playerModel =
           await playersService.handleGetPlayer(playerId);

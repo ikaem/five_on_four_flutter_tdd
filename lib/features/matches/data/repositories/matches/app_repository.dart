@@ -3,6 +3,7 @@ import 'package:five_on_four_flutter_tdd/features/matches/data/dtos/match_remote
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/repositories_interfaces/matches_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/values/matches_search_filters/value.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
 
@@ -45,8 +46,6 @@ class MatchesAppRepository implements MatchesRepository {
     final MatchModel match = MatchModel.fromRemoteDto(remoteDTO);
 
     return match;
-
-    // TODO later we will get data from database
   }
 
   @override
@@ -85,7 +84,8 @@ class MatchesAppRepository implements MatchesRepository {
 
   @override
   Future<List<MatchModel>> getSearchedMatches(
-      MatchesSearchFilters filters) async {
+    MatchesSearchFiltersValue filters,
+  ) async {
     final List<MatchRemoteDTO> dtoResults =
         await remoteDataSource.getSearchedMatches(filters);
 

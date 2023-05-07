@@ -19,7 +19,6 @@ class SearchFiltersContainer extends StatelessWidget {
       spacing: SpacingConstants.small,
       runSpacing: SpacingConstants.small,
       children: [
-        // TODO make wrapper out of this
         SearchFilterWrapper(
           child: SearchSortDirectionFilter(
             labelTextStyle: themeText.labelMedium!,

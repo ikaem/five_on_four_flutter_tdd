@@ -15,36 +15,25 @@ class MatchBriefCard extends StatelessWidget {
   const MatchBriefCard({
     super.key,
     required this.match,
-    // TODO add this later if needed
-    // required this.onTapMatchResult,
-    // required this.tappableIcon,
   });
 
-// TODO possibly, this should get match brief, and not full on match
   final MatchModel match;
-  // final OnTapMatchResult onTapMatchResult;
-  // final Icon tappableIcon;
 
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final ColorScheme colorsTheme = Theme.of(context).colorScheme;
 
     return GestureDetector(
       onTap: () {
         context.pushNamed(
           AppRoutes.matchInfoScreenRouteValue.name,
           params: {
-            // TODO should use this id as constnats somewhere
             AppConstants.idKey: match.id,
           },
         );
       },
       child: Container(
         padding: const EdgeInsets.all(SpacingConstants.medium),
-        // TODO this should probably use theme as well because of toggling dark and light theme
-        // color: ColorConstants.greenLight,
-
         decoration: BoxDecoration(
             color: ColorConstants.greenLight,
             borderRadius: BorderRadius.circular(

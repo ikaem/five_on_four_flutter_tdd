@@ -1,12 +1,12 @@
 import 'package:five_on_four_flutter_tdd/features/auth/domain/models/auth/model.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfaces/auth_status_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service.dart';
-import 'package:five_on_four_flutter_tdd/features/matches/data/data_sources/matches_remote/data_source.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/enums/match_participant_status.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match_info/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/repositories_interfaces/matches_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/values/matches_search_filters/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/utils/extensions/match_model_extension.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
@@ -19,14 +19,12 @@ class MatchesAppService implements MatchesService {
     // TODO probably get some network status service or repository here
   });
 
-  // TODO functions here should be called handle
-
   final MatchesRepository matchesRepository;
   final AuthStatusRepository authStatusRepository;
   // TODO will eventually need weather repository too
 
   @override
-  Future<MatchInfoModel> getMatchInfo(String matchId) async {
+  Future<MatchInfoModel> handleGetMatchInfo(String matchId) async {
     final MatchModel match = await matchesRepository.getMatch(matchId);
     final WeatherModel weather = WeatherModel.random();
 
@@ -39,7 +37,7 @@ class MatchesAppService implements MatchesService {
   }
 
   @override
-  Future<String> createMatch(NewMatchValue matchData) async {
+  Future<String> handleCreateMatch(NewMatchValue matchData) async {
     // TOOD i could get sync value from this, if I used value or null or subject
     final AuthModel? currentPlayer = await authStatusRepository.getAuthStatus();
     if (currentPlayer == null) {
@@ -66,7 +64,6 @@ class MatchesAppService implements MatchesService {
     final bool hasPlayerJoinedMatch = checkHasPlayerJoinedMatch(match);
 
     if (!hasPlayerJoinedMatch) {
-      // TODO join match needs adjusting now - no need to check if player has joined match in the function itself
       await matchesRepository.joinMatch(
         matchId: match.id,
         matchParticipation: participation,
@@ -75,13 +72,13 @@ class MatchesAppService implements MatchesService {
       return;
     }
 
-    // now we unjoin
     await matchesRepository.unjoinMatch(
       matchId: match.id,
       matchParticipation: participation,
     );
   }
 
+// TODO not sure this should be here. maybe we can just pass current player to the controller
   @override
   bool checkHasPlayerJoinedMatch(MatchModel match) {
     final AuthModel? auth = authStatusRepository.getAuthStatus();
@@ -96,7 +93,6 @@ class MatchesAppService implements MatchesService {
     final bool isCurrentPlayerParticipating =
         allParticipants.any((participant) {
       final bool isParticipating = participant.playerId == currentPlayer.id &&
-          // TODO there is an enum for this
           participant.status == MatchParticipantStatus.joined;
 
       return isParticipating;
@@ -107,15 +103,13 @@ class MatchesAppService implements MatchesService {
 
   @override
   Future<List<MatchModel>> handleSearchMatches(
-      MatchesSearchFilters filters) async {
+    MatchesSearchFiltersValue filters,
+  ) async {
     // TODO this will decide where to search from - local or remote
     // TODO this could also be a stream generator
-    // TODO: implement handleSearchMatches
     final List<MatchModel> matches =
         await matchesRepository.getSearchedMatches(filters);
 
     return matches;
   }
-
-  // TODO this will have access to network status info
 }

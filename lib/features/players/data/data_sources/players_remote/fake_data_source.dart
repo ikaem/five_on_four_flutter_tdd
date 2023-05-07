@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:five_on_four_flutter_tdd/features/players/data/data_sources/players_remote/data_source.dart';
 import 'package:five_on_four_flutter_tdd/features/players/data/dtos/player_remote/dto.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/exceptions/player_exceptions.dart';
-import 'package:five_on_four_flutter_tdd/features/players/domain/values/players_search_filters_value.dart';
+import 'package:five_on_four_flutter_tdd/features/players/domain/values/players_search_filters/value.dart';
 
 class PlayersRemoteFakeDataSource implements PlayersRemoteDataSource {
   @override

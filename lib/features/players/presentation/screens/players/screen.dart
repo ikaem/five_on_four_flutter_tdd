@@ -11,8 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-// TODO make view for this screen
-// TODO this could potentually be reused for matches search too
 class PlayersScreen extends ConsumerWidget {
   const PlayersScreen({super.key});
 
@@ -55,11 +53,9 @@ class PlayersScreen extends ConsumerWidget {
               height: SpacingConstants.small,
             ),
             SearchFiltersContainer(themeText: themeText),
-            // TOOO will need to wrap in expanded
             SizedBox(
               height: SpacingConstants.mediumLarge,
             ),
-
             playersSearchValue.when(
               loading: () {
                 return Center(
@@ -73,7 +69,6 @@ class PlayersScreen extends ConsumerWidget {
               },
               data: (data) {
                 return Expanded(
-                  // TODO these search results could probably be reused
                   child: SearchResultsPlayers(
                     players: data,
                     onTapPlayerResult: _onTapPlayerResult,
@@ -81,15 +76,12 @@ class PlayersScreen extends ConsumerWidget {
                 );
               },
             ),
-
-            // TODO eventually make this into search results
           ],
         ),
       ),
     );
   }
 
-  // TODO this will go to screen's view eventually
   void _onTapPlayerResult({
     required BuildContext context,
     required PlayerModel playerModel,

@@ -21,8 +21,6 @@ class MatchRemoteDTO with _$MatchRemoteDTO {
   }) {
     final List<MatchParticipantRemoteDTO> participants =
         matchValue.invitedPlayers.map((e) {
-// TODO match will need to have organizer field on it
-// TODO THIS WILL need to be filtered elsewhere to add player to match if they are joining
       final String participantStatus =
           matchValue.isOrganizerJoined && e.playerId == organizerId
               ? MatchParticipantStatus.joined.name
@@ -41,7 +39,7 @@ class MatchRemoteDTO with _$MatchRemoteDTO {
     final MatchRemoteDTO dto = MatchRemoteDTO(
       id: matchId,
       name: matchValue.matchName,
-      participants: [],
+      participants: participants,
     );
 
     return dto;

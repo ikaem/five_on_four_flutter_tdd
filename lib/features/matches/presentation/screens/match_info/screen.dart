@@ -1,5 +1,3 @@
-// TODO later make actual view for this
-
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/screens/match_info/screen_view.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/match_info_get/providers/provider.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +19,6 @@ class MatchInfoScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final AsyncValue<MatchInfoModel?> matchInfoState =
-    //     ref.watch(matchInfoGetAppControllerProvider(
-    //   matchId,
-    // ));
-
     final controller = ref.read(controllerProvider.notifier);
     final value = ref.watch(controllerProvider);
 

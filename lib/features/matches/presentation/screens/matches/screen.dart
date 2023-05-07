@@ -17,10 +17,9 @@ class MatchesScreen extends ConsumerWidget {
     final TextTheme themeText = theme.textTheme;
 
     final AsyncValue<List<MatchModel>> matchesSearchValue =
-        ref.watch(matchesSearchControllerProvider);
+        ref.watch(matchesSearchAppControllerProvider);
 
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
       key: const Key(KeysConstants.matchesScreenScaffoldKey),
       appBar: AppBar(
         title: Text("Matches"),
@@ -32,11 +31,10 @@ class MatchesScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // TODO same widget exists on the palyers earch screen
             TextField(
               onChanged: (value) {
                 ref
-                    .read(matchesSearchControllerProvider.notifier)
+                    .read(matchesSearchAppControllerProvider.notifier)
                     .onChangeSearchTerm(value);
               },
               decoration: InputDecoration(
@@ -71,7 +69,6 @@ class MatchesScreen extends ConsumerWidget {
                 return Expanded(
                   child: SearchResultsMatches(
                     matches: data,
-                    // onTapPlayerResult: _onTapPlayerResult,
                   ),
                 );
               },

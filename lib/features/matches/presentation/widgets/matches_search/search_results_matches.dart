@@ -9,19 +9,15 @@ class SearchResultsMatches extends StatelessWidget {
   const SearchResultsMatches({
     super.key,
     required this.matches,
-    // required this.onTapMatchResult,
   });
 
   final List<MatchModel> matches;
-  // TODO this is not needed yet
-  // final OnTapMatchResult onTapMatchResult;
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final TextTheme themeText = theme.textTheme;
 
-// TODO this should be probably using players search resultls as well, to make sure dry
     return Container(
       padding: EdgeInsets.all(
         SpacingConstants.small,

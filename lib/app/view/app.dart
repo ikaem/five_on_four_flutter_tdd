@@ -32,7 +32,6 @@ class _AppState extends ConsumerState<App> {
   Widget build(BuildContext widgetContext) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      // TODO make this a constant
       restorationScopeId: AppConstants.restorationScopeId,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,

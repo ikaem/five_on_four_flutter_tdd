@@ -27,26 +27,22 @@ class MatchParticipantBriefCard extends StatelessWidget {
         ),
         color: ColorConstants.red,
       ),
-      child: Row(children: [
-        Text(
-          matchParticipant.nickname,
-          style: themeText.bodySmall,
-        ),
-        SizedBox(
-          width: SpacingConstants.medium,
-        ),
-        GestureDetector(
-          child: Icon(
-            Icons.info,
+      child: Row(
+        children: [
+          Text(
+            matchParticipant.nickname,
+            style: themeText.bodySmall,
           ),
-        ),
-        // IconButton(
-        //     onPressed: () {},
-        //     icon: Icon(
-        //       Icons.info,
-        //       // ,
-        //     ))
-      ]),
+          SizedBox(
+            width: SpacingConstants.medium,
+          ),
+          GestureDetector(
+            child: Icon(
+              Icons.info,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

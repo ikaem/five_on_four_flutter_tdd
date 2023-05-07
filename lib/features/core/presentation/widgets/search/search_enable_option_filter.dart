@@ -16,7 +16,6 @@ class SearchEnableOptionFilter extends StatelessWidget {
       children: [
         Text(
           "Some filter:",
-          // TODO probably best to pass these theme things to each widget
           style: labelTextStyle.copyWith(
             fontWeight: FontWeight.bold,
           ),

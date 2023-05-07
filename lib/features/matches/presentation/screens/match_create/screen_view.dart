@@ -20,15 +20,14 @@ class MatchCreateScreenView extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    // TODO not sure if should read or watch here - im thinking read
+    // TODO this will also need to disable all inputs somehow while loading
     final MatchCreateController matchCreateController =
         ref.read(matchCreateAppControllerProvider.notifier);
+    final AsyncValue<String?> matchCreateValue =
+        ref.watch(matchCreateAppControllerProvider);
 
-    // TODO this will also need to disable all inputs somehow while loading
-
-// TODO this needs value, and it needs the notifier itself
-    // final PlayersSearchController playersSearchController =
-    //     ref.watch(playersSearchAppControllerProvider);
+    ref.listen(
+        matchCreateAppControllerProvider, _matchCreatedListener(context));
 
     final ThemeData theme = Theme.of(context);
     final TextTheme themeText = theme.textTheme;
@@ -40,47 +39,60 @@ class MatchCreateScreenView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          Consumer(
-            builder: (context, ref, child) {
-              // TODO extract this elsewhere
-              ref.listen(
-                matchCreateAppControllerProvider,
-                (previous, next) {
-                  next.when(
-                    data: (matchId) {
-                      context.pushReplacementNamed(
-                        AppRoutes.matchInfoScreenRouteValue.name,
-                        params: {
-                          // TODO should use this id as constnats somewhere
-                          AppConstants.idKey: matchId,
-                        },
-                      );
-                    },
-                    error: (error, stackTrace) => context.showSnackBarMessage(
-                        "There was an issue creating the match"),
-                    loading: () => null,
-                  );
-// TODO changed state
-                },
-              );
+          matchCreateValue.when(
+            loading: () => Center(child: CircularProgressIndicator()),
+            error: (e, st) => SizedBox.shrink(),
+            data: (String? matchId) {
+              if (matchId != null) return SizedBox.shrink();
 
-              final AsyncValue<String> matchCreateValue =
-                  ref.watch(matchCreateAppControllerProvider);
-
-              return matchCreateValue.when(
-                loading: () => Center(child: CircularProgressIndicator()),
-                error: (e, st) => SizedBox.shrink(),
-                data: (data) => Center(
-                  child: Text("Some data: $data"),
-                ),
+              return StreamedIconButton(
+                stream: matchCreateController.inputsValidationStream,
+                onPressed: matchCreateController.onSubmit,
+                icon: Icons.check,
               );
             },
           ),
-          StreamedIconButton(
-            stream: matchCreateController.inputsValidationStream,
-            onPressed: matchCreateController.onSubmit,
-            icon: Icons.check,
-          ),
+          // TODO come back to this
+          // Consumer(
+          //   builder: (context, ref, child) {
+          //     ref.listen(
+          //       matchCreateAppControllerProvider,
+          //       (previous, next) {
+          //         next.when(
+          //           data: (matchId) {
+          //             if (matchId == null) return;
+
+          //             context.pushReplacementNamed(
+          //               AppRoutes.matchInfoScreenRouteValue.name,
+          //               params: {
+          //                 AppConstants.idKey: matchId,
+          //               },
+          //             );
+          //           },
+          //           error: (error, stackTrace) => context.showSnackBarMessage(
+          //               "There was an issue creating the match"),
+          //           loading: () => null,
+          //         );
+          //       },
+          //     );
+
+          //     final AsyncValue<String?> matchCreateValue =
+          //         ref.watch(matchCreateAppControllerProvider);
+
+          //     return matchCreateValue.when(
+          //       loading: () => Center(child: CircularProgressIndicator()),
+          //       error: (e, st) => SizedBox.shrink(),
+          //       data: (data) => Center(
+          //         child: Text("Some data: $data"),
+          //       ),
+          //     );
+          //   },
+          // ),
+          // StreamedIconButton(
+          //   stream: matchCreateController.inputsValidationStream,
+          //   onPressed: matchCreateController.onSubmit,
+          //   icon: Icons.check,
+          // ),
         ],
       ),
       body: Padding(
@@ -89,7 +101,6 @@ class MatchCreateScreenView extends ConsumerWidget {
           children: [
             Text(
                 "Some match info  that will be wrapped in a stream of match name value"),
-
             TextButton(
               onPressed: () {
                 context.pushNamed(
@@ -101,7 +112,6 @@ class MatchCreateScreenView extends ConsumerWidget {
               },
               child: Text("Go to error page"),
             ),
-            // TODO go to error screen
             MatchCreateBasicInputs(
               sectionLabelStyle: sectionLabelStyle.copyWith(
                 color: ColorConstants.yellow,
@@ -118,7 +128,6 @@ class MatchCreateScreenView extends ConsumerWidget {
               dateStream: matchCreateController.dateValidationStream,
               timeStream: matchCreateController.timeValidationStream,
               joinMatchStream: matchCreateController.joinMatchValidationStream,
-              //
               onChangeMatchName: matchCreateController.onChangeMatchName,
               onLocationNameChange: matchCreateController.onLocationNameChange,
               onLocationAddressChange:
@@ -149,4 +158,29 @@ class MatchCreateScreenView extends ConsumerWidget {
       ),
     );
   }
+
+  void Function(AsyncValue<String?>?, AsyncValue<String?>)
+      _matchCreatedListener(
+    BuildContext context,
+  ) =>
+          (
+            prevState,
+            currentState,
+          ) {
+            currentState.when(
+              data: (matchId) {
+                if (matchId == null) return;
+
+                context.pushReplacementNamed(
+                  AppRoutes.matchInfoScreenRouteValue.name,
+                  params: {
+                    AppConstants.idKey: matchId,
+                  },
+                );
+              },
+              error: (error, stackTrace) => context
+                  .showSnackBarMessage("There was an issue creating the match"),
+              loading: () => null,
+            );
+          };
 }

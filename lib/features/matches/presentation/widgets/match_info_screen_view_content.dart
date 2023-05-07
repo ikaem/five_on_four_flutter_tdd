@@ -36,7 +36,6 @@ class _MatchInfoScreenViewContentState
       child: DefaultTabController(
         length: 3,
         child: Column(
-          // TODO not sure if this is needed
           mainAxisSize: MainAxisSize.min,
           children: [
             TabBar(
@@ -85,150 +84,11 @@ class _MatchInfoScreenViewContentState
           ],
         ),
       ),
-      // CustomScrollView(
-      //   slivers: [
-      //     SliverToBoxAdapter(
-      //       child: Text("Joining players"),
-      //     ),
-      //     SliverToBoxAdapter(
-      //       child: Padding(
-      //         padding:
-      //             EdgeInsets.only(bottom: SpacingConstants.small),
-      //       ),
-      //     ),
-      //     SliverList(
-      //       delegate: SliverChildBuilderDelegate(
-      //         (context, index) {
-      //           final List<String> participantsList =
-      //               joinedParticipants;
-      //           final String participant = participantsList[index];
-
-      //           return Text(participant);
-      //         },
-      //         childCount: joinedParticipants.length,
-      //       ),
-      //     ),
-      //     SliverToBoxAdapter(
-      //       child: Text("Invited players"),
-      //     ),
-      //     SliverToBoxAdapter(
-      //       child: Padding(
-      //         padding:
-      //             EdgeInsets.only(bottom: SpacingConstants.small),
-      //       ),
-      //     ),
-      //     SliverList(
-      //       delegate: SliverChildBuilderDelegate(
-      //         (context, index) {
-      //           final List<String> participantsList =
-      //               invitedParticipants;
-      //           final String participant = participantsList[index];
-
-      //           return Text(participant);
-      //         },
-      //         childCount: invitedParticipants.length,
-      //       ),
-      //     ),
-      //   ],
-      // ),
-
-      // child: Column(
-      //   // TODO not sure exaclty what this does
-      //   mainAxisSize: MainAxisSize.min,
-      //   children: [
-      //     MatchInfoTitleOverview(title: currentMatchInfo.match.name),
-      //     SizedBox(
-      //       height: SpacingConstants.small,
-      //     ),
-      //     MatchInfoVenueOverview(),
-      //     //   Text("Hello"),
-      //     //   Expanded(
-      //     //     child: DefaultTabController(
-      //     //       length: 2,
-      //     //       child: Column(
-      //     //         mainAxisSize: MainAxisSize.min,
-      //     //         children: [
-      //     //           TabBar(
-      //     //             tabs: [
-      //     //               Tab(
-      //     //                 text: "First",
-      //     //               ),
-      //     //               Tab(
-      //     //                 text: "Second",
-      //     //               ),
-      //     //             ],
-      //     //           ),
-      //     //           Expanded(
-      //     //             child: TabBarView(
-      //     //               children: [
-      //     //                 ListView.builder(
-      //     //                   itemCount: joinedParticipants.length,
-      //     //                   itemBuilder: (context, index) =>
-      //     //                       Text(joinedParticipants[index]),
-      //     //                 ),
-      //     //                 ListView.builder(
-      //     //                   itemCount: invitedParticipants.length,
-      //     //                   itemBuilder: (context, index) =>
-      //     //                       Text(invitedParticipants[index]),
-      //     //                 ),
-      //     //               ],
-      //     //             ),
-      //     //           )
-      //     //         ],
-      //     //       ),
-      //     //     ),
-      //     //   )
-      //   ],
-      // ),
-
-      // TODO this has issues with scroll vie in scroll view - there is liste view builder nested here
-      // maybe just separate the two
-      // TODO just not flexible enough this approach, and i have to make this stateful, and i dont like it
-      // TODO this could potentially be its own widget, so we dont have to store
-      // child: CustomScrollView(
-      //   slivers: [
-      //     SliverToBoxAdapter(
-      //       child: Text("Hello"),
-      //     ),
-      //     SliverToBoxAdapter(
-      //       child: DefaultTabController(
-      //         initialIndex: currentTabIndex,
-      //         length: 2,
-      //         child: TabBar(
-      //           onTap: (value) {
-      //             currentTabIndex = value;
-      //             setState(() {});
-      //           },
-      //           tabs: [
-      //             Tab(text: "First"),
-      //             Tab(text: "Second"),
-      //           ],
-      //         ),
-      //       ),
-      //     ),
-      //     SliverList(
-      //       delegate: SliverChildBuilderDelegate(
-      //         (context, index) {
-      //           final List<String> participantsList = currentTabIndex == 0
-      //               ? joinedParticipants
-      //               : invitedParticipants;
-      //           final String participant = participantsList[index];
-
-      //           return Text(participant);
-      //         },
-      //         childCount: currentTabIndex == 0
-      //             ? joinedParticipants.length
-      //             : invitedParticipants.length,
-      //       ),
-      //     )
-      //   ],
-      // ),
     );
   }
 }
 
-// TODO move to its own file
-
+// TODO remove hardcoded values in future
 final List<String> joinedParticipants =
     List.generate(250, (index) => "Participant n: ${index + 1}");
 

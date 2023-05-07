@@ -23,7 +23,6 @@ class ScreenMainTitle extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
     return Row(
-      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
           child: Column(
@@ -75,35 +74,17 @@ class ScreenMainTitle extends StatelessWidget {
             ],
           ),
         ),
+        // TODO make and use MediaModel, to be used everywhere for media
+        // TODO tests will fail because of media fetching
         Container(
           width: DimensionsConstants.d50,
           height: DimensionsConstants.d50,
           decoration: BoxDecoration(
             color: ColorConstants.red,
-            // borderRadius: BorderRadius.circular(DimensionsConstants.d10),
+            borderRadius: BorderRadius.circular(DimensionsConstants.d10),
           ),
-          // TODO test fails because of this - come back to it
-          // child: ClipRRect(
-          //   borderRadius: BorderRadius.circular(DimensionsConstants.d10),
-          //   child: Image.network(
-          //     'https://picsum.photos/200/300',
-          //     fit: BoxFit.cover,
-          //     loadingBuilder: (context, child, loadingProgress) {
-          //       if (loadingProgress == null) return child;
-
-          //       return Center(
-          //         child: CircularProgressIndicator(),
-          //       );
-          //     },
-          //     errorBuilder: (context, error, stackTrace) => Center(
-          //       child: Icon(Icons.error),
-          //     ),
-          //   ),
-          // ),
-          // TODO now we want to render some image from a network here
         ),
       ],
     );
-    ;
   }
 }

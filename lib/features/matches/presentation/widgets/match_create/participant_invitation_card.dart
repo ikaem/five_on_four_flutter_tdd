@@ -12,7 +12,6 @@ class MatchParticipantInvitationCard extends StatelessWidget {
     required this.onTapRemove,
   });
 
-// TODO not sure if i should have a brief model here
   final MatchParticipationValue invitation;
   final ValueSetter<String> onTapInfo;
   final OnTapParticipation onTapRemove;

@@ -5,7 +5,6 @@ import 'package:five_on_four_flutter_tdd/theme/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class MatchesBriefsListsTabbedOverview extends StatelessWidget {
-  // TODO this widget could potentually take care of anything, not just matches - we just pass it widgets
   const MatchesBriefsListsTabbedOverview({
     super.key,
     required this.matchesListsMap,
@@ -31,16 +30,16 @@ class MatchesBriefsListsTabbedOverview extends StatelessWidget {
               labelColor: ColorConstants.black,
               unselectedLabelColor: ColorConstants.white,
               indicator: BoxDecoration(
-                  color: ColorConstants.yellow,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(
-                      DimensionsConstants.d10,
-                    ),
-                    topRight: Radius.circular(
-                      DimensionsConstants.d10,
-                    ),
-                  )),
-              // labelColor: Colors.yellow,
+                color: ColorConstants.yellow,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(
+                    DimensionsConstants.d10,
+                  ),
+                  topRight: Radius.circular(
+                    DimensionsConstants.d10,
+                  ),
+                ),
+              ),
               tabs: tabNames.map(
                 (tabName) {
                   return Tab(

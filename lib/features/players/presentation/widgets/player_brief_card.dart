@@ -1,22 +1,22 @@
-import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_create/players_invite_inputs.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/font_size_constants.dart';
 import 'package:flutter/material.dart';
 
+typedef OnTapPlayer = void Function(
+  PlayerModel player,
+);
+
 class PlayerBriefCard extends StatelessWidget {
   const PlayerBriefCard({
     super.key,
     required this.player,
-    // required this.themeText,
     required this.onTapPlayer,
     required this.tappableIcon,
   });
 
   final PlayerModel player;
-  // final TextTheme themeText;
-  // TODO move this defintion of typedef here instead
   final OnTapPlayer onTapPlayer;
   final Icon tappableIcon;
 
@@ -63,15 +63,8 @@ class PlayerBriefCard extends StatelessWidget {
                 ],
                 style: themeText.labelLarge!.copyWith(
                   color: ColorConstants.greyLight,
-                  // fontWeight: FontWeight.bold,
                 ),
-              )
-                  // player.nickname,
-                  // style: themeText.labelLarge!.copyWith(
-                  //   color: ColorConstants.white,
-                  //   fontWeight: FontWeight.bold,
-                  // ),
-                  ),
+              )),
             ],
           ),
           SizedBox(
@@ -80,7 +73,6 @@ class PlayerBriefCard extends StatelessWidget {
           GestureDetector(
             onTap: () {
               onTapPlayer(
-                // MatchParticipationValue.fromPlayerModel(player),
                 player,
               );
             },

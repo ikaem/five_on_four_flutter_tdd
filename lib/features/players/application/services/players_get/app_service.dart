@@ -1,7 +1,7 @@
 import 'package:five_on_four_flutter_tdd/features/players/application/services/players_get/service.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/repository_interfaces/players_repository.dart';
-import 'package:five_on_four_flutter_tdd/features/players/domain/values/players_search_filters_value.dart';
+import 'package:five_on_four_flutter_tdd/features/players/domain/values/players_search_filters/value.dart';
 
 class PlayersAppService implements PlayersService {
   PlayersAppService({

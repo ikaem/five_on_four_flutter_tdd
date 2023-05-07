@@ -15,24 +15,16 @@ class MatchInviteParticipantsView extends ConsumerWidget {
     required this.participantsInvitationsStream,
     required this.onTapRemoveInvitation,
     required this.onTapAddInvitation,
-
-    // required this.searchedPlayersValue,
   });
 
-  // final AsyncValue<List<PlayerModel>> searchedPlayersValue;
   final Stream<List<MatchParticipationValue>> participantsInvitationsStream;
   final OnTapParticipation onTapRemoveInvitation;
   final OnTapParticipation onTapAddInvitation;
-
-  // TODO not sure if we should accept data here, or actually get data here - access the controller here
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeData theme = Theme.of(context);
     final TextTheme themeText = theme.textTheme;
-
-    // final PlayersSearchController playersSearchController =
-    //     ref.read(playersSearchAppControllerProvider.notifier);
 
     final AsyncValue<List<PlayerModel>> playersSearchValue =
         ref.watch(playersSearchAppControllerProvider);
@@ -43,7 +35,6 @@ class MatchInviteParticipantsView extends ConsumerWidget {
           padding: const EdgeInsets.only(bottom: SpacingConstants.medium),
           child: TextField(
             onChanged: (value) {
-              // playersSearchController.onChangeSearchTerm(value);
               ref
                   .read(playersSearchAppControllerProvider.notifier)
                   .onChangeSearchTerm(value);
@@ -75,7 +66,6 @@ class MatchInviteParticipantsView extends ConsumerWidget {
               ),
               StreamBuilder<List<MatchParticipationValue>>(
                   stream: participantsInvitationsStream,
-                  // TODO extract builder
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting)
                       return SliverToBoxAdapter(
@@ -95,8 +85,6 @@ class MatchInviteParticipantsView extends ConsumerWidget {
                         maxCrossAxisExtent: 150,
                         mainAxisSpacing: 8,
                         crossAxisSpacing: 8,
-
-                        // crossAxisSpacing: ,
                       ),
                       itemBuilder: (context, index) {
                         final MatchParticipationValue invitation = data[index];
@@ -112,7 +100,6 @@ class MatchInviteParticipantsView extends ConsumerWidget {
                               DimensionsConstants.d20,
                             ),
                           ),
-                          // child: Text("Karlo"),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -144,16 +131,6 @@ class MatchInviteParticipantsView extends ConsumerWidget {
                   bottom: SpacingConstants.medium,
                 ),
               ),
-              // SliverPadding(
-              //   padding:
-              //       EdgeInsets.symmetric(vertical: SpacingConstants.medium),
-              //   sliver: SliverToBoxAdapter(
-              //     child: ElevatedButton(
-              //       child: Text("Add selected players"),
-              //       onPressed: () {},
-              //     ),
-              //   ),
-              // ),
               SliverToBoxAdapter(
                 child: Text(
                   "Search results",
@@ -188,7 +165,6 @@ class MatchInviteParticipantsView extends ConsumerWidget {
                             Icons.add_circle,
                             color: ColorConstants.white,
                           ),
-                          // themeText: themeText,
                           onTapPlayer: (player) {
                             final MatchParticipationValue participationValue =
                                 MatchParticipationValue.fromPlayerModel(player);

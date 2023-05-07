@@ -11,7 +11,6 @@ class PlayerInfoScreen extends ConsumerWidget {
 
   final String playerId;
 
-  // TODO not sure if this is ok
   late final PlayerInfoGetControllerProvider controllerProvider =
       playerInfoGetControllerProvider(
     playerId,

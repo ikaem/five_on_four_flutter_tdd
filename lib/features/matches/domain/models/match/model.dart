@@ -56,16 +56,3 @@ class MatchModel with _$MatchModel {
     );
   }
 }
-
-// TODO mvoe to extensions
-// extension MatchModelExtension on MatchModel {
-//   // List<MatchParticipantModel> get allParticipants => [
-//   //       ...joinedParticipants,
-//   //       ...invitedParticipants,
-//   //     ];
-
-//   /* TODO for readability */
-//   List<MatchParticipantModel> get allParticipants => <MatchParticipantModel>[]
-//     ..addAll(joinedParticipants)
-//     ..addAll(invitedParticipants);
-// }

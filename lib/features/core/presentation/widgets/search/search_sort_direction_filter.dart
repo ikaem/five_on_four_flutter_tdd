@@ -1,4 +1,3 @@
-// TODO moveelsehwere
 import 'package:five_on_four_flutter_tdd/features/core/domain/enums/search_results_sort_direction.dart';
 import 'package:flutter/material.dart';
 
@@ -8,20 +7,11 @@ class SearchSortDirectionFilter extends StatelessWidget {
   });
 
   final TextStyle labelTextStyle;
-  // TODO there will be some fields
 
   @override
   Widget build(BuildContext context) {
-    // final ThemeData theme = Theme.of(context);
-    // final TextTheme themeText = theme.textTheme;
-
     return Row(
-      // mainAxisAlignment: MainAxisAlignment.start,
-      // mainAxisSize: MainAxisSize.min,
       children: [
-        // SizedBox(
-        //   width: SpacingConstants.small,
-        // ),
         Text.rich(
           TextSpan(
             children: [
@@ -36,7 +26,6 @@ class SearchSortDirectionFilter extends StatelessWidget {
             ],
           ),
           style: labelTextStyle,
-          // TextSpan(text: "Ascending"),
         ),
         SizedBox(
           width: 32,
@@ -45,17 +34,19 @@ class SearchSortDirectionFilter extends StatelessWidget {
             padding: EdgeInsets.zero,
             initialValue: SearchResultsSortDirection.ascending,
             icon: Icon(Icons.arrow_drop_down),
-            onSelected: (value) {
-              // TODO this will set some value in the cubit that controls this i guess
-            },
+            onSelected: (value) {},
             itemBuilder: (context) {
               return <PopupMenuEntry<SearchResultsSortDirection>>[
                 PopupMenuItem<SearchResultsSortDirection>(
-                  child: Text("Ascending"),
+                  child: Text(
+                    SearchResultsSortDirection.ascending.name.toUpperCase(),
+                  ),
                   value: SearchResultsSortDirection.ascending,
                 ),
                 PopupMenuItem<SearchResultsSortDirection>(
-                  child: Text("Descending"),
+                  child: Text(
+                    SearchResultsSortDirection.descending.name.toUpperCase(),
+                  ),
                   value: SearchResultsSortDirection.descending,
                 ),
               ];
