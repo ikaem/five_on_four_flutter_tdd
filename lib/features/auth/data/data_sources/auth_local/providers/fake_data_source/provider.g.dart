@@ -7,7 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$authLocalFakeDataSourceHash() =>
-    r'88558021feb1473274041c65be808420b6d93803';
+    r'1f084ce37d173f617503ab7fa0f18f7f3760dfc8';
 
 /// See also [authLocalFakeDataSource].
 @ProviderFor(authLocalFakeDataSource)

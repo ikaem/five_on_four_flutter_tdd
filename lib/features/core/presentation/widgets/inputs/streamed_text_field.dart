@@ -8,12 +8,16 @@ class StreamedTextField extends StatelessWidget {
     required this.stream,
     required this.onChanged,
     required this.labelText,
+    this.inputType = TextInputType.text,
+    this.hidden = false,
   });
 
   final TextEditingController fieldController;
   final Stream<String?> stream;
   final ValueSetter<String> onChanged;
   final String labelText;
+  final TextInputType inputType;
+  final bool hidden;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +26,8 @@ class StreamedTextField extends StatelessWidget {
         final bool hasError = snapshot.hasError;
 
         return TextField(
+          obscureText: hidden,
+          keyboardType: inputType,
           controller: fieldController,
           onChanged: (value) {
             onChanged(value);

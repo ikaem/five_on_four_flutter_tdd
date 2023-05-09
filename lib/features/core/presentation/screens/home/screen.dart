@@ -1,5 +1,6 @@
 import 'package:five_on_four_flutter_tdd/features/core/domain/values/initial_data/value.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/initial_data/providers/app_controller/provider.dart';
+import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/app_bar_more_actions.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/home_screen_initial_data_content.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/constants/widget_keys_constants.dart';
 import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
@@ -34,6 +35,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       // TODO create CustomAppBar and call it FiveOn4AppBar
       appBar: AppBar(
         title: Text("Karlo's Matches"),
+        actions: [
+          AppBarMoreActions(),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(
