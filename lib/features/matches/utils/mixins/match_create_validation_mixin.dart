@@ -37,6 +37,7 @@ mixin MatchCreateValidationMixin on ValidationMixin {
     return validationValue.areInputsValid;
   }
 
+// TODO this could be moved to validaton mixin as well, as is reused
   late StreamTransformer<String, String> genericTextValidationTransformer =
       StreamTransformer<String, String>.fromHandlers(
     handleData: (data, sink) {
@@ -115,6 +116,7 @@ mixin MatchCreateValidationMixin on ValidationMixin {
     },
   );
 
+// TODO this should probably be in general validation mixin
   FormFieldError? _validateGenericText(String? value) {
     final bool isEmpty = isFieldEmpty(value);
 

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class StreamedIconButton extends StatelessWidget {
-  const StreamedIconButton({
+class StreamedElevatedButton extends StatelessWidget {
+  const StreamedElevatedButton({
     super.key,
     required this.enabledStateStream,
     required this.onPressed,
-    required this.icon,
+    required this.label,
   });
 
   final Stream<bool> enabledStateStream;
-  final VoidCallback onPressed;
-  final IconData icon;
+  final VoidCallback? onPressed;
+  final Widget label;
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +19,9 @@ class StreamedIconButton extends StatelessWidget {
         final bool hasError = snapshot.hasError;
         final bool isEnabled = !hasError && snapshot.data == true;
 
-        return IconButton(
+        return ElevatedButton(
           onPressed: isEnabled ? onPressed : null,
-          // onPressed: onPressed,
-          icon: Icon(
-            Icons.check,
-          ),
+          child: label,
         );
       },
       stream: enabledStateStream,

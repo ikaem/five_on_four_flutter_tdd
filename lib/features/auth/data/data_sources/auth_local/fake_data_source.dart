@@ -71,11 +71,10 @@ class AuthLocalFakeDataSource implements AuthLocalDataSource {
     required String? loggedInAt,
     required String? token,
   }) {
-    final bool isExistingData = id != null &&
-        nickname != null &&
-        email != null &&
-        loggedInAt != null &&
-        token != null;
+    final bool isExistingData =
+        id != null && nickname != null && email != null && loggedInAt != null;
+    // TODO waiting for token
+    // && token != null;
 
     if (!isExistingData) {
       deleteAuth();
