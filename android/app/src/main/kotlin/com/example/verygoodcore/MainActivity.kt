@@ -1,4 +1,4 @@
-package com.example.verygoodcore.five_on_four_flutter_tdd
+package xyz.imkaem.five_on_four_flutter
 
 import io.flutter.embedding.android.FlutterActivity
 
