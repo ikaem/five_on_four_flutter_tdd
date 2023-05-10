@@ -48,22 +48,4 @@ class DefaultFirebaseOptions {
         );
     }
   }
-
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDKFJHWXp33igG6N5XsxmYyLAwMAcDB5o4',
-    appId: '1:433908250361:android:a663bb9bf332ef71ce5428',
-    messagingSenderId: '433908250361',
-    projectId: 'five-on-4',
-    storageBucket: 'five-on-4.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBPYM9QLwCHmfHwX8EjGfF_xk_AMIJHNoo',
-    appId: '1:433908250361:ios:7cee8ee53f95ed21ce5428',
-    messagingSenderId: '433908250361',
-    projectId: 'five-on-4',
-    storageBucket: 'five-on-4.appspot.com',
-    iosClientId: '433908250361-feucilpv2s07veghq8p3jals45m5t62a.apps.googleusercontent.com',
-    iosBundleId: 'xyz.imkaem.fiveOnFourFlutter',
-  );
 }
