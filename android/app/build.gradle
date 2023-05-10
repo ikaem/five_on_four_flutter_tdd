@@ -81,17 +81,17 @@ android {
     productFlavors { 
         production {
             dimension "default"
-            applicationIdSuffix ""
+            // applicationIdSuffix ""
             manifestPlaceholders = [appName: "Five On Four Flutter Tdd"]
         }
         staging {
             dimension "default"
-            applicationIdSuffix ".stg"
+            // applicationIdSuffix ".stg"
             manifestPlaceholders = [appName: "[STG] Five On Four Flutter Tdd"]
         }
         development {
             dimension "default"
-            applicationIdSuffix ".dev"
+            // applicationIdSuffix ".dev"
             manifestPlaceholders = [appName: "[DEV] Five On Four Flutter Tdd"]
         }
     }

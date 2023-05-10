@@ -15,16 +15,8 @@
 // import '../../../../../helpers/helpers.dart';
 // import '../../../../../helpers/navigation/mock_app_router.dart';
 
-import 'package:five_on_four_flutter_tdd/features/auth/data/repositories/auth_status/providers/app_repository/provider.dart';
-import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
-
-import '../../../../../helpers/data/auth.dart';
-import '../../../../../helpers/helpers.dart';
-import '../../../../../helpers/navigation/mock_app_router.dart';
-import '../../../../auth/data/repositories/auth_status/repository.mocks.dart';
 
 void main() {
   group(
@@ -120,23 +112,23 @@ void main() {
           //     MockAuthLocalDataSource();
 
 // TODO potentually, this can go up
-          final MockAuthStatusAppRepository mockAuthStatusAppRepository =
-              MockAuthStatusAppRepository();
+          // final MockAuthStatusAppRepository mockAuthStatusAppRepository =
+          //     MockAuthStatusAppRepository();
 
-          when(mockAuthStatusAppRepository.getAuthStatus())
-              .thenAnswer((realInvocation) => Future.value(testAuthModel));
+          // when(mockAuthStatusAppRepository.getAuthStatus())
+          //     .thenAnswer((realInvocation) => Future.value(testAuthModel));
 
-          final MockAppRouter mockAppRouter = MockAppRouter(
-            initialAppRoute: AppRoutes.mainScreenRouteValue,
-            routes: [
-              AppRoutes.mainRoute,
+          // final MockAppRouter mockAppRouter = MockAppRouter(
+          //   initialAppRoute: AppRoutes.mainScreenRouteValue,
+          //   routes: [
+          //     AppRoutes.mainRoute,
 
-              // MockAppRouter.createGoRoute(
-              //   appRouteValue: AppRoutes.mainScreenRouteValue,
-              //   screen: MainScreen(),
-              // )
-            ],
-          );
+          //     // MockAppRouter.createGoRoute(
+          //     //   appRouteValue: AppRoutes.mainScreenRouteValue,
+          //     //   screen: MainScreen(),
+          //     // )
+          //   ],
+          // );
 
           // final ProviderContainer providerContainer = ProviderContainer();
           // providerContainer.read(authStatusAppControllerProvider);
@@ -146,16 +138,16 @@ void main() {
 
           // await authStatusController.
 
-          await widgetTester.pumpApp(
-            router: mockAppRouter.router,
-            // providerScopeOverrides: [],
-            providerScopeOverrides: [
-              authStatusRepositoryProvider.overrideWith(
-                (ref) => mockAuthStatusAppRepository,
-              )
-            ],
-            providerContainer: null,
-          );
+          // await widgetTester.pumpApp(
+          //   router: mockAppRouter.router,
+          //   // providerScopeOverrides: [],
+          //   providerScopeOverrides: [
+          //     authStatusRepositoryProvider.overrideWith(
+          //       (ref) => mockAuthStatusAppRepository,
+          //     )
+          //   ],
+          //   providerContainer: null,
+          // );
 
           // debugDumpApp();
 

@@ -1,5 +1,11 @@
 # Five On Four Flutter Tdd
 
+# Env variables 
+Please make sure to run chmod +x dev_launch.sh to make your script executable when in dev environment.
+
+
+## Very good default below:
+
 ![coverage][coverage_badge]
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
 [![License: MIT][license_badge]][license_link]
