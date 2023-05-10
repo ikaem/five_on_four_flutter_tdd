@@ -2,7 +2,7 @@ import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_pa
 import 'package:flutter/material.dart';
 
 abstract class MatchCreateController {
-// input streams
+  // input streams
 
   Stream<String> get matchNameValidationStream;
   Stream<String> get locationNameValidationStream;
@@ -15,7 +15,7 @@ abstract class MatchCreateController {
   Stream<bool> get inputsValidationStream;
   Stream<List<MatchParticipationValue>> get participantInvitationsStream;
 
-// input change handlers
+  // input change handlers
   void onChangeMatchName(String value);
   void onLocationNameChange(String value);
   void onLocationAddressChange(String value);
@@ -24,8 +24,6 @@ abstract class MatchCreateController {
   void onDateChange(DateTime? value);
   void onTimeChange(TimeOfDay? value);
   void onJoinMatchChange(bool? value);
-  // void onChangeParticipantInvitations(
-  //     List<MatchParticipantInvitationValue> value);
   void onRemoveParticipantInvitation(
     MatchParticipationValue invitation,
   );

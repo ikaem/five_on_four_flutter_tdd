@@ -46,7 +46,8 @@ class MatchCreateScreenView extends ConsumerWidget {
               if (matchId != null) return SizedBox.shrink();
 
               return StreamedIconButton(
-                stream: matchCreateController.inputsValidationStream,
+                enabledStateStream:
+                    matchCreateController.inputsValidationStream,
                 onPressed: matchCreateController.onSubmit,
                 icon: Icons.check,
               );

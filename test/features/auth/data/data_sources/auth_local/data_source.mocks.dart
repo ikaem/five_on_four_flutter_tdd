@@ -39,4 +39,22 @@ class MockAuthLocalDataSource extends _i1.Mock
         ),
         returnValue: _i3.Future<_i4.AuthLocalDTO?>.value(),
       ) as _i3.Future<_i4.AuthLocalDTO?>);
+  @override
+  _i3.Future<void> deleteAuth() => (super.noSuchMethod(
+        Invocation.method(
+          #deleteAuth,
+          [],
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
+  @override
+  _i3.Future<void> saveAuth(_i4.AuthLocalDTO? auth) => (super.noSuchMethod(
+        Invocation.method(
+          #saveAuth,
+          [auth],
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
 }

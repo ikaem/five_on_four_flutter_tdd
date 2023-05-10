@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class StreamedIconButton extends StatelessWidget {
   const StreamedIconButton({
     super.key,
-    required this.stream,
+    required this.enabledStateStream,
     required this.onPressed,
     required this.icon,
   });
 
-  final Stream<bool> stream;
+  final Stream<bool> enabledStateStream;
   final VoidCallback onPressed;
   final IconData icon;
 
@@ -27,7 +27,7 @@ class StreamedIconButton extends StatelessWidget {
           ),
         );
       },
-      stream: stream,
+      stream: enabledStateStream,
     );
   }
 }
