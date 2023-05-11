@@ -2,7 +2,7 @@ import 'package:five_on_four_flutter_tdd/features/auth/data/data_sources/auth_lo
 import 'package:five_on_four_flutter_tdd/features/auth/data/dtos/auth_local/dto.dart';
 import 'package:five_on_four_flutter_tdd/libraries/flutter_secure_storage/secure_storage_wrapper.dart';
 
-class AuthLocalFakeDataSource implements AuthLocalDataSource {
+class AuthLocalAppDataSource implements AuthLocalDataSource {
   // TODO hardcoding here, and not in constnats, because i want tonly this to be able to retrieve data
   static const String storageIdKey = 'auth_id';
   static const String storageNicknameKey = 'auth_nickname';
@@ -10,7 +10,7 @@ class AuthLocalFakeDataSource implements AuthLocalDataSource {
   static const String storageLoggedInAtKey = "auth_logged_in_at";
   static const String storageTokenKey = "auth_token";
 
-  const AuthLocalFakeDataSource({
+  const AuthLocalAppDataSource({
     required this.secureStorageWrapper,
   });
 

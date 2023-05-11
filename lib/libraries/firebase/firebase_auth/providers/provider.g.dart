@@ -6,22 +6,21 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authLocalFakeDataSourceHash() =>
-    r'1f084ce37d173f617503ab7fa0f18f7f3760dfc8';
+String _$firebaseAuthWrapperHash() =>
+    r'ef09417c84b10b7e8eebd1ec422bb398625608d9';
 
-/// See also [authLocalFakeDataSource].
-@ProviderFor(authLocalFakeDataSource)
-final authLocalFakeDataSourceProvider =
-    AutoDisposeProvider<AuthLocalDataSource>.internal(
-  authLocalFakeDataSource,
-  name: r'authLocalFakeDataSourceProvider',
+/// See also [firebaseAuthWrapper].
+@ProviderFor(firebaseAuthWrapper)
+final firebaseAuthWrapperProvider =
+    AutoDisposeProvider<FirebaseAuthWrapper>.internal(
+  firebaseAuthWrapper,
+  name: r'firebaseAuthWrapperProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$authLocalFakeDataSourceHash,
+      : _$firebaseAuthWrapperHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef AuthLocalFakeDataSourceRef
-    = AutoDisposeProviderRef<AuthLocalDataSource>;
+typedef FirebaseAuthWrapperRef = AutoDisposeProviderRef<FirebaseAuthWrapper>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

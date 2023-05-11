@@ -1,3 +1,6 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+// TODO move to dotenv wrapper. also, make that wrapper does this
 abstract class ValueFromEnv {
   // weather
   static const _envVarWeatherApiKey = 'WEATHER_API_KEY';
@@ -26,28 +29,22 @@ abstract class ValueFromEnv {
 
   // firebase
   static String get firebaseAndroidApiKey =>
-      const String.fromEnvironment(_firebaseAndroidApiKey);
-  static String get firebaseAndroidAppId =>
-      const String.fromEnvironment(_firebaseAndroidAppId);
+      dotenv.env[_firebaseAndroidApiKey]!;
+  static String get firebaseAndroidAppId => dotenv.env[_firebaseAndroidAppId]!;
   static String get firebaseAndroidMessagingSenderId =>
-      const String.fromEnvironment(_firebaseAndroidMessagingSenderId);
+      dotenv.env[_firebaseAndroidMessagingSenderId]!;
   static String get firebaseAndroidProjectId =>
-      const String.fromEnvironment(_firebaseAndroidProjectId);
+      dotenv.env[_firebaseAndroidProjectId]!;
   static String get firebaseAndroidStorageBucket =>
-      const String.fromEnvironment(_firebaseAndroidStorageBucket);
+      dotenv.env[_firebaseAndroidStorageBucket]!;
 
-  static String get firebaseIOSApiKey =>
-      const String.fromEnvironment(_firebaseIOSApiKey);
-  static String get firebaseIOSAppId =>
-      const String.fromEnvironment(_firebaseIOSAppId);
+  static String get firebaseIOSApiKey => dotenv.env[_firebaseIOSApiKey]!;
+  static String get firebaseIOSAppId => dotenv.env[_firebaseIOSAppId]!;
   static String get firebaseIOSMessagingSenderId =>
-      const String.fromEnvironment(_firebaseIOSMessagingSenderId);
-  static String get firebaseIOSProjectId =>
-      const String.fromEnvironment(_firebaseIOSProjectId);
+      dotenv.env[_firebaseIOSMessagingSenderId]!;
+  static String get firebaseIOSProjectId => dotenv.env[_firebaseIOSProjectId]!;
   static String get firebaseIOSStorageBucket =>
-      const String.fromEnvironment(_firebaseIOSStorageBucket);
-  static String get firebaseIOSClientId =>
-      const String.fromEnvironment(_firebaseIOSClientId);
-  static String get firebaseIOSBundleId =>
-      const String.fromEnvironment(_firebaseIOSBundleId);
+      dotenv.env[_firebaseIOSStorageBucket]!;
+  static String get firebaseIOSClientId => dotenv.env[_firebaseIOSClientId]!;
+  static String get firebaseIOSBundleId => dotenv.env[_firebaseIOSBundleId]!;
 }
