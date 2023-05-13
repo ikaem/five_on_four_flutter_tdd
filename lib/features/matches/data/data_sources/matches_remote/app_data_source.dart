@@ -1,56 +1,90 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/data/data_sources/matches_remote/data_source.dart';
-import 'package:five_on_four_flutter_tdd/features/matches/data/dtos/match_participant_remote/dto.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/data/dtos/match_remote/dto.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/enums/match_participant_status.dart';
-import 'package:five_on_four_flutter_tdd/features/matches/domain/exceptions/match_exceptions.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/matches_search_filters/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/utils/constants/matches_firebase_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
+import 'package:five_on_four_flutter_tdd/libraries/firebase/cloud_firestore/firebase_firestore_wrapper.dart';
 
-class MatchesRemoteAppDataSource implements MatchesRemoteDataSource {
+class MatchesRemoteAppDataSource
+    with MatchesRemoteAppDataSourceMixin
+    implements MatchesRemoteDataSource {
+  const MatchesRemoteAppDataSource({
+    required FirebaseFirestoreWrapper firebaseFirestoreWrapper,
+  }) : _firebaseFirestoreWrapper = firebaseFirestoreWrapper;
+
+  final FirebaseFirestoreWrapper _firebaseFirestoreWrapper;
+
   @override
   Future<List<MatchRemoteDTO>> getInvitedMatchesForPlayer(
-      String playerId) async {}
+    String playerId,
+  ) async {
+    final List<QueryDocumentSnapshot<Map<String, dynamic>>>
+        matchesParticipationsDocs = await getMatchesParticipationsForPlayer(
+      playerId: playerId,
+      matchParticipantStatus: MatchParticipantStatus.invited,
+      firebaseFirestoreWrapper: _firebaseFirestoreWrapper,
+    );
+
+    final List<DocumentSnapshot<Map<String, dynamic>>>
+        participationsMatchesDocs = await getParticipationsMatchesDocs(
+      matchesParticipationsDocs: matchesParticipationsDocs,
+    );
+
+    final List<MatchRemoteDTO> matches = await getMatchesWithParticipants(
+      participationsMatchesDocs: participationsMatchesDocs,
+      firebaseFirestoreWrapper: _firebaseFirestoreWrapper,
+    );
+
+    return matches;
+  }
 
   @override
   Future<List<MatchRemoteDTO>> getJoinedMatchesForPlayer(
       String playerId) async {
-    await Future<void>.delayed(Duration(milliseconds: 200));
-    final List<MatchRemoteDTO> joinedMatches = combinedMatches.where(
-      (match) {
-        final MatchParticipantRemoteDTO? currentPlayer = match.participants
-            .firstWhereOrNull((participant) =>
-                participant.playerId == playerId &&
-                participant.status == MatchParticipantStatus.joined.name);
+    final List<QueryDocumentSnapshot<Map<String, dynamic>>>
+        matchesParticipationsDocs = await getMatchesParticipationsForPlayer(
+      playerId: playerId,
+      matchParticipantStatus: MatchParticipantStatus.joined,
+      firebaseFirestoreWrapper: _firebaseFirestoreWrapper,
+    );
 
-        if (currentPlayer == null) return false;
+    final List<DocumentSnapshot<Map<String, dynamic>>>
+        participationsMatchesDocs = await getParticipationsMatchesDocs(
+      matchesParticipationsDocs: matchesParticipationsDocs,
+    );
 
-        return true;
-      },
-    ).toList();
+    final List<MatchRemoteDTO> matches = await getMatchesWithParticipants(
+      participationsMatchesDocs: participationsMatchesDocs,
+      firebaseFirestoreWrapper: _firebaseFirestoreWrapper,
+    );
 
-    return joinedMatches;
-  }
-
-  @override
-  Future<MatchRemoteDTO> getNextMatchForPlayer(String playerId) async {
-    await Future<void>.delayed(Duration(milliseconds: 200));
-    return combinedMatches[0];
+    return matches;
   }
 
   @override
   Future<MatchRemoteDTO> getMatch(String matchId) async {
-    await Future<void>.delayed(Duration(milliseconds: 200));
+    final DocumentSnapshot<Map<String, dynamic>> matchDoc =
+        await _firebaseFirestoreWrapper.db
+            .collection(MatchesFirebaseConstants.firestoreCollectionMatches)
+            .doc(matchId)
+            .get();
 
-    final allMatches = combinedMatches;
+    final QuerySnapshot<Map<String, dynamic>> matchParticipationsDocs =
+        await _firebaseFirestoreWrapper.db
+            .collection(MatchesFirebaseConstants.firestoreCollectionMatches)
+            .doc(matchId)
+            .collection(MatchesFirebaseConstants
+                .firestoreMatchSubcollectionParticipants)
+            .get();
 
-    final MatchRemoteDTO? match =
-        allMatches.firstWhereOrNull((element) => element.id == matchId);
-
-    if (match == null)
-      throw MatchExceptionNotFoundRemote(message: "Match id: $matchId");
+    final MatchRemoteDTO match = MatchRemoteDTO.fromFirestoreDocs(
+        matchDoc: matchDoc,
+        participantsQueryDocs: matchParticipationsDocs.docs);
 
     return match;
   }
@@ -60,22 +94,43 @@ class MatchesRemoteAppDataSource implements MatchesRemoteDataSource {
     required NewMatchValue matchData,
     required PlayerModel currentPlayer,
   }) async {
-    await Future<void>.delayed(Duration(milliseconds: 200));
+    final FirestoreMatchDataValue matchFirestoreData =
+        matchData.toFirestoreMatchData();
+    final Map<String, dynamic> matchMap = matchFirestoreData.matchDataMap;
+    final List<Map<String, dynamic>> participationsMaps =
+        matchFirestoreData.participationsDataMaps;
 
-    final String matchId = combinedMatches.length.toString();
+    // TODO create batch wrapper in firebase wrapper
+    final WriteBatch batch = _firebaseFirestoreWrapper.db.batch();
 
-    final bool isOrganizerJoining = matchData.isOrganizerJoined;
-    if (isOrganizerJoining)
-      matchData.invitedPlayers.add(
-        MatchParticipationValue.fromPlayerModel(currentPlayer),
-      );
+    // getting refetence for this match
+    final DocumentReference matchDocRef = await _firebaseFirestoreWrapper.db
+        .collection(MatchesFirebaseConstants.firestoreCollectionMatches)
+        .doc();
 
-    final MatchRemoteDTO newMatch = MatchRemoteDTO.fromNewMatchValue(
-        matchId: matchId, organizerId: currentPlayer.id, matchValue: matchData);
+    // setting match data
+    batch.set(matchDocRef, matchMap);
 
-    combinedMatches.add(newMatch);
+    // getting this match's participations collection
+    final CollectionReference matchParticipationsCollectionRef =
+        matchDocRef.collection(
+      MatchesFirebaseConstants.firestoreMatchSubcollectionParticipants,
+    );
 
-    return matchId;
+    // adding participations to this match
+    for (final participationMap in participationsMaps) {
+      // getting reference for this participation
+      final DocumentReference matchParticipationDocRef =
+          matchParticipationsCollectionRef.doc();
+
+      // setting participation data
+      batch.set(matchParticipationDocRef, participationMap);
+    }
+
+    // executing batch
+    await batch.commit();
+
+    return matchDocRef.id;
   }
 
   @override
@@ -83,212 +138,120 @@ class MatchesRemoteAppDataSource implements MatchesRemoteDataSource {
     required String matchId,
     required MatchParticipationValue matchParticipation,
   }) async {
-    final MatchRemoteDTO? match = combinedMatches.firstWhereOrNull(
-      (match) => match.id == matchId,
-    );
-
-    if (match == null)
-      throw MatchExceptionNotFoundRemote(message: "Match: $matchId");
-
-    final MatchParticipantRemoteDTO? existingParticipant = match.participants
-        .firstWhereOrNull(
-            (element) => element.playerId == matchParticipation.playerId);
-
-    if (existingParticipant == null) {
-      final MatchParticipantRemoteDTO participant =
-          MatchParticipantRemoteDTO.fromMatchParticipantInvitationValue(
-        invitationValue: matchParticipation,
-        matchId: matchId,
-        status: MatchParticipantStatus.joined.name,
-      );
-
-      final List<MatchParticipantRemoteDTO> matchParticipants = [
-        ...match.participants,
-      ];
-
-      matchParticipants.add(participant);
-      final MatchRemoteDTO updatedMatch =
-          match.copyWith(participants: matchParticipants);
-
-      final int matchIndex = combinedMatches.indexWhere(
-        (match) => match.id == updatedMatch.id,
-      );
-
-      combinedMatches[matchIndex] = updatedMatch;
-
-      return;
-    }
-
-    final bool hasExistingParticipantConfirmed =
-        existingParticipant.status == MatchParticipantStatus.joined.name;
-
-    if (hasExistingParticipantConfirmed) {
-      throw MatchExceptionPlayerAlreadyJoined(
-          message: "Match: $matchId, player: ${matchParticipation.playerId}");
-    }
-
-    final MatchParticipantRemoteDTO updatedParticipant = existingParticipant
-        .copyWith(status: MatchParticipantStatus.joined.name);
-
-    final int participantIndex =
-        match.participants.indexWhere((p) => p.id == updatedParticipant.id);
-
-    final List<MatchParticipantRemoteDTO> matchParticipants = [
-      ...match.participants,
-    ];
-
-    matchParticipants[participantIndex] = updatedParticipant;
-
-    final MatchRemoteDTO updatedMatch =
-        match.copyWith(participants: matchParticipants);
-
-    final int matchIndex = combinedMatches.indexWhere(
-      (match) => match.id == updatedMatch.id,
-    );
-
-    combinedMatches[matchIndex] = updatedMatch;
+    // TODO implement this
+    throw UnimplementedError();
   }
 
   Future<void> unjoinMatch({
     required String matchId,
     required MatchParticipationValue matchParticipation,
   }) async {
-    final MatchRemoteDTO? match = combinedMatches.firstWhereOrNull(
-      (match) => match.id == matchId,
-    );
-
-    if (match == null)
-      throw MatchExceptionNotFoundRemote(message: "Match: $matchId");
-
-    final MatchParticipantRemoteDTO? existingParticipant = match.participants
-        .firstWhereOrNull(
-            (element) => element.playerId == matchParticipation.playerId);
-
-    if (existingParticipant == null) {
-      throw MatchExceptionPlayerAlreadyUnjoined(
-          message: "Match: $matchId, player: ${matchParticipation.playerId}");
-    }
-
-    final List<MatchParticipantRemoteDTO> matchParticipants = [
-      ...match.participants,
-    ];
-
-    matchParticipants
-        .removeWhere((p) => p.playerId == matchParticipation.playerId);
-    final MatchRemoteDTO updatedMatch =
-        match.copyWith(participants: matchParticipants);
-
-    final int matchIndex = combinedMatches.indexWhere(
-      (match) => match.id == updatedMatch.id,
-    );
-
-    combinedMatches[matchIndex] = updatedMatch;
+    // TODO implement this
+    throw UnimplementedError();
   }
 
   @override
   Future<List<MatchRemoteDTO>> getSearchedMatches(
-      MatchesSearchFiltersValue filters) async {
-    await Future<void>.delayed(Duration(milliseconds: 500));
-
-    return combinedMatches;
+    MatchesSearchFiltersValue filters,
+  ) async {
+    // TODO implement this
+    throw UnimplementedError();
   }
 }
 
-final List<MatchRemoteDTO> combinedMatches = [
-  MatchRemoteDTO(
-    id: "1",
-    name: "Match 1",
-    participants: [
-      MatchParticipantRemoteDTO(
-        id: "1",
-        playerId: "1",
-        matchId: "1",
-        nickname: "Player 1",
-        status: MatchParticipantStatus.invited.name,
-        createdAt: 1617355557658,
-        expiresAt: 1617355557658 + 60 * 60 * 1000, // 1 hour later
-      ),
-      MatchParticipantRemoteDTO(
-        id: "2",
-        playerId: "2",
-        matchId: "1",
-        nickname: "Player 2",
-        status: MatchParticipantStatus.invited.name,
-        createdAt: 1617355557658,
-        expiresAt: 1617355557658 + 60 * 60 * 1000, // 1 hour later
-      ),
-    ],
-  ),
-  MatchRemoteDTO(
-    id: "2",
-    name: "Match 2",
-    participants: [
-      MatchParticipantRemoteDTO(
-        id: "3",
-        playerId: "1",
-        matchId: "2",
-        nickname: "Player 1",
-        status: MatchParticipantStatus.invited.name,
-        createdAt: 1617355557658,
-        expiresAt: 1617355557658 + 60 * 60 * 1000, // 1 hour later
-      ),
-      MatchParticipantRemoteDTO(
-        id: "4",
-        playerId: "3",
-        matchId: "2",
-        nickname: "Player 3",
-        status: MatchParticipantStatus.invited.name,
-        createdAt: 1617355557658,
-        expiresAt: 1617355557658 + 60 * 60 * 1000, // 1 hour later
-      ),
-    ],
-  ),
-  MatchRemoteDTO(
-    id: "3",
-    name: "Match 3",
-    participants: [
-      MatchParticipantRemoteDTO(
-        id: "5",
-        playerId: "1",
-        matchId: "3",
-        nickname: "Player 1",
-        status: MatchParticipantStatus.joined.name,
-        createdAt: 1617355557658,
-        expiresAt: null,
-      ),
-      MatchParticipantRemoteDTO(
-        id: "6",
-        playerId: "2",
-        matchId: "3",
-        nickname: "Player 2",
-        status: MatchParticipantStatus.joined.name,
-        createdAt: 1617355557658,
-        expiresAt: null,
-      ),
-    ],
-  ),
-  MatchRemoteDTO(
-    id: "4",
-    name: "Match 4",
-    participants: [
-      MatchParticipantRemoteDTO(
-        id: "7",
-        playerId: "1",
-        matchId: "4",
-        nickname: "Player 1",
-        status: MatchParticipantStatus.joined.name,
-        createdAt: 1617355557658,
-        expiresAt: null,
-      ),
-      MatchParticipantRemoteDTO(
-        id: "8",
-        playerId: "3",
-        matchId: "4",
-        nickname: "Player 3",
-        status: MatchParticipantStatus.joined.name,
-        createdAt: 1617355557658,
-        expiresAt: null,
-      ),
-    ],
-  ),
-];
+// TODO moce to mixins
+mixin MatchesRemoteAppDataSourceMixin {
+  // matches
+  Future<List<MatchRemoteDTO>> getMatchesWithParticipants({
+    required List<DocumentSnapshot<Map<String, dynamic>>>
+        participationsMatchesDocs,
+    required FirebaseFirestoreWrapper firebaseFirestoreWrapper,
+  }) async {
+    final List<Future<MatchRemoteDTO>> matchesFutures =
+        participationsMatchesDocs.map(
+      (
+        matchDoc,
+      ) async {
+// TODO THERE IS A LOT NESTed loops here. would this be a problem?
+        final String matchId = matchDoc.id;
+
+        final QuerySnapshot<Map<String, dynamic>> participantsQuerySnapshot =
+            await firebaseFirestoreWrapper.db
+                .collection(MatchesFirebaseConstants.firestoreCollectionMatches)
+                .doc(matchId)
+                .collection(MatchesFirebaseConstants
+                    .firestoreMatchSubcollectionParticipants)
+                .get();
+
+        final List<QueryDocumentSnapshot<Map<String, dynamic>>>
+            participantsQueryDocs = participantsQuerySnapshot.docs;
+
+        final MatchRemoteDTO matchRemoteDTO = MatchRemoteDTO.fromFirestoreDocs(
+          matchDoc: matchDoc,
+          participantsQueryDocs: participantsQueryDocs,
+        );
+
+        return matchRemoteDTO;
+      },
+    ).toList();
+
+    final List<MatchRemoteDTO> matches = await Future.wait(matchesFutures);
+
+    return matches;
+  }
+
+  Future<List<DocumentSnapshot<Map<String, dynamic>>>>
+      getParticipationsMatchesDocs({
+    required List<QueryDocumentSnapshot<Map<String, dynamic>>>
+        matchesParticipationsDocs,
+  }) async {
+    final Iterable<Future<DocumentSnapshot<Map<String, dynamic>>?>>
+        matchFutures = matchesParticipationsDocs.map(
+      (
+        participationDoc,
+      ) async {
+        final DocumentReference<Map<String, dynamic>>? matchReference =
+            participationDoc.reference.parent.parent;
+        if (matchReference == null) return null;
+
+        final DocumentSnapshot<Map<String, dynamic>> matchDocSnapshot =
+            await matchReference.get();
+
+        return matchDocSnapshot;
+      },
+    );
+
+    final List<DocumentSnapshot<Map<String, dynamic>>?> matchDocs =
+        await Future.wait(matchFutures);
+    List<DocumentSnapshot<Map<String, dynamic>>> normalizedMatchDocs =
+        matchDocs.whereNotNull().toList();
+
+    return normalizedMatchDocs;
+  }
+
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
+      getMatchesParticipationsForPlayer({
+    required String playerId,
+    required MatchParticipantStatus matchParticipantStatus,
+    required FirebaseFirestoreWrapper firebaseFirestoreWrapper,
+  }) async {
+    final QuerySnapshot<Map<String, dynamic>> participationsSnapshot =
+        await firebaseFirestoreWrapper.db
+            .collectionGroup(MatchesFirebaseConstants
+                .firestoreMatchSubcollectionParticipants)
+            .where(
+              MatchesFirebaseConstants.firestoreMatchParticipantFieldPlayerId,
+              isEqualTo: playerId,
+            )
+            .where(
+              MatchesFirebaseConstants.firestoreMatchParticipantFieldStatus,
+              isEqualTo: matchParticipantStatus.name,
+            )
+            .get();
+
+    final List<QueryDocumentSnapshot<Map<String, dynamic>>> participationsDocs =
+        participationsSnapshot.docs;
+
+    return participationsDocs;
+  }
+}

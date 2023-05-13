@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 mixin MatchCreateValidationMixin on ValidationMixin {
   bool inputValuesValidator(List<Object?> values) {
     // TODO this is old
-    // final String? matchName = _matchNameSubject.valueOrNull;
+    // final String? name = _nameSubject.valueOrNull;
     // final String? locationName = _locationNameSubject.valueOrNull;
     // final String? locationAddress = _locationAddressSubject.valueOrNull;
     // final String? locationCity = _locationCitySubject.valueOrNull;
@@ -16,7 +16,7 @@ mixin MatchCreateValidationMixin on ValidationMixin {
     // final DateTime? date = _dateSubject.valueOrNull;
     // final TimeOfDay? time = _timeSubject.valueOrNull;
 
-    final String? matchName = values[0] as String?;
+    final String? name = values[0] as String?;
     final String? locationName = values[1] as String?;
     final String? locationAddress = values[2] as String?;
     final String? locationCity = values[3] as String?;
@@ -25,7 +25,7 @@ mixin MatchCreateValidationMixin on ValidationMixin {
     final TimeOfDay? time = values[6] as TimeOfDay?;
 
     final MatchCreateInputsValidationValue validationValue = validateInputs(
-      matchNameValue: matchName,
+      nameValue: name,
       locationNameValue: locationName,
       locationAddressValue: locationAddress,
       locationCityValue: locationCity,
@@ -184,7 +184,7 @@ mixin MatchCreateValidationMixin on ValidationMixin {
   }
 
   MatchCreateInputsValidationValue validateInputs({
-    required String? matchNameValue,
+    required String? nameValue,
     required String? locationNameValue,
     required String? locationAddressValue,
     required String? locationCityValue,
@@ -192,7 +192,7 @@ mixin MatchCreateValidationMixin on ValidationMixin {
     required DateTime? dateValue,
     required TimeOfDay? timeValue,
   }) {
-    final FormFieldError? matchNameError = _validateGenericText(matchNameValue);
+    final FormFieldError? nameError = _validateGenericText(nameValue);
     final FormFieldError? locationNameError =
         _validateGenericText(locationNameValue);
     final FormFieldError? locationAddressnput =
@@ -206,7 +206,7 @@ mixin MatchCreateValidationMixin on ValidationMixin {
 
     final MatchCreateInputsValidationValue validationValue =
         MatchCreateInputsValidationValue(
-      matchNameError: matchNameError,
+      nameError: nameError,
       locationNameError: locationNameError,
       locationAddressError: locationAddressnput,
       locationCityError: locationCityError,

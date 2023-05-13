@@ -52,8 +52,7 @@ class StreamedTimeField extends StatelessWidget {
               return;
             }
 
-            final DateTime picketTimeWithTodayDate =
-                pickedTime.nowWithTodayDate;
+            final DateTime picketTimeWithTodayDate = pickedTime.toTodayDateTime;
 
             final String formattedTime =
                 DateFormat("h:mm a").format(picketTimeWithTodayDate);

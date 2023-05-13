@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$MatchCreateInputsValidationValue {
-  FormFieldError? get matchNameError => throw _privateConstructorUsedError;
+  FormFieldError? get nameError => throw _privateConstructorUsedError;
   FormFieldError? get locationNameError => throw _privateConstructorUsedError;
   FormFieldError? get locationAddressError =>
       throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $MatchCreateInputsValidationValueCopyWith<$Res> {
           MatchCreateInputsValidationValue>;
   @useResult
   $Res call(
-      {FormFieldError? matchNameError,
+      {FormFieldError? nameError,
       FormFieldError? locationNameError,
       FormFieldError? locationAddressError,
       FormFieldError? locationCityError,
@@ -63,7 +63,7 @@ class _$MatchCreateInputsValidationValueCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? matchNameError = freezed,
+    Object? nameError = freezed,
     Object? locationNameError = freezed,
     Object? locationAddressError = freezed,
     Object? locationCityError = freezed,
@@ -72,9 +72,9 @@ class _$MatchCreateInputsValidationValueCopyWithImpl<$Res,
     Object? timeError = freezed,
   }) {
     return _then(_value.copyWith(
-      matchNameError: freezed == matchNameError
-          ? _value.matchNameError
-          : matchNameError // ignore: cast_nullable_to_non_nullable
+      nameError: freezed == nameError
+          ? _value.nameError
+          : nameError // ignore: cast_nullable_to_non_nullable
               as FormFieldError?,
       locationNameError: freezed == locationNameError
           ? _value.locationNameError
@@ -114,7 +114,7 @@ abstract class _$$_MatchCreateInputsValidationValueCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {FormFieldError? matchNameError,
+      {FormFieldError? nameError,
       FormFieldError? locationNameError,
       FormFieldError? locationAddressError,
       FormFieldError? locationCityError,
@@ -136,7 +136,7 @@ class __$$_MatchCreateInputsValidationValueCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? matchNameError = freezed,
+    Object? nameError = freezed,
     Object? locationNameError = freezed,
     Object? locationAddressError = freezed,
     Object? locationCityError = freezed,
@@ -145,9 +145,9 @@ class __$$_MatchCreateInputsValidationValueCopyWithImpl<$Res>
     Object? timeError = freezed,
   }) {
     return _then(_$_MatchCreateInputsValidationValue(
-      matchNameError: freezed == matchNameError
-          ? _value.matchNameError
-          : matchNameError // ignore: cast_nullable_to_non_nullable
+      nameError: freezed == nameError
+          ? _value.nameError
+          : nameError // ignore: cast_nullable_to_non_nullable
               as FormFieldError?,
       locationNameError: freezed == locationNameError
           ? _value.locationNameError
@@ -182,7 +182,7 @@ class __$$_MatchCreateInputsValidationValueCopyWithImpl<$Res>
 class _$_MatchCreateInputsValidationValue
     extends _MatchCreateInputsValidationValue {
   const _$_MatchCreateInputsValidationValue(
-      {required this.matchNameError,
+      {required this.nameError,
       required this.locationNameError,
       required this.locationAddressError,
       required this.locationCityError,
@@ -192,7 +192,7 @@ class _$_MatchCreateInputsValidationValue
       : super._();
 
   @override
-  final FormFieldError? matchNameError;
+  final FormFieldError? nameError;
   @override
   final FormFieldError? locationNameError;
   @override
@@ -208,7 +208,7 @@ class _$_MatchCreateInputsValidationValue
 
   @override
   String toString() {
-    return 'MatchCreateInputsValidationValue(matchNameError: $matchNameError, locationNameError: $locationNameError, locationAddressError: $locationAddressError, locationCityError: $locationCityError, locationCountryError: $locationCountryError, dateError: $dateError, timeError: $timeError)';
+    return 'MatchCreateInputsValidationValue(nameError: $nameError, locationNameError: $locationNameError, locationAddressError: $locationAddressError, locationCityError: $locationCityError, locationCountryError: $locationCountryError, dateError: $dateError, timeError: $timeError)';
   }
 
   @override
@@ -216,8 +216,8 @@ class _$_MatchCreateInputsValidationValue
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_MatchCreateInputsValidationValue &&
-            (identical(other.matchNameError, matchNameError) ||
-                other.matchNameError == matchNameError) &&
+            (identical(other.nameError, nameError) ||
+                other.nameError == nameError) &&
             (identical(other.locationNameError, locationNameError) ||
                 other.locationNameError == locationNameError) &&
             (identical(other.locationAddressError, locationAddressError) ||
@@ -235,7 +235,7 @@ class _$_MatchCreateInputsValidationValue
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      matchNameError,
+      nameError,
       locationNameError,
       locationAddressError,
       locationCityError,
@@ -255,7 +255,7 @@ class _$_MatchCreateInputsValidationValue
 abstract class _MatchCreateInputsValidationValue
     extends MatchCreateInputsValidationValue {
   const factory _MatchCreateInputsValidationValue(
-          {required final FormFieldError? matchNameError,
+          {required final FormFieldError? nameError,
           required final FormFieldError? locationNameError,
           required final FormFieldError? locationAddressError,
           required final FormFieldError? locationCityError,
@@ -266,7 +266,7 @@ abstract class _MatchCreateInputsValidationValue
   const _MatchCreateInputsValidationValue._() : super._();
 
   @override
-  FormFieldError? get matchNameError;
+  FormFieldError? get nameError;
   @override
   FormFieldError? get locationNameError;
   @override

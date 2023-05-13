@@ -14,17 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-PlayerRemoteDTO _$PlayerRemoteDTOFromJson(Map<String, dynamic> json) {
-  return _PlayerRemoteDTO.fromJson(json);
-}
-
 /// @nodoc
 mixin _$PlayerRemoteDTO {
   String get id => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $PlayerRemoteDTOCopyWith<PlayerRemoteDTO> get copyWith =>
       throw _privateConstructorUsedError;
@@ -117,13 +112,10 @@ class __$$_PlayerRemoteDTOCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$_PlayerRemoteDTO implements _PlayerRemoteDTO {
   const _$_PlayerRemoteDTO(
       {required this.id, required this.nickname, required this.email});
-
-  factory _$_PlayerRemoteDTO.fromJson(Map<String, dynamic> json) =>
-      _$$_PlayerRemoteDTOFromJson(json);
 
   @override
   final String id;
@@ -148,7 +140,6 @@ class _$_PlayerRemoteDTO implements _PlayerRemoteDTO {
             (identical(other.email, email) || other.email == email));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, nickname, email);
 
@@ -157,13 +148,6 @@ class _$_PlayerRemoteDTO implements _PlayerRemoteDTO {
   @pragma('vm:prefer-inline')
   _$$_PlayerRemoteDTOCopyWith<_$_PlayerRemoteDTO> get copyWith =>
       __$$_PlayerRemoteDTOCopyWithImpl<_$_PlayerRemoteDTO>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_PlayerRemoteDTOToJson(
-      this,
-    );
-  }
 }
 
 abstract class _PlayerRemoteDTO implements PlayerRemoteDTO {
@@ -171,9 +155,6 @@ abstract class _PlayerRemoteDTO implements PlayerRemoteDTO {
       {required final String id,
       required final String nickname,
       required final String email}) = _$_PlayerRemoteDTO;
-
-  factory _PlayerRemoteDTO.fromJson(Map<String, dynamic> json) =
-      _$_PlayerRemoteDTO.fromJson;
 
   @override
   String get id;

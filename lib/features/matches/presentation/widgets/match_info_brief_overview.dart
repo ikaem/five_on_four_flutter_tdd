@@ -15,17 +15,32 @@ class MatchInfoBriefOverview extends StatelessWidget {
   const MatchInfoBriefOverview({
     super.key,
     required this.matchInfo,
+    required this.noMatchInfoLabel,
   });
 
-  final MatchInfoModel matchInfo;
+  final MatchInfoModel? matchInfo;
+  final String noMatchInfoLabel;
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final TextTheme textTheme = theme.textTheme;
 
-    final MatchModel match = matchInfo.match;
-    final WeatherModel weather = matchInfo.weather;
+    final MatchInfoModel? currentMatchInfo = matchInfo;
+
+    if (currentMatchInfo == null) {
+      return Center(
+        child: Text(
+          noMatchInfoLabel,
+          style: textTheme.titleSmall!.copyWith(
+            color: ColorConstants.yellow,
+          ),
+        ),
+      );
+    }
+
+    final MatchModel match = currentMatchInfo.match;
+    final WeatherModel weather = currentMatchInfo.weather;
 
     return GestureDetector(
       onTap: () {

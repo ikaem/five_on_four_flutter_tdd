@@ -1,3 +1,5 @@
+import 'package:five_on_four_flutter_tdd/features/auth/data/repositories/auth_status/providers/app_repository/provider.dart';
+import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfaces/auth_status_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/players/application/services/players_get/app_service.dart';
 import 'package:five_on_four_flutter_tdd/features/players/application/services/players_get/service.dart';
 import 'package:five_on_four_flutter_tdd/features/players/data/repositories/players/providers/app_repository/provider.dart';
@@ -11,8 +13,13 @@ PlayersService playersAppService(PlayersAppServiceRef ref) {
   final PlayersRepository playersRepository =
       ref.read(playersAppRepositoryProvider);
 
-  final PlayersService playersService =
-      PlayersAppService(playersRepository: playersRepository);
+  final AuthStatusRepository authStatusRepository =
+      ref.read(authStatusRepositoryProvider);
+
+  final PlayersService playersService = PlayersAppService(
+    playersRepository: playersRepository,
+    authStatusRepository: authStatusRepository,
+  );
 
   return playersService;
 }

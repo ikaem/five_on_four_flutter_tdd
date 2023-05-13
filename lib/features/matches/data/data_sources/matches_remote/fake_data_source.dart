@@ -86,7 +86,10 @@ class MatchesRemoteFakeDataSource implements MatchesRemoteDataSource {
     final bool isOrganizerJoining = matchData.isOrganizerJoined;
     if (isOrganizerJoining)
       matchData.invitedPlayers.add(
-        MatchParticipationValue.fromPlayerModel(currentPlayer),
+        MatchParticipationValue.fromPlayerModel(
+          player: currentPlayer,
+          status: MatchParticipantStatus.joined,
+        ),
       );
 
     final MatchRemoteDTO newMatch = MatchRemoteDTO.fromNewMatchValue(
@@ -217,6 +220,7 @@ final List<MatchRemoteDTO> combinedMatches = [
   MatchRemoteDTO(
     id: "1",
     name: "Match 1",
+    date: DateTime.now().millisecondsSinceEpoch,
     participants: [
       MatchParticipantRemoteDTO(
         id: "1",
@@ -241,6 +245,7 @@ final List<MatchRemoteDTO> combinedMatches = [
   MatchRemoteDTO(
     id: "2",
     name: "Match 2",
+    date: DateTime.now().millisecondsSinceEpoch,
     participants: [
       MatchParticipantRemoteDTO(
         id: "3",
@@ -265,6 +270,7 @@ final List<MatchRemoteDTO> combinedMatches = [
   MatchRemoteDTO(
     id: "3",
     name: "Match 3",
+    date: DateTime.now().millisecondsSinceEpoch,
     participants: [
       MatchParticipantRemoteDTO(
         id: "5",
@@ -289,6 +295,7 @@ final List<MatchRemoteDTO> combinedMatches = [
   MatchRemoteDTO(
     id: "4",
     name: "Match 4",
+    date: DateTime.now().millisecondsSinceEpoch,
     participants: [
       MatchParticipantRemoteDTO(
         id: "7",

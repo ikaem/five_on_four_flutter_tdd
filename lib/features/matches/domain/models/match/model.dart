@@ -11,6 +11,8 @@ class MatchModel with _$MatchModel {
   const factory MatchModel({
     required String id,
     required String name,
+    // TODO WE WILL only have one date, and time of date will combine all of this
+    required DateTime date,
     required List<MatchParticipantModel> joinedParticipants,
     required List<MatchParticipantModel> invitedParticipants,
   }) = _MatchModel;
@@ -32,11 +34,15 @@ class MatchModel with _$MatchModel {
       participants: allParticipants,
     );
 
+    final DateTime matchDate =
+        DateTime.fromMillisecondsSinceEpoch(remoteDto.date);
+
     final MatchModel match = MatchModel(
       id: remoteDto.id,
       name: remoteDto.name,
       joinedParticipants: matchJoinedParticipants,
       invitedParticipants: matchInvitedParticipants,
+      date: matchDate,
     );
 
     return match;
@@ -53,6 +59,7 @@ class MatchModel with _$MatchModel {
       name: name,
       joinedParticipants: joinedParticipants,
       invitedParticipants: invitedParticipants,
+      date: DateTime.now(),
     );
   }
 }

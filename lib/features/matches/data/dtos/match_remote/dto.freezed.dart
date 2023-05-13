@@ -18,8 +18,10 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$MatchRemoteDTO {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  int get date => throw _privateConstructorUsedError;
   List<MatchParticipantRemoteDTO> get participants =>
       throw _privateConstructorUsedError;
+  dynamic get required => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MatchRemoteDTOCopyWith<MatchRemoteDTO> get copyWith =>
@@ -33,7 +35,11 @@ abstract class $MatchRemoteDTOCopyWith<$Res> {
       _$MatchRemoteDTOCopyWithImpl<$Res, MatchRemoteDTO>;
   @useResult
   $Res call(
-      {String id, String name, List<MatchParticipantRemoteDTO> participants});
+      {String id,
+      String name,
+      int date,
+      List<MatchParticipantRemoteDTO> participants,
+      dynamic required});
 }
 
 /// @nodoc
@@ -51,7 +57,9 @@ class _$MatchRemoteDTOCopyWithImpl<$Res, $Val extends MatchRemoteDTO>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? date = null,
     Object? participants = null,
+    Object? required = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -62,10 +70,18 @@ class _$MatchRemoteDTOCopyWithImpl<$Res, $Val extends MatchRemoteDTO>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as int,
       participants: null == participants
           ? _value.participants
           : participants // ignore: cast_nullable_to_non_nullable
               as List<MatchParticipantRemoteDTO>,
+      required: freezed == required
+          ? _value.required
+          : required // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ) as $Val);
   }
 }
@@ -79,7 +95,11 @@ abstract class _$$_MatchRemoteDTOCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id, String name, List<MatchParticipantRemoteDTO> participants});
+      {String id,
+      String name,
+      int date,
+      List<MatchParticipantRemoteDTO> participants,
+      dynamic required});
 }
 
 /// @nodoc
@@ -95,7 +115,9 @@ class __$$_MatchRemoteDTOCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? date = null,
     Object? participants = null,
+    Object? required = freezed,
   }) {
     return _then(_$_MatchRemoteDTO(
       id: null == id
@@ -106,10 +128,15 @@ class __$$_MatchRemoteDTOCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as int,
       participants: null == participants
           ? _value._participants
           : participants // ignore: cast_nullable_to_non_nullable
               as List<MatchParticipantRemoteDTO>,
+      required: freezed == required ? _value.required! : required,
     ));
   }
 }
@@ -120,13 +147,17 @@ class _$_MatchRemoteDTO implements _MatchRemoteDTO {
   const _$_MatchRemoteDTO(
       {required this.id,
       required this.name,
-      required final List<MatchParticipantRemoteDTO> participants})
+      required this.date,
+      required final List<MatchParticipantRemoteDTO> participants,
+      this.required})
       : _participants = participants;
 
   @override
   final String id;
   @override
   final String name;
+  @override
+  final int date;
   final List<MatchParticipantRemoteDTO> _participants;
   @override
   List<MatchParticipantRemoteDTO> get participants {
@@ -136,8 +167,11 @@ class _$_MatchRemoteDTO implements _MatchRemoteDTO {
   }
 
   @override
+  final dynamic required;
+
+  @override
   String toString() {
-    return 'MatchRemoteDTO(id: $id, name: $name, participants: $participants)';
+    return 'MatchRemoteDTO(id: $id, name: $name, date: $date, participants: $participants, required: $required)';
   }
 
   @override
@@ -147,13 +181,20 @@ class _$_MatchRemoteDTO implements _MatchRemoteDTO {
             other is _$_MatchRemoteDTO &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.date, date) || other.date == date) &&
             const DeepCollectionEquality()
-                .equals(other._participants, _participants));
+                .equals(other._participants, _participants) &&
+            const DeepCollectionEquality().equals(other.required, required));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, name,
-      const DeepCollectionEquality().hash(_participants));
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      date,
+      const DeepCollectionEquality().hash(_participants),
+      const DeepCollectionEquality().hash(required));
 
   @JsonKey(ignore: true)
   @override
@@ -164,17 +205,22 @@ class _$_MatchRemoteDTO implements _MatchRemoteDTO {
 
 abstract class _MatchRemoteDTO implements MatchRemoteDTO {
   const factory _MatchRemoteDTO(
-          {required final String id,
-          required final String name,
-          required final List<MatchParticipantRemoteDTO> participants}) =
-      _$_MatchRemoteDTO;
+      {required final String id,
+      required final String name,
+      required final int date,
+      required final List<MatchParticipantRemoteDTO> participants,
+      final dynamic required}) = _$_MatchRemoteDTO;
 
   @override
   String get id;
   @override
   String get name;
   @override
+  int get date;
+  @override
   List<MatchParticipantRemoteDTO> get participants;
+  @override
+  dynamic get required;
   @override
   @JsonKey(ignore: true)
   _$$_MatchRemoteDTOCopyWith<_$_MatchRemoteDTO> get copyWith =>

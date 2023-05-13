@@ -49,6 +49,7 @@ class HomeScreenInitialDataContent extends StatelessWidget {
                       ),
                       MatchInfoBriefOverview(
                         matchInfo: initialData.nextMatch,
+                        noMatchInfoLabel: "No upcoming matches",
                       ),
                     ],
                   ),

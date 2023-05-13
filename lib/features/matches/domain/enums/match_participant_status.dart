@@ -3,6 +3,6 @@
 enum MatchParticipantStatus {
   invited,
   joined,
-  declined,
+  unjoined,
   unknown,
 }
