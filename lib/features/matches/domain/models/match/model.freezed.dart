@@ -17,7 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$MatchModel {
   String get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  String get name =>
+      throw _privateConstructorUsedError; // TODO WE WILL only have one date, and time of date will combine all of this
+  DateTime get date => throw _privateConstructorUsedError;
   List<MatchParticipantModel> get joinedParticipants =>
       throw _privateConstructorUsedError;
   List<MatchParticipantModel> get invitedParticipants =>
@@ -37,6 +39,7 @@ abstract class $MatchModelCopyWith<$Res> {
   $Res call(
       {String id,
       String name,
+      DateTime date,
       List<MatchParticipantModel> joinedParticipants,
       List<MatchParticipantModel> invitedParticipants});
 }
@@ -56,6 +59,7 @@ class _$MatchModelCopyWithImpl<$Res, $Val extends MatchModel>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? date = null,
     Object? joinedParticipants = null,
     Object? invitedParticipants = null,
   }) {
@@ -68,6 +72,10 @@ class _$MatchModelCopyWithImpl<$Res, $Val extends MatchModel>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       joinedParticipants: null == joinedParticipants
           ? _value.joinedParticipants
           : joinedParticipants // ignore: cast_nullable_to_non_nullable
@@ -91,6 +99,7 @@ abstract class _$$_MatchModelCopyWith<$Res>
   $Res call(
       {String id,
       String name,
+      DateTime date,
       List<MatchParticipantModel> joinedParticipants,
       List<MatchParticipantModel> invitedParticipants});
 }
@@ -108,6 +117,7 @@ class __$$_MatchModelCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? date = null,
     Object? joinedParticipants = null,
     Object? invitedParticipants = null,
   }) {
@@ -120,6 +130,10 @@ class __$$_MatchModelCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       joinedParticipants: null == joinedParticipants
           ? _value._joinedParticipants
           : joinedParticipants // ignore: cast_nullable_to_non_nullable
@@ -138,6 +152,7 @@ class _$_MatchModel implements _MatchModel {
   const _$_MatchModel(
       {required this.id,
       required this.name,
+      required this.date,
       required final List<MatchParticipantModel> joinedParticipants,
       required final List<MatchParticipantModel> invitedParticipants})
       : _joinedParticipants = joinedParticipants,
@@ -147,6 +162,9 @@ class _$_MatchModel implements _MatchModel {
   final String id;
   @override
   final String name;
+// TODO WE WILL only have one date, and time of date will combine all of this
+  @override
+  final DateTime date;
   final List<MatchParticipantModel> _joinedParticipants;
   @override
   List<MatchParticipantModel> get joinedParticipants {
@@ -167,7 +185,7 @@ class _$_MatchModel implements _MatchModel {
 
   @override
   String toString() {
-    return 'MatchModel(id: $id, name: $name, joinedParticipants: $joinedParticipants, invitedParticipants: $invitedParticipants)';
+    return 'MatchModel(id: $id, name: $name, date: $date, joinedParticipants: $joinedParticipants, invitedParticipants: $invitedParticipants)';
   }
 
   @override
@@ -177,6 +195,7 @@ class _$_MatchModel implements _MatchModel {
             other is _$_MatchModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.date, date) || other.date == date) &&
             const DeepCollectionEquality()
                 .equals(other._joinedParticipants, _joinedParticipants) &&
             const DeepCollectionEquality()
@@ -188,6 +207,7 @@ class _$_MatchModel implements _MatchModel {
       runtimeType,
       id,
       name,
+      date,
       const DeepCollectionEquality().hash(_joinedParticipants),
       const DeepCollectionEquality().hash(_invitedParticipants));
 
@@ -202,6 +222,7 @@ abstract class _MatchModel implements MatchModel {
   const factory _MatchModel(
           {required final String id,
           required final String name,
+          required final DateTime date,
           required final List<MatchParticipantModel> joinedParticipants,
           required final List<MatchParticipantModel> invitedParticipants}) =
       _$_MatchModel;
@@ -210,6 +231,8 @@ abstract class _MatchModel implements MatchModel {
   String get id;
   @override
   String get name;
+  @override // TODO WE WILL only have one date, and time of date will combine all of this
+  DateTime get date;
   @override
   List<MatchParticipantModel> get joinedParticipants;
   @override

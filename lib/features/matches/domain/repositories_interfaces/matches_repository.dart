@@ -5,7 +5,8 @@ import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_matc
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 
 abstract class MatchesRepository {
-  Future<MatchModel> getPlayerNextMatch(String playerId);
+  // TODO not needed
+  // Future<MatchModel> getPlayerNextMatch(String playerId);
 
   Future<List<MatchModel>> getPlayerJoinedMatches(String playerId);
 

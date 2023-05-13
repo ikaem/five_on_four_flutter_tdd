@@ -21,8 +21,8 @@ class MatchCreateAppController extends _$MatchCreateAppController
   late final MatchesService _matchesService = ref.read(matchesServiceProvider);
 
   @override
-  Stream<String> get matchNameValidationStream =>
-      _matchNameStream.transform(genericTextValidationTransformer);
+  Stream<String> get nameValidationStream =>
+      _nameStream.transform(genericTextValidationTransformer);
   @override
   Stream<String> get locationNameValidationStream =>
       _locationNameStream.transform(genericTextValidationTransformer);
@@ -50,7 +50,7 @@ class MatchCreateAppController extends _$MatchCreateAppController
   @override
   Stream<bool> get inputsValidationStream => Rx.combineLatest(
         [
-          _matchNameStream,
+          _nameStream,
           _locationNameStream,
           _locationAddressStream,
           _locationCityStream,
@@ -95,7 +95,7 @@ class MatchCreateAppController extends _$MatchCreateAppController
 
   @override
   void onChangeMatchName(String value) {
-    _matchNameSink.add(value);
+    _nameSink.add(value);
   }
 
   @override
@@ -136,7 +136,7 @@ class MatchCreateAppController extends _$MatchCreateAppController
   @override
   Future<void> onSubmit() async {
     final MatchCreateInputsValidationValue validationValue = validateInputs(
-      matchNameValue: _matchNameSubject.valueOrNull,
+      nameValue: _nameSubject.valueOrNull,
       locationNameValue: _locationNameSubject.valueOrNull,
       locationAddressValue: _locationAddressSubject.valueOrNull,
       locationCityValue: _locationCitySubject.valueOrNull,
@@ -151,7 +151,7 @@ class MatchCreateAppController extends _$MatchCreateAppController
     }
 
     final NewMatchValue matchData = NewMatchValue(
-      matchName: _matchNameSubject.value,
+      name: _nameSubject.value,
       locationName: _locationNameSubject.value,
       locationAddress: _locationAddressSubject.value,
       locationCity: _locationCitySubject.value,
@@ -176,8 +176,8 @@ class MatchCreateAppController extends _$MatchCreateAppController
   void _populateInvalidInputErrors(
     MatchCreateInputsValidationValue validationValue,
   ) {
-    if (validationValue.matchNameError != null)
-      _matchNameSink.addError(validationValue.matchNameError!);
+    if (validationValue.nameError != null)
+      _nameSink.addError(validationValue.nameError!);
     if (validationValue.locationNameError != null)
       _locationNameSink.addError(validationValue.locationNameError!);
     if (validationValue.locationAddressError != null)
@@ -202,7 +202,7 @@ class MatchCreateAppController extends _$MatchCreateAppController
 
   @override
   Future<void> dispose() async {
-    await _matchNameSubject.close();
+    await _nameSubject.close();
     await _locationNameSubject.close();
     await _locationAddressSubject.close();
     await _locationCitySubject.close();
@@ -212,7 +212,7 @@ class MatchCreateAppController extends _$MatchCreateAppController
     await _joinMatchSubject.close();
   }
 
-  final BehaviorSubject<String> _matchNameSubject = BehaviorSubject();
+  final BehaviorSubject<String> _nameSubject = BehaviorSubject();
   final BehaviorSubject<String> _locationNameSubject = BehaviorSubject();
   final BehaviorSubject<String> _locationAddressSubject = BehaviorSubject();
   final BehaviorSubject<String> _locationCitySubject = BehaviorSubject();
@@ -223,7 +223,7 @@ class MatchCreateAppController extends _$MatchCreateAppController
   final BehaviorSubject<List<MatchParticipationValue>>
       _participantInvitationsSubject = BehaviorSubject.seeded([]);
 
-  StreamSink<String> get _matchNameSink => _matchNameSubject.sink;
+  StreamSink<String> get _nameSink => _nameSubject.sink;
   StreamSink<String> get _locationNameSink => _locationNameSubject.sink;
   StreamSink<String> get _locationAddressSink => _locationAddressSubject.sink;
   StreamSink<String> get _locationCitySink => _locationCitySubject.sink;
@@ -234,7 +234,7 @@ class MatchCreateAppController extends _$MatchCreateAppController
   StreamSink<List<MatchParticipationValue>> get _participantInvitationsSink =>
       _participantInvitationsSubject.sink;
 
-  Stream<String> get _matchNameStream => _matchNameSubject.distinct();
+  Stream<String> get _nameStream => _nameSubject.distinct();
   Stream<String> get _locationNameStream => _locationNameSubject.distinct();
   Stream<String> get _locationAddressStream =>
       _locationAddressSubject.distinct();

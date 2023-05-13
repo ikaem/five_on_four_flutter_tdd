@@ -12,7 +12,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class PlayersScreen extends ConsumerWidget {
-  const PlayersScreen({super.key});
+  PlayersScreen({super.key});
+
+  late final PlayersSearchAppControllerProvider searchControllerProvider =
+      playersSearchAppControllerProvider(PlayersSearchOptions(
+    shouldSearchCurrentUser: true,
+  ));
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,7 +26,7 @@ class PlayersScreen extends ConsumerWidget {
     // TODO in future, separate into view too
 
     final AsyncValue<List<PlayerModel>> playersSearchValue =
-        ref.watch(playersSearchAppControllerProvider);
+        ref.watch(searchControllerProvider);
 
     return Scaffold(
       key: const Key(KeysConstants.playersScreenScaffoldKey),
@@ -36,7 +41,7 @@ class PlayersScreen extends ConsumerWidget {
             TextField(
               onChanged: (value) {
                 ref
-                    .read(playersSearchAppControllerProvider.notifier)
+                    .read(searchControllerProvider.notifier)
                     .onChangeSearchTerm(value);
               },
               decoration: InputDecoration(

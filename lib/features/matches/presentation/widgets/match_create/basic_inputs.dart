@@ -14,7 +14,7 @@ class MatchCreateBasicInputs extends StatefulWidget {
     required this.sectionLabelStyle,
 
     // input streams
-    required this.matchNameStream,
+    required this.nameStream,
     required this.locationNameStream,
     required this.locationAddressStream,
     required this.locationCityStream,
@@ -36,7 +36,7 @@ class MatchCreateBasicInputs extends StatefulWidget {
 
   final TextStyle sectionLabelStyle;
 
-  final Stream<String> matchNameStream;
+  final Stream<String> nameStream;
   final Stream<String> locationNameStream;
   final Stream<String> locationAddressStream;
   final Stream<String> locationCityStream;
@@ -59,7 +59,7 @@ class MatchCreateBasicInputs extends StatefulWidget {
 }
 
 class _MatchCreateBasicInputsState extends State<MatchCreateBasicInputs> {
-  final TextEditingController _matchNameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _locationNameController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
@@ -85,7 +85,7 @@ class _MatchCreateBasicInputsState extends State<MatchCreateBasicInputs> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           StreamedTextField(
-            fieldController: _matchNameController,
+            fieldController: _nameController,
             stream: Stream.value(""),
             onChanged: widget.onChangeMatchName,
             labelText: "Match name",
@@ -172,7 +172,7 @@ class _MatchCreateBasicInputsState extends State<MatchCreateBasicInputs> {
   }
 
   void _disposeWidget() {
-    _matchNameController.dispose();
+    _nameController.dispose();
     _locationNameController.dispose();
     _addressController.dispose();
     _cityController.dispose();

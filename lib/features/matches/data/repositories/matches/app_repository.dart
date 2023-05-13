@@ -30,14 +30,15 @@ class MatchesAppRepository implements MatchesRepository {
     return remoteMatches.map((dto) => MatchModel.fromRemoteDto(dto)).toList();
   }
 
-  @override
-  Future<MatchModel> getPlayerNextMatch(String playerId) async {
-    final MatchRemoteDTO remoteMatch =
-        await remoteDataSource.getNextMatchForPlayer(playerId);
-    final MatchModel match = MatchModel.fromRemoteDto(remoteMatch);
+// TODO not needed
+  // @override
+  // Future<MatchModel> getPlayerNextMatch(String playerId) async {
+  //   final MatchRemoteDTO remoteMatch =
+  //       await remoteDataSource.getNextMatchForPlayer(playerId);
+  //   final MatchModel match = MatchModel.fromRemoteDto(remoteMatch);
 
-    return match;
-  }
+  //   return match;
+  // }
 
   @override
   Future<MatchModel> getMatch(String matchId) async {

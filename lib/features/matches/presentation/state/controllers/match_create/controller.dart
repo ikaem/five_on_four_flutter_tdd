@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 abstract class MatchCreateController {
   // input streams
 
-  Stream<String> get matchNameValidationStream;
+  Stream<String> get nameValidationStream;
   Stream<String> get locationNameValidationStream;
   Stream<String> get locationAddressValidationStream;
   Stream<String> get locationCityValidationStream;

@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part "args.freezed.dart";
-part "args.g.dart";
+// part "args.g.dart";
 
 @freezed
 class RegisterCredentialsArgs with _$RegisterCredentialsArgs {
@@ -11,6 +11,13 @@ class RegisterCredentialsArgs with _$RegisterCredentialsArgs {
     required String password,
   }) = _RegisterCredentialsArgs;
 
-  factory RegisterCredentialsArgs.fromJson(Map<String, dynamic> json) =>
-      _$RegisterCredentialsArgsFromJson(json);
+  const RegisterCredentialsArgs._();
+
+  Map<String, dynamic> toFirebasePlayerDataMap() => <String, String>{
+        'nickname': nickname,
+        'email': email,
+      };
+
+  // factory RegisterCredentialsArgs.fromJson(Map<String, dynamic> json) =>
+  //     _$RegisterCredentialsArgsFromJson(json);
 }

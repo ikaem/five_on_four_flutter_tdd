@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:five_on_four_flutter_tdd/features/core/utils/utils.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -7,7 +9,7 @@ part "value.freezed.dart";
 @freezed
 class NewMatchValue with _$NewMatchValue {
   const factory NewMatchValue({
-    required String matchName,
+    required String name,
     required String locationName,
     // TODO this will probably need coordinates, instead of actual address - but that should come later only
     required String locationAddress,
@@ -18,4 +20,56 @@ class NewMatchValue with _$NewMatchValue {
     required bool isOrganizerJoined,
     required List<MatchParticipationValue> invitedPlayers,
   }) = _NewMatchValue;
+}
+
+// TODO move to extension
+extension NewMatchValueExtension on NewMatchValue {
+  NewMatchValue addParticipation(MatchParticipationValue participation) {
+    final List<MatchParticipationValue> newInvitedPlayers = [
+      ...invitedPlayers,
+      participation,
+    ];
+
+    return copyWith(invitedPlayers: newInvitedPlayers);
+  }
+
+  FirestoreMatchDataValue toFirestoreMatchData() {
+    final DateTime matchDate = time.toCustomDateTime(date);
+    final Timestamp matchTimestamp = Timestamp.fromDate(matchDate);
+
+// TODO create constants for fields
+    final Map<String, dynamic> matchDataMap = {
+      'name': name,
+      // TODO this will need actual coordinates here - we will make it an object
+      "location": {
+        'locationName': locationName,
+        'locationAddress': locationAddress,
+        'locationCity': locationCity,
+        'locationCountry': locationCountry,
+        // TODO placegholder values
+        "longitude": 0.0,
+        "latitude": 0.0,
+      },
+      "date": matchTimestamp,
+      'isOrganizerJoined': isOrganizerJoined,
+    };
+
+    final List<Map<String, dynamic>> matchParticipantsMaps =
+        invitedPlayers.map((ip) => ip.toFirestoreMap()).toList();
+
+    return FirestoreMatchDataValue(
+        matchDataMap: matchDataMap,
+        participationsDataMaps: matchParticipantsMaps);
+  }
+}
+
+// TODO move to values
+class FirestoreMatchDataValue {
+  FirestoreMatchDataValue({
+    required this.matchDataMap,
+    required this.participationsDataMaps,
+  });
+
+  final Map<String, dynamic> matchDataMap;
+  final List<Map<String, dynamic>> participationsDataMaps;
 }

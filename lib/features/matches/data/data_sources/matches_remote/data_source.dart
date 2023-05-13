@@ -13,9 +13,10 @@ abstract class MatchesRemoteDataSource {
     String playerId,
   );
 
-  Future<MatchRemoteDTO> getNextMatchForPlayer(
-    String playerId,
-  );
+// TODO inneficient query
+  // Future<MatchRemoteDTO?> getNextMatchForPlayer(
+  //   String playerId,
+  // );
 
   Future<MatchRemoteDTO> getMatch(String matchId);
 

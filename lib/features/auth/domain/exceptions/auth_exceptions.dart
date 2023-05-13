@@ -21,3 +21,9 @@ class AuthExceptionRegisterUserExists extends AuthException {
   const AuthExceptionRegisterUserExists({required String message})
       : super(message: message);
 }
+
+@immutable
+class AuthExceptionRegisterFailure extends AuthException {
+  const AuthExceptionRegisterFailure({required String message})
+      : super(message: message);
+}

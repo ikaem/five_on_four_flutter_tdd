@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$NewMatchValue {
-  String get matchName => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
   String get locationName =>
       throw _privateConstructorUsedError; // TODO this will probably need coordinates, instead of actual address - but that should come later only
   String get locationAddress => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $NewMatchValueCopyWith<$Res> {
       _$NewMatchValueCopyWithImpl<$Res, NewMatchValue>;
   @useResult
   $Res call(
-      {String matchName,
+      {String name,
       String locationName,
       String locationAddress,
       String locationCity,
@@ -64,7 +64,7 @@ class _$NewMatchValueCopyWithImpl<$Res, $Val extends NewMatchValue>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? matchName = null,
+    Object? name = null,
     Object? locationName = null,
     Object? locationAddress = null,
     Object? locationCity = null,
@@ -75,9 +75,9 @@ class _$NewMatchValueCopyWithImpl<$Res, $Val extends NewMatchValue>
     Object? invitedPlayers = null,
   }) {
     return _then(_value.copyWith(
-      matchName: null == matchName
-          ? _value.matchName
-          : matchName // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
       locationName: null == locationName
           ? _value.locationName
@@ -124,7 +124,7 @@ abstract class _$$_NewMatchValueCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String matchName,
+      {String name,
       String locationName,
       String locationAddress,
       String locationCity,
@@ -146,7 +146,7 @@ class __$$_NewMatchValueCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? matchName = null,
+    Object? name = null,
     Object? locationName = null,
     Object? locationAddress = null,
     Object? locationCity = null,
@@ -157,9 +157,9 @@ class __$$_NewMatchValueCopyWithImpl<$Res>
     Object? invitedPlayers = null,
   }) {
     return _then(_$_NewMatchValue(
-      matchName: null == matchName
-          ? _value.matchName
-          : matchName // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
       locationName: null == locationName
           ? _value.locationName
@@ -201,7 +201,7 @@ class __$$_NewMatchValueCopyWithImpl<$Res>
 
 class _$_NewMatchValue implements _NewMatchValue {
   const _$_NewMatchValue(
-      {required this.matchName,
+      {required this.name,
       required this.locationName,
       required this.locationAddress,
       required this.locationCity,
@@ -213,7 +213,7 @@ class _$_NewMatchValue implements _NewMatchValue {
       : _invitedPlayers = invitedPlayers;
 
   @override
-  final String matchName;
+  final String name;
   @override
   final String locationName;
 // TODO this will probably need coordinates, instead of actual address - but that should come later only
@@ -239,7 +239,7 @@ class _$_NewMatchValue implements _NewMatchValue {
 
   @override
   String toString() {
-    return 'NewMatchValue(matchName: $matchName, locationName: $locationName, locationAddress: $locationAddress, locationCity: $locationCity, locationCountry: $locationCountry, date: $date, time: $time, isOrganizerJoined: $isOrganizerJoined, invitedPlayers: $invitedPlayers)';
+    return 'NewMatchValue(name: $name, locationName: $locationName, locationAddress: $locationAddress, locationCity: $locationCity, locationCountry: $locationCountry, date: $date, time: $time, isOrganizerJoined: $isOrganizerJoined, invitedPlayers: $invitedPlayers)';
   }
 
   @override
@@ -247,8 +247,7 @@ class _$_NewMatchValue implements _NewMatchValue {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_NewMatchValue &&
-            (identical(other.matchName, matchName) ||
-                other.matchName == matchName) &&
+            (identical(other.name, name) || other.name == name) &&
             (identical(other.locationName, locationName) ||
                 other.locationName == locationName) &&
             (identical(other.locationAddress, locationAddress) ||
@@ -268,7 +267,7 @@ class _$_NewMatchValue implements _NewMatchValue {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      matchName,
+      name,
       locationName,
       locationAddress,
       locationCity,
@@ -287,7 +286,7 @@ class _$_NewMatchValue implements _NewMatchValue {
 
 abstract class _NewMatchValue implements NewMatchValue {
   const factory _NewMatchValue(
-          {required final String matchName,
+          {required final String name,
           required final String locationName,
           required final String locationAddress,
           required final String locationCity,
@@ -299,7 +298,7 @@ abstract class _NewMatchValue implements NewMatchValue {
       _$_NewMatchValue;
 
   @override
-  String get matchName;
+  String get name;
   @override
   String get locationName;
   @override // TODO this will probably need coordinates, instead of actual address - but that should come later only
