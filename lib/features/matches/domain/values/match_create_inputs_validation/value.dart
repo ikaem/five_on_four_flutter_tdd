@@ -6,7 +6,7 @@ part "value.freezed.dart";
 @freezed
 class MatchCreateInputsValidationValue with _$MatchCreateInputsValidationValue {
   const factory MatchCreateInputsValidationValue({
-    required FormFieldError? matchNameError,
+    required FormFieldError? nameError,
     required FormFieldError? locationNameError,
     required FormFieldError? locationAddressError,
     required FormFieldError? locationCityError,
@@ -18,7 +18,7 @@ class MatchCreateInputsValidationValue with _$MatchCreateInputsValidationValue {
   const MatchCreateInputsValidationValue._();
 
   bool get areInputsValid {
-    if (matchNameError != null) return false;
+    if (nameError != null) return false;
     if (locationNameError != null) return false;
     if (locationAddressError != null) return false;
     if (locationCityError != null) return false;

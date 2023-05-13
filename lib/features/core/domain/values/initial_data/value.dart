@@ -9,6 +9,13 @@ class InitialDataValue with _$InitialDataValue {
   const factory InitialDataValue({
     required List<MatchModel> invitedMatches,
     required List<MatchModel> joinedMatches,
-    required MatchInfoModel nextMatch,
+    required MatchInfoModel? nextMatch,
   }) = _InitialDataValue;
+}
+
+// TODO move to extensions
+extension InitialDataValueExtension on InitialDataValue {
+  bool get hasJoinedMatches => joinedMatches.isNotEmpty;
+  bool get hasInvitedMatches => invitedMatches.isNotEmpty;
+  bool get hasNextMatch => nextMatch != null;
 }

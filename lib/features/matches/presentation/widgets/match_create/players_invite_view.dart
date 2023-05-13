@@ -1,3 +1,4 @@
+import 'package:five_on_four_flutter_tdd/features/matches/domain/enums/match_participant_status.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_create/players_invite_inputs.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
@@ -10,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MatchInviteParticipantsView extends ConsumerWidget {
-  const MatchInviteParticipantsView({
+  MatchInviteParticipantsView({
     super.key,
     required this.participantsInvitationsStream,
     required this.onTapRemoveInvitation,
@@ -21,13 +22,18 @@ class MatchInviteParticipantsView extends ConsumerWidget {
   final OnTapParticipation onTapRemoveInvitation;
   final OnTapParticipation onTapAddInvitation;
 
+  late final PlayersSearchAppControllerProvider searchControllerProvider =
+      playersSearchAppControllerProvider(PlayersSearchOptions(
+    shouldSearchCurrentUser: false,
+  ));
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeData theme = Theme.of(context);
     final TextTheme themeText = theme.textTheme;
 
     final AsyncValue<List<PlayerModel>> playersSearchValue =
-        ref.watch(playersSearchAppControllerProvider);
+        ref.watch(searchControllerProvider);
 
     return Column(
       children: [
@@ -36,7 +42,7 @@ class MatchInviteParticipantsView extends ConsumerWidget {
           child: TextField(
             onChanged: (value) {
               ref
-                  .read(playersSearchAppControllerProvider.notifier)
+                  .read(searchControllerProvider.notifier)
                   .onChangeSearchTerm(value);
             },
             decoration: InputDecoration(
@@ -167,7 +173,10 @@ class MatchInviteParticipantsView extends ConsumerWidget {
                           ),
                           onTapPlayer: (player) {
                             final MatchParticipationValue participationValue =
-                                MatchParticipationValue.fromPlayerModel(player);
+                                MatchParticipationValue.fromPlayerModel(
+                              player: player,
+                              status: MatchParticipantStatus.invited,
+                            );
                             onTapAddInvitation(participationValue);
                           },
                         );

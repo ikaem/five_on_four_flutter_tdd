@@ -14,16 +14,11 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-LoginCredentialsArgs _$LoginCredentialsArgsFromJson(Map<String, dynamic> json) {
-  return _LoginCredentialsArgs.fromJson(json);
-}
-
 /// @nodoc
 mixin _$LoginCredentialsArgs {
   String get email => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $LoginCredentialsArgsCopyWith<LoginCredentialsArgs> get copyWith =>
       throw _privateConstructorUsedError;
@@ -107,12 +102,9 @@ class __$$_LoginCredentialsArgsCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$_LoginCredentialsArgs implements _LoginCredentialsArgs {
   const _$_LoginCredentialsArgs({required this.email, required this.password});
-
-  factory _$_LoginCredentialsArgs.fromJson(Map<String, dynamic> json) =>
-      _$$_LoginCredentialsArgsFromJson(json);
 
   @override
   final String email;
@@ -134,7 +126,6 @@ class _$_LoginCredentialsArgs implements _LoginCredentialsArgs {
                 other.password == password));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, email, password);
 
@@ -144,22 +135,12 @@ class _$_LoginCredentialsArgs implements _LoginCredentialsArgs {
   _$$_LoginCredentialsArgsCopyWith<_$_LoginCredentialsArgs> get copyWith =>
       __$$_LoginCredentialsArgsCopyWithImpl<_$_LoginCredentialsArgs>(
           this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_LoginCredentialsArgsToJson(
-      this,
-    );
-  }
 }
 
 abstract class _LoginCredentialsArgs implements LoginCredentialsArgs {
   const factory _LoginCredentialsArgs(
       {required final String email,
       required final String password}) = _$_LoginCredentialsArgs;
-
-  factory _LoginCredentialsArgs.fromJson(Map<String, dynamic> json) =
-      _$_LoginCredentialsArgs.fromJson;
 
   @override
   String get email;

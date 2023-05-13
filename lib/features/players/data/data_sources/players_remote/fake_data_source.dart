@@ -3,11 +3,15 @@ import 'package:five_on_four_flutter_tdd/features/players/data/data_sources/play
 import 'package:five_on_four_flutter_tdd/features/players/data/dtos/player_remote/dto.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/exceptions/player_exceptions.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/values/players_search_filters/value.dart';
+import 'package:five_on_four_flutter_tdd/features/players/presentation/state/controllers/players_search/providers/provider.dart';
 
 class PlayersRemoteFakeDataSource implements PlayersRemoteDataSource {
   @override
-  Future<List<PlayerRemoteDTO>> getSearchedPlayers(
-      PlayersSearchFiltersValue filters) async {
+  Future<List<PlayerRemoteDTO>> getSearchedPlayers({
+    required PlayersSearchFiltersValue filters,
+    required PlayersSearchOptions options,
+    required String currentPlayerId,
+  }) async {
     await Future<void>.delayed(Duration(milliseconds: 500));
 
     return _players;
@@ -19,7 +23,7 @@ class PlayersRemoteFakeDataSource implements PlayersRemoteDataSource {
         _players.firstWhereOrNull((element) => element.id == playerId);
 
     if (player == null)
-      throw PlayerExceptionNotFoundRemotely(message: "Player id: $playerId");
+      throw PlayerExceptionNotFoundRemote(message: "Player id: $playerId");
 
     return player;
   }

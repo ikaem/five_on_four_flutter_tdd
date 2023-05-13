@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$MatchParticipationValue {
   String get playerId => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
+  MatchParticipantStatus get status => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MatchParticipationValueCopyWith<MatchParticipationValue> get copyWith =>
@@ -30,7 +31,7 @@ abstract class $MatchParticipationValueCopyWith<$Res> {
           $Res Function(MatchParticipationValue) then) =
       _$MatchParticipationValueCopyWithImpl<$Res, MatchParticipationValue>;
   @useResult
-  $Res call({String playerId, String nickname});
+  $Res call({String playerId, String nickname, MatchParticipantStatus status});
 }
 
 /// @nodoc
@@ -49,6 +50,7 @@ class _$MatchParticipationValueCopyWithImpl<$Res,
   $Res call({
     Object? playerId = null,
     Object? nickname = null,
+    Object? status = null,
   }) {
     return _then(_value.copyWith(
       playerId: null == playerId
@@ -59,6 +61,10 @@ class _$MatchParticipationValueCopyWithImpl<$Res,
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
               as String,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as MatchParticipantStatus,
     ) as $Val);
   }
 }
@@ -71,7 +77,7 @@ abstract class _$$_MatchParticipationValueCopyWith<$Res>
       __$$_MatchParticipationValueCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String playerId, String nickname});
+  $Res call({String playerId, String nickname, MatchParticipantStatus status});
 }
 
 /// @nodoc
@@ -88,6 +94,7 @@ class __$$_MatchParticipationValueCopyWithImpl<$Res>
   $Res call({
     Object? playerId = null,
     Object? nickname = null,
+    Object? status = null,
   }) {
     return _then(_$_MatchParticipationValue(
       playerId: null == playerId
@@ -98,6 +105,10 @@ class __$$_MatchParticipationValueCopyWithImpl<$Res>
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
               as String,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as MatchParticipantStatus,
     ));
   }
 }
@@ -106,16 +117,18 @@ class __$$_MatchParticipationValueCopyWithImpl<$Res>
 
 class _$_MatchParticipationValue implements _MatchParticipationValue {
   const _$_MatchParticipationValue(
-      {required this.playerId, required this.nickname});
+      {required this.playerId, required this.nickname, required this.status});
 
   @override
   final String playerId;
   @override
   final String nickname;
+  @override
+  final MatchParticipantStatus status;
 
   @override
   String toString() {
-    return 'MatchParticipationValue(playerId: $playerId, nickname: $nickname)';
+    return 'MatchParticipationValue(playerId: $playerId, nickname: $nickname, status: $status)';
   }
 
   @override
@@ -126,11 +139,12 @@ class _$_MatchParticipationValue implements _MatchParticipationValue {
             (identical(other.playerId, playerId) ||
                 other.playerId == playerId) &&
             (identical(other.nickname, nickname) ||
-                other.nickname == nickname));
+                other.nickname == nickname) &&
+            (identical(other.status, status) || other.status == status));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, playerId, nickname);
+  int get hashCode => Object.hash(runtimeType, playerId, nickname, status);
 
   @JsonKey(ignore: true)
   @override
@@ -143,13 +157,17 @@ class _$_MatchParticipationValue implements _MatchParticipationValue {
 
 abstract class _MatchParticipationValue implements MatchParticipationValue {
   const factory _MatchParticipationValue(
-      {required final String playerId,
-      required final String nickname}) = _$_MatchParticipationValue;
+          {required final String playerId,
+          required final String nickname,
+          required final MatchParticipantStatus status}) =
+      _$_MatchParticipationValue;
 
   @override
   String get playerId;
   @override
   String get nickname;
+  @override
+  MatchParticipantStatus get status;
   @override
   @JsonKey(ignore: true)
   _$$_MatchParticipationValueCopyWith<_$_MatchParticipationValue>

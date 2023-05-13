@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part "args.freezed.dart";
-part "args.g.dart";
+// part "args.g.dart";
 
 @freezed
 class LoginCredentialsArgs with _$LoginCredentialsArgs {
@@ -10,6 +10,7 @@ class LoginCredentialsArgs with _$LoginCredentialsArgs {
     required String password,
   }) = _LoginCredentialsArgs;
 
-  factory LoginCredentialsArgs.fromJson(Map<String, dynamic> json) =>
-      _$LoginCredentialsArgsFromJson(json);
+// TODO not needed
+  // factory LoginCredentialsArgs.fromJson(Map<String, dynamic> json) =>
+  //     _$LoginCredentialsArgsFromJson(json);
 }

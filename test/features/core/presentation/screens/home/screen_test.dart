@@ -9,10 +9,8 @@ import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
-import '../../../../../helpers/data/matches.dart';
 import '../../../../../helpers/helpers.dart';
 import '../../../../../helpers/navigation/mock_app_router.dart';
 import '../../../application/services/initial_data/app_service.mocks.dart';
@@ -29,20 +27,20 @@ void main() {
             final MockInitialDataAppService mockInitialDataAppService =
                 MockInitialDataAppService();
 
-            when(mockInitialDataAppService._getCurrentPlayerInvitedMatches())
-                .thenAnswer(
-              (realInvocation) {
-                return Future.value([]);
-              },
-            );
-            when(mockInitialDataAppService._getCurrentPlayerJoinedMatches())
-                .thenAnswer(
-              (realInvocation) => Future.value([]),
-            );
-            when(mockInitialDataAppService._getCurrentPlayerNextMatch())
-                .thenAnswer(
-              (realInvocation) => Future.value(testMatchInfoModel),
-            );
+            // when(mockInitialDataAppService._getCurrentPlayerInvitedMatches())
+            //     .thenAnswer(
+            //   (realInvocation) {
+            //     return Future.value([]);
+            //   },
+            // );
+            // when(mockInitialDataAppService._getCurrentPlayerJoinedMatches())
+            //     .thenAnswer(
+            //   (realInvocation) => Future.value([]),
+            // );
+            // when(mockInitialDataAppService._getCurrentPlayerNextMatch())
+            //     .thenAnswer(
+            //   (realInvocation) => Future.value(testMatchInfoModel),
+            // );
 
             final List<Override> overrides = [
               initialDataServiceProvider.overrideWith(
@@ -107,19 +105,19 @@ void main() {
       final MockInitialDataAppService mockInitialDataAppService =
           MockInitialDataAppService();
 
-      when(mockInitialDataAppService._getCurrentPlayerInvitedMatches())
-          .thenAnswer(
-        (realInvocation) {
-          return Future.value([]);
-        },
-      );
-      when(mockInitialDataAppService._getCurrentPlayerJoinedMatches())
-          .thenAnswer(
-        (realInvocation) => Future.value([]),
-      );
-      when(mockInitialDataAppService._getCurrentPlayerNextMatch()).thenAnswer(
-        (realInvocation) => Future.value(testMatchInfoModel),
-      );
+      // when(mockInitialDataAppService._getCurrentPlayerInvitedMatches())
+      //     .thenAnswer(
+      //   (realInvocation) {
+      //     return Future.value([]);
+      //   },
+      // );
+      // when(mockInitialDataAppService._getCurrentPlayerJoinedMatches())
+      //     .thenAnswer(
+      //   (realInvocation) => Future.value([]),
+      // );
+      // when(mockInitialDataAppService._getCurrentPlayerNextMatch()).thenAnswer(
+      //   (realInvocation) => Future.value(testMatchInfoModel),
+      // );
 
       final List<Override> overrides = [
         initialDataServiceProvider.overrideWith(

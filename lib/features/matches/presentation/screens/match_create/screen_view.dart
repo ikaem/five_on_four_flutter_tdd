@@ -43,7 +43,8 @@ class MatchCreateScreenView extends ConsumerWidget {
             loading: () => Center(child: CircularProgressIndicator()),
             error: (e, st) => SizedBox.shrink(),
             data: (String? matchId) {
-              if (matchId != null) return SizedBox.shrink();
+              // TODO revert this
+              // if (matchId != null) return SizedBox.shrink();
 
               return StreamedIconButton(
                 enabledStateStream:
@@ -76,7 +77,7 @@ class MatchCreateScreenView extends ConsumerWidget {
               sectionLabelStyle: sectionLabelStyle.copyWith(
                 color: ColorConstants.yellow,
               ),
-              matchNameStream: matchCreateController.matchNameValidationStream,
+              nameStream: matchCreateController.nameValidationStream,
               locationNameStream:
                   matchCreateController.locationNameValidationStream,
               locationAddressStream:
@@ -129,6 +130,7 @@ class MatchCreateScreenView extends ConsumerWidget {
           ) {
             currentState.when(
               data: (matchId) {
+                // TODO revert this
                 if (matchId == null) return;
 
                 context.pushReplacementNamed(

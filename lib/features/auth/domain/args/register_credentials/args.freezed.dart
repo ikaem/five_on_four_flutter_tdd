@@ -14,18 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-RegisterCredentialsArgs _$RegisterCredentialsArgsFromJson(
-    Map<String, dynamic> json) {
-  return _RegisterCredentialsArgs.fromJson(json);
-}
-
 /// @nodoc
 mixin _$RegisterCredentialsArgs {
   String get nickname => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $RegisterCredentialsArgsCopyWith<RegisterCredentialsArgs> get copyWith =>
       throw _privateConstructorUsedError;
@@ -120,13 +114,11 @@ class __$$_RegisterCredentialsArgsCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
-class _$_RegisterCredentialsArgs implements _RegisterCredentialsArgs {
-  const _$_RegisterCredentialsArgs(
-      {required this.nickname, required this.email, required this.password});
 
-  factory _$_RegisterCredentialsArgs.fromJson(Map<String, dynamic> json) =>
-      _$$_RegisterCredentialsArgsFromJson(json);
+class _$_RegisterCredentialsArgs extends _RegisterCredentialsArgs {
+  const _$_RegisterCredentialsArgs(
+      {required this.nickname, required this.email, required this.password})
+      : super._();
 
   @override
   final String nickname;
@@ -152,7 +144,6 @@ class _$_RegisterCredentialsArgs implements _RegisterCredentialsArgs {
                 other.password == password));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, nickname, email, password);
 
@@ -163,23 +154,14 @@ class _$_RegisterCredentialsArgs implements _RegisterCredentialsArgs {
       get copyWith =>
           __$$_RegisterCredentialsArgsCopyWithImpl<_$_RegisterCredentialsArgs>(
               this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_RegisterCredentialsArgsToJson(
-      this,
-    );
-  }
 }
 
-abstract class _RegisterCredentialsArgs implements RegisterCredentialsArgs {
+abstract class _RegisterCredentialsArgs extends RegisterCredentialsArgs {
   const factory _RegisterCredentialsArgs(
       {required final String nickname,
       required final String email,
       required final String password}) = _$_RegisterCredentialsArgs;
-
-  factory _RegisterCredentialsArgs.fromJson(Map<String, dynamic> json) =
-      _$_RegisterCredentialsArgs.fromJson;
+  const _RegisterCredentialsArgs._() : super._();
 
   @override
   String get nickname;

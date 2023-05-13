@@ -8,11 +8,11 @@ class PlayerException implements Exception {
   String toString() => "PlayerException: $message";
 }
 
-class PlayerExceptionNotFoundRemotely extends PlayerException {
-  PlayerExceptionNotFoundRemotely({
+class PlayerExceptionNotFoundRemote extends PlayerException {
+  PlayerExceptionNotFoundRemote({
     required super.message,
   });
 
   @override
-  String toString() => "PlayerExceptionNotFoundRemotely: $message";
+  String toString() => "PlayerExceptionNotFoundRemote: $message";
 }

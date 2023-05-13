@@ -44,20 +44,30 @@ class InitialDataAppService implements InitialDataService {
     return joinedMatches;
   }
 
-  Future<MatchInfoModel> _getCurrentPlayerNextMatch() async {
-    final AuthModel? authModel = await authStatusRepository.getAuthStatus();
-    if (authModel == null) {
-      throw AuthExceptionUnauthorized(
-          message: "There is no player currently signed in");
-    }
+// TODO move all this below
+  MatchInfoModel? _getCurrentPlayerNextMatch({
+    required List<MatchModel> joinedMatches,
+  }) {
+    if (joinedMatches.isEmpty) return null;
 
-    final String playerId = authModel.player.id;
+    final List<MatchModel> sortedMatches = [...joinedMatches]
+      ..sort((previous, current) {
+        final DateTime previousDate = previous.date;
+        final DateTime currentDate = current.date;
 
-    final MatchModel nextMatch =
-        await matchesRepository.getPlayerNextMatch(playerId);
+        // sort by date, so that closest match is first
+        return previousDate.compareTo(currentDate);
+      });
+
+    final MatchModel nextMatch = sortedMatches.first;
     final WeatherModel weather = WeatherModel.random();
-    return MatchInfoModel.fromWeatherAndMatchModels(
-        match: nextMatch, weather: weather);
+
+    final MatchInfoModel matchInfo = MatchInfoModel.fromWeatherAndMatchModels(
+      match: nextMatch,
+      weather: weather,
+    );
+
+    return matchInfo;
   }
 
   @override
@@ -66,17 +76,16 @@ class InitialDataAppService implements InitialDataService {
         _getCurrentPlayerInvitedMatches();
     final Future<List<MatchModel>> joinedMatchesFuture =
         _getCurrentPlayerJoinedMatches();
-    final Future<MatchInfoModel> nextMatchFuture = _getCurrentPlayerNextMatch();
 
     final List<Object> responses = await Future.wait([
       invitedMatchesFuture,
       joinedMatchesFuture,
-      nextMatchFuture,
     ]);
 
     final List<MatchModel> invitedMatches = responses[0] as List<MatchModel>;
     final List<MatchModel> joinedMatches = responses[1] as List<MatchModel>;
-    final MatchInfoModel nextMatch = responses[2] as MatchInfoModel;
+    final MatchInfoModel? nextMatch =
+        _getCurrentPlayerNextMatch(joinedMatches: joinedMatches);
 
     final InitialDataValue initialDataValue = InitialDataValue(
       invitedMatches: invitedMatches,

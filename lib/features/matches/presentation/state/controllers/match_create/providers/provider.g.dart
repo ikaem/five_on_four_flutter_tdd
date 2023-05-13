@@ -7,7 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$matchCreateAppControllerHash() =>
-    r'026738e1770b65d6870f9ab6736187a3bc714fa8';
+    r'1e0bc3f5a65c78c40397e1671ae84e6084d151de';
 
 /// See also [MatchCreateAppController].
 @ProviderFor(MatchCreateAppController)

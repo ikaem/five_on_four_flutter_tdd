@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$InitialDataValue {
   List<MatchModel> get invitedMatches => throw _privateConstructorUsedError;
   List<MatchModel> get joinedMatches => throw _privateConstructorUsedError;
-  MatchInfoModel get nextMatch => throw _privateConstructorUsedError;
+  MatchInfoModel? get nextMatch => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $InitialDataValueCopyWith<InitialDataValue> get copyWith =>
@@ -34,9 +34,9 @@ abstract class $InitialDataValueCopyWith<$Res> {
   $Res call(
       {List<MatchModel> invitedMatches,
       List<MatchModel> joinedMatches,
-      MatchInfoModel nextMatch});
+      MatchInfoModel? nextMatch});
 
-  $MatchInfoModelCopyWith<$Res> get nextMatch;
+  $MatchInfoModelCopyWith<$Res>? get nextMatch;
 }
 
 /// @nodoc
@@ -54,7 +54,7 @@ class _$InitialDataValueCopyWithImpl<$Res, $Val extends InitialDataValue>
   $Res call({
     Object? invitedMatches = null,
     Object? joinedMatches = null,
-    Object? nextMatch = null,
+    Object? nextMatch = freezed,
   }) {
     return _then(_value.copyWith(
       invitedMatches: null == invitedMatches
@@ -65,17 +65,21 @@ class _$InitialDataValueCopyWithImpl<$Res, $Val extends InitialDataValue>
           ? _value.joinedMatches
           : joinedMatches // ignore: cast_nullable_to_non_nullable
               as List<MatchModel>,
-      nextMatch: null == nextMatch
+      nextMatch: freezed == nextMatch
           ? _value.nextMatch
           : nextMatch // ignore: cast_nullable_to_non_nullable
-              as MatchInfoModel,
+              as MatchInfoModel?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $MatchInfoModelCopyWith<$Res> get nextMatch {
-    return $MatchInfoModelCopyWith<$Res>(_value.nextMatch, (value) {
+  $MatchInfoModelCopyWith<$Res>? get nextMatch {
+    if (_value.nextMatch == null) {
+      return null;
+    }
+
+    return $MatchInfoModelCopyWith<$Res>(_value.nextMatch!, (value) {
       return _then(_value.copyWith(nextMatch: value) as $Val);
     });
   }
@@ -92,10 +96,10 @@ abstract class _$$_InitialDataValueCopyWith<$Res>
   $Res call(
       {List<MatchModel> invitedMatches,
       List<MatchModel> joinedMatches,
-      MatchInfoModel nextMatch});
+      MatchInfoModel? nextMatch});
 
   @override
-  $MatchInfoModelCopyWith<$Res> get nextMatch;
+  $MatchInfoModelCopyWith<$Res>? get nextMatch;
 }
 
 /// @nodoc
@@ -111,7 +115,7 @@ class __$$_InitialDataValueCopyWithImpl<$Res>
   $Res call({
     Object? invitedMatches = null,
     Object? joinedMatches = null,
-    Object? nextMatch = null,
+    Object? nextMatch = freezed,
   }) {
     return _then(_$_InitialDataValue(
       invitedMatches: null == invitedMatches
@@ -122,10 +126,10 @@ class __$$_InitialDataValueCopyWithImpl<$Res>
           ? _value._joinedMatches
           : joinedMatches // ignore: cast_nullable_to_non_nullable
               as List<MatchModel>,
-      nextMatch: null == nextMatch
+      nextMatch: freezed == nextMatch
           ? _value.nextMatch
           : nextMatch // ignore: cast_nullable_to_non_nullable
-              as MatchInfoModel,
+              as MatchInfoModel?,
     ));
   }
 }
@@ -157,7 +161,7 @@ class _$_InitialDataValue implements _InitialDataValue {
   }
 
   @override
-  final MatchInfoModel nextMatch;
+  final MatchInfoModel? nextMatch;
 
   @override
   String toString() {
@@ -195,14 +199,14 @@ abstract class _InitialDataValue implements InitialDataValue {
   const factory _InitialDataValue(
       {required final List<MatchModel> invitedMatches,
       required final List<MatchModel> joinedMatches,
-      required final MatchInfoModel nextMatch}) = _$_InitialDataValue;
+      required final MatchInfoModel? nextMatch}) = _$_InitialDataValue;
 
   @override
   List<MatchModel> get invitedMatches;
   @override
   List<MatchModel> get joinedMatches;
   @override
-  MatchInfoModel get nextMatch;
+  MatchInfoModel? get nextMatch;
   @override
   @JsonKey(ignore: true)
   _$$_InitialDataValueCopyWith<_$_InitialDataValue> get copyWith =>

@@ -37,12 +37,24 @@ class MatchesAppService implements MatchesService {
   }
 
   @override
-  Future<String> handleCreateMatch(NewMatchValue matchData) async {
+  Future<String> handleCreateMatch(NewMatchValue data) async {
+    NewMatchValue matchData = data;
     // TOOD i could get sync value from this, if I used value or null or subject
     final AuthModel? currentPlayer = await authStatusRepository.getAuthStatus();
     if (currentPlayer == null) {
       // TODO this needs maybe to logout
       throw "Something";
+    }
+
+    // join player if they are not already joined
+    if (data.isOrganizerJoined) {
+      final MatchParticipationValue participation =
+          MatchParticipationValue.fromPlayerModel(
+        player: currentPlayer.player,
+        status: MatchParticipantStatus.joined,
+      );
+
+      matchData = data.addParticipation(participation);
     }
 
     final String id = await matchesRepository.createMatch(
@@ -58,11 +70,17 @@ class MatchesAppService implements MatchesService {
       throw "Something";
     }
 
-    final MatchParticipationValue participation =
-        MatchParticipationValue.fromPlayerModel(currentPlayer.player);
-
     final bool hasPlayerJoinedMatch = checkHasPlayerJoinedMatch(match);
+    final MatchParticipationValue participation =
+        MatchParticipationValue.fromPlayerModel(
+      player: currentPlayer.player,
+      status: hasPlayerJoinedMatch
+          ? MatchParticipantStatus.joined
+          : MatchParticipantStatus.unjoined,
+    );
 
+// TODO maybe we dont need two functions if we have status on the participation
+// TODO come back to this
     if (!hasPlayerJoinedMatch) {
       await matchesRepository.joinMatch(
         matchId: match.id,

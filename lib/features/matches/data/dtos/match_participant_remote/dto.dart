@@ -1,5 +1,8 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/enums/match_participant_status.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/exceptions/match_participantion_exceptions.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -16,6 +19,47 @@ class MatchParticipantRemoteDTO with _$MatchParticipantRemoteDTO {
     required int createdAt,
     required int? expiresAt,
   }) = _MatchParticipantRemoteDTO;
+
+  factory MatchParticipantRemoteDTO.fromFirestoreDoc({
+    required DocumentSnapshot<Map<String, dynamic>> doc,
+  }) {
+    final String participationId = doc.id;
+    final Map<String, dynamic>? participationData = doc.data();
+
+    if (participationData == null) {
+      throw MatchParticipationExceptionInvalidRemoteData(
+        message: "Match participation data is null: $participationId",
+      );
+    }
+
+    final MatchParticipantStatus participationStatus =
+        MatchParticipantStatus.values.firstWhere(
+      (value) => value == participationData['status'].toString(),
+      orElse: () => MatchParticipantStatus.unknown,
+    );
+
+    final Timestamp createdAtTimestamp =
+        participationData['createdAt'] as Timestamp;
+    final Timestamp? invitationExpiresAtTimestamp =
+        participationData['expiresAt'] as Timestamp?;
+
+    // converting to int so can store to isar easier
+    final int createdAtDate = createdAtTimestamp.millisecondsSinceEpoch;
+    final int? expirationDate = invitationExpiresAtTimestamp == null
+        ? null
+        : invitationExpiresAtTimestamp.millisecondsSinceEpoch;
+    final MatchParticipantRemoteDTO dto = MatchParticipantRemoteDTO(
+      id: doc.id,
+      playerId: participationData['playerId'].toString(),
+      matchId: participationData['matchId'].toString(),
+      nickname: participationData['nickname'].toString(),
+      status: participationStatus.name,
+      createdAt: createdAtDate,
+      expiresAt: expirationDate,
+    );
+
+    return dto;
+  }
 
   // TODO only needed for dev
   factory MatchParticipantRemoteDTO.fromMatchParticipantInvitationValue({
