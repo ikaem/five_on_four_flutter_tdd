@@ -1,3 +1,4 @@
+import 'package:five_on_four_flutter_tdd/features/core/domain/models/location/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match_info/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/matches_search_filters/value.dart';
@@ -9,5 +10,12 @@ abstract class MatchesService {
   Future<void> handleJoinMatch(MatchModel match);
   bool checkHasPlayerJoinedMatch(MatchModel match);
   Future<List<MatchModel>> handleSearchMatches(
-      MatchesSearchFiltersValue filters);
+    MatchesSearchFiltersValue filters,
+  );
+
+  // TODO not sure if this should be here
+  Future<LocationModel?> handleGetLocationForMatchCity({
+    required String address,
+    required String city,
+  });
 }

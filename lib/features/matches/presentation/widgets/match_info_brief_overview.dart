@@ -40,7 +40,7 @@ class MatchInfoBriefOverview extends StatelessWidget {
     }
 
     final MatchModel match = currentMatchInfo.match;
-    final WeatherModel weather = currentMatchInfo.weather;
+    final WeatherModel? weather = currentMatchInfo.weather;
 
     return GestureDetector(
       onTap: () {
@@ -70,7 +70,6 @@ class MatchInfoBriefOverview extends StatelessWidget {
               height: SpacingConstants.medium,
             ),
             Row(
-              // crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
@@ -88,13 +87,14 @@ class MatchInfoBriefOverview extends StatelessWidget {
                         height: SpacingConstants.medium,
                       ),
                       Text(
-                        '23 January 2023, 18:00',
+                        // TODO this needs to be properly formatted
+                        match.date.toIso8601String(),
                         style: textTheme.bodySmall!.copyWith(
                           color: ColorConstants.white,
                         ),
                       ),
                       Text(
-                        'Come location here',
+                        match.location.locationName,
                         style: textTheme.bodySmall!.copyWith(
                           color: ColorConstants.white,
                         ),
@@ -112,31 +112,33 @@ class MatchInfoBriefOverview extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.all(SpacingConstants.medium),
-                  width: DimensionsConstants.d60,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(
-                        weather.getWeatherIcon(),
-                        size: FontSizeConstants.xxxLarge,
-                        color: ColorConstants.yellow,
-                      ),
-                      SizedBox(
-                        height: SpacingConstants.small,
-                      ),
-                      Text(
-                        weather.getWeatherDescription(),
-                        textAlign: TextAlign.center,
-                        style: textTheme.labelMedium!.copyWith(
-                          fontWeight: FontWeight.bold,
+                // TODO make this a separate widget in weather feature
+                if (weather != null)
+                  Container(
+                    margin: EdgeInsets.all(SpacingConstants.medium),
+                    width: DimensionsConstants.d60,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(
+                          weather.getWeatherIcon(),
+                          size: FontSizeConstants.xxxLarge,
                           color: ColorConstants.yellow,
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          height: SpacingConstants.small,
+                        ),
+                        Text(
+                          weather.getWeatherDescription(),
+                          textAlign: TextAlign.center,
+                          style: textTheme.labelMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: ColorConstants.yellow,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
               ],
             ),
           ],

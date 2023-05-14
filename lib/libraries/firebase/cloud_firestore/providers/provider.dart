@@ -5,7 +5,8 @@ part "provider.g.dart";
 
 @riverpod
 FirebaseFirestoreWrapper firebaseFirestoreWrapper(
-    FirebaseFirestoreWrapperRef ref) {
+  FirebaseFirestoreWrapperRef ref,
+) {
   final FirebaseFirestoreWrapper firebaseFirestoreWrapper =
       FirebaseFirestoreWrapper();
 

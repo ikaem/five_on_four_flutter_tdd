@@ -1,5 +1,6 @@
 import 'package:five_on_four_flutter_tdd/features/auth/domain/models/auth/model.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfaces/auth_status_repository.dart';
+import 'package:five_on_four_flutter_tdd/features/core/domain/models/location/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/enums/match_participant_status.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
@@ -11,22 +12,38 @@ import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_matc
 import 'package:five_on_four_flutter_tdd/features/matches/utils/extensions/match_model_extension.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/domain/models/weather/model.dart';
+import 'package:five_on_four_flutter_tdd/features/weather/domain/repositories_interfaces/weather_repository.dart';
+import 'package:five_on_four_flutter_tdd/libraries/geocoding/location_wrapper.dart';
 
 class MatchesAppService implements MatchesService {
   MatchesAppService({
-    required this.matchesRepository,
-    required this.authStatusRepository,
-    // TODO probably get some network status service or repository here
-  });
+    required MatchesRepository matchesRepository,
+    required AuthStatusRepository authStatusRepository,
+    required WeatherRepository weatherRepository,
+    required LocationWrapper locationWrapper,
+  })  : _weatherRepository = weatherRepository,
+        matchesRepository = matchesRepository,
+        authStatusRepository = authStatusRepository,
+        locationWrapper = locationWrapper;
 
   final MatchesRepository matchesRepository;
   final AuthStatusRepository authStatusRepository;
-  // TODO will eventually need weather repository too
+  final LocationWrapper locationWrapper;
+  final WeatherRepository _weatherRepository;
+  // TODO probably get some network status service or repository here
 
   @override
   Future<MatchInfoModel> handleGetMatchInfo(String matchId) async {
     final MatchModel match = await matchesRepository.getMatch(matchId);
-    final WeatherModel weather = WeatherModel.random();
+    // final WeatherModel weather = WeatherModel.random();
+    final WeatherModel? weather =
+        await _weatherRepository.getWeatherForCoordinates(
+      latitude: match.location.cityLatitude,
+      longitude: match.location.cityLongitude,
+      // TODO temp hardocded
+      // latitude: 45.815010799999996,
+      // longitude: 15.9819192,
+    );
 
     final MatchInfoModel matchInfo = MatchInfoModel.fromWeatherAndMatchModels(
       match: match,
@@ -129,5 +146,18 @@ class MatchesAppService implements MatchesService {
         await matchesRepository.getSearchedMatches(filters);
 
     return matches;
+  }
+
+  @override
+  Future<LocationModel?> handleGetLocationForMatchCity({
+    required String address,
+    required String city,
+  }) async {
+    final LocationModel? location = await locationWrapper.getLocationForPlace(
+      address: address,
+      city: city,
+    );
+
+    return location;
   }
 }

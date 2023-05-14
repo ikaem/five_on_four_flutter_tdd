@@ -221,6 +221,14 @@ final List<MatchRemoteDTO> combinedMatches = [
     id: "1",
     name: "Match 1",
     date: DateTime.now().millisecondsSinceEpoch,
+    location: MatchRemoteLocationDTO(
+      cityLatitude: 45.815,
+      cityLongitude: 15.9819,
+      locationAddress: "Some Adddress",
+      locationName: "Some Location Name",
+      locationCountry: "Croatia",
+      locationCity: "Zagreb",
+    ),
     participants: [
       MatchParticipantRemoteDTO(
         id: "1",
@@ -246,6 +254,14 @@ final List<MatchRemoteDTO> combinedMatches = [
     id: "2",
     name: "Match 2",
     date: DateTime.now().millisecondsSinceEpoch,
+    location: MatchRemoteLocationDTO(
+      cityLatitude: 45.815,
+      cityLongitude: 15.9819,
+      locationAddress: "Some Adddress",
+      locationName: "Some Location Name",
+      locationCountry: "Croatia",
+      locationCity: "Zagreb",
+    ),
     participants: [
       MatchParticipantRemoteDTO(
         id: "3",
@@ -271,6 +287,14 @@ final List<MatchRemoteDTO> combinedMatches = [
     id: "3",
     name: "Match 3",
     date: DateTime.now().millisecondsSinceEpoch,
+    location: MatchRemoteLocationDTO(
+      cityLatitude: 45.815,
+      cityLongitude: 15.9819,
+      locationAddress: "Some Adddress",
+      locationName: "Some Location Name",
+      locationCountry: "Croatia",
+      locationCity: "Zagreb",
+    ),
     participants: [
       MatchParticipantRemoteDTO(
         id: "5",
@@ -296,6 +320,14 @@ final List<MatchRemoteDTO> combinedMatches = [
     id: "4",
     name: "Match 4",
     date: DateTime.now().millisecondsSinceEpoch,
+    location: MatchRemoteLocationDTO(
+      cityLatitude: 45.815,
+      cityLongitude: 15.9819,
+      locationAddress: "Some Adddress",
+      locationName: "Some Location Name",
+      locationCountry: "Croatia",
+      locationCity: "Zagreb",
+    ),
     participants: [
       MatchParticipantRemoteDTO(
         id: "7",

@@ -8,7 +8,7 @@ import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/m
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
 
 class MatchesAppRepository implements MatchesRepository {
-  MatchesAppRepository({
+  const MatchesAppRepository({
     required this.remoteDataSource,
   });
 
