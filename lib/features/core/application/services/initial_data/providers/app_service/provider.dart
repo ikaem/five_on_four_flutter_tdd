@@ -4,6 +4,8 @@ import 'package:five_on_four_flutter_tdd/features/core/application/services/init
 import 'package:five_on_four_flutter_tdd/features/core/application/services/initial_data/service.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/data/repositories/matches/providers/app_repository/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/repositories_interfaces/matches_repository.dart';
+import 'package:five_on_four_flutter_tdd/features/weather/data/repositories/weather/providers/app_repository/provider.dart';
+import 'package:five_on_four_flutter_tdd/features/weather/domain/repositories_interfaces/weather_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part "provider.g.dart";
@@ -12,13 +14,15 @@ part "provider.g.dart";
 InitialDataService initialDataService(InitialDataServiceRef ref) {
   final MatchesRepository matchesRepository =
       ref.read(matchesRepositoryProvider);
-
   final AuthStatusRepository authStatusRepository =
       ref.watch(authStatusRepositoryProvider);
+  final WeatherRepository weatherRepository =
+      ref.read(weatherRepositoryProvider);
 
   final InitialDataService initialDataService = InitialDataAppService(
     matchesRepository: matchesRepository,
     authStatusRepository: authStatusRepository,
+    weatherRepository: weatherRepository,
   );
 
   return initialDataService;

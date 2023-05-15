@@ -3,15 +3,11 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i6;
+import 'dart:async' as _i4;
 
-import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfaces/auth_status_repository.dart'
-    as _i3;
 import 'package:five_on_four_flutter_tdd/features/core/application/services/initial_data/app_service.dart'
-    as _i5;
+    as _i3;
 import 'package:five_on_four_flutter_tdd/features/core/domain/values/initial_data/value.dart'
-    as _i4;
-import 'package:five_on_four_flutter_tdd/features/matches/domain/repositories_interfaces/matches_repository.dart'
     as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -26,31 +22,9 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeMatchesRepository_0 extends _i1.SmartFake
-    implements _i2.MatchesRepository {
-  _FakeMatchesRepository_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeAuthStatusRepository_1 extends _i1.SmartFake
-    implements _i3.AuthStatusRepository {
-  _FakeAuthStatusRepository_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeInitialDataValue_2 extends _i1.SmartFake
-    implements _i4.InitialDataValue {
-  _FakeInitialDataValue_2(
+class _FakeInitialDataValue_0 extends _i1.SmartFake
+    implements _i2.InitialDataValue {
+  _FakeInitialDataValue_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -63,41 +37,25 @@ class _FakeInitialDataValue_2 extends _i1.SmartFake
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockInitialDataAppService extends _i1.Mock
-    implements _i5.InitialDataAppService {
+    implements _i3.InitialDataAppService {
   MockInitialDataAppService() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i2.MatchesRepository get matchesRepository => (super.noSuchMethod(
-        Invocation.getter(#matchesRepository),
-        returnValue: _FakeMatchesRepository_0(
-          this,
-          Invocation.getter(#matchesRepository),
-        ),
-      ) as _i2.MatchesRepository);
-  @override
-  _i3.AuthStatusRepository get authStatusRepository => (super.noSuchMethod(
-        Invocation.getter(#authStatusRepository),
-        returnValue: _FakeAuthStatusRepository_1(
-          this,
-          Invocation.getter(#authStatusRepository),
-        ),
-      ) as _i3.AuthStatusRepository);
-  @override
-  _i6.Future<_i4.InitialDataValue> handleGetInitialData() =>
+  _i4.Future<_i2.InitialDataValue> handleGetInitialData() =>
       (super.noSuchMethod(
         Invocation.method(
           #handleGetInitialData,
           [],
         ),
         returnValue:
-            _i6.Future<_i4.InitialDataValue>.value(_FakeInitialDataValue_2(
+            _i4.Future<_i2.InitialDataValue>.value(_FakeInitialDataValue_0(
           this,
           Invocation.method(
             #handleGetInitialData,
             [],
           ),
         )),
-      ) as _i6.Future<_i4.InitialDataValue>);
+      ) as _i4.Future<_i2.InitialDataValue>);
 }

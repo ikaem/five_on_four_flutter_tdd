@@ -5,6 +5,8 @@ import 'package:five_on_four_flutter_tdd/features/matches/domain/values/matches_
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
 
 abstract class MatchesService {
+  const MatchesService();
+
   Future<MatchInfoModel> handleGetMatchInfo(String matchId);
   Future<String> handleCreateMatch(NewMatchValue matchData);
   Future<void> handleJoinMatch(MatchModel match);

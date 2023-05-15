@@ -58,11 +58,15 @@ class _MatchInfoScreenViewContentState
                   ListView(
                     children: [
                       MatchInfoTitleOverview(
-                          title: currentMatchInfo.match.name),
+                        title: currentMatchInfo.match.name,
+                      ),
                       SizedBox(
                         height: SpacingConstants.small,
                       ),
-                      MatchInfoVenueOverview(),
+                      MatchInfoVenueOverview(
+                        match: currentMatchInfo.match,
+                        weather: currentMatchInfo.weather,
+                      ),
                     ],
                   ),
                   // Text("Second tab")

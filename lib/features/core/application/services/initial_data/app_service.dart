@@ -7,68 +7,20 @@ import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/mo
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match_info/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/repositories_interfaces/matches_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/domain/models/weather/model.dart';
+import 'package:five_on_four_flutter_tdd/features/weather/domain/repositories_interfaces/weather_repository.dart';
 
 class InitialDataAppService implements InitialDataService {
   InitialDataAppService({
-    required this.matchesRepository,
-    required this.authStatusRepository,
-  });
+    required WeatherRepository weatherRepository,
+    required MatchesRepository matchesRepository,
+    required AuthStatusRepository authStatusRepository,
+  })  : _weatherRepository = weatherRepository,
+        _matchesRepository = matchesRepository,
+        _authStatusRepository = authStatusRepository;
 
-  final MatchesRepository matchesRepository;
-  final AuthStatusRepository authStatusRepository;
-
-  Future<List<MatchModel>> _getCurrentPlayerInvitedMatches() async {
-    final AuthModel? authModel = await authStatusRepository.getAuthStatus();
-    if (authModel == null) {
-      throw AuthExceptionUnauthorized(
-          message: "There is no player currently signed in");
-    }
-
-    final String playerId = authModel.player.id;
-
-    final List<MatchModel> invitedMatches =
-        await matchesRepository.getPlayerInvitedMatches(playerId);
-    return invitedMatches;
-  }
-
-  Future<List<MatchModel>> _getCurrentPlayerJoinedMatches() async {
-    final AuthModel? authModel = await authStatusRepository.getAuthStatus();
-    if (authModel == null) {
-      throw AuthExceptionUnauthorized(
-          message: "There is no player currently signed in");
-    }
-
-    final String playerId = authModel.player.id;
-    final List<MatchModel> joinedMatches =
-        await matchesRepository.getPlayerJoinedMatches(playerId);
-    return joinedMatches;
-  }
-
-// TODO move all this below
-  MatchInfoModel? _getCurrentPlayerNextMatch({
-    required List<MatchModel> joinedMatches,
-  }) {
-    if (joinedMatches.isEmpty) return null;
-
-    final List<MatchModel> sortedMatches = [...joinedMatches]
-      ..sort((previous, current) {
-        final DateTime previousDate = previous.date;
-        final DateTime currentDate = current.date;
-
-        // sort by date, so that closest match is first
-        return previousDate.compareTo(currentDate);
-      });
-
-    final MatchModel nextMatch = sortedMatches.first;
-    final WeatherModel weather = WeatherModel.random();
-
-    final MatchInfoModel matchInfo = MatchInfoModel.fromWeatherAndMatchModels(
-      match: nextMatch,
-      weather: weather,
-    );
-
-    return matchInfo;
-  }
+  final MatchesRepository _matchesRepository;
+  final AuthStatusRepository _authStatusRepository;
+  final WeatherRepository _weatherRepository;
 
   @override
   Future<InitialDataValue> handleGetInitialData() async {
@@ -85,7 +37,7 @@ class InitialDataAppService implements InitialDataService {
     final List<MatchModel> invitedMatches = responses[0] as List<MatchModel>;
     final List<MatchModel> joinedMatches = responses[1] as List<MatchModel>;
     final MatchInfoModel? nextMatch =
-        _getCurrentPlayerNextMatch(joinedMatches: joinedMatches);
+        await _getCurrentPlayerNextMatch(joinedMatches: joinedMatches);
 
     final InitialDataValue initialDataValue = InitialDataValue(
       invitedMatches: invitedMatches,
@@ -94,5 +46,89 @@ class InitialDataAppService implements InitialDataService {
     );
 
     return initialDataValue;
+  }
+
+  Future<List<MatchModel>> _getCurrentPlayerJoinedMatches() async {
+    final AuthModel? authModel = await _authStatusRepository.getAuthStatus();
+    if (authModel == null) {
+      throw AuthExceptionUnauthorized(
+          message: "There is no player currently signed in");
+    }
+
+    final String playerId = authModel.player.id;
+    final List<MatchModel> joinedMatches =
+        await _matchesRepository.getPlayerJoinedMatches(playerId);
+    return joinedMatches;
+  }
+
+// TODO move all this below
+  Future<MatchInfoModel?> _getCurrentPlayerNextMatch({
+    required List<MatchModel> joinedMatches,
+  }) async {
+    if (joinedMatches.isEmpty) return null;
+
+    final List<MatchModel> sortedMatches = [...joinedMatches]
+      ..sort((previous, current) {
+        final DateTime previousDate = previous.date;
+        final DateTime currentDate = current.date;
+
+        // sort by date, so that closest match is first
+        return previousDate.compareTo(currentDate);
+      });
+
+    final MatchModel nextMatch = sortedMatches.first;
+
+    final bool shouldWeatherBeRetrieved = _checkShouldWeatherBeRetrieved(
+      matchDate: nextMatch.date,
+      location: nextMatch.location,
+    );
+
+    final WeatherModel? weather = shouldWeatherBeRetrieved
+        ? await _weatherRepository.getWeatherForCoordinates(
+            // TODO make this non-nullable
+            latitude: nextMatch.location.cityLatitude,
+            longitude: nextMatch.location.cityLongitude,
+          )
+        : null;
+
+    final MatchInfoModel matchInfo = MatchInfoModel.fromWeatherAndMatchModels(
+      match: nextMatch,
+      weather: weather,
+    );
+
+    return matchInfo;
+  }
+
+  Future<List<MatchModel>> _getCurrentPlayerInvitedMatches() async {
+    final AuthModel? authModel = await _authStatusRepository.getAuthStatus();
+    if (authModel == null) {
+      throw AuthExceptionUnauthorized(
+          message: "There is no player currently signed in");
+    }
+
+    final String playerId = authModel.player.id;
+
+    final List<MatchModel> invitedMatches =
+        await _matchesRepository.getPlayerInvitedMatches(playerId);
+    return invitedMatches;
+  }
+
+  // TODO same funciton existsin in matches service - should unify it somewhere in helpers for weather possibly
+  bool _checkShouldWeatherBeRetrieved({
+    required DateTime matchDate,
+    required MatchLocationModel location,
+  }) {
+    final bool isLocationWithCoordinates =
+        location.cityLatitude != null && location.cityLongitude != null;
+    if (!isLocationWithCoordinates) return false;
+
+    final DateTime now = DateTime.now();
+    final DateTime nowPlus14Days = now.add(const Duration(days: 14));
+
+    if (matchDate.isAfter(nowPlus14Days)) {
+      return false;
+    }
+
+    return true;
   }
 }

@@ -2,11 +2,10 @@ import 'package:five_on_four_flutter_tdd/features/core/utils/constants/app_const
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match_info/model.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/domain/models/weather/model.dart';
-import 'package:five_on_four_flutter_tdd/features/weather/utils/extensions/weather_model_extension.dart';
+import 'package:five_on_four_flutter_tdd/features/weather/presentation/widgets/weather_brief_info.dart';
 import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/dimensions_constants.dart';
-import 'package:five_on_four_flutter_tdd/theme/constants/font_size_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/spacing_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -114,30 +113,8 @@ class MatchInfoBriefOverview extends StatelessWidget {
                 ),
                 // TODO make this a separate widget in weather feature
                 if (weather != null)
-                  Container(
-                    margin: EdgeInsets.all(SpacingConstants.medium),
-                    width: DimensionsConstants.d60,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Icon(
-                          weather.getWeatherIcon(),
-                          size: FontSizeConstants.xxxLarge,
-                          color: ColorConstants.yellow,
-                        ),
-                        SizedBox(
-                          height: SpacingConstants.small,
-                        ),
-                        Text(
-                          weather.getWeatherDescription(),
-                          textAlign: TextAlign.center,
-                          style: textTheme.labelMedium!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: ColorConstants.yellow,
-                          ),
-                        ),
-                      ],
-                    ),
+                  WeatherBriefInfo(
+                    weather: weather,
                   ),
               ],
             ),

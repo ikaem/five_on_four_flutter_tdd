@@ -7,7 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$initialDataServiceHash() =>
-    r'62155849bb44e0c9acd30fbb855787112fe61216';
+    r'cdf251049355875b9f752b19854be26a1d6adc75';
 
 /// See also [initialDataService].
 @ProviderFor(initialDataService)

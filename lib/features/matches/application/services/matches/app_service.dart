@@ -15,8 +15,8 @@ import 'package:five_on_four_flutter_tdd/features/weather/domain/models/weather/
 import 'package:five_on_four_flutter_tdd/features/weather/domain/repositories_interfaces/weather_repository.dart';
 import 'package:five_on_four_flutter_tdd/libraries/geocoding/location_wrapper.dart';
 
-class MatchesAppService implements MatchesService {
-  MatchesAppService({
+class MatchesAppService extends MatchesService with MatchesServiceMixin {
+  const MatchesAppService({
     required MatchesRepository matchesRepository,
     required AuthStatusRepository authStatusRepository,
     required WeatherRepository weatherRepository,
@@ -35,15 +35,19 @@ class MatchesAppService implements MatchesService {
   @override
   Future<MatchInfoModel> handleGetMatchInfo(String matchId) async {
     final MatchModel match = await matchesRepository.getMatch(matchId);
-    // final WeatherModel weather = WeatherModel.random();
-    final WeatherModel? weather =
-        await _weatherRepository.getWeatherForCoordinates(
-      latitude: match.location.cityLatitude,
-      longitude: match.location.cityLongitude,
-      // TODO temp hardocded
-      // latitude: 45.815010799999996,
-      // longitude: 15.9819192,
+
+    final bool shouldWeatherBeRetrieved = checkShouldWeatherBeRetrieved(
+      matchDate: match.date,
+      location: match.location,
     );
+
+    final WeatherModel? weather = shouldWeatherBeRetrieved
+        ? await _weatherRepository.getWeatherForCoordinates(
+            // TODO make this non-nullable
+            latitude: match.location.cityLatitude,
+            longitude: match.location.cityLongitude,
+          )
+        : null;
 
     final MatchInfoModel matchInfo = MatchInfoModel.fromWeatherAndMatchModels(
       match: match,
@@ -159,5 +163,26 @@ class MatchesAppService implements MatchesService {
     );
 
     return location;
+  }
+}
+
+// TODO move to mixins
+mixin MatchesServiceMixin on MatchesService {
+  bool checkShouldWeatherBeRetrieved({
+    required DateTime matchDate,
+    required MatchLocationModel location,
+  }) {
+    final bool isLocationWithCoordinates =
+        location.cityLatitude != null && location.cityLongitude != null;
+    if (!isLocationWithCoordinates) return false;
+
+    final DateTime now = DateTime.now();
+    final DateTime nowPlus14Days = now.add(const Duration(days: 14));
+
+    if (matchDate.isAfter(nowPlus14Days)) {
+      return false;
+    }
+
+    return true;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:five_on_four_flutter_tdd/features/matches/domain/enums/match_participant_status.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match_participant/model.dart';
+import 'package:intl/intl.dart';
 
 extension MatchModelExtension on MatchModel {
   static List<MatchParticipantModel> filterMatchParticipantsByStatus({
@@ -17,4 +18,7 @@ extension MatchModelExtension on MatchModel {
   List<MatchParticipantModel> get allParticipants => <MatchParticipantModel>[]
     ..addAll(joinedParticipants)
     ..addAll(invitedParticipants);
+
+  String get formattedMatchDate =>
+      DateFormat('d MMMM yyyy, HH:mm').format(date);
 }
