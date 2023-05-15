@@ -16,3 +16,14 @@ class MatchParticipationExceptionInvalidRemoteData
   @override
   String toString() => "MatchParticipationExceptionInvalidRemoteData: $message";
 }
+
+class MatchParticipationExceptionNotFoundRemote {
+  MatchParticipationExceptionNotFoundRemote({
+    required this.message,
+  });
+
+  final String message;
+
+  @override
+  String toString() => "MatchParticipationExceptionNotFoundRemote: $message";
+}

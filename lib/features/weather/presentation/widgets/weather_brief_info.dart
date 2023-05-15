@@ -9,9 +9,11 @@ class WeatherBriefInfo extends StatelessWidget {
   const WeatherBriefInfo({
     super.key,
     required this.weather,
+    required this.orientation,
   });
 
   final WeatherModel? weather;
+  final Axis orientation;
 
   @override
   Widget build(BuildContext context) {
@@ -23,26 +25,28 @@ class WeatherBriefInfo extends StatelessWidget {
     final TextTheme textTheme = theme.textTheme;
 
     return Container(
-      margin: EdgeInsets.all(SpacingConstants.medium),
-      width: DimensionsConstants.d60,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      // margin: EdgeInsets.all(SpacingConstants.medium),
+      // width: DimensionsConstants.d60,
+      child: Flex(
+        direction: orientation,
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(
-            currentWeather.getWeatherIcon(),
-            size: FontSizeConstants.xxxLarge,
-            color: ColorConstants.yellow,
-          ),
-          SizedBox(
-            height: SpacingConstants.small,
-          ),
           Text(
             currentWeather.getWeatherDescription(),
             textAlign: TextAlign.center,
-            style: textTheme.labelMedium!.copyWith(
+            style: textTheme.bodyMedium!.copyWith(
               fontWeight: FontWeight.bold,
-              color: ColorConstants.yellow,
+              color: ColorConstants.white,
             ),
+          ),
+          SizedBox(
+            height: SpacingConstants.small,
+            width: SpacingConstants.small,
+          ),
+          Icon(
+            currentWeather.getWeatherIcon(),
+            size: FontSizeConstants.xxxLarge,
+            color: ColorConstants.white,
           ),
         ],
       ),

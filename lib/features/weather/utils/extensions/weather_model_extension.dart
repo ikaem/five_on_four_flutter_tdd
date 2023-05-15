@@ -81,7 +81,7 @@ extension WeatherModelExtension on WeatherModel {
       case 'Patchy light snow with thunder':
       case 'Moderate or heavy snow with thunder':
         {
-          return Icons.help_outline;
+          return Icons.grain;
         }
       default:
         {

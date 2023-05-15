@@ -115,6 +115,7 @@ class MatchInfoBriefOverview extends StatelessWidget {
                 if (weather != null)
                   WeatherBriefInfo(
                     weather: weather,
+                    orientation: Axis.vertical,
                   ),
               ],
             ),

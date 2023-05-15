@@ -70,7 +70,7 @@ class MatchInfoVenueOverview extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: SpacingConstants.medium,
+            height: SpacingConstants.xLarge,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,15 +94,24 @@ class MatchInfoVenueOverview extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: SpacingConstants.medium,
+            height: SpacingConstants.xLarge,
           ),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Weather:"),
+              Text(
+                "Weather:",
+                style: textTheme.titleSmall!.copyWith(
+                  color: ColorConstants.yellow,
+                ),
+              ),
               SizedBox(
                 height: SpacingConstants.medium,
               ),
-              WeatherBriefInfo(weather: weather),
+              WeatherBriefInfo(
+                weather: weather,
+                orientation: Axis.horizontal,
+              ),
               // Row(
               //   children: [
               //     Text("Sunny"),

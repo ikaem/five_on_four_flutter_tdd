@@ -1,4 +1,5 @@
 import 'package:five_on_four_flutter_tdd/features/core/utils/constants/widget_keys_constants.dart';
+import 'package:five_on_four_flutter_tdd/features/core/utils/extensions/build_context_extension.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match_info/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/match_join/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_info_screen_view_content.dart';
@@ -27,6 +28,11 @@ class MatchInfoScreenView extends ConsumerWidget {
     final MatchJoinAppController controller =
         ref.read(controllerProvider.notifier);
 
+    ref.listen(
+      controllerProvider,
+      _participationControllerListener(context),
+    );
+
     final bool hasPlayerJoinedMatch = controller.hasCurrentPlayerJoinedMatch;
 
     final ThemeData theme = Theme.of(context);
@@ -51,4 +57,23 @@ class MatchInfoScreenView extends ConsumerWidget {
       body: MatchInfoScreenViewContent(matchInfo: matchInfo),
     );
   }
+
+  void Function(
+    AsyncValue<void>? previous,
+    AsyncValue<void> next,
+  ) _participationControllerListener(
+    BuildContext context,
+  ) =>
+      (
+        previous,
+        next,
+      ) {
+        next.maybeWhen(
+          orElse: () => null,
+          error: (error, stackTrace) => context.showSnackBarMessage(
+            "There was an error updaing match participation",
+            SnackBarVariant.error,
+          ),
+        );
+      };
 }
