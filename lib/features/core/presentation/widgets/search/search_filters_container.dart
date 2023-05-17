@@ -8,10 +8,10 @@ class SearchFiltersContainer extends StatelessWidget {
   // TODO this could accept children actually, so we can reuse it
   const SearchFiltersContainer({
     super.key,
-    required this.themeText,
+    required this.textTheme,
   });
 
-  final TextTheme themeText;
+  final TextTheme textTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -21,17 +21,17 @@ class SearchFiltersContainer extends StatelessWidget {
       children: [
         SearchFilterWrapper(
           child: SearchSortDirectionFilter(
-            labelTextStyle: themeText.labelMedium!,
+            labelTextStyle: textTheme.labelMedium!,
           ),
         ),
         SearchFilterWrapper(
           child: SearchEnableOptionFilter(
-            labelTextStyle: themeText.labelMedium!,
+            labelTextStyle: textTheme.labelMedium!,
           ),
         ),
         SearchFilterWrapper(
           child: SearchEnableOptionFilter(
-            labelTextStyle: themeText.labelMedium!,
+            labelTextStyle: textTheme.labelMedium!,
           ),
         ),
       ],

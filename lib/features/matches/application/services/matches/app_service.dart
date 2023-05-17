@@ -96,8 +96,8 @@ class MatchesAppService extends MatchesService with MatchesServiceMixin {
         MatchParticipationValue.fromPlayerModel(
       player: currentPlayer.player,
       status: hasPlayerJoinedMatch
-          ? MatchParticipantStatus.joined
-          : MatchParticipantStatus.unjoined,
+          ? MatchParticipantStatus.unjoined
+          : MatchParticipantStatus.joined,
     );
 
 // TODO maybe we dont need two functions if we have status on the participation

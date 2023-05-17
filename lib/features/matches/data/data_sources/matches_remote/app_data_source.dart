@@ -8,6 +8,7 @@ import 'package:five_on_four_flutter_tdd/features/matches/domain/exceptions/matc
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/matches_search_filters/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_in_region/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/utils/constants/matches_firebase_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:five_on_four_flutter_tdd/libraries/firebase/cloud_firestore/firebase_firestore_wrapper.dart';
@@ -140,12 +141,58 @@ class MatchesRemoteAppDataSource
     required String matchId,
     required MatchParticipationValue matchParticipation,
   }) async {
-    // TODO implement this
-    throw UnimplementedError();
+    // TODO what if there is no match - take care of it later
+//  FIND participation
+
+    final Map<String, dynamic> participationData =
+        matchParticipation.toFirestoreMap();
+
+    final MatchParticipantRemoteDTO? participant =
+        await getMatchPlayerParticipation(
+      firebaseFirestoreWrapper: _firebaseFirestoreWrapper,
+      matchId: matchId,
+      playerId: matchParticipation.playerId,
+    );
+
+// if we dont find participation, create new participation, and set status to joined
+
+    if (participant == null) {
+      final DocumentReference<Map<String, dynamic>> participationDocRef =
+          await _firebaseFirestoreWrapper.db
+              .collection(MatchesFirebaseConstants.firestoreCollectionMatches)
+              .doc(matchId)
+              .collection(MatchesFirebaseConstants
+                  .firestoreMatchSubcollectionParticipants)
+              .add(participationData);
+
+      return;
+    }
+
+    // now we have participation
+    // if we find participation, check if it is invited or joined
+    final bool isParticipantJoined =
+        participant.status == MatchParticipantStatus.joined.name;
+
+    // if it is joined, throw exception that player is already joined
+    if (isParticipantJoined) {
+      throw MatchParticipationExceptionAlreadyJoined(
+          message:
+              'Player ${matchParticipation.playerId} is already joined to match $matchId');
+    }
+
+    // else, update status to joined
+    await _firebaseFirestoreWrapper.db
+        .collection(MatchesFirebaseConstants.firestoreCollectionMatches)
+        .doc(matchId)
+        .collection(
+            MatchesFirebaseConstants.firestoreMatchSubcollectionParticipants)
+        .doc(participant.id)
+        .update(participationData);
   }
 
   Future<void> unjoinMatch({
     required String matchId,
+    // TODO this probably can all be united - or dont set such a complex object for such a simple thing
     required MatchParticipationValue matchParticipation,
   }) async {
     final MatchParticipantRemoteDTO? participant =
@@ -174,12 +221,72 @@ class MatchesRemoteAppDataSource
   Future<List<MatchRemoteDTO>> getSearchedMatches(
     MatchesSearchFiltersValue filters,
   ) async {
-    Query<Map<String, dynamic>> searchQuery = FirebaseFirestore.instance
+    Query<Map<String, dynamic>> searchQuery = _firebaseFirestoreWrapper.db
         .collection(MatchesFirebaseConstants.firestoreCollectionMatches)
         .where(
           MatchesFirebaseConstants.firestoreMatchFieldName,
           // TODO in future, make this more flexible
           isEqualTo: filters.searchTerm,
+        );
+
+    final QuerySnapshot<Map<String, dynamic>> querySnapshot =
+        await searchQuery.get();
+
+    final List<QueryDocumentSnapshot<Map<String, dynamic>>> searchResultsDocs =
+        querySnapshot.docs;
+
+// TODO make a function out of this to get searched matches participatns - and reuse with getMatchesInRegion
+    final List<Future<MatchRemoteDTO>> futureSearchResults =
+        searchResultsDocs.map((matchDoc) async {
+      final QuerySnapshot<Map<String, dynamic>> matchParticipationsQuery =
+          await _firebaseFirestoreWrapper.db
+              .collection(MatchesFirebaseConstants.firestoreCollectionMatches)
+              .doc(
+                matchDoc.id,
+              )
+              .collection(MatchesFirebaseConstants
+                  .firestoreMatchSubcollectionParticipants)
+              .get();
+
+      return MatchRemoteDTO.fromFirestoreDocs(
+        matchDoc: matchDoc,
+        participantsQueryDocs: matchParticipationsQuery.docs,
+      );
+    }).toList();
+
+    final List<MatchRemoteDTO> searchResults = await Future.wait(
+      futureSearchResults,
+    );
+
+    return searchResults;
+  }
+
+  @override
+  Future<List<MatchRemoteDTO>> getMatchesInRegion(
+    RegionCoordinatesBoundariesValue coordinatesBoundaries,
+  ) async {
+    // here we search everything that has latitudes withing boundaries and longitudes within boundaries
+    final Query<Map<String, dynamic>> searchQuery = _firebaseFirestoreWrapper.db
+        .collection(MatchesFirebaseConstants.firestoreCollectionMatches)
+        .where(
+          // TODO make this a constant
+          "location.cityLatitude",
+          isGreaterThan: coordinatesBoundaries.latitudeLower,
+        )
+        .where(
+          // TODO make this a constant
+          "location.cityLatitude",
+          isLessThan: coordinatesBoundaries.latitudeUpper,
+        )
+        .where(
+          // TODO make this a constant
+          "location.cityLongitude",
+          isGreaterThan: coordinatesBoundaries.longitudeLower,
+        )
+        .where(
+          // TODO make this a constant
+          "location.cityLongitude",
+          isLessThan: coordinatesBoundaries.longitudeUpper,
         );
 
     final QuerySnapshot<Map<String, dynamic>> querySnapshot =

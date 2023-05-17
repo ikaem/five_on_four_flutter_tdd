@@ -27,3 +27,13 @@ class MatchParticipationExceptionNotFoundRemote {
   @override
   String toString() => "MatchParticipationExceptionNotFoundRemote: $message";
 }
+
+class MatchParticipationExceptionAlreadyJoined
+    extends MatchParticipationException {
+  MatchParticipationExceptionAlreadyJoined({
+    required String message,
+  }) : super(message);
+
+  @override
+  String toString() => "MatchParticipationExceptionAlreadyJoined: $message";
+}

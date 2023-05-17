@@ -57,7 +57,7 @@ class PlayersScreen extends ConsumerWidget {
             SizedBox(
               height: SpacingConstants.small,
             ),
-            SearchFiltersContainer(themeText: themeText),
+            SearchFiltersContainer(textTheme: themeText),
             SizedBox(
               height: SpacingConstants.mediumLarge,
             ),
