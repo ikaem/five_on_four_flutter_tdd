@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:five_on_four_flutter_tdd/features/core/domain/models/location/model.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/mixins/validation.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service.dart';
@@ -19,6 +20,15 @@ class MatchCreateAppController extends _$MatchCreateAppController
     with ValidationMixin, MatchCreateValidationMixin
     implements MatchCreateController {
   late final MatchesService _matchesService = ref.read(matchesServiceProvider);
+
+  @override
+  AsyncValue<String?> build() {
+    ref.onDispose(() {
+      dispose();
+    });
+
+    return AsyncValue.data(null);
+  }
 
   @override
   Stream<String> get nameValidationStream =>
@@ -150,12 +160,20 @@ class MatchCreateAppController extends _$MatchCreateAppController
       return;
     }
 
+    final LocationModel? cityLocation =
+        await _matchesService.handleGetLocationForMatchCity(
+      address: _locationAddressSubject.value,
+      city: _locationCitySubject.value,
+    );
+
     final NewMatchValue matchData = NewMatchValue(
       name: _nameSubject.value,
       locationName: _locationNameSubject.value,
       locationAddress: _locationAddressSubject.value,
       locationCity: _locationCitySubject.value,
       locationCountry: _locationCountrySubject.value,
+      cityLatitude: cityLocation?.latitude,
+      cityLongitude: cityLocation?.longitude,
       date: _dateSubject.value!,
       time: _timeSubject.value!,
       isOrganizerJoined: _joinMatchSubject.value,
@@ -190,14 +208,6 @@ class MatchCreateAppController extends _$MatchCreateAppController
       _dateSink.addError(validationValue.dateError!);
     if (validationValue.timeError != null)
       _timeSink.addError(validationValue.timeError!);
-  }
-
-  @override
-  AsyncValue<String?> build() {
-    ref.onDispose(() {
-      dispose();
-    });
-    return AsyncValue.data(null);
   }
 
   @override

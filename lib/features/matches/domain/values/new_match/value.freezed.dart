@@ -21,7 +21,10 @@ mixin _$NewMatchValue {
       throw _privateConstructorUsedError; // TODO this will probably need coordinates, instead of actual address - but that should come later only
   String get locationAddress => throw _privateConstructorUsedError;
   String get locationCity => throw _privateConstructorUsedError;
-  String get locationCountry => throw _privateConstructorUsedError;
+  String get locationCountry =>
+      throw _privateConstructorUsedError; // TODO temp geocordiates are imprecise - we will need to get actual coordinates from the address - now we get it from the city
+  double? get cityLongitude => throw _privateConstructorUsedError;
+  double? get cityLatitude => throw _privateConstructorUsedError;
   DateTime get date => throw _privateConstructorUsedError;
   TimeOfDay get time => throw _privateConstructorUsedError;
   bool get isOrganizerJoined => throw _privateConstructorUsedError;
@@ -45,6 +48,8 @@ abstract class $NewMatchValueCopyWith<$Res> {
       String locationAddress,
       String locationCity,
       String locationCountry,
+      double? cityLongitude,
+      double? cityLatitude,
       DateTime date,
       TimeOfDay time,
       bool isOrganizerJoined,
@@ -69,6 +74,8 @@ class _$NewMatchValueCopyWithImpl<$Res, $Val extends NewMatchValue>
     Object? locationAddress = null,
     Object? locationCity = null,
     Object? locationCountry = null,
+    Object? cityLongitude = freezed,
+    Object? cityLatitude = freezed,
     Object? date = null,
     Object? time = null,
     Object? isOrganizerJoined = null,
@@ -95,6 +102,14 @@ class _$NewMatchValueCopyWithImpl<$Res, $Val extends NewMatchValue>
           ? _value.locationCountry
           : locationCountry // ignore: cast_nullable_to_non_nullable
               as String,
+      cityLongitude: freezed == cityLongitude
+          ? _value.cityLongitude
+          : cityLongitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      cityLatitude: freezed == cityLatitude
+          ? _value.cityLatitude
+          : cityLatitude // ignore: cast_nullable_to_non_nullable
+              as double?,
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
@@ -129,6 +144,8 @@ abstract class _$$_NewMatchValueCopyWith<$Res>
       String locationAddress,
       String locationCity,
       String locationCountry,
+      double? cityLongitude,
+      double? cityLatitude,
       DateTime date,
       TimeOfDay time,
       bool isOrganizerJoined,
@@ -151,6 +168,8 @@ class __$$_NewMatchValueCopyWithImpl<$Res>
     Object? locationAddress = null,
     Object? locationCity = null,
     Object? locationCountry = null,
+    Object? cityLongitude = freezed,
+    Object? cityLatitude = freezed,
     Object? date = null,
     Object? time = null,
     Object? isOrganizerJoined = null,
@@ -177,6 +196,14 @@ class __$$_NewMatchValueCopyWithImpl<$Res>
           ? _value.locationCountry
           : locationCountry // ignore: cast_nullable_to_non_nullable
               as String,
+      cityLongitude: freezed == cityLongitude
+          ? _value.cityLongitude
+          : cityLongitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      cityLatitude: freezed == cityLatitude
+          ? _value.cityLatitude
+          : cityLatitude // ignore: cast_nullable_to_non_nullable
+              as double?,
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
@@ -206,6 +233,8 @@ class _$_NewMatchValue implements _NewMatchValue {
       required this.locationAddress,
       required this.locationCity,
       required this.locationCountry,
+      required this.cityLongitude,
+      required this.cityLatitude,
       required this.date,
       required this.time,
       required this.isOrganizerJoined,
@@ -223,6 +252,11 @@ class _$_NewMatchValue implements _NewMatchValue {
   final String locationCity;
   @override
   final String locationCountry;
+// TODO temp geocordiates are imprecise - we will need to get actual coordinates from the address - now we get it from the city
+  @override
+  final double? cityLongitude;
+  @override
+  final double? cityLatitude;
   @override
   final DateTime date;
   @override
@@ -239,7 +273,7 @@ class _$_NewMatchValue implements _NewMatchValue {
 
   @override
   String toString() {
-    return 'NewMatchValue(name: $name, locationName: $locationName, locationAddress: $locationAddress, locationCity: $locationCity, locationCountry: $locationCountry, date: $date, time: $time, isOrganizerJoined: $isOrganizerJoined, invitedPlayers: $invitedPlayers)';
+    return 'NewMatchValue(name: $name, locationName: $locationName, locationAddress: $locationAddress, locationCity: $locationCity, locationCountry: $locationCountry, cityLongitude: $cityLongitude, cityLatitude: $cityLatitude, date: $date, time: $time, isOrganizerJoined: $isOrganizerJoined, invitedPlayers: $invitedPlayers)';
   }
 
   @override
@@ -256,6 +290,10 @@ class _$_NewMatchValue implements _NewMatchValue {
                 other.locationCity == locationCity) &&
             (identical(other.locationCountry, locationCountry) ||
                 other.locationCountry == locationCountry) &&
+            (identical(other.cityLongitude, cityLongitude) ||
+                other.cityLongitude == cityLongitude) &&
+            (identical(other.cityLatitude, cityLatitude) ||
+                other.cityLatitude == cityLatitude) &&
             (identical(other.date, date) || other.date == date) &&
             (identical(other.time, time) || other.time == time) &&
             (identical(other.isOrganizerJoined, isOrganizerJoined) ||
@@ -272,6 +310,8 @@ class _$_NewMatchValue implements _NewMatchValue {
       locationAddress,
       locationCity,
       locationCountry,
+      cityLongitude,
+      cityLatitude,
       date,
       time,
       isOrganizerJoined,
@@ -291,6 +331,8 @@ abstract class _NewMatchValue implements NewMatchValue {
           required final String locationAddress,
           required final String locationCity,
           required final String locationCountry,
+          required final double? cityLongitude,
+          required final double? cityLatitude,
           required final DateTime date,
           required final TimeOfDay time,
           required final bool isOrganizerJoined,
@@ -307,6 +349,10 @@ abstract class _NewMatchValue implements NewMatchValue {
   String get locationCity;
   @override
   String get locationCountry;
+  @override // TODO temp geocordiates are imprecise - we will need to get actual coordinates from the address - now we get it from the city
+  double? get cityLongitude;
+  @override
+  double? get cityLatitude;
   @override
   DateTime get date;
   @override

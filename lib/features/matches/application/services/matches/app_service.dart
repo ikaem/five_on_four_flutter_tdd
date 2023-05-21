@@ -1,5 +1,6 @@
 import 'package:five_on_four_flutter_tdd/features/auth/domain/models/auth/model.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfaces/auth_status_repository.dart';
+import 'package:five_on_four_flutter_tdd/features/core/domain/models/location/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/enums/match_participant_status.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
@@ -8,25 +9,46 @@ import 'package:five_on_four_flutter_tdd/features/matches/domain/repositories_in
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/matches_search_filters/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_in_region/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/utils/extensions/match_model_extension.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/domain/models/weather/model.dart';
+import 'package:five_on_four_flutter_tdd/features/weather/domain/repositories_interfaces/weather_repository.dart';
+import 'package:five_on_four_flutter_tdd/libraries/geocoding/location_wrapper.dart';
 
-class MatchesAppService implements MatchesService {
-  MatchesAppService({
-    required this.matchesRepository,
-    required this.authStatusRepository,
-    // TODO probably get some network status service or repository here
-  });
+class MatchesAppService extends MatchesService with MatchesServiceMixin {
+  const MatchesAppService({
+    required MatchesRepository matchesRepository,
+    required AuthStatusRepository authStatusRepository,
+    required WeatherRepository weatherRepository,
+    required LocationWrapper locationWrapper,
+  })  : _weatherRepository = weatherRepository,
+        matchesRepository = matchesRepository,
+        authStatusRepository = authStatusRepository,
+        locationWrapper = locationWrapper;
 
   final MatchesRepository matchesRepository;
   final AuthStatusRepository authStatusRepository;
-  // TODO will eventually need weather repository too
+  final LocationWrapper locationWrapper;
+  final WeatherRepository _weatherRepository;
+  // TODO probably get some network status service or repository here
 
   @override
   Future<MatchInfoModel> handleGetMatchInfo(String matchId) async {
     final MatchModel match = await matchesRepository.getMatch(matchId);
-    final WeatherModel weather = WeatherModel.random();
+
+    final bool shouldWeatherBeRetrieved = checkShouldWeatherBeRetrieved(
+      matchDate: match.date,
+      location: match.location,
+    );
+
+    final WeatherModel? weather = shouldWeatherBeRetrieved
+        ? await _weatherRepository.getWeatherForCoordinates(
+            // TODO make this non-nullable
+            latitude: match.location.cityLatitude,
+            longitude: match.location.cityLongitude,
+          )
+        : null;
 
     final MatchInfoModel matchInfo = MatchInfoModel.fromWeatherAndMatchModels(
       match: match,
@@ -75,8 +97,8 @@ class MatchesAppService implements MatchesService {
         MatchParticipationValue.fromPlayerModel(
       player: currentPlayer.player,
       status: hasPlayerJoinedMatch
-          ? MatchParticipantStatus.joined
-          : MatchParticipantStatus.unjoined,
+          ? MatchParticipantStatus.unjoined
+          : MatchParticipantStatus.joined,
     );
 
 // TODO maybe we dont need two functions if we have status on the participation
@@ -129,5 +151,49 @@ class MatchesAppService implements MatchesService {
         await matchesRepository.getSearchedMatches(filters);
 
     return matches;
+  }
+
+  @override
+  Future<LocationModel?> handleGetLocationForMatchCity({
+    required String address,
+    required String city,
+  }) async {
+    final LocationModel? location = await locationWrapper.getLocationForPlace(
+      address: address,
+      city: city,
+    );
+
+    return location;
+  }
+
+  @override
+  Future<List<MatchModel>> handleGetMatchesInRegion(
+    RegionCoordinatesBoundariesValue boundaries,
+  ) async {
+    final List<MatchModel> matches =
+        await matchesRepository.getMatchesInRegion(boundaries);
+
+    return matches;
+  }
+}
+
+// TODO move to mixins
+mixin MatchesServiceMixin on MatchesService {
+  bool checkShouldWeatherBeRetrieved({
+    required DateTime matchDate,
+    required MatchLocationModel location,
+  }) {
+    final bool isLocationWithCoordinates =
+        location.cityLatitude != null && location.cityLongitude != null;
+    if (!isLocationWithCoordinates) return false;
+
+    final DateTime now = DateTime.now();
+    final DateTime nowPlus14Days = now.add(const Duration(days: 14));
+
+    if (matchDate.isAfter(nowPlus14Days)) {
+      return false;
+    }
+
+    return true;
   }
 }

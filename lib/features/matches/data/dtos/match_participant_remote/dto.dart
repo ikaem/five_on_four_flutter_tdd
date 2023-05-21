@@ -34,7 +34,7 @@ class MatchParticipantRemoteDTO with _$MatchParticipantRemoteDTO {
 
     final MatchParticipantStatus participationStatus =
         MatchParticipantStatus.values.firstWhere(
-      (value) => value == participationData['status'].toString(),
+      (value) => value.name == participationData['status'].toString(),
       orElse: () => MatchParticipantStatus.unknown,
     );
 

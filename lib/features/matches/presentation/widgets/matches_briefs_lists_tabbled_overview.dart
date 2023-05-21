@@ -1,5 +1,5 @@
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
-import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_briefs_list.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/matches_search/match_briefs_list.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/constants.dart';
 import 'package:flutter/material.dart';
@@ -65,9 +65,17 @@ class MatchesBriefsListsTabbedOverview extends StatelessWidget {
                 ),
               ),
               child: TabBarView(
-                children: matchesLists.map((matchesList) {
-                  return MatchBriefsList(matches: matchesList);
+                children: matchesLists.map((ml) {
+                  return MatchBriefsList(
+                    matches: ml,
+                    title: "",
+                  );
                 }).toList(),
+
+                // TODO old
+                // children: matchesLists.map((matchesList) {
+                //   return MatchBriefsList(matches: matchesList);
+                // }).toList(),
               ),
             ),
           ),

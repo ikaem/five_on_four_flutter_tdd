@@ -22,7 +22,7 @@ class MatchesSearchAppController extends _$MatchesSearchAppController
   final BehaviorSubject<MatchesSearchFiltersValue> _filtersSubject =
       BehaviorSubject();
 
-  late StreamSubscription<MatchesSearchFiltersValue> _filtersSubscription;
+  late final StreamSubscription<MatchesSearchFiltersValue> _filtersSubscription;
   StreamSink<MatchesSearchFiltersValue> get _filtersSink =>
       _filtersSubject.sink;
 

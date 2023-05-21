@@ -5,13 +5,15 @@ import 'package:five_on_four_flutter_tdd/theme/constants/dimensions_constants.da
 import 'package:five_on_four_flutter_tdd/theme/constants/spacing_constants.dart';
 import 'package:flutter/material.dart';
 
-class SearchResultsMatches extends StatelessWidget {
-  const SearchResultsMatches({
+class MatchBriefsList extends StatelessWidget {
+  const MatchBriefsList({
     super.key,
     required this.matches,
+    required this.title,
   });
 
   final List<MatchModel> matches;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class SearchResultsMatches extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            "Results",
+            title,
             style: themeText.titleSmall,
           ),
           SizedBox(

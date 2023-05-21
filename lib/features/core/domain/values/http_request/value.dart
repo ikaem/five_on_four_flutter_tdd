@@ -2,8 +2,8 @@ import 'package:five_on_four_flutter_tdd/features/core/domain/enums/http_method.
 import 'package:flutter/material.dart';
 
 @immutable
-class HttpRequestUriValue {
-  const HttpRequestUriValue({
+class HttpRequestUriPartsValue {
+  const HttpRequestUriPartsValue({
     required this.apiUrlScheme,
     required this.apiBaseUrl,
     required this.apiContextPath,
@@ -19,8 +19,8 @@ class HttpRequestUriValue {
 }
 
 @immutable
-class HttpRequestMakeValue {
-  const HttpRequestMakeValue({
+class HttpRequestArgsValue {
+  const HttpRequestArgsValue({
     required this.uri,
     required this.method,
     this.data,
@@ -28,5 +28,5 @@ class HttpRequestMakeValue {
 
   final Uri uri;
   final HttpMethod method;
-  final dynamic data;
+  final Object? data;
 }
