@@ -15,6 +15,7 @@ class MatchModel with _$MatchModel {
     required DateTime date,
     required List<MatchParticipantModel> joinedParticipants,
     required List<MatchParticipantModel> invitedParticipants,
+    required MatchLocationModel location,
   }) = _MatchModel;
 
   factory MatchModel.fromRemoteDto(MatchRemoteDTO remoteDto) {
@@ -37,12 +38,17 @@ class MatchModel with _$MatchModel {
     final DateTime matchDate =
         DateTime.fromMillisecondsSinceEpoch(remoteDto.date);
 
+    final MatchLocationModel matchLocation = MatchLocationModel.fromRemoteDto(
+      remoteDto.location,
+    );
+
     final MatchModel match = MatchModel(
       id: remoteDto.id,
       name: remoteDto.name,
       joinedParticipants: matchJoinedParticipants,
       invitedParticipants: matchInvitedParticipants,
       date: matchDate,
+      location: matchLocation,
     );
 
     return match;
@@ -60,6 +66,61 @@ class MatchModel with _$MatchModel {
       joinedParticipants: joinedParticipants,
       invitedParticipants: invitedParticipants,
       date: DateTime.now(),
+      location: MatchLocationModel(
+        cityLatitude: 45.815,
+        cityLongitude: 15.9819,
+        locationAddress: "Some Adddress",
+        locationName: "Some Location Name",
+        locationCountry: "Croatia",
+        locationCity: "Zagreb",
+      ),
     );
   }
+}
+
+// TODO this possibly also generate with freezed
+@immutable
+class MatchLocationModel {
+  const MatchLocationModel({
+    required this.cityLatitude,
+    required this.cityLongitude,
+    required this.locationAddress,
+    required this.locationName,
+    required this.locationCountry,
+    required this.locationCity,
+  });
+
+  factory MatchLocationModel.fromRemoteDto(
+    MatchRemoteLocationDTO remoteDto,
+  ) {
+    final double? cityLatitude = remoteDto.cityLatitude;
+    final double? cityLongitude = remoteDto.cityLongitude;
+    final String locationAddress = remoteDto.locationAddress;
+    final String locationName = remoteDto.locationName;
+    final String locationCountry = remoteDto.locationCountry;
+    final String locationCity = remoteDto.locationCity;
+
+    final MatchLocationModel model = MatchLocationModel(
+      cityLatitude: cityLatitude,
+      cityLongitude: cityLongitude,
+      locationAddress: locationAddress,
+      locationName: locationName,
+      locationCountry: locationCountry,
+      locationCity: locationCity,
+    );
+
+    return model;
+  }
+
+  final double? cityLatitude;
+  final double? cityLongitude;
+  final String locationAddress;
+  final String locationName;
+  final String locationCountry;
+  final String locationCity;
+}
+
+// TODO move to extensions
+extension MatchLocationModelExtension on MatchLocationModel {
+  bool get hasCoordinates => cityLatitude != null && cityLongitude != null;
 }

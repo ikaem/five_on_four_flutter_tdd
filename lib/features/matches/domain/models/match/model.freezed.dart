@@ -24,6 +24,7 @@ mixin _$MatchModel {
       throw _privateConstructorUsedError;
   List<MatchParticipantModel> get invitedParticipants =>
       throw _privateConstructorUsedError;
+  MatchLocationModel get location => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MatchModelCopyWith<MatchModel> get copyWith =>
@@ -41,7 +42,8 @@ abstract class $MatchModelCopyWith<$Res> {
       String name,
       DateTime date,
       List<MatchParticipantModel> joinedParticipants,
-      List<MatchParticipantModel> invitedParticipants});
+      List<MatchParticipantModel> invitedParticipants,
+      MatchLocationModel location});
 }
 
 /// @nodoc
@@ -62,6 +64,7 @@ class _$MatchModelCopyWithImpl<$Res, $Val extends MatchModel>
     Object? date = null,
     Object? joinedParticipants = null,
     Object? invitedParticipants = null,
+    Object? location = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -84,6 +87,10 @@ class _$MatchModelCopyWithImpl<$Res, $Val extends MatchModel>
           ? _value.invitedParticipants
           : invitedParticipants // ignore: cast_nullable_to_non_nullable
               as List<MatchParticipantModel>,
+      location: null == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as MatchLocationModel,
     ) as $Val);
   }
 }
@@ -101,7 +108,8 @@ abstract class _$$_MatchModelCopyWith<$Res>
       String name,
       DateTime date,
       List<MatchParticipantModel> joinedParticipants,
-      List<MatchParticipantModel> invitedParticipants});
+      List<MatchParticipantModel> invitedParticipants,
+      MatchLocationModel location});
 }
 
 /// @nodoc
@@ -120,6 +128,7 @@ class __$$_MatchModelCopyWithImpl<$Res>
     Object? date = null,
     Object? joinedParticipants = null,
     Object? invitedParticipants = null,
+    Object? location = null,
   }) {
     return _then(_$_MatchModel(
       id: null == id
@@ -142,6 +151,10 @@ class __$$_MatchModelCopyWithImpl<$Res>
           ? _value._invitedParticipants
           : invitedParticipants // ignore: cast_nullable_to_non_nullable
               as List<MatchParticipantModel>,
+      location: null == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as MatchLocationModel,
     ));
   }
 }
@@ -154,7 +167,8 @@ class _$_MatchModel implements _MatchModel {
       required this.name,
       required this.date,
       required final List<MatchParticipantModel> joinedParticipants,
-      required final List<MatchParticipantModel> invitedParticipants})
+      required final List<MatchParticipantModel> invitedParticipants,
+      required this.location})
       : _joinedParticipants = joinedParticipants,
         _invitedParticipants = invitedParticipants;
 
@@ -184,8 +198,11 @@ class _$_MatchModel implements _MatchModel {
   }
 
   @override
+  final MatchLocationModel location;
+
+  @override
   String toString() {
-    return 'MatchModel(id: $id, name: $name, date: $date, joinedParticipants: $joinedParticipants, invitedParticipants: $invitedParticipants)';
+    return 'MatchModel(id: $id, name: $name, date: $date, joinedParticipants: $joinedParticipants, invitedParticipants: $invitedParticipants, location: $location)';
   }
 
   @override
@@ -199,7 +216,9 @@ class _$_MatchModel implements _MatchModel {
             const DeepCollectionEquality()
                 .equals(other._joinedParticipants, _joinedParticipants) &&
             const DeepCollectionEquality()
-                .equals(other._invitedParticipants, _invitedParticipants));
+                .equals(other._invitedParticipants, _invitedParticipants) &&
+            (identical(other.location, location) ||
+                other.location == location));
   }
 
   @override
@@ -209,7 +228,8 @@ class _$_MatchModel implements _MatchModel {
       name,
       date,
       const DeepCollectionEquality().hash(_joinedParticipants),
-      const DeepCollectionEquality().hash(_invitedParticipants));
+      const DeepCollectionEquality().hash(_invitedParticipants),
+      location);
 
   @JsonKey(ignore: true)
   @override
@@ -220,12 +240,12 @@ class _$_MatchModel implements _MatchModel {
 
 abstract class _MatchModel implements MatchModel {
   const factory _MatchModel(
-          {required final String id,
-          required final String name,
-          required final DateTime date,
-          required final List<MatchParticipantModel> joinedParticipants,
-          required final List<MatchParticipantModel> invitedParticipants}) =
-      _$_MatchModel;
+      {required final String id,
+      required final String name,
+      required final DateTime date,
+      required final List<MatchParticipantModel> joinedParticipants,
+      required final List<MatchParticipantModel> invitedParticipants,
+      required final MatchLocationModel location}) = _$_MatchModel;
 
   @override
   String get id;
@@ -237,6 +257,8 @@ abstract class _MatchModel implements MatchModel {
   List<MatchParticipantModel> get joinedParticipants;
   @override
   List<MatchParticipantModel> get invitedParticipants;
+  @override
+  MatchLocationModel get location;
   @override
   @JsonKey(ignore: true)
   _$$_MatchModelCopyWith<_$_MatchModel> get copyWith =>

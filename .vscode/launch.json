@@ -17,37 +17,7 @@
       "request": "launch",
       "type": "dart",
       "program": "lib/main_development.dart",
-      "args": [
-        "--flavor",
-        "development"
-        // "--dart-define"
-        // "WEATHER_API_KEY=de61c1ea4e5f43f8b98124214231601",
-        // "--dart-define",
-        // "FIREBASE_ANDROID_API_KEY=AIzaSyDKFJHWXp33igG6N5XsxmYyLAwMAcDB5o4",
-        // "--dart-define",
-        // "FIREBASE_ANDROID_APP_ID=1:433908250361:android:3fb829c3f8b06008ce5428",
-        // "--dart-define",
-        // "FIREBASE_ANDROID_MESSAGING_SENDER_ID=433908250361",
-        // "--dart-define",
-        // "FIREBASE_ANDROID_PROJECT_ID=five-on-4",
-        // "--dart-define",
-        // "FIREBASE_ANDROID_STORAGE_BUCKET=five-on-4.appspot.com",
-        // "--dart-define",
-        // "FIREBASE_IOS_API_KEY=AIzaSyBPYM9QLwCHmfHwX8EjGfF_xk_AMIJHNoo",
-        // "--dart-define",
-        // "FIREBASE_IOS_APP_ID=1:433908250361:ios:3a310f84e8bd3d98ce5428",
-        // "--dart-define",
-        // "FIREBASE_IOS_MESSAGING_SENDER_ID=433908250361",
-        // "--dart-define",
-        // "FIREBASE_IOS_PROJECT_ID=five-on-4",
-        // "--dart-define",
-        // "FIREBASE_IOS_STORAGE_BUCKET=five-on-4.appspot.com",
-        // "--dart-define",
-        // "FIREBASE_IOS_CLIENT_ID=433908250361-et362u5ktpr282n3s5fl3q80j9vvuoap.apps.googleusercontent.com",
-        // "--dart-define",
-        // "FIREBASE_IOS_BUNDLE_ID=com.example.fiveOn4Flutter"
-      ]
-      // "preLaunchTask": "source-dev-env-values"
+      "args": ["--flavor", "development"]
     },
     {
       "name": "Launch staging",

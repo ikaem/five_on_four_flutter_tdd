@@ -29,6 +29,7 @@ dependencies:
   cloud_firestore: ^4.6.0
   flutter_dotenv: ^5.0.2
   dio: ^5.1.2
+  geocoding: ^2.1.0
 
 dev_dependencies:
   mockito: ^5.4.0

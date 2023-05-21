@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$MatchInfoModel {
   MatchModel get match => throw _privateConstructorUsedError;
-  WeatherModel get weather => throw _privateConstructorUsedError;
+  WeatherModel? get weather => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MatchInfoModelCopyWith<MatchInfoModel> get copyWith =>
@@ -30,10 +30,10 @@ abstract class $MatchInfoModelCopyWith<$Res> {
           MatchInfoModel value, $Res Function(MatchInfoModel) then) =
       _$MatchInfoModelCopyWithImpl<$Res, MatchInfoModel>;
   @useResult
-  $Res call({MatchModel match, WeatherModel weather});
+  $Res call({MatchModel match, WeatherModel? weather});
 
   $MatchModelCopyWith<$Res> get match;
-  $WeatherModelCopyWith<$Res> get weather;
+  $WeatherModelCopyWith<$Res>? get weather;
 }
 
 /// @nodoc
@@ -50,17 +50,17 @@ class _$MatchInfoModelCopyWithImpl<$Res, $Val extends MatchInfoModel>
   @override
   $Res call({
     Object? match = null,
-    Object? weather = null,
+    Object? weather = freezed,
   }) {
     return _then(_value.copyWith(
       match: null == match
           ? _value.match
           : match // ignore: cast_nullable_to_non_nullable
               as MatchModel,
-      weather: null == weather
+      weather: freezed == weather
           ? _value.weather
           : weather // ignore: cast_nullable_to_non_nullable
-              as WeatherModel,
+              as WeatherModel?,
     ) as $Val);
   }
 
@@ -74,8 +74,12 @@ class _$MatchInfoModelCopyWithImpl<$Res, $Val extends MatchInfoModel>
 
   @override
   @pragma('vm:prefer-inline')
-  $WeatherModelCopyWith<$Res> get weather {
-    return $WeatherModelCopyWith<$Res>(_value.weather, (value) {
+  $WeatherModelCopyWith<$Res>? get weather {
+    if (_value.weather == null) {
+      return null;
+    }
+
+    return $WeatherModelCopyWith<$Res>(_value.weather!, (value) {
       return _then(_value.copyWith(weather: value) as $Val);
     });
   }
@@ -89,12 +93,12 @@ abstract class _$$_MatchInfoModelCopyWith<$Res>
       __$$_MatchInfoModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({MatchModel match, WeatherModel weather});
+  $Res call({MatchModel match, WeatherModel? weather});
 
   @override
   $MatchModelCopyWith<$Res> get match;
   @override
-  $WeatherModelCopyWith<$Res> get weather;
+  $WeatherModelCopyWith<$Res>? get weather;
 }
 
 /// @nodoc
@@ -109,17 +113,17 @@ class __$$_MatchInfoModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? match = null,
-    Object? weather = null,
+    Object? weather = freezed,
   }) {
     return _then(_$_MatchInfoModel(
       match: null == match
           ? _value.match
           : match // ignore: cast_nullable_to_non_nullable
               as MatchModel,
-      weather: null == weather
+      weather: freezed == weather
           ? _value.weather
           : weather // ignore: cast_nullable_to_non_nullable
-              as WeatherModel,
+              as WeatherModel?,
     ));
   }
 }
@@ -132,7 +136,7 @@ class _$_MatchInfoModel implements _MatchInfoModel {
   @override
   final MatchModel match;
   @override
-  final WeatherModel weather;
+  final WeatherModel? weather;
 
   @override
   String toString() {
@@ -161,12 +165,12 @@ class _$_MatchInfoModel implements _MatchInfoModel {
 abstract class _MatchInfoModel implements MatchInfoModel {
   const factory _MatchInfoModel(
       {required final MatchModel match,
-      required final WeatherModel weather}) = _$_MatchInfoModel;
+      required final WeatherModel? weather}) = _$_MatchInfoModel;
 
   @override
   MatchModel get match;
   @override
-  WeatherModel get weather;
+  WeatherModel? get weather;
   @override
   @JsonKey(ignore: true)
   _$$_MatchInfoModelCopyWith<_$_MatchInfoModel> get copyWith =>

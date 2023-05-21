@@ -24,8 +24,7 @@ abstract class ValueFromEnv {
   static const _firebaseIOSBundleId = 'FIREBASE_IOS_BUNDLE_ID';
 
   // weather
-  static String get weatherApiKey =>
-      const String.fromEnvironment(_envVarWeatherApiKey);
+  static String get weatherApiKey => dotenv.env[_envVarWeatherApiKey]!;
 
   // firebase
   static String get firebaseAndroidApiKey =>

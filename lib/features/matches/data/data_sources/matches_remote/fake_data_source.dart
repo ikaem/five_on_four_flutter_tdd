@@ -7,6 +7,7 @@ import 'package:five_on_four_flutter_tdd/features/matches/domain/exceptions/matc
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/matches_search_filters/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_in_region/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 
 class MatchesRemoteFakeDataSource implements MatchesRemoteDataSource {
@@ -214,6 +215,14 @@ class MatchesRemoteFakeDataSource implements MatchesRemoteDataSource {
 
     return combinedMatches;
   }
+
+  @override
+  Future<List<MatchRemoteDTO>> getMatchesInRegion(
+    RegionCoordinatesBoundariesValue coordinatesBoundaries,
+  ) {
+    // TODO: implement getMatchesInRegion
+    throw UnimplementedError();
+  }
 }
 
 final List<MatchRemoteDTO> combinedMatches = [
@@ -221,6 +230,14 @@ final List<MatchRemoteDTO> combinedMatches = [
     id: "1",
     name: "Match 1",
     date: DateTime.now().millisecondsSinceEpoch,
+    location: MatchRemoteLocationDTO(
+      cityLatitude: 45.815,
+      cityLongitude: 15.9819,
+      locationAddress: "Some Adddress",
+      locationName: "Some Location Name",
+      locationCountry: "Croatia",
+      locationCity: "Zagreb",
+    ),
     participants: [
       MatchParticipantRemoteDTO(
         id: "1",
@@ -246,6 +263,14 @@ final List<MatchRemoteDTO> combinedMatches = [
     id: "2",
     name: "Match 2",
     date: DateTime.now().millisecondsSinceEpoch,
+    location: MatchRemoteLocationDTO(
+      cityLatitude: 45.815,
+      cityLongitude: 15.9819,
+      locationAddress: "Some Adddress",
+      locationName: "Some Location Name",
+      locationCountry: "Croatia",
+      locationCity: "Zagreb",
+    ),
     participants: [
       MatchParticipantRemoteDTO(
         id: "3",
@@ -271,6 +296,14 @@ final List<MatchRemoteDTO> combinedMatches = [
     id: "3",
     name: "Match 3",
     date: DateTime.now().millisecondsSinceEpoch,
+    location: MatchRemoteLocationDTO(
+      cityLatitude: 45.815,
+      cityLongitude: 15.9819,
+      locationAddress: "Some Adddress",
+      locationName: "Some Location Name",
+      locationCountry: "Croatia",
+      locationCity: "Zagreb",
+    ),
     participants: [
       MatchParticipantRemoteDTO(
         id: "5",
@@ -296,6 +329,14 @@ final List<MatchRemoteDTO> combinedMatches = [
     id: "4",
     name: "Match 4",
     date: DateTime.now().millisecondsSinceEpoch,
+    location: MatchRemoteLocationDTO(
+      cityLatitude: 45.815,
+      cityLongitude: 15.9819,
+      locationAddress: "Some Adddress",
+      locationName: "Some Location Name",
+      locationCountry: "Croatia",
+      locationCity: "Zagreb",
+    ),
     participants: [
       MatchParticipantRemoteDTO(
         id: "7",

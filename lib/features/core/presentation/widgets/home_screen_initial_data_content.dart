@@ -1,7 +1,7 @@
 import 'package:five_on_four_flutter_tdd/features/core/domain/values/initial_data/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
-import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_briefs_list.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_info_brief_overview.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/matches_search/match_briefs_list.dart';
 import 'package:five_on_four_flutter_tdd/features/players/presentation/widgets/player_brief_overview.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/spacing_constants.dart';
 import 'package:flutter/material.dart';
@@ -55,10 +55,20 @@ class HomeScreenInitialDataContent extends StatelessWidget {
                   ),
                   MatchBriefsList(
                     matches: initialData.joinedMatches,
+                    title: "",
                   ),
                   MatchBriefsList(
                     matches: initialData.invitedMatches,
+                    // TODO title should be nullable and shown conditionally
+                    title: "",
                   ),
+                  // TODO old
+                  // MatchBriefsList(
+                  //   matches: initialData.joinedMatches,
+                  // ),
+                  // MatchBriefsList(
+                  //   matches: initialData.invitedMatches,
+                  // ),
                 ],
               ),
             )

@@ -6,6 +6,7 @@ abstract class MatchesFirebaseConstants {
       'match_participants';
 
   // fields
+  static const String firestoreMatchFieldName = 'name';
   static const String firestoreMatchFieldStartDate = 'date';
 
   static const String firestoreMatchParticipantFieldPlayerId = 'playerId';

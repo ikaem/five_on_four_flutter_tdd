@@ -8,13 +8,21 @@ part 'model.freezed.dart';
 class MatchInfoModel with _$MatchInfoModel {
   const factory MatchInfoModel({
     required MatchModel match,
-    required WeatherModel weather,
+    required WeatherModel? weather,
   }) = _MatchInfoModel;
 
   factory MatchInfoModel.fromWeatherAndMatchModels({
     required MatchModel match,
-    required WeatherModel weather,
+    required WeatherModel? weather,
   }) {
-    return MatchInfoModel(match: match, weather: weather);
+    return MatchInfoModel(
+      match: match,
+      weather: weather,
+    );
   }
+}
+
+// TODO mvoe to extensions
+extension MatchInfoModelExtension on MatchInfoModel {
+  bool get hasWeather => weather != null;
 }

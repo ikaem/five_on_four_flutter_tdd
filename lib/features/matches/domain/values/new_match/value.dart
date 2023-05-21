@@ -15,6 +15,9 @@ class NewMatchValue with _$NewMatchValue {
     required String locationAddress,
     required String locationCity,
     required String locationCountry,
+    // TODO temp geocordiates are imprecise - we will need to get actual coordinates from the address - now we get it from the city
+    required double? cityLongitude,
+    required double? cityLatitude,
     required DateTime date,
     required TimeOfDay time,
     required bool isOrganizerJoined,
@@ -46,9 +49,8 @@ extension NewMatchValueExtension on NewMatchValue {
         'locationAddress': locationAddress,
         'locationCity': locationCity,
         'locationCountry': locationCountry,
-        // TODO placegholder values
-        "longitude": 0.0,
-        "latitude": 0.0,
+        "cityLongitude": cityLongitude,
+        "cityLatitude": cityLatitude,
       },
       "date": matchTimestamp,
       'isOrganizerJoined': isOrganizerJoined,

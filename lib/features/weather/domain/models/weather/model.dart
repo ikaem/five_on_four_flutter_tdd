@@ -1,3 +1,4 @@
+import 'package:five_on_four_flutter_tdd/features/weather/data/dtos/weather_forecast_remote/dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'dart:math';
 
@@ -11,6 +12,26 @@ class WeatherModel with _$WeatherModel {
     // TODO make enum eventually
     required String weatherDescription,
   }) = _WeatherModel;
+
+  factory WeatherModel.fromWeathaerForecastRemoteDTO(
+    WeatherForecastRemoteDTO dto,
+  ) {
+    final String locationName = dto.location.name;
+
+// TODO what if there is nothing in the list
+    final WeatherHourRemoteDTO hourForecast =
+        dto.forecast.forecastday.first.hour.first;
+    final double temperatureCelsius = hourForecast.tempC;
+    final String weatherDescription = hourForecast.condition.text;
+
+    final WeatherModel model = WeatherModel(
+      locationName: locationName,
+      temperatureCelsius: temperatureCelsius,
+      weatherDescription: weatherDescription,
+    );
+
+    return model;
+  }
 
   factory WeatherModel.random() {
     final Random rng = Random();

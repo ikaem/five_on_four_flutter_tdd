@@ -1,6 +1,8 @@
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match_info/model.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match_participant/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_info_title_overview.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_info_venue_overview.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_participant_brief_card.dart';
 import 'package:five_on_four_flutter_tdd/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -55,28 +57,44 @@ class _MatchInfoScreenViewContentState
             Expanded(
               child: TabBarView(
                 children: [
+                  // TODO create widget from each of these
                   ListView(
                     children: [
                       MatchInfoTitleOverview(
-                          title: currentMatchInfo.match.name),
-                      SizedBox(
-                        height: SpacingConstants.small,
+                        title: currentMatchInfo.match.name,
                       ),
-                      MatchInfoVenueOverview(),
+                      SizedBox(
+                        height: SpacingConstants.xLarge,
+                      ),
+                      MatchInfoVenueOverview(
+                        match: currentMatchInfo.match,
+                        weather: currentMatchInfo.weather,
+                      ),
                     ],
                   ),
                   // Text("Second tab")
                   ListView.builder(
-                    key: ValueKey("Joined"),
-                    itemCount: joinedParticipants.length,
-                    itemBuilder: (context, index) =>
-                        Text(joinedParticipants[index]),
-                  ),
+                      key: ValueKey("Joined"),
+                      itemCount:
+                          currentMatchInfo.match.joinedParticipants.length,
+                      itemBuilder: (context, index) {
+                        final MatchParticipantModel matchParticipant =
+                            currentMatchInfo.match.joinedParticipants[index];
+                        return MatchParticipantBriefCard(
+                          matchParticipant: matchParticipant,
+                        );
+                      }),
                   ListView.builder(
                     key: ValueKey("Invited"),
-                    itemCount: invitedParticipants.length,
-                    itemBuilder: (context, index) =>
-                        Text(invitedParticipants[index]),
+                    itemCount:
+                        currentMatchInfo.match.invitedParticipants.length,
+                    itemBuilder: (context, index) {
+                      final MatchParticipantModel matchParticipant =
+                          currentMatchInfo.match.invitedParticipants[index];
+                      return MatchParticipantBriefCard(
+                        matchParticipant: matchParticipant,
+                      );
+                    },
                   ),
                 ],
               ),
@@ -89,8 +107,8 @@ class _MatchInfoScreenViewContentState
 }
 
 // TODO remove hardcoded values in future
-final List<String> joinedParticipants =
-    List.generate(250, (index) => "Participant n: ${index + 1}");
+// final List<String> joinedParticipants =
+//     List.generate(250, (index) => "Participant n: ${index + 1}");
 
-final List<String> invitedParticipants =
-    List.generate(5, (index) => "Participant n: ${index + 1}");
+// final List<String> invitedParticipants =
+//     List.generate(5, (index) => "Participant n: ${index + 1}");

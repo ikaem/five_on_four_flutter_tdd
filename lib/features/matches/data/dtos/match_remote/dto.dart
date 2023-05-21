@@ -9,12 +9,13 @@ part "dto.freezed.dart";
 
 @freezed
 class MatchRemoteDTO with _$MatchRemoteDTO {
-  const factory MatchRemoteDTO(
-      {required String id,
-      required String name,
-      required int date,
-      required List<MatchParticipantRemoteDTO> participants,
-      required}) = _MatchRemoteDTO;
+  const factory MatchRemoteDTO({
+    required String id,
+    required String name,
+    required int date,
+    required MatchRemoteLocationDTO location,
+    required List<MatchParticipantRemoteDTO> participants,
+  }) = _MatchRemoteDTO;
 
   // TODO needed only for dev
   factory MatchRemoteDTO.fromNewMatchValue({
@@ -44,6 +45,14 @@ class MatchRemoteDTO with _$MatchRemoteDTO {
       name: matchValue.name,
       participants: participants,
       date: matchValue.date.millisecondsSinceEpoch,
+      location: MatchRemoteLocationDTO(
+        cityLatitude: 45.815,
+        cityLongitude: 15.9819,
+        locationAddress: "Some Adddress",
+        locationName: "Some Location Name",
+        locationCountry: "Croatia",
+        locationCity: "Zagreb",
+      ),
     );
 
     return dto;
@@ -73,13 +82,62 @@ class MatchRemoteDTO with _$MatchRemoteDTO {
     final int matchDate =
         (matchData['date'] as Timestamp).millisecondsSinceEpoch;
 
+    final MatchRemoteLocationDTO matchLocation =
+        MatchRemoteLocationDTO.fromFirestoreMap(
+      matchData["location"] as Map<String, dynamic>,
+    );
+
     final MatchRemoteDTO matchDto = MatchRemoteDTO(
       id: matchDoc.id,
       name: matchData['name'] as String,
       date: matchDate,
       participants: participantsDtos,
+      location: matchLocation,
     );
 
     return matchDto;
   }
+}
+
+// TODO keep simple for now - might need to be moved in the future
+// TODO maybe will need to be generated with freezed
+@immutable
+class MatchRemoteLocationDTO {
+  const MatchRemoteLocationDTO({
+    required this.cityLatitude,
+    required this.cityLongitude,
+    required this.locationAddress,
+    required this.locationName,
+    required this.locationCountry,
+    required this.locationCity,
+  });
+
+  factory MatchRemoteLocationDTO.fromFirestoreMap(
+    Map<String, dynamic> locationMap,
+  ) {
+    final double? cityLatitude = locationMap['cityLatitude'] as double?;
+    final double? cityLongitude = locationMap['cityLongitude'] as double?;
+    final String locationAddress = locationMap['locationAddress'] as String;
+    final String locationName = locationMap['locationName'] as String;
+    final String locationCountry = locationMap['locationCountry'] as String;
+    final String locationCity = locationMap['locationCity'] as String;
+
+    final MatchRemoteLocationDTO locationDto = MatchRemoteLocationDTO(
+      cityLatitude: cityLatitude,
+      cityLongitude: cityLongitude,
+      locationAddress: locationAddress,
+      locationName: locationName,
+      locationCountry: locationCountry,
+      locationCity: locationCity,
+    );
+
+    return locationDto;
+  }
+
+  final double? cityLatitude;
+  final double? cityLongitude;
+  final String locationAddress;
+  final String locationName;
+  final String locationCountry;
+  final String locationCity;
 }
