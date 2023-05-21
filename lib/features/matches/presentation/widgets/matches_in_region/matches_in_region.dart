@@ -1,5 +1,6 @@
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_in_region/providers/provider.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/matches_search/match_briefs_list.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,9 @@ class MatchesInRegion extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final AsyncValue<List<MatchModel>> matchesSearchState =
+    final MatchesInRegionAppController matchesInRegionController =
+        ref.read(matchesInRegionAppControllerProvider.notifier);
+    final AsyncValue<List<MatchModel>> matchesInRegionState =
         ref.watch(matchesInRegionAppControllerProvider);
 
     return Padding(
@@ -26,27 +29,34 @@ class MatchesInRegion extends ConsumerWidget {
           SizedBox(
             height: SpacingConstants.small,
           ),
-          Text.rich(TextSpan(
-            style: TextStyle(
-              color: ColorConstants.white,
-            ),
-            children: [
-              TextSpan(
-                text: "Find in radius: ",
-              ),
-              // TODO this will be wrapped in stream builder for the currently selected value
-              TextSpan(
-                text: "10 km",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          )
+          StreamBuilder<double>(
+              stream: matchesInRegionController.regionSizeStream,
+              builder: (context, snapshot) {
+                final double regionSize = snapshot.data ?? 0;
 
-              // "Find in radius: 60 km",
-              // style: TextStyle(color: ColorConstants.white),
-              ),
+                return Text.rich(TextSpan(
+                  style: TextStyle(
+                    color: ColorConstants.white,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: "Find in radius: ",
+                    ),
+                    // TODO this will be wrapped in stream builder for the currently selected value
+
+                    TextSpan(
+                      text: "${regionSize.toInt()} km",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                )
+
+                    // "Find in radius: 60 km",
+                    // style: TextStyle(color: ColorConstants.white),
+                    );
+              }),
           SizedBox(
             height: SpacingConstants.medium,
           ),
@@ -58,14 +68,44 @@ class MatchesInRegion extends ConsumerWidget {
                 DimensionsConstants.d10,
               ),
             ),
-            child: Slider(
-              min: 0,
-              max: 100,
-              value: 10,
-              onChanged: (value) {},
-              activeColor: ColorConstants.red,
-              inactiveColor: ColorConstants.white,
-            ),
+            child: StreamBuilder<double>(
+                stream: matchesInRegionController.regionSizeStream,
+                builder: (context, snapshot) {
+                  final double regionSize = snapshot.data ?? 0;
+
+                  return Slider(
+                    min: 0,
+                    max: 100,
+                    value: regionSize.toDouble(),
+                    onChanged: matchesInRegionController.onChangeRegionSize,
+                    activeColor: ColorConstants.red,
+                    inactiveColor: ColorConstants.white,
+                  );
+                }),
+          ),
+          SizedBox(
+            height: SpacingConstants.mediumLarge,
+          ),
+          matchesInRegionState.when(
+            error: (error, stackTrace) {
+              return Center(
+                child: Text("There was an issue searching matches"),
+              );
+            },
+            loading: () {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+            data: (data) {
+              return Expanded(
+                // TODO this could be reused in matches in region
+                child: MatchBriefsList(
+                  matches: data,
+                  title: "Found matches",
+                ),
+              );
+            },
           ),
         ],
       ),

@@ -1,5 +1,5 @@
 abstract class MatchesInRegionController {
-  void onChangeRegionSize(int regionSize);
-  Stream<int> get regionSizeStream;
+  void onChangeRegionSize(double regionSize);
+  Stream<double> get regionSizeStream;
   void dispose();
 }

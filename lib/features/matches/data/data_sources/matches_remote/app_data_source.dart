@@ -265,59 +265,239 @@ class MatchesRemoteAppDataSource
   Future<List<MatchRemoteDTO>> getMatchesInRegion(
     RegionCoordinatesBoundariesValue coordinatesBoundaries,
   ) async {
-    // here we search everything that has latitudes withing boundaries and longitudes within boundaries
-    final Query<Map<String, dynamic>> searchQuery = _firebaseFirestoreWrapper.db
-        .collection(MatchesFirebaseConstants.firestoreCollectionMatches)
-        .where(
-          // TODO make this a constant
-          "location.cityLatitude",
-          isGreaterThan: coordinatesBoundaries.latitudeLower,
-        )
-        .where(
-          // TODO make this a constant
-          "location.cityLatitude",
-          isLessThan: coordinatesBoundaries.latitudeUpper,
-        )
-        .where(
-          // TODO make this a constant
-          "location.cityLongitude",
-          isGreaterThan: coordinatesBoundaries.longitudeLower,
-        )
-        .where(
-          // TODO make this a constant
-          "location.cityLongitude",
-          isLessThan: coordinatesBoundaries.longitudeUpper,
-        );
+    final CollectionReference<Map<String, dynamic>> matchesRef =
+        _firebaseFirestoreWrapper.db
+            .collection(MatchesFirebaseConstants.firestoreCollectionMatches);
 
-    final QuerySnapshot<Map<String, dynamic>> querySnapshot =
-        await searchQuery.get();
+    print("latitudeLower: ${coordinatesBoundaries.latitudeLower}");
+    print("latitudeUpper : ${coordinatesBoundaries.latitudeUpper}");
+    print("longitudeLower : ${coordinatesBoundaries.longitudeLower}");
+    print("longitudeUpper: ${coordinatesBoundaries.longitudeUpper}");
 
-    final List<QueryDocumentSnapshot<Map<String, dynamic>>> searchResultsDocs =
-        querySnapshot.docs;
+// TODO abstract this
+    final Query<Map<String, dynamic>> searchQueryLat =
+        _firebaseFirestoreWrapper.db
+            .collection(MatchesFirebaseConstants.firestoreCollectionMatches)
+            .where(
+              // TODO make this a constant
+              "location.cityLatitude",
+              isGreaterThanOrEqualTo: coordinatesBoundaries.latitudeLower,
+            )
+            .where(
+              // TODO make this a constant
+              "location.cityLatitude",
+              isLessThanOrEqualTo: coordinatesBoundaries.latitudeUpper,
+            );
 
-    final List<Future<MatchRemoteDTO>> futureSearchResults =
-        searchResultsDocs.map((matchDoc) async {
-      final QuerySnapshot<Map<String, dynamic>> matchParticipationsQuery =
+    final Query<Map<String, dynamic>> searchQueryLong =
+        _firebaseFirestoreWrapper.db
+            .collection(MatchesFirebaseConstants.firestoreCollectionMatches)
+            .where(
+              // TODO make this a constant
+              "location.cityLongitude",
+              isGreaterThanOrEqualTo: coordinatesBoundaries.longitudeLower,
+            )
+            .where(
+              // TODO make this a constant
+              "location.cityLongitude",
+              isLessThanOrEqualTo: coordinatesBoundaries.longitudeUpper,
+            );
+
+    final QuerySnapshot<Map<String, dynamic>> resultsLatitude =
+        await searchQueryLat.get();
+    final QuerySnapshot<Map<String, dynamic>> resultsLongitude =
+        await searchQueryLong.get();
+
+    final List<QueryDocumentSnapshot<Map<String, dynamic>>>
+        resultsLatitudeDocs = resultsLatitude.docs;
+    final List<QueryDocumentSnapshot<Map<String, dynamic>>>
+        resultsLongitudeDocs = resultsLongitude.docs;
+
+// TODO abstract this into function
+    final List<Future<MatchRemoteDTO>> resultsMatchesLatRemoteDtosFuture =
+        resultsLatitudeDocs.map((md) async {
+      final String matchId = md.id;
+
+      final QuerySnapshot<Map<String, dynamic>> participantsQuerySnapshot =
           await _firebaseFirestoreWrapper.db
               .collection(MatchesFirebaseConstants.firestoreCollectionMatches)
-              .doc(
-                matchDoc.id,
-              )
+              .doc(matchId)
               .collection(MatchesFirebaseConstants
                   .firestoreMatchSubcollectionParticipants)
               .get();
 
+      final List<QueryDocumentSnapshot<Map<String, dynamic>>>
+          participantsQueryDocs = participantsQuerySnapshot.docs;
+
       return MatchRemoteDTO.fromFirestoreDocs(
-        matchDoc: matchDoc,
-        participantsQueryDocs: matchParticipationsQuery.docs,
+        matchDoc: md,
+        participantsQueryDocs: participantsQueryDocs,
       );
     }).toList();
 
-    final List<MatchRemoteDTO> searchResults = await Future.wait(
-      futureSearchResults,
+    final List<Future<MatchRemoteDTO>> resultsMatchesLongRemoteDtosFuture =
+        resultsLongitudeDocs.map((md) async {
+      final String matchId = md.id;
+
+      final QuerySnapshot<Map<String, dynamic>> participantsQuerySnapshot =
+          await _firebaseFirestoreWrapper.db
+              .collection(MatchesFirebaseConstants.firestoreCollectionMatches)
+              .doc(matchId)
+              .collection(MatchesFirebaseConstants
+                  .firestoreMatchSubcollectionParticipants)
+              .get();
+
+      final List<QueryDocumentSnapshot<Map<String, dynamic>>>
+          participantsQueryDocs = participantsQuerySnapshot.docs;
+
+      return MatchRemoteDTO.fromFirestoreDocs(
+        matchDoc: md,
+        participantsQueryDocs: participantsQueryDocs,
+      );
+    }).toList();
+
+    final List<MatchRemoteDTO> resultsMatchesLatRemoteDtos =
+        await Future.wait(resultsMatchesLatRemoteDtosFuture);
+    final List<MatchRemoteDTO> resultsMatchesLongRemoteDtos = await Future.wait(
+      resultsMatchesLongRemoteDtosFuture,
     );
 
-    return searchResults;
+    final List<MatchRemoteDTO> combinedMatches = [
+      ...resultsMatchesLatRemoteDtos,
+      ...resultsMatchesLongRemoteDtos,
+    ];
+
+    final Map<String, MatchRemoteDTO> filteredMatchesMap = {
+      for (final match in combinedMatches) match.id: match
+    };
+
+    final List<MatchRemoteDTO> filteredMatches =
+        filteredMatchesMap.values.toList();
+
+    final List<MatchRemoteDTO> matchingMatchesInRegion = filteredMatches.where(
+      (match) {
+        final double? matchLatitude = match.location.cityLatitude;
+        final double? matchLongitude = match.location.cityLongitude;
+
+        final bool hasLocation =
+            matchLatitude != null && matchLongitude != null;
+        if (!hasLocation) return false;
+
+        final bool isMatchInLatitudeBoundaries =
+            matchLatitude >= coordinatesBoundaries.latitudeLower &&
+                matchLatitude <= coordinatesBoundaries.latitudeUpper;
+        final bool isMatchInLongitudeBoundaries =
+            matchLongitude >= coordinatesBoundaries.longitudeLower &&
+                matchLongitude <= coordinatesBoundaries.longitudeUpper;
+
+        final bool isMatchInRegion =
+            isMatchInLatitudeBoundaries && isMatchInLongitudeBoundaries;
+
+        if (!isMatchInRegion) return false;
+
+        return true;
+      },
+    ).toList();
+
+    return matchingMatchesInRegion;
+
+    // later will need to filter all to retrieve only htose that fit into coordinates
+
+    // matchesRef.where(
+    //   "location.cityLatitude",
+    //   isGreaterThanOrEqualTo: coordinatesBoundaries.latitudeLower,
+    // );
+
+    // matchesRef.where(
+    //   // TODO make this a constant
+    //   "location.cityLatitude",
+    //   isLessThanOrEqualTo: coordinatesBoundaries.latitudeUpper,
+    // );
+    // matchesRef.where(
+    //   // TODO make this a constant
+    //   "location.cityLongitude",
+    //   isGreaterThanOrEqualTo: coordinatesBoundaries.longitudeLower,
+    // );
+
+    // matchesRef.where(
+    //   // TODO make this a constant
+    //   "location.cityLongitude",
+    //   isLessThanOrEqualTo: coordinatesBoundaries.longitudeLower,
+    // );
+
+    // final response = await matchesRef.get();
+
+    // return [];
+
+    // here we search everything that has latitudes withing boundaries and longitudes within boundaries
+//     final Query<Map<String, dynamic>> searchQuery = _firebaseFirestoreWrapper.db
+//         .collection(MatchesFirebaseConstants.firestoreCollectionMatches)
+//         .where(
+//           // TODO make this a constant
+//           "location.cityLatitude",
+//           isGreaterThanOrEqualTo: coordinatesBoundaries.latitudeLower,
+//         )
+//         .where(
+//           // TODO make this a constant
+//           "location.cityLatitude",
+//           isLessThanOrEqualTo: coordinatesBoundaries.latitudeUpper,
+//         );
+//     // .where(
+//     //   // TODO make this a constant
+//     //   "location.cityLongitude",
+//     //   isLessThanOrEqualTo: coordinatesBoundaries.longitudeUpper,
+//     // );
+//     // .where(
+//     //   // TODO make this a constant
+//     //   "location.cityLongitude",
+//     //   isGreaterThanOrEqualTo: coordinatesBoundaries.longitudeLower,
+//     // );
+//     // .where(
+//     //   // TODO make this a constant
+//     //   "location.cityLatitude",
+//     //   isLessThan: coordinatesBoundaries.latitudeUpper,
+//     // )
+//     // .where(
+//     //   // TODO make this a constant
+//     //   "location.cityLongitude",
+//     //   isGreaterThan: coordinatesBoundaries.longitudeLower,
+//     // );
+//     // TODO we need this as well
+// /*         .where(
+//           // TODO make this a constant
+//           "location.cityLongitude",
+//           isLessThan: coordinatesBoundaries.longitudeUpper,
+//         ); */
+
+//     final QuerySnapshot<Map<String, dynamic>> querySnapshot =
+//         await searchQuery.get();
+
+//     final List<QueryDocumentSnapshot<Map<String, dynamic>>> searchResultsDocs =
+//         querySnapshot.docs;
+
+//     final List<Future<MatchRemoteDTO>> futureSearchResults =
+//         searchResultsDocs.map((matchDoc) async {
+//       final QuerySnapshot<Map<String, dynamic>> matchParticipationsQuery =
+//           await _firebaseFirestoreWrapper.db
+//               .collection(MatchesFirebaseConstants.firestoreCollectionMatches)
+//               .doc(
+//                 matchDoc.id,
+//               )
+//               .collection(MatchesFirebaseConstants
+//                   .firestoreMatchSubcollectionParticipants)
+//               .get();
+
+//       return MatchRemoteDTO.fromFirestoreDocs(
+//         matchDoc: matchDoc,
+//         participantsQueryDocs: matchParticipationsQuery.docs,
+//       );
+//     }).toList();
+
+//     final List<MatchRemoteDTO> searchResults = await Future.wait(
+//       futureSearchResults,
+//     );
+
+//     return searchResults;
   }
 }
 

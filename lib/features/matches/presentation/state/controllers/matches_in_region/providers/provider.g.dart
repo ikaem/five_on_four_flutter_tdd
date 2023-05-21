@@ -7,7 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$matchesInRegionAppControllerHash() =>
-    r'22d71d62a338108720a093029e72b95b541349ff';
+    r'd9c54aea5f1f265c83903647f5faeefd1ac321a3';
 
 /// See also [MatchesInRegionAppController].
 @ProviderFor(MatchesInRegionAppController)

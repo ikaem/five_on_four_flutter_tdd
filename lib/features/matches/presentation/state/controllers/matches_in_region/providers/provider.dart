@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:five_on_four_flutter_tdd/features/core/domain/models/location/model.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/providers/provider.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_in_region/controller.dart';
 import 'package:flutter/foundation.dart';
@@ -13,15 +15,18 @@ part "provider.g.dart";
 @riverpod
 class MatchesInRegionAppController extends _$MatchesInRegionAppController
     implements MatchesInRegionController {
-// TODO make this a constants somewheree in some constants
-  final BehaviorSubject<int> _regionSizeSubject = BehaviorSubject.seeded(20);
-  StreamSink<int> get _regionSizeSink => _regionSizeSubject.sink;
+  late final MatchesService matchesService = ref.read(matchesServiceProvider);
 
-  late final StreamSubscription<int> _regionSizeSubscription;
+// TODO make this a constants somewheree in some constants
+  final BehaviorSubject<double> _regionSizeSubject =
+      BehaviorSubject.seeded(20.0);
+  StreamSink<double> get _regionSizeSink => _regionSizeSubject.sink;
+
+  late final StreamSubscription<double> _regionSizeSubscription;
 
   @override
   // TODO: implement regionSizeStream
-  Stream<int> get regionSizeStream => throw UnimplementedError();
+  Stream<double> get regionSizeStream => _regionSizeSubject.distinct();
 
   @override
   AsyncValue<List<MatchModel>> build() {
@@ -38,7 +43,7 @@ class MatchesInRegionAppController extends _$MatchesInRegionAppController
   }
 
   @override
-  void onChangeRegionSize(int regionSize) {
+  void onChangeRegionSize(double regionSize) {
     _regionSizeSink.add(regionSize);
   }
 
@@ -59,9 +64,9 @@ class MatchesInRegionAppController extends _$MatchesInRegionAppController
     return currentLocation;
   }
 
-  Future<void> _onRetrieveRegionMatches(int regionSize) async {
+  Future<void> _onRetrieveRegionMatches(double regionSize) async {
     final LocationModel currentLocation = _getCurrentLocation();
-    final int currentRegionSize = regionSize;
+    final double currentRegionSize = regionSize;
 
     final RegionCoordinatesBoundariesValue regionCoordinatesBoundaries =
         _calculateRegionCoordinatesBoundaries(
@@ -69,10 +74,18 @@ class MatchesInRegionAppController extends _$MatchesInRegionAppController
       currentRegionSize,
     );
 
-    print("latitudeUpper: ${regionCoordinatesBoundaries.latitudeUpper}");
-    print("latitudeLower: ${regionCoordinatesBoundaries.latitudeLower}");
-    print("longitudeUpper: ${regionCoordinatesBoundaries.longitudeUpper}");
-    print("longitudeLower: ${regionCoordinatesBoundaries.longitudeLower}");
+    state = AsyncValue.loading();
+
+    try {
+      final List<MatchModel> results =
+          await matchesService.handleGetMatchesInRegion(
+        regionCoordinatesBoundaries,
+      );
+
+      state = AsyncValue.data(results);
+    } catch (e) {
+      state = AsyncValue.error(e, StackTrace.current);
+    }
 
     // state = AsyncValue.loading();
 
@@ -105,9 +118,9 @@ class RegionCoordinatesBoundariesValue {
 // TODO move this to some mixin or such
 RegionCoordinatesBoundariesValue _calculateRegionCoordinatesBoundaries(
   LocationModel currentLocation,
-  int regionSize,
+  double regionSize,
 ) {
-  final int currentRegionSize = regionSize;
+  final double currentRegionSize = regionSize;
   final double kmPerLatitudeDegree = 111.0;
   final double kmPerLongitudeDegree = kmPerLatitudeDegree *
       cos(currentLocation.latitude * (pi / 180)); // Convert latitude to radians
