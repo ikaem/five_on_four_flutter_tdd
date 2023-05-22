@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/data/data_sources/auth_remote/data_source.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/data/dtos/auth_remote/dto.dart';
@@ -6,16 +8,20 @@ import 'package:five_on_four_flutter_tdd/features/auth/domain/args/register_cred
 import 'package:five_on_four_flutter_tdd/features/auth/utils/constants/auth_firebase_constants.dart';
 import 'package:five_on_four_flutter_tdd/libraries/firebase/cloud_firestore/firebase_firestore_wrapper.dart';
 import 'package:five_on_four_flutter_tdd/libraries/firebase/firebase_auth/firebase_auth_wrapper.dart';
+import 'package:five_on_four_flutter_tdd/libraries/firebase/firebase_messaging/firebase_messaging_wrapper.dart';
 
 class AuthRemoteAppDataSource implements AuthRemoteDataSource {
   const AuthRemoteAppDataSource({
     required FirebaseAuthWrapper firebaseAuthWrapper,
     required FirebaseFirestoreWrapper firebaseFirestoreWrapper,
+    required FirebaseMessagingWrapper firebaseMessagingWrapper,
   })  : _firebaseAuthWrapper = firebaseAuthWrapper,
+        _firebaseMessagingWrapper = firebaseMessagingWrapper,
         _firebaseFirestoreWrapper = firebaseFirestoreWrapper;
 
   final FirebaseAuthWrapper _firebaseAuthWrapper;
   final FirebaseFirestoreWrapper _firebaseFirestoreWrapper;
+  final FirebaseMessagingWrapper _firebaseMessagingWrapper;
 
   @override
   Future<AuthRemoteDTO> login(LoginCredentialsArgs credentials) async {
@@ -50,5 +56,21 @@ class AuthRemoteAppDataSource implements AuthRemoteDataSource {
     await insertReference.set(newPlayerData);
 
     return authRemoteDTO;
+  }
+
+  @override
+  Future<void> registerUserDevice(String userId) async {
+    final String? token = await _firebaseMessagingWrapper.getDeviceToken();
+
+// TODO with this, i also have to check if this user is logged in
+// so when send notification to cloud service, i want to send both the user id and the token?
+    await _firebaseFirestoreWrapper.db
+        .collection(AuthFirebaseConstants.firestorePlayersCollection)
+        .doc(userId)
+        .update({
+      AuthFirebaseConstants.firestorePlayerDeviceTokenField: token,
+    });
+
+    log("this is token: $token");
   }
 }

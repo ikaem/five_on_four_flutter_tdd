@@ -5,4 +5,5 @@ abstract class AuthFirebaseConstants {
 
   // fields
   static const String firestorePlayerAuthIdField = 'authId';
+  static const String firestorePlayerDeviceTokenField = 'deviceToken';
 }

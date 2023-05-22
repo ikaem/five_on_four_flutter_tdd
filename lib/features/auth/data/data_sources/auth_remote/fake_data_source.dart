@@ -51,6 +51,12 @@ class AuthRemoteFakeDataSource implements AuthRemoteDataSource {
 
     return authRemoteDTO;
   }
+
+  @override
+  Future<void> registerUserDevice(String userId) {
+    // TODO: implement registerUserDevice
+    throw UnimplementedError();
+  }
 }
 
 List<AuthRemoteDTO> _authRemoteDTOList = [
