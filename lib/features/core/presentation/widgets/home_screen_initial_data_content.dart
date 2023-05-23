@@ -1,13 +1,17 @@
 import 'dart:developer';
 
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:five_on_four_flutter_tdd/features/core/domain/values/initial_data/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_info_brief_overview.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/matches_search/match_briefs_list.dart';
 import 'package:five_on_four_flutter_tdd/features/players/presentation/widgets/player_brief_overview.dart';
+import 'package:five_on_four_flutter_tdd/libraries/overlay_support/overlay_suppport_wrapper.dart';
+import 'package:five_on_four_flutter_tdd/libraries/overlay_support/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/spacing_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeScreenInitialDataContent extends StatelessWidget {
   const HomeScreenInitialDataContent({
@@ -133,6 +137,12 @@ class _TestNotificationsContainerState
           ),
           TextButton(
             onPressed: () async {
+// TODO test only
+              final String idToken =
+                  await FirebaseAuth.instance.currentUser!.getIdToken();
+
+              log("idToken: $idToken");
+
 // TODO THIS IS TES ONLY
               final FirebaseFunctions functions = FirebaseFunctions.instanceFor(
                 region: 'europe-west3',
@@ -145,7 +155,12 @@ class _TestNotificationsContainerState
                 final HttpsCallableResult result = await callable.call();
 
                 log("result: $result");
+              } on FirebaseFunctionsException catch (e) {
+                log(e.code);
+                log(e.message ?? "no message");
+                log(e.details.toString());
               } catch (e) {
+                log(e.runtimeType.toString());
                 log("error!!!!!: $e");
               }
             },
@@ -177,12 +192,25 @@ class _TestNotificationsContainerState
     }
 
     print("User accepted notification permission");
-    // TODO this is a subscription, so dont forget to unsubscribe
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    // TODO test
+    final ProviderContainer container = ProviderContainer();
+    late final OverlaySupportWrapper overlaySupportWrapper =
+        container.read(overlaySupportWrapperProvider);
+
+    // TODO this is a subscription, so dont forget to unsubscribe
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       // TODO this handles foreground notifications only
       // TODO we will be having this is a cubit, or such some
       print("onMessage!!!!!!!!!!!!!!!: $message");
+
+      // overlaySupportWrapper.showToast("Šta?!");
+
+      // await Future.delayed(Duration(seconds: 2));
+      final String? messageTitle = message.notification?.title;
+      if (messageTitle == null) return;
+
+      overlaySupportWrapper.showWidgetNotification(Text(messageTitle));
     });
   }
 }
