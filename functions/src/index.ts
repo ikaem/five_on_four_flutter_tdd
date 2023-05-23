@@ -135,35 +135,45 @@ export const sendMatchInvitationNotifications = region(
   //   return;
   // }
 
-  await admin.messaging().sendEachForMulticast({
-    tokens: matchInvitationNotificationsDeviceTokens,
-    data: {
-      matchId,
-      matchName,
-      // TODO how to add user id to which message is meant for?
-    },
-    notification: {
-      title: 'Hello beautiful',
-      body: `${name} invited you to a match ${matchName}`,
-    },
+
+  // TODO maybe this works 
+  const messages = matchInvitationNotificationsFiltered.map((notification) => {
+    const message: Message = {
+      token: 
+    }
   });
 
-  response.send(
-    // 'Hello from Firebase! this is request token: ' + requestToken
-    {
-      data: {
-        // userDeviceToken,
-        // requestToken,
-        authorization,
-        uid,
-        email,
-      },
-    }
-  );
-  // response.send(
-  //   'Hello from Firebase! this is deviceToken: ' + userDeviceToken
-  // );
-});
+// await admin.messaging().sendEach();
+
+//   await admin.messaging().sendEachForMulticast({
+//     tokens: matchInvitationNotificationsDeviceTokens,
+//     data: {
+//       matchId,
+//       matchName,
+//       // TODO how to add user id to which message is meant for?
+//     },
+//     notification: {
+//       title: 'Hello beautiful',
+//       body: `${name} invited you to a match ${matchName}`,
+//     },
+//   });
+
+//   response.send(
+//     // 'Hello from Firebase! this is request token: ' + requestToken
+//     {
+//       data: {
+//         // userDeviceToken,
+//         // requestToken,
+//         authorization,
+//         uid,
+//         email,
+//       },
+//     }
+//   );
+//   // response.send(
+//   //   'Hello from Firebase! this is deviceToken: ' + userDeviceToken
+//   // );
+// });
 
 // TODO move this to its own service
 
