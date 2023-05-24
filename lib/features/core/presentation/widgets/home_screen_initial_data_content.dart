@@ -203,6 +203,9 @@ class _TestNotificationsContainerState
       // TODO this handles foreground notifications only
       // TODO we will be having this is a cubit, or such some
       print("onMessage!!!!!!!!!!!!!!!: $message");
+      log(message.notification?.title ?? "no title");
+      log(message.notification?.body ?? "no body");
+      log(message.data.toString());
 
       // overlaySupportWrapper.showToast("Šta?!");
 

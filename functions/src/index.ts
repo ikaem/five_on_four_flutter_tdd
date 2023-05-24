@@ -5,6 +5,7 @@ import * as admin from 'firebase-admin';
 // import { DocumentReference } from 'firebase-admin/firestore';
 import { DecodedIdToken } from 'firebase-admin/auth';
 import Joi = require('joi');
+import { Message as FullMessage } from 'firebase-admin/lib/messaging/messaging-api';
 // import { runWith } from 'firebase-functions/v1';
 
 interface Body {
@@ -63,6 +64,10 @@ export const sendMatchInvitationNotifications = region(
   }
 
   const { invitations, matchId, matchName } = value;
+  if (invitations.length == 0) {
+    response.status(400).send('No invitations submitted');
+    return;
+  }
 
   // const { invitations }: { invitations: Invitation[] } = request.body;
   const { authorization } = request.headers;
@@ -85,7 +90,7 @@ export const sendMatchInvitationNotifications = region(
     .verifyIdToken(idToken);
 
   const uid: string = decodedToken.uid;
-  const email: string | undefined = decodedToken.email;
+  // const email: string | undefined = decodedToken.email;
   const name: string | undefined = decodedToken.name;
 
   const matchInvitationNotificationFutures: Promise<MatchInvitationNotification | null>[] =
@@ -112,16 +117,47 @@ export const sendMatchInvitationNotifications = region(
       return invitationNotification;
     });
 
-  const matchInvitationNotifications: (MatchInvitationNotification | null)[] =
-    await Promise.all(matchInvitationNotificationFutures);
-  const matchInvitationNotificationsFiltered: MatchInvitationNotification[] =
-    matchInvitationNotifications.filter(
-      (notification) => notification !== null
-    ) as MatchInvitationNotification[];
-  const matchInvitationNotificationsDeviceTokens: string[] =
-    matchInvitationNotificationsFiltered.map(
-      (notification) => notification.deviceToken
-    );
+  try {
+    const matchInvitationNotifications: (MatchInvitationNotification | null)[] =
+      await Promise.all(matchInvitationNotificationFutures);
+
+    const matchInvitationNotificationsFiltered: MatchInvitationNotification[] =
+      matchInvitationNotifications.filter(
+        (notification) => notification !== null
+      ) as MatchInvitationNotification[];
+    // const matchInvitationNotificationsDeviceTokens: string[] =
+    //   matchInvitationNotificationsFiltered.map(
+    //     (notification) => notification.deviceToken
+    //   );
+
+    const matchInvitationFullMessages: FullMessage[] =
+      matchInvitationNotificationsFiltered.map((notification) => {
+        const message: FullMessage = {
+          notification: {
+            title: notification.title,
+            body: notification.message,
+          },
+          data: {
+            matchId: notification.matchId,
+            matchName: notification.matchName,
+            invitedBy: notification.invitedBy,
+            playerId: notification.playerId,
+          },
+          token: notification.deviceToken,
+        };
+
+        return message;
+      });
+
+    await admin.messaging().sendEach(matchInvitationFullMessages);
+  } catch (error) {
+    response.status(500).send(`Something went wrong: ${error?.toString()}`);
+    return;
+  }
+
+  // await admin.messaging().send({notification: 3, condition })
+
+  // await admin.messaging().sendEach();
 
   // const oneUserRef: DocumentReference<admin.firestore.DocumentData> =
   //   collections.players.doc('cENcRb7sx0PxKDDFS8CV0hoEaLx1');
@@ -135,41 +171,39 @@ export const sendMatchInvitationNotifications = region(
   //   return;
   // }
 
+  // TODO maybe this works
+  // const messages = matchInvitationNotificationsFiltered.map((notification) => {
+  //   const message: Message = {
+  //     // token:
+  //   }
+  // });
 
-  // TODO maybe this works 
-  const messages = matchInvitationNotificationsFiltered.map((notification) => {
-    const message: Message = {
-      token: 
-    }
-  });
+  // await admin.messaging().sendEach();
 
-// await admin.messaging().sendEach();
+  //   await admin.messaging().sendEachForMulticast({
+  //     tokens: matchInvitationNotificationsDeviceTokens,
+  //     data: {
+  //       matchId,
+  //       matchName,
+  //       // TODO how to add user id to which message is meant for?
+  //     },
+  //     notification: {
+  //       title: 'Hello beautiful',
+  //       body: `${name} invited you to a match ${matchName}`,
+  //     },
+  //   });
 
-//   await admin.messaging().sendEachForMulticast({
-//     tokens: matchInvitationNotificationsDeviceTokens,
-//     data: {
-//       matchId,
-//       matchName,
-//       // TODO how to add user id to which message is meant for?
-//     },
-//     notification: {
-//       title: 'Hello beautiful',
-//       body: `${name} invited you to a match ${matchName}`,
-//     },
-//   });
+  /*   response.send({
+    data: {
+      authorization,
+      uid,
+      email,
+    },
+  }); */
 
-//   response.send(
-//     // 'Hello from Firebase! this is request token: ' + requestToken
-//     {
-//       data: {
-//         // userDeviceToken,
-//         // requestToken,
-//         authorization,
-//         uid,
-//         email,
-//       },
-//     }
-//   );
+  // TODO not sure if this will work - it might need "data" field on the response object
+  response.status(200).send('OK');
+});
 //   // response.send(
 //   //   'Hello from Firebase! this is deviceToken: ' + userDeviceToken
 //   // );

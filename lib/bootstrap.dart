@@ -4,6 +4,8 @@ import 'package:five_on_four_flutter_tdd/libraries/firebase/firebase_core/fireba
 import 'package:five_on_four_flutter_tdd/libraries/firebase/firebase_core/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/libraries/libraries.dart';
 import 'package:five_on_four_flutter_tdd/libraries/logger/providers/provider.dart';
+import 'package:five_on_four_flutter_tdd/libraries/overlay_support/overlay_suppport_wrapper.dart';
+import 'package:five_on_four_flutter_tdd/libraries/overlay_support/providers/provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,6 +17,8 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   WidgetsFlutterBinding.ensureInitialized();
   final LoggerWrapper loggerWrapper = LoggerWrapper();
   final FirebaseCoreWrapper firebaseCoreWrapper = FirebaseCoreWrapper();
+  // TODO test
+  final OverlaySupportWrapper overlaySupportWrapper = OverlaySupportWrapper();
 
 // TODO potentually need to handle this if error
   await firebaseCoreWrapper.initializeFirebase();
@@ -31,11 +35,13 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
     () async {
       runApp(
         ProviderScope(
-          child: await builder(),
+          child: overlaySupportWrapper.globalWrap(await builder()),
           overrides: [
             loggerWrapperProvider.overrideWith((ref) => loggerWrapper),
             firebaseCoreWrapperProvider
                 .overrideWith((ref) => firebaseCoreWrapper),
+            overlaySupportWrapperProvider
+                .overrideWith((ref) => overlaySupportWrapper),
           ],
           observers: [
             AppRiverpodObserver(
