@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:five_on_four_flutter_tdd/libraries/firebase/firebase_core/firebase_core_wrapper.dart';
 import 'package:five_on_four_flutter_tdd/libraries/firebase/firebase_core/providers/provider.dart';
+import 'package:five_on_four_flutter_tdd/libraries/firebase/firebase_messaging/firebase_messaging_wrapper.dart';
+import 'package:five_on_four_flutter_tdd/libraries/firebase/firebase_messaging/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/libraries/libraries.dart';
 import 'package:five_on_four_flutter_tdd/libraries/logger/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/libraries/overlay_support/overlay_suppport_wrapper.dart';
@@ -17,11 +19,13 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   WidgetsFlutterBinding.ensureInitialized();
   final LoggerWrapper loggerWrapper = LoggerWrapper();
   final FirebaseCoreWrapper firebaseCoreWrapper = FirebaseCoreWrapper();
-  // TODO test
+  final FirebaseMessagingWrapper firebaseMessagingWrapper =
+      FirebaseMessagingWrapper();
   final OverlaySupportWrapper overlaySupportWrapper = OverlaySupportWrapper();
 
 // TODO potentually need to handle this if error
-  await firebaseCoreWrapper.initializeFirebase();
+  await firebaseCoreWrapper.initialize();
+  await firebaseMessagingWrapper.initialize();
 
   FlutterError.onError = (details) {
     loggerWrapper.log(
@@ -42,6 +46,8 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
                 .overrideWith((ref) => firebaseCoreWrapper),
             overlaySupportWrapperProvider
                 .overrideWith((ref) => overlaySupportWrapper),
+            firebaseMessagingWrapperProvider
+                .overrideWith((ref) => firebaseMessagingWrapper),
           ],
           observers: [
             AppRiverpodObserver(

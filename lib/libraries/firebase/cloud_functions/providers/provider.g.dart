@@ -6,19 +6,22 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$matchesServiceHash() => r'053c6b4423bbb2d638c315a5886f4ca34236fdaf';
+String _$firebaseFunctionsWrapperHash() =>
+    r'3e83bb78a3d96b5fb558a311dbef448e0d284195';
 
-/// See also [matchesService].
-@ProviderFor(matchesService)
-final matchesServiceProvider = AutoDisposeProvider<MatchesService>.internal(
-  matchesService,
-  name: r'matchesServiceProvider',
+/// See also [firebaseFunctionsWrapper].
+@ProviderFor(firebaseFunctionsWrapper)
+final firebaseFunctionsWrapperProvider =
+    AutoDisposeProvider<FirebaseFunctionsWrapper>.internal(
+  firebaseFunctionsWrapper,
+  name: r'firebaseFunctionsWrapperProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$matchesServiceHash,
+      : _$firebaseFunctionsWrapperHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef MatchesServiceRef = AutoDisposeProviderRef<MatchesService>;
+typedef FirebaseFunctionsWrapperRef
+    = AutoDisposeProviderRef<FirebaseFunctionsWrapper>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

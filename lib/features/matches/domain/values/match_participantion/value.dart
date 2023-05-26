@@ -26,6 +26,20 @@ class MatchParticipationValue with _$MatchParticipationValue {
 
 // TODO move to extensions
 extension MatchParticipationValueExtension on MatchParticipationValue {
+  Map<String, dynamic> toInvidationNotificationMap({
+    required String matchId,
+    required String matchName,
+  }) {
+    final Map<String, dynamic> map = {
+      "playerId": playerId,
+      "matchId": matchId,
+      "matchName": matchName,
+    };
+
+    return map;
+  }
+
+  //
   Map<String, dynamic> toFirestoreMap() {
     final Timestamp? expiresAt = status == MatchParticipantStatus.invited
         ? Timestamp.fromDate(

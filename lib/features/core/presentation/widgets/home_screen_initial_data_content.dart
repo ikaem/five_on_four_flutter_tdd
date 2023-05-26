@@ -104,6 +104,7 @@ class HomeScreenInitialDataContent extends StatelessWidget {
 
 // TODO deleete this eventually
 
+//  TODO convert to stateless eventually
 class TestNotificationsContainer extends StatefulWidget {
   const TestNotificationsContainer({
     super.key,
@@ -121,7 +122,7 @@ class _TestNotificationsContainerState
   @override
   void initState() {
     super.initState();
-    _testRegisterNotification();
+    // _testRegisterNotification();
   }
 
   @override

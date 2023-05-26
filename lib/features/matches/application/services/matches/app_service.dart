@@ -14,6 +14,7 @@ import 'package:five_on_four_flutter_tdd/features/matches/utils/extensions/match
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/domain/models/weather/model.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/domain/repositories_interfaces/weather_repository.dart';
+import 'package:five_on_four_flutter_tdd/libraries/firebase/cloud_functions/cloud_functions_wrapper.dart';
 import 'package:five_on_four_flutter_tdd/libraries/geocoding/location_wrapper.dart';
 
 class MatchesAppService extends MatchesService with MatchesServiceMixin {
@@ -22,20 +23,23 @@ class MatchesAppService extends MatchesService with MatchesServiceMixin {
     required AuthStatusRepository authStatusRepository,
     required WeatherRepository weatherRepository,
     required LocationWrapper locationWrapper,
+    required FirebaseFunctionsWrapper firebaseFunctionsWrapper,
   })  : _weatherRepository = weatherRepository,
-        matchesRepository = matchesRepository,
-        authStatusRepository = authStatusRepository,
-        locationWrapper = locationWrapper;
+        _matchesRepository = matchesRepository,
+        _authStatusRepository = authStatusRepository,
+        _firebaseFunctionsWrapper = firebaseFunctionsWrapper,
+        _locationWrapper = locationWrapper;
 
-  final MatchesRepository matchesRepository;
-  final AuthStatusRepository authStatusRepository;
-  final LocationWrapper locationWrapper;
+  final MatchesRepository _matchesRepository;
+  final AuthStatusRepository _authStatusRepository;
+  final LocationWrapper _locationWrapper;
   final WeatherRepository _weatherRepository;
   // TODO probably get some network status service or repository here
+  final FirebaseFunctionsWrapper _firebaseFunctionsWrapper;
 
   @override
   Future<MatchInfoModel> handleGetMatchInfo(String matchId) async {
-    final MatchModel match = await matchesRepository.getMatch(matchId);
+    final MatchModel match = await _matchesRepository.getMatch(matchId);
 
     final bool shouldWeatherBeRetrieved = checkShouldWeatherBeRetrieved(
       matchDate: match.date,
@@ -62,7 +66,8 @@ class MatchesAppService extends MatchesService with MatchesServiceMixin {
   Future<String> handleCreateMatch(NewMatchValue data) async {
     NewMatchValue matchData = data;
     // TOOD i could get sync value from this, if I used value or null or subject
-    final AuthModel? currentPlayer = await authStatusRepository.getAuthStatus();
+    final AuthModel? currentPlayer =
+        await _authStatusRepository.getAuthStatus();
     if (currentPlayer == null) {
       // TODO this needs maybe to logout
       throw "Something";
@@ -79,14 +84,20 @@ class MatchesAppService extends MatchesService with MatchesServiceMixin {
       matchData = data.addParticipation(participation);
     }
 
-    final String id = await matchesRepository.createMatch(
-        matchData: matchData, currentPlayer: currentPlayer.player);
+    final String id = await _matchesRepository.createMatch(
+      matchData: matchData,
+      currentPlayer: currentPlayer.player,
+    );
+
+    // now, we could actually send invitations too
+    final List<MatchParticipationValue> matchInvitations = data.invitedPlayers;
 
     return id;
   }
 
   Future<void> handleJoinMatch(MatchModel match) async {
-    final AuthModel? currentPlayer = await authStatusRepository.getAuthStatus();
+    final AuthModel? currentPlayer =
+        await _authStatusRepository.getAuthStatus();
     if (currentPlayer == null) {
       // TODO this needs maybe to logout
       throw "Something";
@@ -104,7 +115,7 @@ class MatchesAppService extends MatchesService with MatchesServiceMixin {
 // TODO maybe we dont need two functions if we have status on the participation
 // TODO come back to this
     if (!hasPlayerJoinedMatch) {
-      await matchesRepository.joinMatch(
+      await _matchesRepository.joinMatch(
         matchId: match.id,
         matchParticipation: participation,
       );
@@ -112,7 +123,7 @@ class MatchesAppService extends MatchesService with MatchesServiceMixin {
       return;
     }
 
-    await matchesRepository.unjoinMatch(
+    await _matchesRepository.unjoinMatch(
       matchId: match.id,
       matchParticipation: participation,
     );
@@ -121,7 +132,7 @@ class MatchesAppService extends MatchesService with MatchesServiceMixin {
 // TODO not sure this should be here. maybe we can just pass current player to the controller
   @override
   bool checkHasPlayerJoinedMatch(MatchModel match) {
-    final AuthModel? auth = authStatusRepository.getAuthStatus();
+    final AuthModel? auth = _authStatusRepository.getAuthStatus();
     if (auth == null) {
       // TODO this needs maybe to logout
       throw "Something";
@@ -148,7 +159,7 @@ class MatchesAppService extends MatchesService with MatchesServiceMixin {
     // TODO this will decide where to search from - local or remote
     // TODO this could also be a stream generator
     final List<MatchModel> matches =
-        await matchesRepository.getSearchedMatches(filters);
+        await _matchesRepository.getSearchedMatches(filters);
 
     return matches;
   }
@@ -158,7 +169,7 @@ class MatchesAppService extends MatchesService with MatchesServiceMixin {
     required String address,
     required String city,
   }) async {
-    final LocationModel? location = await locationWrapper.getLocationForPlace(
+    final LocationModel? location = await _locationWrapper.getLocationForPlace(
       address: address,
       city: city,
     );
@@ -171,9 +182,21 @@ class MatchesAppService extends MatchesService with MatchesServiceMixin {
     RegionCoordinatesBoundariesValue boundaries,
   ) async {
     final List<MatchModel> matches =
-        await matchesRepository.getMatchesInRegion(boundaries);
+        await _matchesRepository.getMatchesInRegion(boundaries);
 
     return matches;
+  }
+
+  // TODO this could go to a mixin
+  // TODO test
+  Future<void> _sendMatchInvitationNotifications({
+    required String functionName,
+    required List<Map<String, dynamic>> notificationsData,
+  }) async {
+    await _firebaseFunctionsWrapper.sendNotifications(
+      functionName: functionName,
+      data: notificationsData,
+    );
   }
 }
 
