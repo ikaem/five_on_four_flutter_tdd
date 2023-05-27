@@ -10,13 +10,13 @@ class OverlaySupportWrapper {
     return OverlaySupport.local(child: child);
   }
 
-  void showToast(
+  void showNotificationMessage(
     String message,
   ) {
     toast(message);
   }
 
-  void showWidgetNotification(Widget content) {
+  void showNotificationWidget(Widget content) {
     showSimpleNotification(content);
   }
 }

@@ -26,7 +26,7 @@ class MatchParticipationValue with _$MatchParticipationValue {
 
 // TODO move to extensions
 extension MatchParticipationValueExtension on MatchParticipationValue {
-  Map<String, dynamic> toInvidationNotificationMap({
+  Map<String, dynamic> toInvitationNotificationDataMap({
     required String matchId,
     required String matchName,
   }) {

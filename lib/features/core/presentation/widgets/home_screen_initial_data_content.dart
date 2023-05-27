@@ -214,7 +214,7 @@ class _TestNotificationsContainerState
       final String? messageTitle = message.notification?.title;
       if (messageTitle == null) return;
 
-      overlaySupportWrapper.showWidgetNotification(Text(messageTitle));
+      overlaySupportWrapper.showNotificationWidget(Text(messageTitle));
     });
   }
 }

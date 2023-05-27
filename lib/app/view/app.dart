@@ -2,6 +2,7 @@ import 'package:five_on_four_flutter_tdd/features/auth/presentation/state/contro
 import 'package:five_on_four_flutter_tdd/features/auth/presentation/state/controllers/auth_status_new/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/initial_data/providers/app_controller/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/notifications_listener/providers/provider.dart';
+import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/notification_widget.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/constants/app_constants.dart';
 import 'package:five_on_four_flutter_tdd/libraries/overlay_support/overlay_suppport_wrapper.dart';
 import 'package:five_on_four_flutter_tdd/libraries/overlay_support/providers/provider.dart';
@@ -37,8 +38,10 @@ class _AppState extends ConsumerState<App> {
   @override
   Widget build(BuildContext widgetContext) {
     // TODO this should be using a widget
-    ref.listen(notificationsListenerAppControllerProvider,
-        _onNotificationsListenerListen);
+    ref.listen(
+      notificationsListenerAppControllerProvider,
+      _onNotificationsListenerListen,
+    );
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
@@ -62,15 +65,20 @@ class _AppState extends ConsumerState<App> {
       data: (data) {
         if (data == null) return;
 
-        overlaySupportWrapper.showWidgetNotification(Column(
-          children: [
-            Text(data.title),
-            Text(data.body),
-          ],
-        ));
+        overlaySupportWrapper.showNotificationWidget(
+          NotificationWidget(
+            body: data.body,
+            title: data.title,
+          ),
+        );
       },
       error: (error, stackTrace) =>
-          overlaySupportWrapper.showWidgetNotification(Text(error.toString())),
+          overlaySupportWrapper.showNotificationWidget(
+        NotificationWidget.error(
+          body: "",
+          title: "Error showing notification",
+        ),
+      ),
       loading: () => null,
     );
   }

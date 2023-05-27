@@ -1,6 +1,7 @@
 import 'package:five_on_four_flutter_tdd/features/auth/domain/models/auth/model.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfaces/auth_status_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/core/domain/models/location/model.dart';
+import 'package:five_on_four_flutter_tdd/features/core/utils/constants/firebase_functions_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/enums/match_participant_status.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
@@ -17,7 +18,8 @@ import 'package:five_on_four_flutter_tdd/features/weather/domain/repositories_in
 import 'package:five_on_four_flutter_tdd/libraries/firebase/cloud_functions/cloud_functions_wrapper.dart';
 import 'package:five_on_four_flutter_tdd/libraries/geocoding/location_wrapper.dart';
 
-class MatchesAppService extends MatchesService with MatchesServiceMixin {
+class MatchesAppService extends MatchesService
+    with MatchesServiceWeatherMixin, MatchesServiceNotificationsMixin {
   const MatchesAppService({
     required MatchesRepository matchesRepository,
     required AuthStatusRepository authStatusRepository,
@@ -34,7 +36,6 @@ class MatchesAppService extends MatchesService with MatchesServiceMixin {
   final AuthStatusRepository _authStatusRepository;
   final LocationWrapper _locationWrapper;
   final WeatherRepository _weatherRepository;
-  // TODO probably get some network status service or repository here
   final FirebaseFunctionsWrapper _firebaseFunctionsWrapper;
 
   @override
@@ -48,7 +49,6 @@ class MatchesAppService extends MatchesService with MatchesServiceMixin {
 
     final WeatherModel? weather = shouldWeatherBeRetrieved
         ? await _weatherRepository.getWeatherForCoordinates(
-            // TODO make this non-nullable
             latitude: match.location.cityLatitude,
             longitude: match.location.cityLongitude,
           )
@@ -89,8 +89,16 @@ class MatchesAppService extends MatchesService with MatchesServiceMixin {
       currentPlayer: currentPlayer.player,
     );
 
-    // now, we could actually send invitations too
     final List<MatchParticipationValue> matchInvitations = data.invitedPlayers;
+    final String matchName = data.name;
+
+    await sendMatchInvitationNotifications(
+        matchId: id,
+        matchInvitations: matchInvitations,
+        functionName: FirebaseFunctionsConstants
+            .firebaseFunctionSendMatchInvitationNotifications,
+        matchName: matchName,
+        firebaseFunctionsWrapper: _firebaseFunctionsWrapper);
 
     return id;
   }
@@ -186,22 +194,35 @@ class MatchesAppService extends MatchesService with MatchesServiceMixin {
 
     return matches;
   }
-
-  // TODO this could go to a mixin
-  // TODO test
-  Future<void> _sendMatchInvitationNotifications({
-    required String functionName,
-    required List<Map<String, dynamic>> notificationsData,
-  }) async {
-    await _firebaseFunctionsWrapper.sendNotifications(
-      functionName: functionName,
-      data: notificationsData,
-    );
-  }
 }
 
 // TODO move to mixins
-mixin MatchesServiceMixin on MatchesService {
+mixin MatchesServiceNotificationsMixin on MatchesService {
+  Future<void> sendMatchInvitationNotifications({
+    required String functionName,
+    required List<MatchParticipationValue> matchInvitations,
+    required String matchId,
+    required String matchName,
+    required FirebaseFunctionsWrapper firebaseFunctionsWrapper,
+  }) async {
+    final List<Map<String, dynamic>> invitationNotificationsData =
+        matchInvitations.map((invitation) {
+      final Map<String, dynamic> notificationData =
+          invitation.toInvitationNotificationDataMap(
+        matchId: matchId,
+        matchName: matchName,
+      );
+
+      return notificationData;
+    }).toList();
+
+    await firebaseFunctionsWrapper.sendNotifications(
+      functionName: functionName,
+      data: invitationNotificationsData,
+    );
+  }
+}
+mixin MatchesServiceWeatherMixin on MatchesService {
   bool checkShouldWeatherBeRetrieved({
     required DateTime matchDate,
     required MatchLocationModel location,

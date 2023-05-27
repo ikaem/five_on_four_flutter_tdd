@@ -8,14 +8,14 @@ import Joi = require('joi');
 import { Message as FullMessage } from 'firebase-admin/lib/messaging/messaging-api';
 // import { runWith } from 'firebase-functions/v1';
 
-interface Body {
-  matchId: string;
-  matchName: string;
+interface SendMatchNotificationsBody {
   invitations: Invitation[];
 }
 interface Invitation {
-  invitationId: string;
-  userId: string;
+  // invitationId: string;
+  playerId: string;
+  matchId: string;
+  matchName: string;
 }
 
 // interface for notification
@@ -29,14 +29,15 @@ interface MatchInvitationNotification {
   deviceToken: string;
 }
 
-const bodySchema: Joi.ObjectSchema<Body> = Joi.object({
-  matchName: Joi.string().required(),
-  matchId: Joi.string().required(),
+const bodySchema: Joi.ObjectSchema<SendMatchNotificationsBody> = Joi.object({
   invitations: Joi.array<Invitation[]>()
     .items(
       Joi.object<Invitation>({
-        invitationId: Joi.string().required(),
-        userId: Joi.string().required(),
+        // TODO we should probably have invitaiton id here, to make sure that this invitaiton exists - iut is tricky to get it in the client though, so maybe we can get it from exsting data on the backend side
+        // invitationId: Joi.string().required(),
+        playerId: Joi.string().required(),
+        matchName: Joi.string().required(),
+        matchId: Joi.string().required(),
       })
     )
     .required(),
@@ -63,7 +64,7 @@ export const sendMatchInvitationNotifications = region(
     return;
   }
 
-  const { invitations, matchId, matchName } = value;
+  const { invitations } = value;
   if (invitations.length == 0) {
     response.status(400).send('No invitations submitted');
     return;
@@ -96,7 +97,7 @@ export const sendMatchInvitationNotifications = region(
   const matchInvitationNotificationFutures: Promise<MatchInvitationNotification | null>[] =
     invitations.map(async (invitation) => {
       const playerDocSnapshot = await collections.players
-        .doc(invitation.userId)
+        .doc(invitation.playerId)
         .get();
       const playerDocData = playerDocSnapshot.data();
 
@@ -108,9 +109,9 @@ export const sendMatchInvitationNotifications = region(
         title: 'Match invitation',
         message: `${name} invited you to a match`,
         invitedBy: name ?? 'A fellow player',
-        matchName,
-        playerId: uid,
-        matchId,
+        matchName: invitation.matchName,
+        playerId: playerDocSnapshot.id,
+        matchId: invitation.matchId,
         deviceToken,
       };
 
@@ -125,10 +126,6 @@ export const sendMatchInvitationNotifications = region(
       matchInvitationNotifications.filter(
         (notification) => notification !== null
       ) as MatchInvitationNotification[];
-    // const matchInvitationNotificationsDeviceTokens: string[] =
-    //   matchInvitationNotificationsFiltered.map(
-    //     (notification) => notification.deviceToken
-    //   );
 
     const matchInvitationFullMessages: FullMessage[] =
       matchInvitationNotificationsFiltered.map((notification) => {
