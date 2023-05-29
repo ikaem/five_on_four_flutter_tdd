@@ -6,6 +6,8 @@ import 'package:five_on_four_flutter_tdd/features/matches/data/repositories/matc
 import 'package:five_on_four_flutter_tdd/features/matches/domain/repositories_interfaces/matches_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/data/repositories/weather/providers/app_repository/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/domain/repositories_interfaces/weather_repository.dart';
+import 'package:five_on_four_flutter_tdd/libraries/firebase/cloud_functions/cloud_functions_wrapper.dart';
+import 'package:five_on_four_flutter_tdd/libraries/firebase/cloud_functions/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/libraries/geocoding/location_wrapper.dart';
 import 'package:five_on_four_flutter_tdd/libraries/geocoding/provider/provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -17,18 +19,20 @@ MatchesService matchesService(MatchesServiceRef ref) {
   final LocationWrapper locationWrapper = ref.read(locationWrapperProvider);
   final MatchesRepository matchesRepository =
       ref.read(matchesRepositoryProvider);
-  // TODO not sure if this should be watch or read - read is probably fine, but test
   final AuthStatusRepository authStatusRepository =
-      ref.watch(authStatusRepositoryProvider);
-
+      ref.read(authStatusRepositoryProvider);
   final WeatherRepository weatherRepository =
       ref.read(weatherRepositoryProvider);
+
+  final FirebaseFunctionsWrapper firebaseFunctionsWrapper =
+      ref.read(firebaseFunctionsWrapperProvider);
 
   final MatchesService matchesService = MatchesAppService(
     matchesRepository: matchesRepository,
     authStatusRepository: authStatusRepository,
     locationWrapper: locationWrapper,
     weatherRepository: weatherRepository,
+    firebaseFunctionsWrapper: firebaseFunctionsWrapper,
   );
 
   return matchesService;

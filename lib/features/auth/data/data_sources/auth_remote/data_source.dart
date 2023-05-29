@@ -6,6 +6,7 @@ import 'package:five_on_four_flutter_tdd/features/auth/domain/args/register_cred
 abstract class AuthRemoteDataSource {
   Future<AuthRemoteDTO> login(LoginCredentialsArgs credentials);
   Future<AuthRemoteDTO> register(RegisterCredentialsArgs credentials);
+  // Future<void> registerUserDevice(String userId);
   // TODO this will potentally send some token to logout
   Future<void> logout();
 }

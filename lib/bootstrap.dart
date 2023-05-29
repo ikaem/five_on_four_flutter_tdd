@@ -2,8 +2,12 @@ import 'dart:async';
 
 import 'package:five_on_four_flutter_tdd/libraries/firebase/firebase_core/firebase_core_wrapper.dart';
 import 'package:five_on_four_flutter_tdd/libraries/firebase/firebase_core/providers/provider.dart';
+import 'package:five_on_four_flutter_tdd/libraries/firebase/firebase_messaging/firebase_messaging_wrapper.dart';
+import 'package:five_on_four_flutter_tdd/libraries/firebase/firebase_messaging/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/libraries/libraries.dart';
 import 'package:five_on_four_flutter_tdd/libraries/logger/providers/provider.dart';
+import 'package:five_on_four_flutter_tdd/libraries/overlay_support/overlay_suppport_wrapper.dart';
+import 'package:five_on_four_flutter_tdd/libraries/overlay_support/providers/provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,9 +19,13 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   WidgetsFlutterBinding.ensureInitialized();
   final LoggerWrapper loggerWrapper = LoggerWrapper();
   final FirebaseCoreWrapper firebaseCoreWrapper = FirebaseCoreWrapper();
+  final FirebaseMessagingWrapper firebaseMessagingWrapper =
+      FirebaseMessagingWrapper();
+  final OverlaySupportWrapper overlaySupportWrapper = OverlaySupportWrapper();
 
-// TODO potentually need to handle this if error
-  await firebaseCoreWrapper.initializeFirebase();
+  // FUTURE check for better error handling if one of the initializers fails
+  await firebaseCoreWrapper.initialize();
+  await firebaseMessagingWrapper.initialize();
 
   FlutterError.onError = (details) {
     loggerWrapper.log(
@@ -31,11 +39,15 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
     () async {
       runApp(
         ProviderScope(
-          child: await builder(),
+          child: overlaySupportWrapper.globalWrap(await builder()),
           overrides: [
             loggerWrapperProvider.overrideWith((ref) => loggerWrapper),
             firebaseCoreWrapperProvider
                 .overrideWith((ref) => firebaseCoreWrapper),
+            overlaySupportWrapperProvider
+                .overrideWith((ref) => overlaySupportWrapper),
+            firebaseMessagingWrapperProvider
+                .overrideWith((ref) => firebaseMessagingWrapper),
           ],
           observers: [
             AppRiverpodObserver(

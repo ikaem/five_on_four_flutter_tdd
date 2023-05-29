@@ -1,9 +1,10 @@
 abstract class PlayersFirebaseConstants {
   // collections
-  static const String firestoreCollectionPlayers = 'players';
+  static const String collectionPlayers = 'players';
 
 // fields
-  static const String firestorePlayerFieldNickname = 'nickname';
-  static const String firestorePlayerFieldEmail = 'email';
-  static const String firestorePlayerFieldDocumentId = '__name__';
+  static const String fieldNickname = 'nickname';
+  static const String fieldEmail = 'email';
+  static const String fieldDeviceToken = 'deviceToken';
+  static const String fieldDocumentId = '__name__';
 }

@@ -27,6 +27,22 @@ class PlayersRemoteFakeDataSource implements PlayersRemoteDataSource {
 
     return player;
   }
+
+  @override
+  Future<void> savePlayer(
+      {required Map<String, dynamic> playerData, required String playerId}) {
+    // TODO: implement savePlayer
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> updatePlayerField(
+      {required String playerId,
+      required String fieldName,
+      required fieldValue}) {
+    // TODO: implement updatePlayerField
+    throw UnimplementedError();
+  }
 }
 
 const List<PlayerRemoteDTO> _players = [

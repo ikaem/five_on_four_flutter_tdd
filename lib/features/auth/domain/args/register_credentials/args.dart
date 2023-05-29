@@ -13,9 +13,13 @@ class RegisterCredentialsArgs with _$RegisterCredentialsArgs {
 
   const RegisterCredentialsArgs._();
 
-  Map<String, dynamic> toFirebasePlayerDataMap() => <String, String>{
+  Map<String, dynamic> toFirebasePlayerDataMap({
+    required String? deviceToken,
+  }) =>
+      <String, String>{
         'nickname': nickname,
         'email': email,
+        if (deviceToken != null) 'deviceToken': deviceToken,
       };
 
   // factory RegisterCredentialsArgs.fromJson(Map<String, dynamic> json) =>

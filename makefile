@@ -13,5 +13,8 @@ run-devices:
 validate-deps:
 	flutter pub run dependency_validator
 
-upgrade_deps:
+upgrade-deps:
 	flutter pub upgrade
+
+functions-deploy:
+	firebase deploy --only functions

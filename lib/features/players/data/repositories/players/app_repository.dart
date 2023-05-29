@@ -40,4 +40,28 @@ class PlayersAppRepository implements PlayersRepository {
 
     return playerModel;
   }
+
+  @override
+  Future<void> savePlayer({
+    required Map<String, dynamic> playerData,
+    required String playerId,
+  }) async {
+    await _playersRemoteDataSource.savePlayer(
+      playerData: playerData,
+      playerId: playerId,
+    );
+  }
+
+  @override
+  Future<void> updatePlayerField({
+    required String playerId,
+    required String fieldName,
+    required fieldValue,
+  }) async {
+    await _playersRemoteDataSource.updatePlayerField(
+      playerId: playerId,
+      fieldName: fieldName,
+      fieldValue: fieldValue,
+    );
+  }
 }

@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/application/services/auth/providers/app_service/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/application/services/auth/service.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/domain/models/auth/model.dart';
@@ -47,5 +49,9 @@ class AuthStatusNewAppController extends ChangeNotifier
 
   Future<void> _checkAuth() async {
     await authService.checkAuth();
+
+    // TODO test only - remove in production
+    final authToken = await FirebaseAuth.instance.currentUser?.getIdToken();
+    log(authToken ?? "");
   }
 }

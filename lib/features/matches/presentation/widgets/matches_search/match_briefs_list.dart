@@ -9,6 +9,7 @@ class MatchBriefsList extends StatelessWidget {
   const MatchBriefsList({
     super.key,
     required this.matches,
+    // FUTURE: make title optional here
     required this.title,
   });
 
@@ -43,7 +44,6 @@ class MatchBriefsList extends StatelessWidget {
           ),
           Expanded(
             child: ListView.separated(
-              // shrinkWrap: true,
               separatorBuilder: (context, index) {
                 return SizedBox(
                   height: SpacingConstants.small,
