@@ -14,7 +14,10 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
+    // TODO original
     project: ['tsconfig.json', 'tsconfig.dev.json'],
+    // TODO this might not work when deployed
+    // project: ['./functions/tsconfig.json', './functions/tsconfig.dev.json'],
     sourceType: 'module',
   },
   ignorePatterns: [

@@ -113,9 +113,11 @@ class MatchInfoBriefOverview extends StatelessWidget {
                 ),
                 // TODO make this a separate widget in weather feature
                 if (weather != null)
-                  WeatherBriefInfo(
-                    weather: weather,
-                    orientation: Axis.vertical,
+                  Expanded(
+                    child: WeatherBriefInfo(
+                      weather: weather,
+                      orientation: Axis.vertical,
+                    ),
                   ),
               ],
             ),

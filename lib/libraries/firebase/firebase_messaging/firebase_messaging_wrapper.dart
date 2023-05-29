@@ -2,9 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/notifications_listener/providers/provider.dart';
 
 class FirebaseMessagingWrapper {
-  // TODO this should also request permission on initialization
-  // for now, this is done by firebase_messaging package
-  // later, do it with permissions_handler package
+  // FUTURE use permission handler later to request permission on initialization
 
   late final FirebaseMessaging _firebaseMessaging;
   FirebaseMessaging get firebaseMessaging => _firebaseMessaging;
@@ -28,22 +26,16 @@ class FirebaseMessagingWrapper {
     _isPermissionGranted = isPermissionGranted;
   }
 
-// TODO make sure for auth part, this is also consumed by service, not by provider
-// TODO not sure if this should be here
   Future<String?> getDeviceToken() async {
     final String? token = await firebaseMessaging.getToken();
 
     return token;
   }
 
-  // TODO we now want to expose the stream only if the user has granted permission
-
-// TODO later, convert this to a new type that the app can use better
   Stream<NotificationEntity> getReceivedNotificationsStream() {
-    // TODO lets just trow error, see what is up
-    // TODO not sure if i should be throwing error here, isntead of in the service?
+    // FUTURE make sure this is caught by the ui controller
     if (!_isPermissionGranted) {
-      // TODO make better error
+      // FUTURE make better error
       throw Exception("Permission not granted");
     }
 

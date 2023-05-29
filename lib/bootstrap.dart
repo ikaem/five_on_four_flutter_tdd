@@ -23,7 +23,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
       FirebaseMessagingWrapper();
   final OverlaySupportWrapper overlaySupportWrapper = OverlaySupportWrapper();
 
-// TODO potentually need to handle this if error
+  // FUTURE check for better error handling if one of the initializers fails
   await firebaseCoreWrapper.initialize();
   await firebaseMessagingWrapper.initialize();
 

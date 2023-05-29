@@ -3,7 +3,6 @@ import 'package:five_on_four_flutter_tdd/features/players/domain/values/players_
 import 'package:five_on_four_flutter_tdd/features/players/presentation/state/controllers/players_search/providers/provider.dart';
 
 abstract class PlayersRepository {
-  // TODO in future, this might even be a stream - so that we initially get local data, while loading, and then we would get actual remote data
   Future<List<PlayerModel>> getSearchedPlayers({
     required PlayersSearchFiltersValue filters,
     required PlayersSearchOptions options,
@@ -11,4 +10,15 @@ abstract class PlayersRepository {
   });
 
   Future<PlayerModel> getPlayer(String playerId);
+
+  Future<void> savePlayer({
+    required Map<String, dynamic> playerData,
+    required String playerId,
+  });
+
+  Future<void> updatePlayerField({
+    required String playerId,
+    required String fieldName,
+    required dynamic fieldValue,
+  });
 }

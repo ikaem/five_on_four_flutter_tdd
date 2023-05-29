@@ -19,9 +19,8 @@ MatchesService matchesService(MatchesServiceRef ref) {
   final LocationWrapper locationWrapper = ref.read(locationWrapperProvider);
   final MatchesRepository matchesRepository =
       ref.read(matchesRepositoryProvider);
-  // TODO not sure if this should be watch or read - read is probably fine, but test
   final AuthStatusRepository authStatusRepository =
-      ref.watch(authStatusRepositoryProvider);
+      ref.read(authStatusRepositoryProvider);
   final WeatherRepository weatherRepository =
       ref.read(weatherRepositoryProvider);
 

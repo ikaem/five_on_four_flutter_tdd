@@ -1,4 +1,9 @@
 abstract class FirebaseFunctionsConstants {
-  static const String firebaseFunctionSendMatchInvitationNotifications =
+  // functions
+
+  static const String functionSendMatchInvitationNotifications =
       "sendMatchInvitationNotifications";
+
+  // regions
+  static const String regionEuropeWest3 = "europe-west3";
 }

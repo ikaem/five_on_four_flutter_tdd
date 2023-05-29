@@ -10,4 +10,13 @@ abstract class PlayersRemoteDataSource {
   });
 
   Future<PlayerRemoteDTO> getPlayer(String playerId);
+  Future<void> savePlayer({
+    required Map<String, dynamic> playerData,
+    required String playerId,
+  });
+  Future<void> updatePlayerField({
+    required String playerId,
+    required String fieldName,
+    required dynamic fieldValue,
+  });
 }

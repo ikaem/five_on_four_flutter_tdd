@@ -20,7 +20,7 @@ class AuthAppRepository implements AuthRepository {
     final AuthLocalDTO? localDTO = await localDataSource.getAuth();
     if (localDTO == null) return null;
 
-    await remoteDataSource.registerUserDevice(localDTO.id);
+    // await remoteDataSource.registerUserDevice(localDTO.id);
 
     final AuthModel authModel = AuthModel.fromLocalDTO(localDTO);
 

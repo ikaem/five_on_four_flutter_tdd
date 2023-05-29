@@ -3,6 +3,7 @@ import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfa
 import 'package:five_on_four_flutter_tdd/features/core/domain/models/location/model.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/constants/firebase_functions_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service_mixin.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/enums/match_participant_status.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match_info/model.dart';
@@ -15,11 +16,12 @@ import 'package:five_on_four_flutter_tdd/features/matches/utils/extensions/match
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/domain/models/weather/model.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/domain/repositories_interfaces/weather_repository.dart';
+import 'package:five_on_four_flutter_tdd/features/weather/utils/mixins/weather_mixin.dart';
 import 'package:five_on_four_flutter_tdd/libraries/firebase/cloud_functions/cloud_functions_wrapper.dart';
 import 'package:five_on_four_flutter_tdd/libraries/geocoding/location_wrapper.dart';
 
 class MatchesAppService extends MatchesService
-    with MatchesServiceWeatherMixin, MatchesServiceNotificationsMixin {
+    with WeatherMixin, MatchesServiceMixin {
   const MatchesAppService({
     required MatchesRepository matchesRepository,
     required AuthStatusRepository authStatusRepository,
@@ -65,15 +67,13 @@ class MatchesAppService extends MatchesService
   @override
   Future<String> handleCreateMatch(NewMatchValue data) async {
     NewMatchValue matchData = data;
-    // TOOD i could get sync value from this, if I used value or null or subject
-    final AuthModel? currentPlayer =
-        await _authStatusRepository.getAuthStatus();
+    final AuthModel? currentPlayer = _authStatusRepository.getAuthStatus();
     if (currentPlayer == null) {
-      // TODO this needs maybe to logout
+      // FUTURE: throw proper exception
+      // FUTURE: maybe logout, but maybe is not needed
       throw "Something";
     }
 
-    // join player if they are not already joined
     if (data.isOrganizerJoined) {
       final MatchParticipationValue participation =
           MatchParticipationValue.fromPlayerModel(
@@ -95,8 +95,8 @@ class MatchesAppService extends MatchesService
     await sendMatchInvitationNotifications(
         matchId: id,
         matchInvitations: matchInvitations,
-        functionName: FirebaseFunctionsConstants
-            .firebaseFunctionSendMatchInvitationNotifications,
+        functionName:
+            FirebaseFunctionsConstants.functionSendMatchInvitationNotifications,
         matchName: matchName,
         firebaseFunctionsWrapper: _firebaseFunctionsWrapper);
 
@@ -107,7 +107,8 @@ class MatchesAppService extends MatchesService
     final AuthModel? currentPlayer =
         await _authStatusRepository.getAuthStatus();
     if (currentPlayer == null) {
-      // TODO this needs maybe to logout
+      // FUTURE: throw proper exception
+      // FUTURE: maybe logout, but maybe is not needed
       throw "Something";
     }
 
@@ -120,8 +121,7 @@ class MatchesAppService extends MatchesService
           : MatchParticipantStatus.joined,
     );
 
-// TODO maybe we dont need two functions if we have status on the participation
-// TODO come back to this
+// FUUTURE: check if we can have only one function for both join and unjoin
     if (!hasPlayerJoinedMatch) {
       await _matchesRepository.joinMatch(
         matchId: match.id,
@@ -142,7 +142,8 @@ class MatchesAppService extends MatchesService
   bool checkHasPlayerJoinedMatch(MatchModel match) {
     final AuthModel? auth = _authStatusRepository.getAuthStatus();
     if (auth == null) {
-      // TODO this needs maybe to logout
+      // FUTURE: throw proper exception
+      // FUTURE: maybe logout, but maybe is not needed
       throw "Something";
     }
 
@@ -164,8 +165,6 @@ class MatchesAppService extends MatchesService
   Future<List<MatchModel>> handleSearchMatches(
     MatchesSearchFiltersValue filters,
   ) async {
-    // TODO this will decide where to search from - local or remote
-    // TODO this could also be a stream generator
     final List<MatchModel> matches =
         await _matchesRepository.getSearchedMatches(filters);
 
@@ -193,51 +192,5 @@ class MatchesAppService extends MatchesService
         await _matchesRepository.getMatchesInRegion(boundaries);
 
     return matches;
-  }
-}
-
-// TODO move to mixins
-mixin MatchesServiceNotificationsMixin on MatchesService {
-  Future<void> sendMatchInvitationNotifications({
-    required String functionName,
-    required List<MatchParticipationValue> matchInvitations,
-    required String matchId,
-    required String matchName,
-    required FirebaseFunctionsWrapper firebaseFunctionsWrapper,
-  }) async {
-    final List<Map<String, dynamic>> invitationNotificationsData =
-        matchInvitations.map((invitation) {
-      final Map<String, dynamic> notificationData =
-          invitation.toInvitationNotificationDataMap(
-        matchId: matchId,
-        matchName: matchName,
-      );
-
-      return notificationData;
-    }).toList();
-
-    await firebaseFunctionsWrapper.sendNotifications(
-      functionName: functionName,
-      data: invitationNotificationsData,
-    );
-  }
-}
-mixin MatchesServiceWeatherMixin on MatchesService {
-  bool checkShouldWeatherBeRetrieved({
-    required DateTime matchDate,
-    required MatchLocationModel location,
-  }) {
-    final bool isLocationWithCoordinates =
-        location.cityLatitude != null && location.cityLongitude != null;
-    if (!isLocationWithCoordinates) return false;
-
-    final DateTime now = DateTime.now();
-    final DateTime nowPlus14Days = now.add(const Duration(days: 14));
-
-    if (matchDate.isAfter(nowPlus14Days)) {
-      return false;
-    }
-
-    return true;
   }
 }
