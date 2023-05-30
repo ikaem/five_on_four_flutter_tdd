@@ -50,8 +50,11 @@ class AppRouter {
 
       if (isAuthenticated) {
         switch (state.location) {
-          case AppRoutes.loginScreenPath:
           case AppRoutes.registerScreenPath:
+            {
+              return AppRoutes.preferencesScreenPath;
+            }
+          case AppRoutes.loginScreenPath:
           case AppRoutes.splashScreenPath:
             return AppRoutes.homeScreenRouteValue.path;
 

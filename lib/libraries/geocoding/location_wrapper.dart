@@ -1,8 +1,8 @@
-import 'package:five_on_four_flutter_tdd/features/core/domain/models/location/model.dart';
+import 'package:five_on_four_flutter_tdd/features/core/domain/models/coordinates/model.dart';
 import 'package:geocoding/geocoding.dart';
 
 class LocationWrapper {
-  Future<LocationModel?> getLocationForPlace({
+  Future<CoordinatesModel?> getLocationForPlace({
     required String address,
     required String city,
   }) async {
@@ -10,8 +10,8 @@ class LocationWrapper {
     try {
       final List<Location> locationResults = await locationFromAddress(city);
 
-      final LocationModel location =
-          LocationModel.fromGeocodingLocation(locationResults.first);
+      final CoordinatesModel location =
+          CoordinatesModel.fromGeocodingLocation(locationResults.first);
 
       return location;
     } catch (e) {

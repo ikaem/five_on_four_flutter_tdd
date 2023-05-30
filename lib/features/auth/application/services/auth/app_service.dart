@@ -4,6 +4,7 @@ import 'package:five_on_four_flutter_tdd/features/auth/domain/args/register_cred
 import 'package:five_on_four_flutter_tdd/features/auth/domain/models/auth/model.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfaces/auth_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfaces/auth_status_repository.dart';
+import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/repository_interfaces/players_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/players/utils/constants/players_firebase_constants.dart';
 import 'package:five_on_four_flutter_tdd/libraries/firebase/firebase_messaging/firebase_messaging_wrapper.dart';
@@ -46,6 +47,16 @@ class AuthAppService implements AuthService {
       );
     }
 
+    // TODO getting full user here to make sure we can extract preferences from them
+    final bool shouldFetchFullUser = auth != null;
+    if (shouldFetchFullUser) {
+      final String playerId = auth.player.id;
+      final PlayerModel player = await _playersRepository.getPlayer(playerId);
+
+      // now we can set all preferences initially from the player
+    }
+
+// FUTURE auth should only be auth info - not actual player info
     _authStatusRepository.setAuth(auth);
   }
 

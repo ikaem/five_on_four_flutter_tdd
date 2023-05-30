@@ -3,9 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 
+// FUTURE this should probably be a value object
 @immutable
-class LocationModel {
-  const LocationModel({
+class CoordinatesModel {
+  const CoordinatesModel({
     required this.latitude,
     required this.longitude,
   });
@@ -13,8 +14,8 @@ class LocationModel {
   final double latitude;
   final double longitude;
 
-  factory LocationModel.fromGeocodingLocation(Location geocodingLocation) {
-    final LocationModel locationModel = LocationModel(
+  factory CoordinatesModel.fromGeocodingLocation(Location geocodingLocation) {
+    final CoordinatesModel locationModel = CoordinatesModel(
       latitude: geocodingLocation.latitude,
       longitude: geocodingLocation.longitude,
     );

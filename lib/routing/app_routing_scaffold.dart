@@ -1,4 +1,5 @@
 import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
+import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -22,6 +23,8 @@ class _AppRoutingScaffoldState extends State<AppRoutingScaffold> {
     return Scaffold(
       body: widget.currentSubrouteWidgetContent,
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: ColorConstants.red,
+        unselectedItemColor: ColorConstants.yellow,
         currentIndex: _currentIndex,
         items: _bottomNavigationBarItems,
         onTap: _onBarItemTap(context),
@@ -33,6 +36,8 @@ class _AppRoutingScaffoldState extends State<AppRoutingScaffold> {
         if (index == 0) context.goNamed(AppRoutes.homeScreenRouteValue.name);
         if (index == 1) context.goNamed(AppRoutes.matchesScreenRouteValue.name);
         if (index == 2) context.goNamed(AppRoutes.playersScreenRouteValue.name);
+        if (index == 3)
+          context.goNamed(AppRoutes.preferencesScreenRouteValue.name);
       };
 
   final List<BottomNavigationBarItem> _bottomNavigationBarItems = [
@@ -48,6 +53,10 @@ class _AppRoutingScaffoldState extends State<AppRoutingScaffold> {
       icon: const Icon(Icons.directions_run),
       label: AppRoutes.playersScreenRouteValue.name,
     ),
+    BottomNavigationBarItem(
+      icon: const Icon(Icons.person),
+      label: AppRoutes.preferencesScreenRouteValue.name,
+    ),
   ];
 
   int _generateBarIndexFromLocation(BuildContext context) {
@@ -57,10 +66,12 @@ class _AppRoutingScaffoldState extends State<AppRoutingScaffold> {
     final homePath = AppRoutes.homeScreenRouteValue.path;
     final matchesPath = AppRoutes.matchesScreenRouteValue.path;
     final playersPath = AppRoutes.playersScreenRouteValue.path;
+    final preferencesPath = AppRoutes.preferencesScreenRouteValue.path;
 
     if (location == homePath) return 0;
     if (location == matchesPath) return 1;
     if (location == playersPath) return 2;
+    if (location == preferencesPath) return 3;
 
     return 0;
   }

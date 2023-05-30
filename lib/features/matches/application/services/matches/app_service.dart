@@ -1,6 +1,6 @@
 import 'package:five_on_four_flutter_tdd/features/auth/domain/models/auth/model.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfaces/auth_status_repository.dart';
-import 'package:five_on_four_flutter_tdd/features/core/domain/models/location/model.dart';
+import 'package:five_on_four_flutter_tdd/features/core/domain/models/coordinates/model.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/constants/firebase_functions_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service_mixin.dart';
@@ -172,11 +172,12 @@ class MatchesAppService extends MatchesService
   }
 
   @override
-  Future<LocationModel?> handleGetLocationForMatchCity({
+  Future<CoordinatesModel?> handleGetLocationForMatchCity({
     required String address,
     required String city,
   }) async {
-    final LocationModel? location = await _locationWrapper.getLocationForPlace(
+    final CoordinatesModel? location =
+        await _locationWrapper.getLocationForPlace(
       address: address,
       city: city,
     );

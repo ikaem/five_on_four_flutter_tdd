@@ -21,7 +21,9 @@ class AppBarMoreActions extends ConsumerWidget {
           case AppBarMoreAction.logout:
             logoutController.onLogout();
             break;
-
+          // case AppBarMoreAction.preferences:
+          //   context.pushNamed(AppRoutes.preferencesScreenRouteValue.name);
+          //   break;
           default:
             return;
         }
@@ -31,7 +33,12 @@ class AppBarMoreActions extends ConsumerWidget {
           PopupMenuItem<AppBarMoreAction>(
             value: AppBarMoreAction.logout,
             child: Text("Logout"),
-          )
+          ),
+          // FUTURE remove this option if on preferences screen / route already
+          // PopupMenuItem<AppBarMoreAction>(
+          //   value: AppBarMoreAction.preferences,
+          //   child: Text("Preferences"),
+          // ),
         ];
       },
     );
