@@ -42,7 +42,11 @@ class GeocodingWrapper {
     }
 
     final Placemark placemark = placemarks.first;
-    final String placeName = placemark.name ?? "";
+    final String placeName = placemark.locality ??
+        placemark.subAdministrativeArea ??
+        placemark.administrativeArea ??
+        placemark.country ??
+        "";
 
     return LocationValue(
       name: placeName,
