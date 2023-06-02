@@ -1,5 +1,4 @@
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/inputs/streamed_icon_button.dart';
-import 'package:five_on_four_flutter_tdd/features/core/utils/constants/app_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/extensions/build_context_extension.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/match_create/controller.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/match_create/providers/provider.dart';
@@ -133,12 +132,13 @@ class MatchCreateScreenView extends ConsumerWidget {
                 // TODO revert this
                 if (matchId == null) return;
 
-                context.pushReplacementNamed(
-                  AppRoutes.matchInfoScreenRouteValue.name,
-                  pathParameters: {
-                    AppConstants.idKey: matchId,
-                  },
-                );
+// TODO test
+                // context.pushReplacementNamed(
+                //   AppRoutes.matchInfoScreenRouteValue.name,
+                //   pathParameters: {
+                //     AppConstants.idKey: matchId,
+                //   },
+                // );
               },
               error: (error, stackTrace) => context
                   .showSnackBarMessage("There was an issue creating the match"),

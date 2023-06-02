@@ -10,7 +10,7 @@ abstract class PlayerPreferencesRepository {
 
   void setAvatarUrl(String avatarUrl);
   void setPlayerTeam(TeamModel team);
-  void setPlayerCurrentLocation(LocationValue location);
+  void setPlayerCurrentLocation(LocationValue? location);
   void setPlayerRegionSize(int regionSize);
 
   // getters - not sure if this should be streams or real values

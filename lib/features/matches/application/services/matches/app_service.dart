@@ -18,7 +18,7 @@ import 'package:five_on_four_flutter_tdd/features/weather/domain/models/weather/
 import 'package:five_on_four_flutter_tdd/features/weather/domain/repositories_interfaces/weather_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/utils/mixins/weather_mixin.dart';
 import 'package:five_on_four_flutter_tdd/libraries/firebase/cloud_functions/cloud_functions_wrapper.dart';
-import 'package:five_on_four_flutter_tdd/libraries/geocoding/location_wrapper.dart';
+import 'package:five_on_four_flutter_tdd/libraries/geocoding/geocoding_wrapper.dart';
 
 class MatchesAppService extends MatchesService
     with WeatherMixin, MatchesServiceMixin {
@@ -26,7 +26,7 @@ class MatchesAppService extends MatchesService
     required MatchesRepository matchesRepository,
     required AuthStatusRepository authStatusRepository,
     required WeatherRepository weatherRepository,
-    required LocationWrapper locationWrapper,
+    required GeocodingWrapper locationWrapper,
     required FirebaseFunctionsWrapper firebaseFunctionsWrapper,
   })  : _weatherRepository = weatherRepository,
         _matchesRepository = matchesRepository,
@@ -36,7 +36,7 @@ class MatchesAppService extends MatchesService
 
   final MatchesRepository _matchesRepository;
   final AuthStatusRepository _authStatusRepository;
-  final LocationWrapper _locationWrapper;
+  final GeocodingWrapper _locationWrapper;
   final WeatherRepository _weatherRepository;
   final FirebaseFunctionsWrapper _firebaseFunctionsWrapper;
 
@@ -93,12 +93,13 @@ class MatchesAppService extends MatchesService
     final String matchName = data.name;
 
     await sendMatchInvitationNotifications(
-        matchId: id,
-        matchInvitations: matchInvitations,
-        functionName:
-            FirebaseFunctionsConstants.functionSendMatchInvitationNotifications,
-        matchName: matchName,
-        firebaseFunctionsWrapper: _firebaseFunctionsWrapper);
+      matchId: id,
+      matchInvitations: matchInvitations,
+      functionName:
+          FirebaseFunctionsConstants.functionSendMatchInvitationNotifications,
+      matchName: matchName,
+      firebaseFunctionsWrapper: _firebaseFunctionsWrapper,
+    );
 
     return id;
   }
@@ -177,7 +178,7 @@ class MatchesAppService extends MatchesService
     required String city,
   }) async {
     final CoordinatesModel? location =
-        await _locationWrapper.getLocationForPlace(
+        await _locationWrapper.getCoordinatesForPlace(
       address: address,
       city: city,
     );

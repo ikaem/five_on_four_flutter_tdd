@@ -6,19 +6,20 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$matchesServiceHash() => r'c3e6401dc6014e7833952e562375b0218fbe8b9f';
+String _$geolocatorWrapperHash() => r'7da624da31bfa151cfc6385af0763eb0b4180146';
 
-/// See also [matchesService].
-@ProviderFor(matchesService)
-final matchesServiceProvider = AutoDisposeProvider<MatchesService>.internal(
-  matchesService,
-  name: r'matchesServiceProvider',
+/// See also [geolocatorWrapper].
+@ProviderFor(geolocatorWrapper)
+final geolocatorWrapperProvider =
+    AutoDisposeProvider<GeolocatorWrapper>.internal(
+  geolocatorWrapper,
+  name: r'geolocatorWrapperProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$matchesServiceHash,
+      : _$geolocatorWrapperHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef MatchesServiceRef = AutoDisposeProviderRef<MatchesService>;
+typedef GeolocatorWrapperRef = AutoDisposeProviderRef<GeolocatorWrapper>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

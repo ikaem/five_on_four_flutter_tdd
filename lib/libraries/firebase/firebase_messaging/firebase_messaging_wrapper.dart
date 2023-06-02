@@ -12,6 +12,7 @@ class FirebaseMessagingWrapper {
 
   Future<void> initialize() async {
     _firebaseMessaging = FirebaseMessaging.instance;
+    // TODO careful with this - permission can be denied while app is being used
     final NotificationSettings notificationSettings =
         await _firebaseMessaging.requestPermission(
       alert: true,

@@ -8,7 +8,7 @@ import 'package:five_on_four_flutter_tdd/features/weather/data/repositories/weat
 import 'package:five_on_four_flutter_tdd/features/weather/domain/repositories_interfaces/weather_repository.dart';
 import 'package:five_on_four_flutter_tdd/libraries/firebase/cloud_functions/cloud_functions_wrapper.dart';
 import 'package:five_on_four_flutter_tdd/libraries/firebase/cloud_functions/providers/provider.dart';
-import 'package:five_on_four_flutter_tdd/libraries/geocoding/location_wrapper.dart';
+import 'package:five_on_four_flutter_tdd/libraries/geocoding/geocoding_wrapper.dart';
 import 'package:five_on_four_flutter_tdd/libraries/geocoding/provider/provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -16,14 +16,13 @@ part "provider.g.dart";
 
 @riverpod
 MatchesService matchesService(MatchesServiceRef ref) {
-  final LocationWrapper locationWrapper = ref.read(locationWrapperProvider);
+  final GeocodingWrapper locationWrapper = ref.read(geocodingWrapperProvider);
   final MatchesRepository matchesRepository =
       ref.read(matchesRepositoryProvider);
   final AuthStatusRepository authStatusRepository =
       ref.read(authStatusRepositoryProvider);
   final WeatherRepository weatherRepository =
       ref.read(weatherRepositoryProvider);
-
   final FirebaseFunctionsWrapper firebaseFunctionsWrapper =
       ref.read(firebaseFunctionsWrapperProvider);
 

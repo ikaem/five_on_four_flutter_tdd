@@ -53,8 +53,32 @@ class PlayersRemoteAppDataSource implements PlayersRemoteDataSource {
 
   @override
   Future<PlayerRemoteDTO> getPlayer(String playerId) async {
-// FUTURE this needs implementation
-    throw UnimplementedError();
+// get player ref
+    final DocumentReference<Map<String, dynamic>> playerRef =
+        _firebaseFirestoreWrapper.db
+            .collection(PlayersFirebaseConstants.collectionPlayers)
+            .doc(playerId);
+
+// get player snapshot
+    final DocumentSnapshot<Map<String, dynamic>> playerSnapshot =
+        await playerRef.get();
+
+    if (!playerSnapshot.exists) {
+      // TODO better exception ?
+      // but maybe would be good to actually return null
+      throw Exception('Player does not exist');
+    }
+
+// get player document
+// final Map<String, dynamic>? playerData = playerSnapshot.data();
+
+// convert to dto
+
+    final PlayerRemoteDTO playerRemoteDTO =
+        PlayerRemoteDTO.fromFirestoreDoc(playerDoc: playerSnapshot);
+
+    // return
+    return playerRemoteDTO;
   }
 
   @override

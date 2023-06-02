@@ -7,6 +7,10 @@ import 'package:rxdart/rxdart.dart';
 class PlayerPreferencesAppRepository implements PlayerPreferencesRepository {
   PlayerPreferencesAppRepository() {
     // here we can initially retreive player location
+    // NO, we will retreive initial player location in the service
+    // and then service can set the repository
+    // because the repository same instance can be used in multiple services
+    // and the service will expose these values to profile page
   }
 
   @override
@@ -26,7 +30,7 @@ class PlayerPreferencesAppRepository implements PlayerPreferencesRepository {
   }
 
   @override
-  void setPlayerCurrentLocation(LocationValue location) {
+  void setPlayerCurrentLocation(LocationValue? location) {
     _playerCurrentLocationSink.add(location);
   }
 
@@ -48,16 +52,16 @@ class PlayerPreferencesAppRepository implements PlayerPreferencesRepository {
     await _playerTeamSubject.close();
   }
 
-  Future<void> _handleInitialPlayerLocation() async {
-    // all is hardcoded for now
-    // TODO should we have a data source for this, or there might be a package for this?
+  // Future<void> _handleInitialPlayerLocation() async {
+  //   // all is hardcoded for now
+  //   // TODO should we have a data source for this, or there might be a package for this?
 
-    // TODO get coordinates
+  //   // TODO get coordinates
 
-    // get location name from coordinates
+  //   // get location name from coordinates
 
-    // set location name and coordinates in the subject
-  }
+  //   // set location name and coordinates in the subject
+  // }
 
   final BehaviorSubject<String?> _avatarUrlSubject =
       BehaviorSubject.seeded(null);
