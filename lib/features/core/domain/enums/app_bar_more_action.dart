@@ -1,3 +1,4 @@
 enum AppBarMoreAction {
   logout,
+  // preferences,
 }

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/enums/match_participant_status.dart';
-import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part "value.freezed.dart";
@@ -13,19 +12,37 @@ class MatchParticipationValue with _$MatchParticipationValue {
     required MatchParticipantStatus status,
   }) = _MatchParticipationValue;
 
-  factory MatchParticipationValue.fromPlayerModel({
-    required PlayerModel player,
-    required MatchParticipantStatus status,
-  }) {
-    final MatchParticipationValue value = MatchParticipationValue(
-        playerId: player.id, nickname: player.nickname, status: status);
+// TODO not needed
+  // factory MatchParticipationValue.fromAuthModel({
+  //   required AuthModel auth,
+  //   required MatchParticipantStatus status,
+  // }) {
+  //   final MatchParticipationValue value = MatchParticipationValue(
+  //     playerId: auth.id,
+  //     nickname: auth.nickname,
+  //     status: status,
+  //   );
 
-    return value;
-  }
+  //   return value;
+  // }
 }
 
 // TODO move to extensions
 extension MatchParticipationValueExtension on MatchParticipationValue {
+  Map<String, dynamic> toInvitationNotificationDataMap({
+    required String matchId,
+    required String matchName,
+  }) {
+    final Map<String, dynamic> map = {
+      "playerId": playerId,
+      "matchId": matchId,
+      "matchName": matchName,
+    };
+
+    return map;
+  }
+
+  //
   Map<String, dynamic> toFirestoreMap() {
     final Timestamp? expiresAt = status == MatchParticipantStatus.invited
         ? Timestamp.fromDate(

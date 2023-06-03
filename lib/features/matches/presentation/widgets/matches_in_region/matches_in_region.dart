@@ -30,33 +30,34 @@ class MatchesInRegion extends ConsumerWidget {
             height: SpacingConstants.small,
           ),
           StreamBuilder<double>(
-              stream: matchesInRegionController.regionSizeStream,
-              builder: (context, snapshot) {
-                final double regionSize = snapshot.data ?? 0;
+            stream: matchesInRegionController.regionSizeStream,
+            builder: (context, snapshot) {
+              final double regionSize = snapshot.data ?? 0;
 
-                return Text.rich(TextSpan(
-                  style: TextStyle(
-                    color: ColorConstants.white,
+              return Text.rich(TextSpan(
+                style: TextStyle(
+                  color: ColorConstants.white,
+                ),
+                children: [
+                  TextSpan(
+                    text: "Find in radius: ",
                   ),
-                  children: [
-                    TextSpan(
-                      text: "Find in radius: ",
-                    ),
-                    // TODO this will be wrapped in stream builder for the currently selected value
+                  // TODO this will be wrapped in stream builder for the currently selected value
 
-                    TextSpan(
-                      text: "${regionSize.toInt()} km",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
+                  TextSpan(
+                    text: "${regionSize.toInt()} km",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
-                )
+                  ),
+                ],
+              )
 
-                    // "Find in radius: 60 km",
-                    // style: TextStyle(color: ColorConstants.white),
-                    );
-              }),
+                  // "Find in radius: 60 km",
+                  // style: TextStyle(color: ColorConstants.white),
+                  );
+            },
+          ),
           SizedBox(
             height: SpacingConstants.medium,
           ),
@@ -69,19 +70,20 @@ class MatchesInRegion extends ConsumerWidget {
               ),
             ),
             child: StreamBuilder<double>(
-                stream: matchesInRegionController.regionSizeStream,
-                builder: (context, snapshot) {
-                  final double regionSize = snapshot.data ?? 0;
+              stream: matchesInRegionController.regionSizeStream,
+              builder: (context, snapshot) {
+                final double regionSize = snapshot.data ?? 0;
 
-                  return Slider(
-                    min: 0,
-                    max: 100,
-                    value: regionSize.toDouble(),
-                    onChanged: matchesInRegionController.onChangeRegionSize,
-                    activeColor: ColorConstants.red,
-                    inactiveColor: ColorConstants.white,
-                  );
-                }),
+                return Slider(
+                  min: 0,
+                  max: 100,
+                  value: regionSize.toDouble(),
+                  onChanged: matchesInRegionController.onChangeRegionSize,
+                  activeColor: ColorConstants.red,
+                  inactiveColor: ColorConstants.white,
+                );
+              },
+            ),
           ),
           SizedBox(
             height: SpacingConstants.mediumLarge,

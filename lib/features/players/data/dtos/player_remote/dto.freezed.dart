@@ -19,6 +19,8 @@ mixin _$PlayerRemoteDTO {
   String get id => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
+  PlayerPreferencesRemoteDTO get preferences =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PlayerRemoteDTOCopyWith<PlayerRemoteDTO> get copyWith =>
@@ -31,7 +33,13 @@ abstract class $PlayerRemoteDTOCopyWith<$Res> {
           PlayerRemoteDTO value, $Res Function(PlayerRemoteDTO) then) =
       _$PlayerRemoteDTOCopyWithImpl<$Res, PlayerRemoteDTO>;
   @useResult
-  $Res call({String id, String nickname, String email});
+  $Res call(
+      {String id,
+      String nickname,
+      String email,
+      PlayerPreferencesRemoteDTO preferences});
+
+  $PlayerPreferencesRemoteDTOCopyWith<$Res> get preferences;
 }
 
 /// @nodoc
@@ -50,6 +58,7 @@ class _$PlayerRemoteDTOCopyWithImpl<$Res, $Val extends PlayerRemoteDTO>
     Object? id = null,
     Object? nickname = null,
     Object? email = null,
+    Object? preferences = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -64,7 +73,20 @@ class _$PlayerRemoteDTOCopyWithImpl<$Res, $Val extends PlayerRemoteDTO>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      preferences: null == preferences
+          ? _value.preferences
+          : preferences // ignore: cast_nullable_to_non_nullable
+              as PlayerPreferencesRemoteDTO,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PlayerPreferencesRemoteDTOCopyWith<$Res> get preferences {
+    return $PlayerPreferencesRemoteDTOCopyWith<$Res>(_value.preferences,
+        (value) {
+      return _then(_value.copyWith(preferences: value) as $Val);
+    });
   }
 }
 
@@ -76,7 +98,14 @@ abstract class _$$_PlayerRemoteDTOCopyWith<$Res>
       __$$_PlayerRemoteDTOCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String nickname, String email});
+  $Res call(
+      {String id,
+      String nickname,
+      String email,
+      PlayerPreferencesRemoteDTO preferences});
+
+  @override
+  $PlayerPreferencesRemoteDTOCopyWith<$Res> get preferences;
 }
 
 /// @nodoc
@@ -93,6 +122,7 @@ class __$$_PlayerRemoteDTOCopyWithImpl<$Res>
     Object? id = null,
     Object? nickname = null,
     Object? email = null,
+    Object? preferences = null,
   }) {
     return _then(_$_PlayerRemoteDTO(
       id: null == id
@@ -107,6 +137,10 @@ class __$$_PlayerRemoteDTOCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      preferences: null == preferences
+          ? _value.preferences
+          : preferences // ignore: cast_nullable_to_non_nullable
+              as PlayerPreferencesRemoteDTO,
     ));
   }
 }
@@ -115,7 +149,10 @@ class __$$_PlayerRemoteDTOCopyWithImpl<$Res>
 
 class _$_PlayerRemoteDTO implements _PlayerRemoteDTO {
   const _$_PlayerRemoteDTO(
-      {required this.id, required this.nickname, required this.email});
+      {required this.id,
+      required this.nickname,
+      required this.email,
+      required this.preferences});
 
   @override
   final String id;
@@ -123,10 +160,12 @@ class _$_PlayerRemoteDTO implements _PlayerRemoteDTO {
   final String nickname;
   @override
   final String email;
+  @override
+  final PlayerPreferencesRemoteDTO preferences;
 
   @override
   String toString() {
-    return 'PlayerRemoteDTO(id: $id, nickname: $nickname, email: $email)';
+    return 'PlayerRemoteDTO(id: $id, nickname: $nickname, email: $email, preferences: $preferences)';
   }
 
   @override
@@ -137,11 +176,14 @@ class _$_PlayerRemoteDTO implements _PlayerRemoteDTO {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.nickname, nickname) ||
                 other.nickname == nickname) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.preferences, preferences) ||
+                other.preferences == preferences));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, nickname, email);
+  int get hashCode =>
+      Object.hash(runtimeType, id, nickname, email, preferences);
 
   @JsonKey(ignore: true)
   @override
@@ -152,9 +194,11 @@ class _$_PlayerRemoteDTO implements _PlayerRemoteDTO {
 
 abstract class _PlayerRemoteDTO implements PlayerRemoteDTO {
   const factory _PlayerRemoteDTO(
-      {required final String id,
-      required final String nickname,
-      required final String email}) = _$_PlayerRemoteDTO;
+          {required final String id,
+          required final String nickname,
+          required final String email,
+          required final PlayerPreferencesRemoteDTO preferences}) =
+      _$_PlayerRemoteDTO;
 
   @override
   String get id;
@@ -163,7 +207,135 @@ abstract class _PlayerRemoteDTO implements PlayerRemoteDTO {
   @override
   String get email;
   @override
+  PlayerPreferencesRemoteDTO get preferences;
+  @override
   @JsonKey(ignore: true)
   _$$_PlayerRemoteDTOCopyWith<_$_PlayerRemoteDTO> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$PlayerPreferencesRemoteDTO {
+  int? get regionSize => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $PlayerPreferencesRemoteDTOCopyWith<PlayerPreferencesRemoteDTO>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PlayerPreferencesRemoteDTOCopyWith<$Res> {
+  factory $PlayerPreferencesRemoteDTOCopyWith(PlayerPreferencesRemoteDTO value,
+          $Res Function(PlayerPreferencesRemoteDTO) then) =
+      _$PlayerPreferencesRemoteDTOCopyWithImpl<$Res,
+          PlayerPreferencesRemoteDTO>;
+  @useResult
+  $Res call({int? regionSize});
+}
+
+/// @nodoc
+class _$PlayerPreferencesRemoteDTOCopyWithImpl<$Res,
+        $Val extends PlayerPreferencesRemoteDTO>
+    implements $PlayerPreferencesRemoteDTOCopyWith<$Res> {
+  _$PlayerPreferencesRemoteDTOCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? regionSize = freezed,
+  }) {
+    return _then(_value.copyWith(
+      regionSize: freezed == regionSize
+          ? _value.regionSize
+          : regionSize // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_PlayerPreferencesRemoteDTOCopyWith<$Res>
+    implements $PlayerPreferencesRemoteDTOCopyWith<$Res> {
+  factory _$$_PlayerPreferencesRemoteDTOCopyWith(
+          _$_PlayerPreferencesRemoteDTO value,
+          $Res Function(_$_PlayerPreferencesRemoteDTO) then) =
+      __$$_PlayerPreferencesRemoteDTOCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int? regionSize});
+}
+
+/// @nodoc
+class __$$_PlayerPreferencesRemoteDTOCopyWithImpl<$Res>
+    extends _$PlayerPreferencesRemoteDTOCopyWithImpl<$Res,
+        _$_PlayerPreferencesRemoteDTO>
+    implements _$$_PlayerPreferencesRemoteDTOCopyWith<$Res> {
+  __$$_PlayerPreferencesRemoteDTOCopyWithImpl(
+      _$_PlayerPreferencesRemoteDTO _value,
+      $Res Function(_$_PlayerPreferencesRemoteDTO) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? regionSize = freezed,
+  }) {
+    return _then(_$_PlayerPreferencesRemoteDTO(
+      regionSize: freezed == regionSize
+          ? _value.regionSize
+          : regionSize // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_PlayerPreferencesRemoteDTO implements _PlayerPreferencesRemoteDTO {
+  const _$_PlayerPreferencesRemoteDTO({required this.regionSize});
+
+  @override
+  final int? regionSize;
+
+  @override
+  String toString() {
+    return 'PlayerPreferencesRemoteDTO(regionSize: $regionSize)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_PlayerPreferencesRemoteDTO &&
+            (identical(other.regionSize, regionSize) ||
+                other.regionSize == regionSize));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, regionSize);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_PlayerPreferencesRemoteDTOCopyWith<_$_PlayerPreferencesRemoteDTO>
+      get copyWith => __$$_PlayerPreferencesRemoteDTOCopyWithImpl<
+          _$_PlayerPreferencesRemoteDTO>(this, _$identity);
+}
+
+abstract class _PlayerPreferencesRemoteDTO
+    implements PlayerPreferencesRemoteDTO {
+  const factory _PlayerPreferencesRemoteDTO({required final int? regionSize}) =
+      _$_PlayerPreferencesRemoteDTO;
+
+  @override
+  int? get regionSize;
+  @override
+  @JsonKey(ignore: true)
+  _$$_PlayerPreferencesRemoteDTOCopyWith<_$_PlayerPreferencesRemoteDTO>
+      get copyWith => throw _privateConstructorUsedError;
 }

@@ -4,7 +4,7 @@ import 'package:five_on_four_flutter_tdd/libraries/firebase/firebase_core/fireba
 class FirebaseCoreWrapper {
   const FirebaseCoreWrapper();
 
-  Future<void> initializeFirebase() async {
+  Future<void> initialize() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );

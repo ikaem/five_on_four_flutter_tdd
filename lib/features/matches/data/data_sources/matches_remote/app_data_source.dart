@@ -10,7 +10,6 @@ import 'package:five_on_four_flutter_tdd/features/matches/domain/values/matches_
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_in_region/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/utils/constants/matches_firebase_constants.dart';
-import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:five_on_four_flutter_tdd/libraries/firebase/cloud_firestore/firebase_firestore_wrapper.dart';
 
 class MatchesRemoteAppDataSource
@@ -95,7 +94,10 @@ class MatchesRemoteAppDataSource
   @override
   Future<String> createMatch({
     required NewMatchValue matchData,
-    required PlayerModel currentPlayer,
+    // required PlayerModel currentPlayer,
+    // TODO these are not even needed it seems
+    required String playerId,
+    required String playerNickname,
   }) async {
     final FirestoreMatchDataValue matchFirestoreData =
         matchData.toFirestoreMatchData();

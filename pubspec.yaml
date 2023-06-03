@@ -30,6 +30,10 @@ dependencies:
   flutter_dotenv: ^5.0.2
   dio: ^5.1.2
   geocoding: ^2.1.0
+  firebase_messaging: ^14.6.1
+  overlay_support: ^2.1.0
+  cloud_functions: ^4.3.1
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   mockito: ^5.4.0
@@ -43,6 +47,12 @@ dev_dependencies:
   riverpod_lint: ^1.1.6
   riverpod_generator: ^2.1.4
   network_image_mock: ^2.1.1
+  geolocator: ^9.0.2
+
+flutter_launcher_icons:
+  image_path: "assets/icons/launcher_icon.png"
+  android: "launcher_icon"
+  ios: true
 
 flutter:
   uses-material-design: true
@@ -50,3 +60,4 @@ flutter:
 
   assets:
     - .env
+    - assets/icons/

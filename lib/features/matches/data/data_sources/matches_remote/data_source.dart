@@ -3,7 +3,6 @@ import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_pa
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/matches_search_filters/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_in_region/providers/provider.dart';
-import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 
 abstract class MatchesRemoteDataSource {
   Future<List<MatchRemoteDTO>> getJoinedMatchesForPlayer(
@@ -23,7 +22,9 @@ abstract class MatchesRemoteDataSource {
 
   Future<String> createMatch({
     required NewMatchValue matchData,
-    required PlayerModel currentPlayer,
+    // required PlayerModel currentPlayer,
+    required String playerId,
+    required String playerNickname,
   });
 
   Future<void> joinMatch({

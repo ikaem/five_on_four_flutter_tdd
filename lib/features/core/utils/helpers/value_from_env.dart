@@ -2,6 +2,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // TODO move to dotenv wrapper. also, make that wrapper does this
 abstract class ValueFromEnv {
+// env mode
+  static const _isProduction = "IS_PRODUCTION";
+
   // weather
   static const _envVarWeatherApiKey = 'WEATHER_API_KEY';
 
@@ -22,6 +25,9 @@ abstract class ValueFromEnv {
   static const _firebaseIOSStorageBucket = 'FIREBASE_IOS_STORAGE_BUCKET';
   static const _firebaseIOSClientId = 'FIREBASE_IOS_CLIENT_ID';
   static const _firebaseIOSBundleId = 'FIREBASE_IOS_BUNDLE_ID';
+
+  // env mode
+  static bool get isProduction => dotenv.env[_isProduction] == '1';
 
   // weather
   static String get weatherApiKey => dotenv.env[_envVarWeatherApiKey]!;

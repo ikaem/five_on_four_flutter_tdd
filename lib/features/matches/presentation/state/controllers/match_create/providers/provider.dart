@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:five_on_four_flutter_tdd/features/core/domain/models/location/model.dart';
+import 'package:five_on_four_flutter_tdd/features/core/domain/models/coordinates/model.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/mixins/validation.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service.dart';
@@ -160,7 +160,7 @@ class MatchCreateAppController extends _$MatchCreateAppController
       return;
     }
 
-    final LocationModel? cityLocation =
+    final CoordinatesModel? cityLocation =
         await _matchesService.handleGetLocationForMatchCity(
       address: _locationAddressSubject.value,
       city: _locationCitySubject.value,
