@@ -6,21 +6,22 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$playerPreferencesServiceHash() =>
-    r'729c5b9cc444572786b63040122f7918eff89b91';
+String _$playerPreferencesAppControllerHash() =>
+    r'41cbc61d64661f03f1bb7ec82352b62dc79ff3c5';
 
-/// See also [playerPreferencesService].
-@ProviderFor(playerPreferencesService)
-final playerPreferencesServiceProvider =
-    Provider<PlayerPreferencesService>.internal(
-  playerPreferencesService,
-  name: r'playerPreferencesServiceProvider',
+/// See also [PlayerPreferencesAppController].
+@ProviderFor(PlayerPreferencesAppController)
+final playerPreferencesAppControllerProvider = AutoDisposeNotifierProvider<
+    PlayerPreferencesAppController, AsyncValue<void>>.internal(
+  PlayerPreferencesAppController.new,
+  name: r'playerPreferencesAppControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$playerPreferencesServiceHash,
+      : _$playerPreferencesAppControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef PlayerPreferencesServiceRef = ProviderRef<PlayerPreferencesService>;
+typedef _$PlayerPreferencesAppController
+    = AutoDisposeNotifier<AsyncValue<void>>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

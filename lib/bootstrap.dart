@@ -1,11 +1,22 @@
 import 'dart:async';
 
+import 'package:five_on_four_flutter_tdd/features/auth/data/repositories/auth_status/app_repository.dart';
+import 'package:five_on_four_flutter_tdd/features/auth/data/repositories/auth_status/providers/app_repository/provider.dart';
+import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfaces/auth_status_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/core/application/services/player_preferences/app_service.dart';
 import 'package:five_on_four_flutter_tdd/features/core/application/services/player_preferences/provider/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/core/application/services/player_preferences/service.dart';
 import 'package:five_on_four_flutter_tdd/features/core/data/repositories/player_preferences/app_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/core/data/repositories/player_preferences/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/core/domain/repository_interfaces/player_preferences_repository.dart';
+import 'package:five_on_four_flutter_tdd/features/players/data/data_sources/players_remote/app_data_source.dart';
+import 'package:five_on_four_flutter_tdd/features/players/data/data_sources/players_remote/data_source.dart';
+import 'package:five_on_four_flutter_tdd/features/players/data/data_sources/players_remote/providers/app_data_source/provider.dart';
+import 'package:five_on_four_flutter_tdd/features/players/data/repositories/players/app_repository.dart';
+import 'package:five_on_four_flutter_tdd/features/players/data/repositories/players/providers/app_repository/provider.dart';
+import 'package:five_on_four_flutter_tdd/features/players/domain/repository_interfaces/players_repository.dart';
+import 'package:five_on_four_flutter_tdd/libraries/firebase/cloud_firestore/firebase_firestore_wrapper.dart';
+import 'package:five_on_four_flutter_tdd/libraries/firebase/cloud_firestore/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/libraries/firebase/cloud_functions/cloud_functions_wrapper.dart';
 import 'package:five_on_four_flutter_tdd/libraries/firebase/cloud_functions/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/libraries/firebase/firebase_core/firebase_core_wrapper.dart';
@@ -34,6 +45,8 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 
   final LoggerWrapper loggerWrapper = LoggerWrapper();
   final FirebaseCoreWrapper firebaseCoreWrapper = FirebaseCoreWrapper();
+  await firebaseCoreWrapper.initialize();
+
   final FirebaseMessagingWrapper firebaseMessagingWrapper =
       FirebaseMessagingWrapper();
   final OverlaySupportWrapper overlaySupportWrapper = OverlaySupportWrapper();
@@ -41,17 +54,31 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   final GeolocatorWrapper geolocatorWrapper = GeolocatorWrapper();
   final FirebaseFunctionsWrapper firebaseFunctionsWrapper =
       FirebaseFunctionsWrapper();
+  final FirebaseFirestoreWrapper firebaseFirestoreWrapper =
+      FirebaseFirestoreWrapper();
+
+  final PlayersRemoteDataSource playersRemoteDataSource =
+      PlayersRemoteAppDataSource(
+          firebaseFirestoreWrapper: firebaseFirestoreWrapper);
+
+  final AuthStatusRepository authStatusRepository = AuthStatusAppRepository();
+  final PlayersRepository playersRepository = PlayersAppRepository(
+    playersRemoteDataSource: playersRemoteDataSource,
+  );
   final PlayerPreferencesRepository playerPreferencesRepository =
       PlayerPreferencesAppRepository();
+
   final PlayerPreferencesService playerPreferencesService =
       PlayerPreferencesAppService(
     geocodingWrapper: geocodingWrapper,
     geolocatorWrapper: geolocatorWrapper,
     playerPreferencesRepository: playerPreferencesRepository,
+    authStatusRepository: authStatusRepository,
+    playersRepository: playersRepository,
   );
 
   // FUTURE check for better error handling if one of the initializers fails
-  await firebaseCoreWrapper.initialize();
+  // await firebaseCoreWrapper.initialize();
   await firebaseMessagingWrapper.initialize();
   await playerPreferencesService.initialize();
   firebaseFunctionsWrapper.initialize();
@@ -80,12 +107,23 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
                 .overrideWith((ref) => firebaseMessagingWrapper),
             geocodingWrapperProvider.overrideWith((ref) => geocodingWrapper),
             geolocatorWrapperProvider.overrideWith((ref) => geolocatorWrapper),
+            firebaseFunctionsWrapperProvider
+                .overrideWith((ref) => firebaseFunctionsWrapper),
+            firebaseFirestoreWrapperProvider
+                .overrideWith((ref) => firebaseFirestoreWrapper),
+
+            playersRemoteAppDataSourceProvider
+                .overrideWith((ref) => playersRemoteDataSource),
+
+            authStatusRepositoryProvider
+                .overrideWith((ref) => authStatusRepository),
+            playersAppRepositoryProvider
+                .overrideWith((ref) => playersRepository),
+
             playerPreferencesRepositoryProvider
                 .overrideWith((ref) => playerPreferencesRepository),
             playerPreferencesServiceProvider
                 .overrideWith((ref) => playerPreferencesService),
-            firebaseFunctionsWrapperProvider
-                .overrideWith((ref) => firebaseFunctionsWrapper)
           ],
           observers: [
             AppRiverpodObserver(

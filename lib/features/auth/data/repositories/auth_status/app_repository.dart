@@ -4,6 +4,7 @@ import 'package:five_on_four_flutter_tdd/features/auth/domain/models/auth/model.
 import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfaces/auth_status_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
+// TODO DONT forget to close subjects and subscriptions
 class AuthStatusAppRepository implements AuthStatusRepository {
   final BehaviorSubject<AuthModel?> _authBehaviorSubject =
       BehaviorSubject<AuthModel?>();

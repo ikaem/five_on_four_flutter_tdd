@@ -16,9 +16,21 @@ abstract class PlayersRepository {
     required String playerId,
   });
 
-  Future<void> updatePlayerField({
+  // TODO test
+  Future<void> updatePlayerDeviceToken({
     required String playerId,
-    required String fieldName,
-    required dynamic fieldValue,
+    required String deviceToken,
   });
+
+  Future<void> updatePlayerPreferencesRegionSize({
+    required String playerId,
+    required int regionSize,
+  });
+
+// will replace by specialized
+  // Future<void> updatePlayerField({
+  //   required String playerId,
+  //   required String fieldName,
+  //   required dynamic fieldValue,
+  // });
 }

@@ -45,30 +45,30 @@ class PlayersRemoteFakeDataSource implements PlayersRemoteDataSource {
   }
 }
 
-const List<PlayerRemoteDTO> _players = [
+final List<PlayerRemoteDTO> _players = [
   PlayerRemoteDTO(
-    id: '1',
-    nickname: 'Player1',
-    email: 'player1@example.com',
-  ),
+      id: '1',
+      nickname: 'Player1',
+      email: 'player1@example.com',
+      preferences: PlayerPreferencesRemoteDTO.empty()),
   PlayerRemoteDTO(
-    id: '2',
-    nickname: 'Player2',
-    email: 'player2@example.com',
-  ),
+      id: '2',
+      nickname: 'Player2',
+      email: 'player2@example.com',
+      preferences: PlayerPreferencesRemoteDTO.empty()),
   PlayerRemoteDTO(
-    id: '3',
-    nickname: 'Player3',
-    email: 'player3@example.com',
-  ),
+      id: '3',
+      nickname: 'Player3',
+      email: 'player3@example.com',
+      preferences: PlayerPreferencesRemoteDTO.empty()),
   PlayerRemoteDTO(
-    id: '4',
-    nickname: 'Player4',
-    email: 'player4@example.com',
-  ),
+      id: '4',
+      nickname: 'Player4',
+      email: 'player4@example.com',
+      preferences: PlayerPreferencesRemoteDTO.empty()),
   PlayerRemoteDTO(
-    id: '5',
-    nickname: 'Player5',
-    email: 'player5@example.com',
-  ),
+      id: '5',
+      nickname: 'Player5',
+      email: 'player5@example.com',
+      preferences: PlayerPreferencesRemoteDTO.empty()),
 ];

@@ -8,7 +8,6 @@ import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_pa
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/matches_search_filters/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_in_region/providers/provider.dart';
-import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 
 class MatchesRemoteFakeDataSource implements MatchesRemoteDataSource {
   @override
@@ -78,7 +77,9 @@ class MatchesRemoteFakeDataSource implements MatchesRemoteDataSource {
   @override
   Future<String> createMatch({
     required NewMatchValue matchData,
-    required PlayerModel currentPlayer,
+    // required PlayerModel currentPlayer,
+    required String playerId,
+    required String playerNickname,
   }) async {
     await Future<void>.delayed(Duration(milliseconds: 200));
 
@@ -87,14 +88,18 @@ class MatchesRemoteFakeDataSource implements MatchesRemoteDataSource {
     final bool isOrganizerJoining = matchData.isOrganizerJoined;
     if (isOrganizerJoining)
       matchData.invitedPlayers.add(
-        MatchParticipationValue.fromPlayerModel(
-          player: currentPlayer,
+        MatchParticipationValue(
+          playerId: playerId,
+          nickname: playerNickname,
           status: MatchParticipantStatus.joined,
         ),
       );
 
     final MatchRemoteDTO newMatch = MatchRemoteDTO.fromNewMatchValue(
-        matchId: matchId, organizerId: currentPlayer.id, matchValue: matchData);
+      matchId: matchId,
+      organizerId: playerId,
+      matchValue: matchData,
+    );
 
     combinedMatches.add(newMatch);
 

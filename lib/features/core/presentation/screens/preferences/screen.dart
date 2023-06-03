@@ -1,18 +1,29 @@
+import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/player_preferences/controller.dart';
+import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/player_preferences/provider/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/app_bar_more_actions.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/screen_main_title.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/dimensions_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/spacing_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // TODO preferences could potentially come from the bottom bar as well, not from the app bar
-class PreferencesScreen extends StatelessWidget {
+class PreferencesScreen extends ConsumerWidget {
   const PreferencesScreen({super.key});
 
 // TODO eventually setup of view of the screen
 // TODO this will need to get the preferences controller
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+// TOOD test
+    final PlayerPreferencesController _playerPreferencesController = ref.read(
+      playerPreferencesAppControllerProvider.notifier,
+    );
+
+// TODO test - i need to find something to listen on
+    ref.watch(playerPreferencesAppControllerProvider);
+
     final ThemeData theme = Theme.of(context);
     final TextTheme textTheme = theme.textTheme;
 
@@ -57,7 +68,12 @@ class PreferencesScreen extends StatelessWidget {
                   SizedBox(
                     height: SpacingConstants.large,
                   ),
-                  _PreferencesRegionAreaSection(),
+                  _PreferencesRegionAreaSection(
+                    regionSizeStream:
+                        _playerPreferencesController.regionSizeStream,
+                    onRegionSizeChanged:
+                        _playerPreferencesController.onChangeRegionSize,
+                  ),
                 ],
               ),
             ),
@@ -69,7 +85,14 @@ class PreferencesScreen extends StatelessWidget {
 }
 
 class _PreferencesRegionAreaSection extends StatelessWidget {
-  const _PreferencesRegionAreaSection();
+  const _PreferencesRegionAreaSection({
+    required Stream<int> regionSizeStream,
+    required ValueSetter<int> onRegionSizeChanged,
+  })  : _regionSizeStream = regionSizeStream,
+        _onRegionSizeChanged = onRegionSizeChanged;
+
+  final Stream<int> _regionSizeStream;
+  final ValueSetter<int> _onRegionSizeChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -107,52 +130,85 @@ class _PreferencesRegionAreaSection extends StatelessWidget {
         SizedBox(
           height: SpacingConstants.medium,
         ),
-        Text.rich(
-          TextSpan(
-            children: [
-              TextSpan(
-                text: "Region size: ",
-              ),
-              TextSpan(
-                text: "60 km",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
+        StreamBuilder<int>(
+          stream: _regionSizeStream,
+          builder: (context, snapshot) {
+            // TODO this stream builxer should probably wrap the label too
+            // TODO make this abstract too
+            // if (snapshot.connectionState == ConnectionState.waiting)
+            //   return Center(
+            //     child: CircularProgressIndicator(),
+            //   );
+
+            final int? regionSize = snapshot.data;
+            if (regionSize == null) return SizedBox.shrink();
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Region size: ",
+                      ),
+                      TextSpan(
+                        text: "$regionSize km",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  style: textTheme.bodySmall!.copyWith(
+                    color: ColorConstants.black,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          style: textTheme.bodySmall!.copyWith(
-            color: ColorConstants.black,
-          ),
+                SizedBox(
+                  height: SpacingConstants.small,
+                ),
+                SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    overlayShape: SliderComponentShape.noOverlay,
+                  ),
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(vertical: SpacingConstants.medium),
+                    decoration: BoxDecoration(
+                      color: ColorConstants.red,
+                      borderRadius: BorderRadius.circular(
+                        SpacingConstants.small,
+                      ),
+                    ),
+                    child: Slider(
+                      min: 0,
+                      max: 100,
+                      value: regionSize.toDouble(),
+                      // TODO make this later have double by default
+                      onChanged: (double value) => _onRegionSizeChanged(
+                        value.toInt(),
+                      ),
+                      activeColor: ColorConstants.yellow,
+                      inactiveColor: ColorConstants.white,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
         SizedBox(
-          height: SpacingConstants.small,
+          height: SpacingConstants.medium,
         ),
-        SliderTheme(
-          data: SliderTheme.of(context).copyWith(
-            overlayShape: SliderComponentShape.noOverlay,
-          ),
-          child: Slider(
-            min: 0,
-            max: 100,
-            value: 60.0,
-            onChanged: (value) {},
-            activeColor: ColorConstants.red,
-            inactiveColor: ColorConstants.white,
-          ),
-        ),
-        SizedBox(
-          height: SpacingConstants.small,
-        ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            backgroundColor: ColorConstants.red,
-            foregroundColor: ColorConstants.white,
-          ),
-          onPressed: () {},
-          child: Text("Submit"),
-        ),
+        // ElevatedButton(
+        //   style: ElevatedButton.styleFrom(
+        //     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        //     backgroundColor: ColorConstants.red,
+        //     foregroundColor: ColorConstants.white,
+        //   ),
+        //   onPressed: () {},
+        //   child: Text("Submit"),
+        // ),
       ],
     );
   }

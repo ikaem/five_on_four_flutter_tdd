@@ -9,13 +9,37 @@ class PlayerModel with _$PlayerModel {
     required String id,
     required String nickname,
     required String email,
+    required PlayerPreferencesModel preferences,
   }) = _PlayerModel;
 
   factory PlayerModel.fromRemoteDTO(PlayerRemoteDTO remoteDTO) {
+    final PlayerPreferencesModel preferences =
+        PlayerPreferencesModel.fromRemoteDTO(
+      remoteDTO.preferences,
+    );
+
     final PlayerModel model = PlayerModel(
       id: remoteDTO.id,
       nickname: remoteDTO.nickname,
       email: remoteDTO.email,
+      preferences: preferences,
+    );
+
+    return model;
+  }
+}
+
+// TODO move to its own file
+@freezed
+class PlayerPreferencesModel with _$PlayerPreferencesModel {
+  const factory PlayerPreferencesModel({
+    required int? regionSize,
+  }) = _PlayerPreferencesModel;
+
+  factory PlayerPreferencesModel.fromRemoteDTO(
+      PlayerPreferencesRemoteDTO remoteDTO) {
+    final PlayerPreferencesModel model = PlayerPreferencesModel(
+      regionSize: remoteDTO.regionSize,
     );
 
     return model;

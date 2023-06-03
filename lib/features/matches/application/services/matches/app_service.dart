@@ -13,7 +13,6 @@ import 'package:five_on_four_flutter_tdd/features/matches/domain/values/matches_
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_in_region/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/utils/extensions/match_model_extension.dart';
-import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/domain/models/weather/model.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/domain/repositories_interfaces/weather_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/utils/mixins/weather_mixin.dart';
@@ -67,17 +66,17 @@ class MatchesAppService extends MatchesService
   @override
   Future<String> handleCreateMatch(NewMatchValue data) async {
     NewMatchValue matchData = data;
-    final AuthModel? currentPlayer = _authStatusRepository.getAuthStatus();
-    if (currentPlayer == null) {
+    final AuthModel? auth = _authStatusRepository.getAuthStatus();
+    if (auth == null) {
       // FUTURE: throw proper exception
       // FUTURE: maybe logout, but maybe is not needed
       throw "Something";
     }
 
     if (data.isOrganizerJoined) {
-      final MatchParticipationValue participation =
-          MatchParticipationValue.fromPlayerModel(
-        player: currentPlayer.player,
+      final MatchParticipationValue participation = MatchParticipationValue(
+        playerId: auth.id,
+        nickname: auth.nickname,
         status: MatchParticipantStatus.joined,
       );
 
@@ -86,7 +85,9 @@ class MatchesAppService extends MatchesService
 
     final String id = await _matchesRepository.createMatch(
       matchData: matchData,
-      currentPlayer: currentPlayer.player,
+      // currentPlayer: currentPlayer.player,
+      playerId: auth.id,
+      playerNickname: auth.nickname,
     );
 
     final List<MatchParticipationValue> matchInvitations = data.invitedPlayers;
@@ -105,18 +106,17 @@ class MatchesAppService extends MatchesService
   }
 
   Future<void> handleJoinMatch(MatchModel match) async {
-    final AuthModel? currentPlayer =
-        await _authStatusRepository.getAuthStatus();
-    if (currentPlayer == null) {
+    final AuthModel? auth = await _authStatusRepository.getAuthStatus();
+    if (auth == null) {
       // FUTURE: throw proper exception
       // FUTURE: maybe logout, but maybe is not needed
       throw "Something";
     }
 
     final bool hasPlayerJoinedMatch = checkHasPlayerJoinedMatch(match);
-    final MatchParticipationValue participation =
-        MatchParticipationValue.fromPlayerModel(
-      player: currentPlayer.player,
+    final MatchParticipationValue participation = MatchParticipationValue(
+      playerId: auth.id,
+      nickname: auth.nickname,
       status: hasPlayerJoinedMatch
           ? MatchParticipantStatus.unjoined
           : MatchParticipantStatus.joined,
@@ -148,12 +148,12 @@ class MatchesAppService extends MatchesService
       throw "Something";
     }
 
-    final PlayerModel currentPlayer = auth.player;
+    // final PlayerModel currentPlayer = auth.player;
     final allParticipants = match.allParticipants;
 
     final bool isCurrentPlayerParticipating =
         allParticipants.any((participant) {
-      final bool isParticipating = participant.playerId == currentPlayer.id &&
+      final bool isParticipating = participant.playerId == auth.id &&
           participant.status == MatchParticipantStatus.joined;
 
       return isParticipating;

@@ -19,10 +19,14 @@ class PlayerPreferencesAppRepository implements PlayerPreferencesRepository {
   Stream<LocationValue?> get playerCurrentLocationStream =>
       _playerCurrentLocationSubject.distinct();
   @override
-  Stream<int?> get playerRegionSizeStream =>
-      _playerRegionSizeSubject.distinct();
+  // Stream<int?> get playerRegionSizeStream =>
+  //     _playerRegionSizeSubject.distinct();
   @override
   Stream<TeamModel?> get playerTeamStream => _playerTeamSubject.distinct();
+
+  @override
+  // TODO: implement playerRegionSize
+  int? get playerRegionSize => _playerRegionSizeSubject.valueOrNull;
 
   @override
   void setAvatarUrl(String avatarUrl) {
@@ -35,7 +39,7 @@ class PlayerPreferencesAppRepository implements PlayerPreferencesRepository {
   }
 
   @override
-  void setPlayerRegionSize(int regionSize) {
+  void setPlayerRegionSize(int? regionSize) {
     _playerRegionSizeSink.add(regionSize);
   }
 
