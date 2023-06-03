@@ -5,7 +5,6 @@ import 'package:five_on_four_flutter_tdd/features/matches/domain/repositories_in
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/matches_search_filters/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_in_region/providers/provider.dart';
-import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
 
 class MatchesAppRepository implements MatchesRepository {
@@ -53,11 +52,15 @@ class MatchesAppRepository implements MatchesRepository {
   @override
   Future<String> createMatch({
     required NewMatchValue matchData,
-    required PlayerModel currentPlayer,
+    // required PlayerModel currentPlayer,
+    required String playerId,
+    required String playerNickname,
   }) async {
     final String id = await remoteDataSource.createMatch(
       matchData: matchData,
-      currentPlayer: currentPlayer,
+      // currentPlayer: currentPlayer,
+      playerId: playerId,
+      playerNickname: playerNickname,
     );
 
     return id;

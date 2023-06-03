@@ -11,6 +11,8 @@ class PlayerRemoteDTO with _$PlayerRemoteDTO {
     required String id,
     required String nickname,
     required String email,
+    required PlayerPreferencesRemoteDTO preferences,
+    // TODO remotely, device token should probabyle saved into a nested object on playaer document
   }) = _PlayerRemoteDTO;
 
   factory PlayerRemoteDTO.fromFirestoreDoc({
@@ -25,10 +27,19 @@ class PlayerRemoteDTO with _$PlayerRemoteDTO {
       );
     }
 
+    final Map<String, dynamic>? playerPreferencesData =
+        playerData["preferences"] as Map<String, dynamic>?;
+
+    final PlayerPreferencesRemoteDTO playerPreferencesRemoteDTO =
+        playerPreferencesData == null
+            ? PlayerPreferencesRemoteDTO.empty()
+            : PlayerPreferencesRemoteDTO.fromMap(map: playerPreferencesData);
+
     final PlayerRemoteDTO playerRemoteDTO = PlayerRemoteDTO(
       id: playerId,
       nickname: playerData["nickname"] as String,
       email: playerData["email"] as String,
+      preferences: playerPreferencesRemoteDTO,
     );
 
     return playerRemoteDTO;
@@ -36,4 +47,28 @@ class PlayerRemoteDTO with _$PlayerRemoteDTO {
 
   // factory PlayerRemoteDTO.fromJson(Map<String, dynamic> json) =>
   //     _$PlayerRemoteDTOFromJson(json);
+}
+
+// TODO possibly move this to its own dto file
+@freezed
+class PlayerPreferencesRemoteDTO with _$PlayerPreferencesRemoteDTO {
+  const factory PlayerPreferencesRemoteDTO({
+    required int? regionSize,
+  }) = _PlayerPreferencesRemoteDTO;
+
+  factory PlayerPreferencesRemoteDTO.fromMap({
+    required Map<String, dynamic> map,
+  }) {
+    final int? regionSize = map["regionSize"] as int?;
+
+    final PlayerPreferencesRemoteDTO playerPreferencesRemoteDTO =
+        PlayerPreferencesRemoteDTO(
+      regionSize: regionSize,
+    );
+
+    return playerPreferencesRemoteDTO;
+  }
+
+  factory PlayerPreferencesRemoteDTO.empty() =>
+      PlayerPreferencesRemoteDTO(regionSize: null);
 }

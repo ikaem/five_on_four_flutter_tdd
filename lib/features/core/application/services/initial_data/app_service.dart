@@ -55,7 +55,7 @@ class InitialDataAppService implements InitialDataService {
           message: "There is no player currently signed in");
     }
 
-    final String playerId = authModel.player.id;
+    final String playerId = authModel.id;
     final List<MatchModel> joinedMatches =
         await _matchesRepository.getPlayerJoinedMatches(playerId);
     return joinedMatches;
@@ -106,7 +106,7 @@ class InitialDataAppService implements InitialDataService {
           message: "There is no player currently signed in");
     }
 
-    final String playerId = authModel.player.id;
+    final String playerId = authModel.id;
 
     final List<MatchModel> invitedMatches =
         await _matchesRepository.getPlayerInvitedMatches(playerId);

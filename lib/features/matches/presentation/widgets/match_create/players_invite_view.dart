@@ -173,8 +173,9 @@ class MatchInviteParticipantsView extends ConsumerWidget {
                           ),
                           onTapPlayer: (player) {
                             final MatchParticipationValue participationValue =
-                                MatchParticipationValue.fromPlayerModel(
-                              player: player,
+                                MatchParticipationValue(
+                              playerId: player.id,
+                              nickname: player.nickname,
                               status: MatchParticipantStatus.invited,
                             );
                             onTapAddInvitation(participationValue);

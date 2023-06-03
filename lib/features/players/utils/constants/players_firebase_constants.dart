@@ -7,4 +7,6 @@ abstract class PlayersFirebaseConstants {
   static const String fieldEmail = 'email';
   static const String fieldDeviceToken = 'deviceToken';
   static const String fieldDocumentId = '__name__';
+
+  static const String fieldPreferencesRegionSize = "preferences.regionSize";
 }

@@ -3,6 +3,7 @@ import 'package:five_on_four_flutter_tdd/features/auth/presentation/screens/regi
 import 'package:five_on_four_flutter_tdd/features/core/domain/values/app_route/value.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/screens/error/screen.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/screens/home/screen.dart';
+import 'package:five_on_four_flutter_tdd/features/core/presentation/screens/preferences/screen.dart';
 
 import 'package:five_on_four_flutter_tdd/features/core/presentation/screens/splash/screen.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/constants/widget_keys_constants.dart';
@@ -33,6 +34,7 @@ abstract class AppRoutes {
   static const matchCreateScreenPath = '/match_create';
   static const matchesScreenPath = '/matches';
   static const playersScreenPath = '/players';
+  static const preferencesScreenPath = '/preferences';
   static const playerInfoScreenPath = '/playerInfo/$idPlaceholder';
 
   static AppRouteValue get splashScreenRouteValue => const AppRouteValue(
@@ -82,6 +84,10 @@ abstract class AppRoutes {
   static AppRouteValue get playerInfoScreenRouteValue => const AppRouteValue(
         path: '$playerInfoScreenPath',
         name: 'PlayerInfo',
+      );
+  static AppRouteValue get preferencesScreenRouteValue => const AppRouteValue(
+        path: '$preferencesScreenPath',
+        name: 'Preferences',
       );
 
   static final GoRoute splashRoute = GoRoute(
@@ -160,6 +166,7 @@ abstract class AppRoutes {
       homeRoute,
       matchesRoute,
       playersRoute,
+      preferencesRoute,
     ],
   );
 
@@ -179,5 +186,11 @@ abstract class AppRoutes {
     path: AppRoutes.playersScreenRouteValue.path,
     name: AppRoutes.playersScreenRouteValue.name,
     builder: (context, state) => PlayersScreen(),
+  );
+
+  static final GoRoute preferencesRoute = GoRoute(
+    path: AppRoutes.preferencesScreenRouteValue.path,
+    name: AppRoutes.preferencesScreenRouteValue.name,
+    builder: (context, state) => PreferencesScreen(),
   );
 }

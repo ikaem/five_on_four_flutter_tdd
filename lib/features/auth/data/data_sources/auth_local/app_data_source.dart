@@ -18,6 +18,9 @@ class AuthLocalAppDataSource implements AuthLocalDataSource {
 
   @override
   Future<AuthLocalDTO?> getAuth() async {
+    // TODO this cannot be good
+    // FUTURE we should keep user, full user in db, and just keep the token and user id in secure storage
+    // FUTURE or maybe not even that, just keep the token in secure storage, and then get the user from the api based on id or something
     final String? id =
         await secureStorageWrapper.getKeyValue(key: storageIdKey);
     final String? nickname =

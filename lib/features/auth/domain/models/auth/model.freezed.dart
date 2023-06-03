@@ -16,8 +16,12 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AuthModel {
-  PlayerModel get player => throw _privateConstructorUsedError;
-  int get loggedInAt => throw _privateConstructorUsedError;
+// TODO test only
+// required PlayerModel player,
+  int get loggedInAt => throw _privateConstructorUsedError; // TODO test new
+  String get id => throw _privateConstructorUsedError;
+  String get nickname => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AuthModelCopyWith<AuthModel> get copyWith =>
@@ -29,9 +33,7 @@ abstract class $AuthModelCopyWith<$Res> {
   factory $AuthModelCopyWith(AuthModel value, $Res Function(AuthModel) then) =
       _$AuthModelCopyWithImpl<$Res, AuthModel>;
   @useResult
-  $Res call({PlayerModel player, int loggedInAt});
-
-  $PlayerModelCopyWith<$Res> get player;
+  $Res call({int loggedInAt, String id, String nickname, String email});
 }
 
 /// @nodoc
@@ -47,27 +49,29 @@ class _$AuthModelCopyWithImpl<$Res, $Val extends AuthModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? player = null,
     Object? loggedInAt = null,
+    Object? id = null,
+    Object? nickname = null,
+    Object? email = null,
   }) {
     return _then(_value.copyWith(
-      player: null == player
-          ? _value.player
-          : player // ignore: cast_nullable_to_non_nullable
-              as PlayerModel,
       loggedInAt: null == loggedInAt
           ? _value.loggedInAt
           : loggedInAt // ignore: cast_nullable_to_non_nullable
               as int,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      nickname: null == nickname
+          ? _value.nickname
+          : nickname // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $PlayerModelCopyWith<$Res> get player {
-    return $PlayerModelCopyWith<$Res>(_value.player, (value) {
-      return _then(_value.copyWith(player: value) as $Val);
-    });
   }
 }
 
@@ -78,10 +82,7 @@ abstract class _$$_AuthModelCopyWith<$Res> implements $AuthModelCopyWith<$Res> {
       __$$_AuthModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({PlayerModel player, int loggedInAt});
-
-  @override
-  $PlayerModelCopyWith<$Res> get player;
+  $Res call({int loggedInAt, String id, String nickname, String email});
 }
 
 /// @nodoc
@@ -95,18 +96,28 @@ class __$$_AuthModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? player = null,
     Object? loggedInAt = null,
+    Object? id = null,
+    Object? nickname = null,
+    Object? email = null,
   }) {
     return _then(_$_AuthModel(
-      player: null == player
-          ? _value.player
-          : player // ignore: cast_nullable_to_non_nullable
-              as PlayerModel,
       loggedInAt: null == loggedInAt
           ? _value.loggedInAt
           : loggedInAt // ignore: cast_nullable_to_non_nullable
               as int,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      nickname: null == nickname
+          ? _value.nickname
+          : nickname // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -114,16 +125,27 @@ class __$$_AuthModelCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_AuthModel implements _AuthModel {
-  const _$_AuthModel({required this.player, required this.loggedInAt});
+  const _$_AuthModel(
+      {required this.loggedInAt,
+      required this.id,
+      required this.nickname,
+      required this.email});
 
-  @override
-  final PlayerModel player;
+// TODO test only
+// required PlayerModel player,
   @override
   final int loggedInAt;
+// TODO test new
+  @override
+  final String id;
+  @override
+  final String nickname;
+  @override
+  final String email;
 
   @override
   String toString() {
-    return 'AuthModel(player: $player, loggedInAt: $loggedInAt)';
+    return 'AuthModel(loggedInAt: $loggedInAt, id: $id, nickname: $nickname, email: $email)';
   }
 
   @override
@@ -131,13 +153,16 @@ class _$_AuthModel implements _AuthModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AuthModel &&
-            (identical(other.player, player) || other.player == player) &&
             (identical(other.loggedInAt, loggedInAt) ||
-                other.loggedInAt == loggedInAt));
+                other.loggedInAt == loggedInAt) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.nickname, nickname) ||
+                other.nickname == nickname) &&
+            (identical(other.email, email) || other.email == email));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, player, loggedInAt);
+  int get hashCode => Object.hash(runtimeType, loggedInAt, id, nickname, email);
 
   @JsonKey(ignore: true)
   @override
@@ -148,13 +173,20 @@ class _$_AuthModel implements _AuthModel {
 
 abstract class _AuthModel implements AuthModel {
   const factory _AuthModel(
-      {required final PlayerModel player,
-      required final int loggedInAt}) = _$_AuthModel;
+      {required final int loggedInAt,
+      required final String id,
+      required final String nickname,
+      required final String email}) = _$_AuthModel;
 
-  @override
-  PlayerModel get player;
-  @override
+  @override // TODO test only
+// required PlayerModel player,
   int get loggedInAt;
+  @override // TODO test new
+  String get id;
+  @override
+  String get nickname;
+  @override
+  String get email;
   @override
   @JsonKey(ignore: true)
   _$$_AuthModelCopyWith<_$_AuthModel> get copyWith =>

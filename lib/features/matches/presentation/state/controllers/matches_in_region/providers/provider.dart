@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:five_on_four_flutter_tdd/features/core/domain/models/location/model.dart';
+import 'package:five_on_four_flutter_tdd/features/core/domain/models/coordinates/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
@@ -53,10 +53,10 @@ class MatchesInRegionAppController extends _$MatchesInRegionAppController
         .listen(_onRetrieveRegionMatches);
   }
 
-  LocationModel _getCurrentLocation() {
+  CoordinatesModel _getCurrentLocation() {
 // TODO this will required some sort of location service and pemissions granted
 
-    final LocationModel currentLocation = LocationModel(
+    final CoordinatesModel currentLocation = CoordinatesModel(
       latitude: 45.815399,
       longitude: 15.966568,
     );
@@ -65,7 +65,7 @@ class MatchesInRegionAppController extends _$MatchesInRegionAppController
   }
 
   Future<void> _onRetrieveRegionMatches(double regionSize) async {
-    final LocationModel currentLocation = _getCurrentLocation();
+    final CoordinatesModel currentLocation = _getCurrentLocation();
     final double currentRegionSize = regionSize;
 
     final RegionCoordinatesBoundariesValue regionCoordinatesBoundaries =
@@ -117,7 +117,7 @@ class RegionCoordinatesBoundariesValue {
 
 // TODO move this to some mixin or such
 RegionCoordinatesBoundariesValue _calculateRegionCoordinatesBoundaries(
-  LocationModel currentLocation,
+  CoordinatesModel currentLocation,
   double regionSize,
 ) {
   final double currentRegionSize = regionSize;

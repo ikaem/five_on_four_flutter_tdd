@@ -1,23 +1,15 @@
-// import 'dart:math';
+// TODO might be useful to use freezed later
 
+import 'package:five_on_four_flutter_tdd/features/core/domain/models/coordinates/model.dart';
+import 'package:flutter/material.dart';
 
-// TODO not sure what was this used for
-// import 'package:freezed_annotation/freezed_annotation.dart';
+@immutable
+class LocationValue {
+  const LocationValue({
+    required this.name,
+    required this.coordinates,
+  });
 
-// part "value.freezed.dart";
-
-// @freezed
-// class LocationModel with _$LocationModel {
-//   factory LocationModel({
-//     required double latitude,
-//     required double longitude,
-//   }) = _LocationModel;
-
-// // TODO for dev only
-//   factory LocationModel.fromRandom() {
-//     return LocationModel(
-//       latitude: Random().nextDouble(),
-//       longitude: Random().nextDouble(),
-//     );
-//   }
-// }
+  final String name;
+  final CoordinatesModel coordinates;
+}

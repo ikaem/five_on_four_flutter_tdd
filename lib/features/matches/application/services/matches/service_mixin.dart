@@ -21,9 +21,13 @@ mixin MatchesServiceMixin on MatchesService {
       return notificationData;
     }).toList();
 
+    final Map<String, dynamic> notificationData = {
+      "invitations": invitationNotificationsData,
+    };
+
     await firebaseFunctionsWrapper.sendNotifications(
       functionName: functionName,
-      notificationsData: invitationNotificationsData,
+      notificationsData: notificationData,
     );
   }
 }

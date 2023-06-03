@@ -1,5 +1,7 @@
 export interface SendMatchNotificationsBody {
-  invitations: Invitation[];
+  data: {
+    invitations: Invitation[];
+  };
 }
 export interface Invitation {
   playerId: string;

@@ -30,9 +30,10 @@ class PlayersAppService implements PlayersService {
 
     final List<PlayerModel> players =
         await _playersRepository.getSearchedPlayers(
-            filters: filters,
-            options: options,
-            currentPlayerId: auth.player.id);
+      filters: filters,
+      options: options,
+      currentPlayerId: auth.id,
+    );
 
     return players;
   }

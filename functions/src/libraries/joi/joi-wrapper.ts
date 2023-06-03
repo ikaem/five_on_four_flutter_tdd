@@ -16,16 +16,32 @@ class JoiWrapper {
 
   sendMatchNotificationsBodySchema: Joi.ObjectSchema<SendMatchNotificationsBody> =
     Joi.object({
-      invitations: Joi.array<Invitation[]>()
-        .items(
-          Joi.object<Invitation>({
-            playerId: Joi.string().required(),
-            matchName: Joi.string().required(),
-            matchId: Joi.string().required(),
-          })
-        )
-        .required(),
+      data: Joi.object({
+        invitations: Joi.array<Invitation[]>()
+          .items(
+            Joi.object<Invitation>({
+              playerId: Joi.string().required(),
+              matchName: Joi.string().required(),
+              matchId: Joi.string().required(),
+            })
+          )
+          .required(),
+      }).required(),
     });
+
+  // TODO old
+  // sendMatchNotificationsBodySchema: Joi.ObjectSchema<SendMatchNotificationsBody> =
+  //   Joi.object({
+  //     invitations: Joi.array<Invitation[]>()
+  //       .items(
+  //         Joi.object<Invitation>({
+  //           playerId: Joi.string().required(),
+  //           matchName: Joi.string().required(),
+  //           matchId: Joi.string().required(),
+  //         })
+  //       )
+  //       .required(),
+  //   });
 }
 
 export const joiWrapper = new JoiWrapper();
