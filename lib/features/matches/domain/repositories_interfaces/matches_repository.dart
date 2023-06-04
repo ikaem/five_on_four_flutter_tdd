@@ -33,9 +33,16 @@ abstract class MatchesRepository {
 
   Future<List<MatchModel>> getSearchedMatches(
     MatchesSearchFiltersValue filters,
+    // TODO test
+    RegionCoordinatesBoundariesValue coordinatesBoundaries,
   );
 
-  Future<List<MatchModel>> getMatchesInRegion(
-    RegionCoordinatesBoundariesValue boundaries,
+  Future<List<MatchModel>> getAllMatches(
+    RegionCoordinatesBoundariesValue coordinatesBoundaries,
   );
+
+// TODO not needed
+  // Future<List<MatchModel>> getMatchesInRegion(
+  //   RegionCoordinatesBoundariesValue boundaries,
+  // );
 }

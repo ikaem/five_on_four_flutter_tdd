@@ -214,18 +214,26 @@ class MatchesRemoteFakeDataSource implements MatchesRemoteDataSource {
   }
 
   @override
-  Future<List<MatchRemoteDTO>> getSearchedMatches(
-      MatchesSearchFiltersValue filters) async {
-    await Future<void>.delayed(Duration(milliseconds: 500));
-
-    return combinedMatches;
-  }
-
-  @override
   Future<List<MatchRemoteDTO>> getMatchesInRegion(
     RegionCoordinatesBoundariesValue coordinatesBoundaries,
   ) {
     // TODO: implement getMatchesInRegion
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<MatchRemoteDTO>> getSearchedMatchesNew(
+      MatchesSearchFiltersValue filters,
+      RegionCoordinatesBoundariesValue coordinatesBoundaries) {
+    // TODO: implement getSearchedMatchesNew
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<MatchRemoteDTO>> getSearchedMatches(
+      MatchesSearchFiltersValue filters,
+      RegionCoordinatesBoundariesValue coordinatesBoundaries) {
+    // TODO: implement getSearchedMatches
     throw UnimplementedError();
   }
 }

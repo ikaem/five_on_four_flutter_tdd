@@ -6,8 +6,8 @@ import 'package:five_on_four_flutter_tdd/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MatchesInRegion extends ConsumerWidget {
-  const MatchesInRegion({super.key});
+class MatchesAll extends ConsumerWidget {
+  const MatchesAll({super.key});
 
   // TODO this will need its own controller as well
 
@@ -16,7 +16,7 @@ class MatchesInRegion extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final MatchesInRegionAppController matchesInRegionController =
+    final MatchesAllAppController matchesInRegionController =
         ref.read(matchesInRegionAppControllerProvider.notifier);
     final AsyncValue<List<MatchModel>> matchesInRegionState =
         ref.watch(matchesInRegionAppControllerProvider);

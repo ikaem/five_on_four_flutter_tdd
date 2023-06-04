@@ -90,9 +90,13 @@ class MatchesAppRepository implements MatchesRepository {
   @override
   Future<List<MatchModel>> getSearchedMatches(
     MatchesSearchFiltersValue filters,
+    RegionCoordinatesBoundariesValue coordinatesBoundaries,
   ) async {
     final List<MatchRemoteDTO> dtoResults =
-        await remoteDataSource.getSearchedMatches(filters);
+        await remoteDataSource.getSearchedMatches(
+      filters,
+      coordinatesBoundaries,
+    );
 
     final List<MatchModel> matches =
         dtoResults.map((e) => MatchModel.fromRemoteDto(e)).toList();
@@ -101,14 +105,21 @@ class MatchesAppRepository implements MatchesRepository {
   }
 
   @override
-  Future<List<MatchModel>> getMatchesInRegion(
-      RegionCoordinatesBoundariesValue boundaries) async {
-    final List<MatchRemoteDTO> dtoResults =
-        await remoteDataSource.getMatchesInRegion(boundaries);
+  Future<List<MatchModel>> getAllMatches(
+    RegionCoordinatesBoundariesValue coordinatesBoundaries,
+  ) {}
 
-    final List<MatchModel> matches =
-        dtoResults.map((e) => MatchModel.fromRemoteDto(e)).toList();
+  // TODO not needed
 
-    return matches;
-  }
+  // @override
+  // Future<List<MatchModel>> getMatchesInRegion(
+  //     RegionCoordinatesBoundariesValue boundaries) async {
+  //   final List<MatchRemoteDTO> dtoResults =
+  //       await remoteDataSource.getMatchesInRegion(boundaries);
+
+  //   final List<MatchModel> matches =
+  //       dtoResults.map((e) => MatchModel.fromRemoteDto(e)).toList();
+
+  //   return matches;
+  // }
 }

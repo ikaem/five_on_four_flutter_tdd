@@ -5,6 +5,8 @@ import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_matc
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_in_region/providers/provider.dart';
 
 abstract class MatchesRemoteDataSource {
+  const MatchesRemoteDataSource();
+
   Future<List<MatchRemoteDTO>> getJoinedMatchesForPlayer(
     String playerId,
   );
@@ -39,9 +41,15 @@ abstract class MatchesRemoteDataSource {
 
   Future<List<MatchRemoteDTO>> getSearchedMatches(
     MatchesSearchFiltersValue filters,
-  );
-
-  Future<List<MatchRemoteDTO>> getMatchesInRegion(
     RegionCoordinatesBoundariesValue coordinatesBoundaries,
   );
+
+  Future<List<MatchRemoteDTO>> getAllMatches(
+    RegionCoordinatesBoundariesValue coordinatesBoundaries,
+  );
+
+// TODO not needed
+  // Future<List<MatchRemoteDTO>> getMatchesInRegion(
+  //   RegionCoordinatesBoundariesValue coordinatesBoundaries,
+  // );
 }

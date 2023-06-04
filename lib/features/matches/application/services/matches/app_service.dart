@@ -1,7 +1,9 @@
 import 'package:five_on_four_flutter_tdd/features/auth/domain/models/auth/model.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfaces/auth_status_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/core/domain/models/coordinates/model.dart';
-import 'package:five_on_four_flutter_tdd/features/core/utils/constants/firebase_functions_constants.dart';
+import 'package:five_on_four_flutter_tdd/features/core/domain/repository_interfaces/player_preferences_repository.dart';
+import 'package:five_on_four_flutter_tdd/features/core/domain/values/location/value.dart';
+import 'package:five_on_four_flutter_tdd/features/core/utils/constants/firebase_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service_mixin.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/enums/match_participant_status.dart';
@@ -27,10 +29,12 @@ class MatchesAppService extends MatchesService
     required WeatherRepository weatherRepository,
     required GeocodingWrapper locationWrapper,
     required FirebaseFunctionsWrapper firebaseFunctionsWrapper,
+    required PlayerPreferencesRepository playerPreferencesRepository,
   })  : _weatherRepository = weatherRepository,
         _matchesRepository = matchesRepository,
         _authStatusRepository = authStatusRepository,
         _firebaseFunctionsWrapper = firebaseFunctionsWrapper,
+        _playerPreferencesRepository = playerPreferencesRepository,
         _locationWrapper = locationWrapper;
 
   final MatchesRepository _matchesRepository;
@@ -38,6 +42,7 @@ class MatchesAppService extends MatchesService
   final GeocodingWrapper _locationWrapper;
   final WeatherRepository _weatherRepository;
   final FirebaseFunctionsWrapper _firebaseFunctionsWrapper;
+  final PlayerPreferencesRepository _playerPreferencesRepository;
 
   @override
   Future<MatchInfoModel> handleGetMatchInfo(String matchId) async {
@@ -96,8 +101,7 @@ class MatchesAppService extends MatchesService
     await sendMatchInvitationNotifications(
       matchId: id,
       matchInvitations: matchInvitations,
-      functionName:
-          FirebaseFunctionsConstants.functionSendMatchInvitationNotifications,
+      functionName: FirebaseConstants.functionSendMatchInvitationNotifications,
       matchName: matchName,
       firebaseFunctionsWrapper: _firebaseFunctionsWrapper,
     );
@@ -166,8 +170,30 @@ class MatchesAppService extends MatchesService
   Future<List<MatchModel>> handleSearchMatches(
     MatchesSearchFiltersValue filters,
   ) async {
+// TOOD here we will calculate boundaties
+// so get location for current user
+    final LocationValue? currentUserLocation =
+        _playerPreferencesRepository.playerCurrentLocation;
+    final int? regionSize = _playerPreferencesRepository.playerRegionSize;
+
+    final bool isSearchInRegionPossible =
+        currentUserLocation != null && regionSize != null;
+
+// TODO this might need to throw, to iunform user that there is nowhere to search from, because no location has been set
+    if (!isSearchInRegionPossible) return [];
+
+    final CoordinatesModel locationCoordinates =
+        currentUserLocation.coordinates;
+
+    final RegionCoordinatesBoundariesValue regionCoordinatesBoundaries =
+        locationCoordinates
+            .toRegionCoordinatesBoundaries(regionSize.toDouble());
+
     final List<MatchModel> matches =
-        await _matchesRepository.getSearchedMatches(filters);
+        await _matchesRepository.getSearchedMatches(
+      filters,
+      regionCoordinatesBoundaries,
+    );
 
     return matches;
   }
@@ -186,13 +212,25 @@ class MatchesAppService extends MatchesService
     return location;
   }
 
+// TODO this will go away
   @override
-  Future<List<MatchModel>> handleGetMatchesInRegion(
-    RegionCoordinatesBoundariesValue boundaries,
-  ) async {
-    final List<MatchModel> matches =
-        await _matchesRepository.getMatchesInRegion(boundaries);
+  Future<List<MatchModel>> handleGetAllMatches(
+      // TODO potentially, add sorting
+      // RegionCoordinatesBoundariesValue boundaries,
+      ) async {
+// TOOD here we will calculate boundaties
+// so get location for current user
+    final LocationValue? currentUserLocation =
+        _playerPreferencesRepository.playerCurrentLocation;
+    final int? regionSize = _playerPreferencesRepository.playerRegionSize;
 
-    return matches;
+    final bool isSearchInRegionPossible =
+        currentUserLocation != null && regionSize != null;
+
+// TODO this might need to throw, to iunform user that there is nowhere to search from, because no location has been set
+    if (!isSearchInRegionPossible) return [];
   }
 }
+
+// TODO move to some preferences mixin, or something like that
+// TOOD or make it an exension on coordinates model, and pass it region size?
