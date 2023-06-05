@@ -5,7 +5,8 @@ import 'package:five_on_four_flutter_tdd/features/core/domain/models/coordinates
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
-import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_in_region/controller.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_all/controller.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -50,6 +51,7 @@ class MatchesAllAppController extends _$MatchesAllAppController
   // }
 
   void _initializeController() {
+    _onRetrieveAllMatches();
     // _regionSizeSubscription = _regionSizeSubject.stream
     //     .debounceTime(Duration(milliseconds: 500))
     //     .listen(_onRetrieveRegionMatches);
@@ -66,7 +68,7 @@ class MatchesAllAppController extends _$MatchesAllAppController
 //     return currentLocation;
 //   }
 
-  Future<void> _onRetrieveAllMatches(double regionSize) async {
+  Future<void> _onRetrieveAllMatches() async {
     // final CoordinatesModel currentLocation = _getCurrentLocation();
     // final double currentRegionSize = regionSize;
 

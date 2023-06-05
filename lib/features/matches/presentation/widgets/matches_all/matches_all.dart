@@ -1,5 +1,6 @@
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
-import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_in_region/providers/provider.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_all/providers/provider.dart';
+
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/matches_search/match_briefs_list.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/theme.dart';
@@ -16,10 +17,11 @@ class MatchesAll extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final MatchesAllAppController matchesInRegionController =
-        ref.read(matchesInRegionAppControllerProvider.notifier);
+    // final MatchesAllAppController matchesAllAppController =
+    //     ref.read(matchesInRegionAppControllerProvider.notifier);
+    // TODO this might be only needed
     final AsyncValue<List<MatchModel>> matchesInRegionState =
-        ref.watch(matchesInRegionAppControllerProvider);
+        ref.watch(matchesAllAppControllerProvider);
 
     return Padding(
       padding: EdgeInsets.all(SpacingConstants.small),
@@ -29,35 +31,35 @@ class MatchesAll extends ConsumerWidget {
           SizedBox(
             height: SpacingConstants.small,
           ),
-          StreamBuilder<double>(
-            stream: matchesInRegionController.regionSizeStream,
-            builder: (context, snapshot) {
-              final double regionSize = snapshot.data ?? 0;
+          // StreamBuilder<double>(
+          //   stream: matchesInRegionController.regionSizeStream,
+          //   builder: (context, snapshot) {
+          //     final double regionSize = snapshot.data ?? 0;
 
-              return Text.rich(TextSpan(
-                style: TextStyle(
-                  color: ColorConstants.white,
-                ),
-                children: [
-                  TextSpan(
-                    text: "Find in radius: ",
-                  ),
-                  // TODO this will be wrapped in stream builder for the currently selected value
+          //     return Text.rich(TextSpan(
+          //       style: TextStyle(
+          //         color: ColorConstants.white,
+          //       ),
+          //       children: [
+          //         TextSpan(
+          //           text: "Find in radius: ",
+          //         ),
+          //         // TODO this will be wrapped in stream builder for the currently selected value
 
-                  TextSpan(
-                    text: "${regionSize.toInt()} km",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              )
+          //         TextSpan(
+          //           text: "${regionSize.toInt()} km",
+          //           style: TextStyle(
+          //             fontWeight: FontWeight.bold,
+          //           ),
+          //         ),
+          //       ],
+          //     )
 
-                  // "Find in radius: 60 km",
-                  // style: TextStyle(color: ColorConstants.white),
-                  );
-            },
-          ),
+          //         // "Find in radius: 60 km",
+          //         // style: TextStyle(color: ColorConstants.white),
+          //         );
+          //   },
+          // ),
           SizedBox(
             height: SpacingConstants.medium,
           ),
@@ -69,21 +71,21 @@ class MatchesAll extends ConsumerWidget {
                 DimensionsConstants.d10,
               ),
             ),
-            child: StreamBuilder<double>(
-              stream: matchesInRegionController.regionSizeStream,
-              builder: (context, snapshot) {
-                final double regionSize = snapshot.data ?? 0;
+            // child: StreamBuilder<double>(
+            //   stream: matchesInRegionController.regionSizeStream,
+            //   builder: (context, snapshot) {
+            //     final double regionSize = snapshot.data ?? 0;
 
-                return Slider(
-                  min: 0,
-                  max: 100,
-                  value: regionSize.toDouble(),
-                  onChanged: matchesInRegionController.onChangeRegionSize,
-                  activeColor: ColorConstants.red,
-                  inactiveColor: ColorConstants.white,
-                );
-              },
-            ),
+            //     return Slider(
+            //       min: 0,
+            //       max: 100,
+            //       value: regionSize.toDouble(),
+            //       onChanged: matchesInRegionController.onChangeRegionSize,
+            //       activeColor: ColorConstants.red,
+            //       inactiveColor: ColorConstants.white,
+            //     );
+            //   },
+            // ),
           ),
           SizedBox(
             height: SpacingConstants.mediumLarge,

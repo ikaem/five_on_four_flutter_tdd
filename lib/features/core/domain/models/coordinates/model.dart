@@ -2,7 +2,8 @@
 
 import 'dart:math';
 
-import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_in_region/providers/provider.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_all/providers/provider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 

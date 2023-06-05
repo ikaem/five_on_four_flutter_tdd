@@ -5,7 +5,8 @@ import 'package:five_on_four_flutter_tdd/features/matches/data/data_sources/matc
 import 'package:five_on_four_flutter_tdd/features/matches/data/dtos/match_participant_remote/dto.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/data/dtos/match_remote/dto.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/enums/match_participant_status.dart';
-import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_in_region/providers/provider.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_all/providers/provider.dart';
+
 import 'package:five_on_four_flutter_tdd/features/matches/utils/constants/matches_firebase_constants.dart';
 import 'package:five_on_four_flutter_tdd/libraries/firebase/cloud_firestore/firebase_firestore_wrapper.dart';
 

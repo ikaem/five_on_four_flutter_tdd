@@ -7,7 +7,8 @@ import 'package:five_on_four_flutter_tdd/features/matches/domain/exceptions/matc
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/matches_search_filters/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
-import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_in_region/providers/provider.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_all/providers/provider.dart';
+
 import 'package:five_on_four_flutter_tdd/features/matches/utils/constants/matches_firebase_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/utils/mixins/matches_data_source_mixin.dart';
 import 'package:five_on_four_flutter_tdd/libraries/firebase/cloud_firestore/firebase_firestore_wrapper.dart';
@@ -232,6 +233,7 @@ class MatchesRemoteAppDataSource extends MatchesRemoteDataSource
       firebaseFirestoreWrapper: _firebaseFirestoreWrapper,
     );
 
+// TODO have to search here
     final List<MatchRemoteDTO> filteredMatches = filterMatchesBySearchTerm(
       matches: matchesInRegion,
       searchTerm: searchTerm,
@@ -242,9 +244,13 @@ class MatchesRemoteAppDataSource extends MatchesRemoteDataSource
 
   @override
   Future<List<MatchRemoteDTO>> getAllMatches(
-      RegionCoordinatesBoundariesValue coordinatesBoundaries) {
-    // TODO: implement getAllMatches
-    throw UnimplementedError();
+      RegionCoordinatesBoundariesValue coordinatesBoundaries) async {
+    final List<MatchRemoteDTO> matchesInRegion = await retrieveMatchesInRegion(
+      coordinatesBoundaries: coordinatesBoundaries,
+      firebaseFirestoreWrapper: _firebaseFirestoreWrapper,
+    );
+
+    return matchesInRegion;
   }
 
   // TODO this should be part of a mixin

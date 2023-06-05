@@ -6,18 +6,18 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$matchesInRegionAppControllerHash() =>
-    r'244ec7714feb267bf73bcd65670518ec8b017872';
+String _$matchesAllAppControllerHash() =>
+    r'8ce80ae61eca2ae8936c04431f9cca4b1aab8b98';
 
 /// See also [MatchesAllAppController].
 @ProviderFor(MatchesAllAppController)
-final matchesInRegionAppControllerProvider = AutoDisposeNotifierProvider<
+final matchesAllAppControllerProvider = AutoDisposeNotifierProvider<
     MatchesAllAppController, AsyncValue<List<MatchModel>>>.internal(
   MatchesAllAppController.new,
-  name: r'matchesInRegionAppControllerProvider',
+  name: r'matchesAllAppControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$matchesInRegionAppControllerHash,
+      : _$matchesAllAppControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
