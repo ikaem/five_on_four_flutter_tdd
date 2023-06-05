@@ -5,9 +5,11 @@ abstract class PlayerPreferencesService {
 
 // TODO possibly not needed
   // Stream<int?> get regionSizeStream;
-  Stream<LocationValue?> get currentLocationStream;
+  // TODO for now not needed
+  // Stream<LocationValue?> get currentLocationStream;
 
   int? get regionSize;
+  LocationValue? get currentLocation;
 
 // TODO for now, it will only get current location
   Future<void> initialize();

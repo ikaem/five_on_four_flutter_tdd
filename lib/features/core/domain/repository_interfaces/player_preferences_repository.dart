@@ -7,13 +7,15 @@ abstract class PlayerPreferencesRepository {
 
 // TODO not sure i will neeed any of these as a stream
   Stream<String?> get avatarUrlStream;
-  Stream<LocationValue?> get playerCurrentLocationStream;
+  // TODO stream is not needed maybe - if needed, add it
+  // Stream<LocationValue?> get playerCurrentLocationStream;
 
   // Stream<int?> get playerRegionSizeStream;
   Stream<TeamModel?> get playerTeamStream;
 
   // TODO test
   int? get playerRegionSize;
+  LocationValue? get playerCurrentLocation;
 
   void setAvatarUrl(String avatarUrl);
   void setPlayerTeam(TeamModel team);

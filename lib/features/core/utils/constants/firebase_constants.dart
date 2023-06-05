@@ -1,4 +1,4 @@
-abstract class FirebaseFunctionsConstants {
+abstract class FirebaseConstants {
   // functions
 
   static const String functionSendMatchInvitationNotifications =
@@ -6,4 +6,7 @@ abstract class FirebaseFunctionsConstants {
 
   // regions
   static const String regionEuropeWest3 = "europe-west3";
+
+  // search
+  static const String highPrivateSearchSurrogate = "\uf8ff";
 }
