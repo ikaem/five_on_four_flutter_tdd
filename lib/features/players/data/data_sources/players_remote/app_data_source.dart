@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:five_on_four_flutter_tdd/features/core/utils/constants/firebase_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/players/data/data_sources/players_remote/data_source.dart';
 import 'package:five_on_four_flutter_tdd/features/players/data/dtos/player_remote/dto.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/values/players_search_filters/value.dart';
@@ -24,7 +25,13 @@ class PlayersRemoteAppDataSource implements PlayersRemoteDataSource {
         .where(
           PlayersFirebaseConstants.fieldNickname,
           // FUTURE make this more flexible
-          isEqualTo: filters.searchTerm,
+          // isEqualTo: filters.searchTerm,
+          isGreaterThanOrEqualTo: filters.searchTerm.toLowerCase(),
+        )
+        .where(
+          PlayersFirebaseConstants.fieldNickname,
+          isLessThanOrEqualTo: filters.searchTerm.toLowerCase() +
+              FirebaseConstants.highPrivateSearchSurrogate,
         );
 
     if (!options.shouldSearchCurrentUser) {

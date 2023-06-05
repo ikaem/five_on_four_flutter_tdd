@@ -1,5 +1,7 @@
 import 'package:five_on_four_flutter_tdd/features/auth/data/repositories/auth_status/providers/app_repository/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfaces/auth_status_repository.dart';
+import 'package:five_on_four_flutter_tdd/features/core/data/repositories/player_preferences/providers/provider.dart';
+import 'package:five_on_four_flutter_tdd/features/core/domain/repository_interfaces/player_preferences_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/app_service.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/data/repositories/matches/providers/app_repository/provider.dart';
@@ -25,6 +27,8 @@ MatchesService matchesService(MatchesServiceRef ref) {
       ref.read(weatherRepositoryProvider);
   final FirebaseFunctionsWrapper firebaseFunctionsWrapper =
       ref.read(firebaseFunctionsWrapperProvider);
+  final PlayerPreferencesRepository playerPreferencesRepository =
+      ref.read(playerPreferencesRepositoryProvider);
 
   final MatchesService matchesService = MatchesAppService(
     matchesRepository: matchesRepository,
@@ -32,6 +36,7 @@ MatchesService matchesService(MatchesServiceRef ref) {
     locationWrapper: locationWrapper,
     weatherRepository: weatherRepository,
     firebaseFunctionsWrapper: firebaseFunctionsWrapper,
+    playerPreferencesRepository: playerPreferencesRepository,
   );
 
   return matchesService;

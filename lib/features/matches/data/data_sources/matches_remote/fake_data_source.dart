@@ -7,7 +7,7 @@ import 'package:five_on_four_flutter_tdd/features/matches/domain/exceptions/matc
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/match_participantion/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/matches_search_filters/value.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_match/value.dart';
-import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_in_region/providers/provider.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_all/providers/provider.dart';
 
 class MatchesRemoteFakeDataSource implements MatchesRemoteDataSource {
   @override
@@ -214,20 +214,48 @@ class MatchesRemoteFakeDataSource implements MatchesRemoteDataSource {
   }
 
   @override
-  Future<List<MatchRemoteDTO>> getSearchedMatches(
-      MatchesSearchFiltersValue filters) async {
-    await Future<void>.delayed(Duration(milliseconds: 500));
-
-    return combinedMatches;
-  }
-
-  @override
   Future<List<MatchRemoteDTO>> getMatchesInRegion(
     RegionCoordinatesBoundariesValue coordinatesBoundaries,
   ) {
     // TODO: implement getMatchesInRegion
     throw UnimplementedError();
   }
+
+  @override
+  Future<List<MatchRemoteDTO>> getSearchedMatchesNew(
+      MatchesSearchFiltersValue filters,
+      RegionCoordinatesBoundariesValue coordinatesBoundaries) {
+    // TODO: implement getSearchedMatchesNew
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<MatchRemoteDTO>> getAllMatches(coordinatesBoundaries) {
+    // TODO: implement getAllMatches
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<MatchRemoteDTO>> getSearchedMatches(
+      MatchesSearchFiltersValue filters, coordinatesBoundaries) {
+    // TODO: implement getSearchedMatches
+    throw UnimplementedError();
+  }
+
+  // @override
+  // Future<List<MatchRemoteDTO>> getSearchedMatches(
+  //     MatchesSearchFiltersValue filters,
+  //     RegionCoordinatesBoundariesValue coordinatesBoundaries) {
+  //   // TODO: implement getSearchedMatches
+  //   throw UnimplementedError();
+  // }
+
+  // @override
+  // Future<List<MatchRemoteDTO>> getAllMatches(
+  //     RegionCoordinatesBoundariesValue coordinatesBoundaries) {
+  //   // TODO: implement getAllMatches
+  //   throw UnimplementedError();
+  // }
 }
 
 final List<MatchRemoteDTO> combinedMatches = [

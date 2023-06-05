@@ -1,4 +1,4 @@
-import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/matches_in_region/matches_in_region.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/matches_all/matches_all.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/matches_search/matches_search.dart';
 import 'package:five_on_four_flutter_tdd/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +35,7 @@ class MatchesScreenContent extends StatelessWidget {
             ),
             Expanded(
               child: TabBarView(children: [
-                MatchesInRegion(),
+                MatchesAll(),
                 MatchesSearch(),
               ]),
             )

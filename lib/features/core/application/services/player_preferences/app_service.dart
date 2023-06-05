@@ -30,12 +30,15 @@ class PlayerPreferencesAppService extends PlayerPreferencesService {
   final PlayersRepository _playersRepository;
 
 // TODO not sure i will need this as a stream
-  @override
-  Stream<LocationValue?> get currentLocationStream =>
-      _playerPreferencesRepository.playerCurrentLocationStream;
+  // @override
+  // Stream<LocationValue?> get currentLocationStream =>
+  //     _playerPreferencesRepository.playerCurrentLocationStream;
 
   @override
   int? get regionSize => _playerPreferencesRepository.playerRegionSize;
+  @override
+  LocationValue? get currentLocation =>
+      _playerPreferencesRepository.playerCurrentLocation;
 
   // @override
   // Stream<int?> get regionSizeStream =>

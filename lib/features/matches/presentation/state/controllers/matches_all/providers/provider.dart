@@ -5,28 +5,31 @@ import 'package:five_on_four_flutter_tdd/features/core/domain/models/coordinates
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
-import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_in_region/controller.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_all/controller.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:rxdart/rxdart.dart';
 
 part "provider.g.dart";
 
+// TODO this can go away
+// TODO or, we can transform it to controller for fetching the most recent matches in my region
+
 @riverpod
-class MatchesInRegionAppController extends _$MatchesInRegionAppController
-    implements MatchesInRegionController {
+class MatchesAllAppController extends _$MatchesAllAppController
+    implements MatchesAllController {
   late final MatchesService matchesService = ref.read(matchesServiceProvider);
 
-// TODO make this a constants somewheree in some constants
-  final BehaviorSubject<double> _regionSizeSubject =
-      BehaviorSubject.seeded(20.0);
-  StreamSink<double> get _regionSizeSink => _regionSizeSubject.sink;
+// // TODO make this a constants somewheree in some constants
+//   final BehaviorSubject<double> _regionSizeSubject =
+//       BehaviorSubject.seeded(20.0);
+//   StreamSink<double> get _regionSizeSink => _regionSizeSubject.sink;
 
-  late final StreamSubscription<double> _regionSizeSubscription;
+//   late final StreamSubscription<double> _regionSizeSubscription;
 
   @override
   // TODO: implement regionSizeStream
-  Stream<double> get regionSizeStream => _regionSizeSubject.distinct();
+  // Stream<double> get regionSizeStream => _regionSizeSubject.distinct();
 
   @override
   AsyncValue<List<MatchModel>> build() {
@@ -37,50 +40,49 @@ class MatchesInRegionAppController extends _$MatchesInRegionAppController
   @override
   void dispose() {
     ref.onDispose(() async {
-      await _regionSizeSubscription.cancel();
-      await _regionSizeSubject.close();
+      // await _regionSizeSubscription.cancel();
+      // await _regionSizeSubject.close();
     });
   }
 
-  @override
-  void onChangeRegionSize(double regionSize) {
-    _regionSizeSink.add(regionSize);
-  }
+  // @override
+  // void onChangeRegionSize(double regionSize) {
+  //   _regionSizeSink.add(regionSize);
+  // }
 
   void _initializeController() {
-    _regionSizeSubscription = _regionSizeSubject.stream
-        .debounceTime(Duration(milliseconds: 500))
-        .listen(_onRetrieveRegionMatches);
+    _onRetrieveAllMatches();
+    // _regionSizeSubscription = _regionSizeSubject.stream
+    //     .debounceTime(Duration(milliseconds: 500))
+    //     .listen(_onRetrieveRegionMatches);
   }
 
-  CoordinatesModel _getCurrentLocation() {
-// TODO this will required some sort of location service and pemissions granted
+//   CoordinatesModel _getCurrentLocation() {
+// // TODO this will required some sort of location service and pemissions granted
 
-    final CoordinatesModel currentLocation = CoordinatesModel(
-      latitude: 45.815399,
-      longitude: 15.966568,
-    );
+//     final CoordinatesModel currentLocation = CoordinatesModel(
+//       latitude: 45.815399,
+//       longitude: 15.966568,
+//     );
 
-    return currentLocation;
-  }
+//     return currentLocation;
+//   }
 
-  Future<void> _onRetrieveRegionMatches(double regionSize) async {
-    final CoordinatesModel currentLocation = _getCurrentLocation();
-    final double currentRegionSize = regionSize;
+  Future<void> _onRetrieveAllMatches() async {
+    // final CoordinatesModel currentLocation = _getCurrentLocation();
+    // final double currentRegionSize = regionSize;
 
-    final RegionCoordinatesBoundariesValue regionCoordinatesBoundaries =
-        _calculateRegionCoordinatesBoundaries(
-      currentLocation,
-      currentRegionSize,
-    );
+    // final RegionCoordinatesBoundariesValue regionCoordinatesBoundaries =
+    //     _calculateRegionCoordinatesBoundaries(
+    //   currentLocation,
+    //   currentRegionSize,
+    // );
 
     state = AsyncValue.loading();
 
     try {
       final List<MatchModel> results =
-          await matchesService.handleGetMatchesInRegion(
-        regionCoordinatesBoundaries,
-      );
+          await matchesService.handleGetAllMatches();
 
       state = AsyncValue.data(results);
     } catch (e) {
@@ -115,6 +117,7 @@ class RegionCoordinatesBoundariesValue {
   final double longitudeLower;
 }
 
+// TODO not used, but keep the logic somewhere SAVE IT
 // TODO move this to some mixin or such
 RegionCoordinatesBoundariesValue _calculateRegionCoordinatesBoundaries(
   CoordinatesModel currentLocation,

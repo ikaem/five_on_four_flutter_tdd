@@ -5,6 +5,7 @@ import 'package:five_on_four_flutter_tdd/features/core/domain/values/location/va
 import 'package:rxdart/rxdart.dart';
 
 class PlayerPreferencesAppRepository implements PlayerPreferencesRepository {
+  // TODO do we need preferences to be behavior subjects if we dont expose streams? we probably do, to make sure update info can get retreived, and set? or is it? wait and see
   PlayerPreferencesAppRepository() {
     // here we can initially retreive player location
     // NO, we will retreive initial player location in the service
@@ -15,9 +16,11 @@ class PlayerPreferencesAppRepository implements PlayerPreferencesRepository {
 
   @override
   Stream<String?> get avatarUrlStream => _avatarUrlSubject.distinct();
-  @override
-  Stream<LocationValue?> get playerCurrentLocationStream =>
-      _playerCurrentLocationSubject.distinct();
+
+  // TODO not needed
+  // @override
+  // Stream<LocationValue?> get playerCurrentLocationStream =>
+  //     _playerCurrentLocationSubject.distinct();
   @override
   // Stream<int?> get playerRegionSizeStream =>
   //     _playerRegionSizeSubject.distinct();
@@ -27,6 +30,11 @@ class PlayerPreferencesAppRepository implements PlayerPreferencesRepository {
   @override
   // TODO: implement playerRegionSize
   int? get playerRegionSize => _playerRegionSizeSubject.valueOrNull;
+
+  @override
+  // TODO: implement playerCurrentLocation
+  LocationValue? get playerCurrentLocation =>
+      _playerCurrentLocationSubject.valueOrNull;
 
   @override
   void setAvatarUrl(String avatarUrl) {
