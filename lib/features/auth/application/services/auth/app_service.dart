@@ -63,8 +63,10 @@ class AuthAppService implements AuthService {
       // TODO this would be greate to have
       // FUTURE implement one function to set all preferences if possible - not all preferencs will be avaialble from here
       // _playerPreferencesRepository.setPlayerPreferences(playerPreferences);
+      // TODO this wont be needed later
       _playerPreferencesRepository
           .setPlayerRegionSize(playerPreferences.regionSize);
+      _playerPreferencesRepository.setCurrentPlayer(player);
 
 // TODO we have a better logger
       log("This is email: $whatIsThisPlayer");
@@ -81,6 +83,7 @@ class AuthAppService implements AuthService {
   @override
   Future<void> login(LoginCredentialsArgs args) async {
     final AuthModel auth = await _authRepository.login(args);
+    final PlayerModel player = await _playersRepository.getPlayer(auth.id);
 
     final String? deviceToken =
         await _firebaseMessagingWrapper.getDeviceToken();
@@ -94,6 +97,15 @@ class AuthAppService implements AuthService {
         deviceToken: deviceToken,
       );
     }
+
+    final PlayerPreferencesModel playerPreferences = player.preferences;
+    // TODO this would be greate to have
+    // FUTURE implement one function to set all preferences if possible - not all preferencs will be avaialble from here
+    // _playerPreferencesRepository.setPlayerPreferences(playerPreferences);
+    // TODO this wont be needed later
+    _playerPreferencesRepository
+        .setPlayerRegionSize(playerPreferences.regionSize);
+    _playerPreferencesRepository.setCurrentPlayer(player);
 
     _authStatusRepository.setAuth(auth);
   }
@@ -119,6 +131,16 @@ class AuthAppService implements AuthService {
       playerId: playerId,
       playerData: playerData,
     );
+
+    final PlayerModel player = await _playersRepository.getPlayer(auth.id);
+    final PlayerPreferencesModel playerPreferences = player.preferences;
+    // TODO this would be greate to have
+    // FUTURE implement one function to set all preferences if possible - not all preferencs will be avaialble from here
+    // _playerPreferencesRepository.setPlayerPreferences(playerPreferences);
+    // TODO this wont be needed later
+    _playerPreferencesRepository
+        .setPlayerRegionSize(playerPreferences.regionSize);
+    _playerPreferencesRepository.setCurrentPlayer(player);
 
     _authStatusRepository.setAuth(auth);
   }

@@ -34,11 +34,17 @@ class PlayersScreen extends ConsumerWidget {
         title: Text("Players"),
       ),
       body: Padding(
-        padding: EdgeInsets.all(SpacingConstants.small),
+        padding: EdgeInsets.fromLTRB(
+          SpacingConstants.small,
+          SpacingConstants.large,
+          SpacingConstants.small,
+          SpacingConstants.small,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
+              style: TextStyle(color: ColorConstants.grey1),
               onChanged: (value) {
                 ref
                     .read(searchControllerProvider.notifier)
@@ -74,9 +80,15 @@ class PlayersScreen extends ConsumerWidget {
               },
               data: (data) {
                 return Expanded(
-                  child: SearchResultsPlayers(
+                  child: PlayerBriefsList(
                     players: data,
                     onTapPlayerResult: _onTapPlayerResult,
+                    title: Text(
+                      "Found players:",
+                      style: TextStyle(
+                        color: ColorConstants.white,
+                      ),
+                    ),
                   ),
                 );
               },

@@ -34,7 +34,7 @@ class StreamedTimeField extends StatelessWidget {
             ),
             labelText: labelText,
             labelStyle: TextStyle(
-              color: hasError ? ColorConstants.red : ColorConstants.grey,
+              color: hasError ? ColorConstants.red : ColorConstants.grey3,
             ),
           ),
           onTap: () async {

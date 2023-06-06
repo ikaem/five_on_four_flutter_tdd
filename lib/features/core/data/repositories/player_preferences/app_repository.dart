@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:five_on_four_flutter_tdd/features/core/domain/repository_interfaces/player_preferences_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/core/domain/values/location/value.dart';
+import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:rxdart/rxdart.dart';
 
 class PlayerPreferencesAppRepository implements PlayerPreferencesRepository {
@@ -21,7 +22,7 @@ class PlayerPreferencesAppRepository implements PlayerPreferencesRepository {
   // @override
   // Stream<LocationValue?> get playerCurrentLocationStream =>
   //     _playerCurrentLocationSubject.distinct();
-  @override
+  // @override
   // Stream<int?> get playerRegionSizeStream =>
   //     _playerRegionSizeSubject.distinct();
   @override
@@ -30,6 +31,9 @@ class PlayerPreferencesAppRepository implements PlayerPreferencesRepository {
   @override
   // TODO: implement playerRegionSize
   int? get playerRegionSize => _playerRegionSizeSubject.valueOrNull;
+
+  @override
+  String? get playerNickname => _playerSubject.valueOrNull?.nickname;
 
   @override
   // TODO: implement playerCurrentLocation
@@ -57,11 +61,18 @@ class PlayerPreferencesAppRepository implements PlayerPreferencesRepository {
   }
 
   @override
+  void setCurrentPlayer(PlayerModel? player) {
+    _playerSink.add(player);
+  }
+
+  @override
   Future<void> dispose() async {
+    // TODO is this disposed in the provider at all?
     await _avatarUrlSubject.close();
     await _playerCurrentLocationSubject.close();
     await _playerRegionSizeSubject.close();
     await _playerTeamSubject.close();
+    await _playerSink.close();
   }
 
   // Future<void> _handleInitialPlayerLocation() async {
@@ -75,6 +86,9 @@ class PlayerPreferencesAppRepository implements PlayerPreferencesRepository {
   //   // set location name and coordinates in the subject
   // }
 
+  // TODO this could potentually replace lot of things in this repo
+  final BehaviorSubject<PlayerModel?> _playerSubject =
+      BehaviorSubject.seeded(null);
   final BehaviorSubject<String?> _avatarUrlSubject =
       BehaviorSubject.seeded(null);
   final BehaviorSubject<LocationValue?> _playerCurrentLocationSubject =
@@ -84,6 +98,7 @@ class PlayerPreferencesAppRepository implements PlayerPreferencesRepository {
   final BehaviorSubject<TeamModel?> _playerTeamSubject =
       BehaviorSubject.seeded(null);
 
+  StreamSink<PlayerModel?> get _playerSink => _playerSubject.sink;
   StreamSink<String?> get _avatarUrlSink => _avatarUrlSubject.sink;
   StreamSink<LocationValue?> get _playerCurrentLocationSink =>
       _playerCurrentLocationSubject.sink;

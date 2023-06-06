@@ -15,12 +15,10 @@ abstract class MatchesService {
     MatchesSearchFiltersValue filters,
   );
 
-// TODO eventually, this will need pagination
-  Future<List<MatchModel>> handleGetAllMatches(
-      // RegionCoordinatesBoundariesValue boundaries,
-      );
+// FUTURE eventually, this will need pagination
+  Future<List<MatchModel>> handleGetAllMatches();
 
-  // TODO not sure if this should be here
+  // FUTURE not sure if this should be here
   Future<CoordinatesModel?> handleGetLocationForMatchCity({
     required String address,
     required String city,

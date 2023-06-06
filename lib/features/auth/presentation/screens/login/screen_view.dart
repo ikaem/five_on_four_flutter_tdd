@@ -2,12 +2,14 @@ import 'package:five_on_four_flutter_tdd/features/auth/presentation/state/contro
 import 'package:five_on_four_flutter_tdd/features/auth/presentation/state/controllers/login/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/presentation/widgets/login/login_basic_inputs.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/inputs/streamed_elevated_button.dart';
+import 'package:five_on_four_flutter_tdd/features/core/utils/constants/assets_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/constants/widget_keys_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/extensions/build_context_extension.dart';
 import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
-import 'package:five_on_four_flutter_tdd/theme/constants/spacing_constants.dart';
+import 'package:five_on_four_flutter_tdd/theme/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginScreenView extends ConsumerWidget {
@@ -35,6 +37,12 @@ class LoginScreenView extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                SvgPicture.asset(
+                  AssetsConstants.pathLogoInline,
+                ),
+                SizedBox(
+                  height: SpacingConstants.mediumLarge,
+                ),
                 LoginBasicInputs(
                   onEmailChange: loginController.onEmailChange,
                   onPasswordChange: loginController.onPasswordChange,
@@ -46,7 +54,11 @@ class LoginScreenView extends ConsumerWidget {
                   onPressed: isLoading ? null : loginController.onSubmit,
                   label: isLoading
                       ? Center(
-                          child: CircularProgressIndicator(),
+                          child: SizedBox(
+                            height: DimensionsConstants.d20,
+                            width: DimensionsConstants.d20,
+                            child: CircularProgressIndicator(),
+                          ),
                         )
                       : Text("Login"),
                 ),

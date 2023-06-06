@@ -1,5 +1,4 @@
 import 'package:five_on_four_flutter_tdd/features/auth/data/dtos/auth_local/dto.dart';
-import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'model.freezed.dart';
@@ -12,6 +11,7 @@ class AuthModel with _$AuthModel {
     required int loggedInAt,
     // TODO test new
     required String id,
+    // TODO these two might not be needed eventually
     required String nickname,
     required String email,
   }) = _AuthModel;

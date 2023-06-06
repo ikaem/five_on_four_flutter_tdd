@@ -27,6 +27,10 @@ class MatchesSearch extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextField(
+            style: TextStyle(
+              // TODO this should be done better, globally somehow
+              color: ColorConstants.grey1,
+            ),
             onChanged: ref
                 .read(matchesSearchAppControllerProvider.notifier)
                 .onChangeSearchTerm,
@@ -60,10 +64,14 @@ class MatchesSearch extends ConsumerWidget {
             },
             data: (data) {
               return Expanded(
-                // TODO this could be reused in matches in region
                 child: MatchBriefsList(
                   matches: data,
-                  title: "Found matches",
+                  title: Text(
+                    "Found matches: ",
+                    style: TextStyle(
+                      color: ColorConstants.white,
+                    ),
+                  ),
                 ),
               );
             },

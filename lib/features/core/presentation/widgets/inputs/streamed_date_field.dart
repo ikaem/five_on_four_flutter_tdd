@@ -1,6 +1,6 @@
+import 'package:five_on_four_flutter_tdd/features/core/utils/extensions/date_time_extension.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class StreamedDateField extends StatelessWidget {
   const StreamedDateField({
@@ -32,7 +32,7 @@ class StreamedDateField extends StatelessWidget {
             ),
             labelText: labelText,
             labelStyle: TextStyle(
-              color: hasError ? ColorConstants.red : ColorConstants.grey,
+              color: hasError ? ColorConstants.red : ColorConstants.grey3,
             ),
           ),
           onTap: () async {
@@ -52,11 +52,12 @@ class StreamedDateField extends StatelessWidget {
               return;
             }
 
-            final String formattedDate =
-                DateFormat("dd-MM-yyyy").format(pickedDate);
+// TODO create formatter on date as extension
+            // final String formattedDate =
+            //     DateFormat("dd-MM-yyyy").format(pickedDate);
 
             onChanged(pickedDate);
-            fieldController.text = formattedDate;
+            fieldController.text = pickedDate.asDateFormalFormattedString;
           },
         );
       },

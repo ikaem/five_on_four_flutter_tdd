@@ -40,6 +40,11 @@ class PlayerPreferencesAppService extends PlayerPreferencesService {
   LocationValue? get currentLocation =>
       _playerPreferencesRepository.playerCurrentLocation;
 
+  @override
+  // TODO: implement currentPlayerNickname
+  String? get currentPlayerNickname =>
+      _playerPreferencesRepository.playerNickname;
+
   // @override
   // Stream<int?> get regionSizeStream =>
   //     _playerPreferencesRepository.playerRegionSizeStream;

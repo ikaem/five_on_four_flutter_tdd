@@ -19,7 +19,8 @@ mixin _$AuthModel {
 // TODO test only
 // required PlayerModel player,
   int get loggedInAt => throw _privateConstructorUsedError; // TODO test new
-  String get id => throw _privateConstructorUsedError;
+  String get id =>
+      throw _privateConstructorUsedError; // TODO these two might not be needed eventually
   String get nickname => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
 
@@ -138,6 +139,7 @@ class _$_AuthModel implements _AuthModel {
 // TODO test new
   @override
   final String id;
+// TODO these two might not be needed eventually
   @override
   final String nickname;
   @override
@@ -183,7 +185,7 @@ abstract class _AuthModel implements AuthModel {
   int get loggedInAt;
   @override // TODO test new
   String get id;
-  @override
+  @override // TODO these two might not be needed eventually
   String get nickname;
   @override
   String get email;

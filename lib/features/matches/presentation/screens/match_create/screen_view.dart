@@ -1,16 +1,18 @@
+import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/player_preferences/controller.dart';
+import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/player_preferences/provider/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/inputs/streamed_icon_button.dart';
+import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/screen_main_title.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/extensions/build_context_extension.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/match_create/controller.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/match_create/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_create/basic_inputs.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_create/players_invite_inputs.dart';
-import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/spacing_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
+// FUTURE create content widget for this
 class MatchCreateScreenView extends ConsumerWidget {
   const MatchCreateScreenView();
 
@@ -19,9 +21,14 @@ class MatchCreateScreenView extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    // TODO this will also need to disable all inputs somehow while loading
+    // FUTURE this will also need to disable all inputs somehow while loading
     final MatchCreateController matchCreateController =
         ref.read(matchCreateAppControllerProvider.notifier);
+
+    final PlayerPreferencesController playerPreferencesController = ref.read(
+      playerPreferencesAppControllerProvider.notifier,
+    );
+
     final AsyncValue<String?> matchCreateValue =
         ref.watch(matchCreateAppControllerProvider);
 
@@ -59,18 +66,21 @@ class MatchCreateScreenView extends ConsumerWidget {
         padding: EdgeInsets.all(SpacingConstants.small),
         child: ListView(
           children: [
-            Text(
-                "Some match info  that will be wrapped in a stream of match name value"),
-            TextButton(
-              onPressed: () {
-                context.pushNamed(
-                  AppRoutes.errorScreenRouteValue.name,
-                  pathParameters: {
-                    "error_message": "",
-                  },
-                );
-              },
-              child: Text("Go to error page"),
+            // TODO make widget out of this
+            StreamBuilder<String>(
+                stream: matchCreateController.nameValidationStream,
+                builder: (context, snapshot) {
+                  final String matchName = snapshot.data ?? "...";
+                  return ScreenMainTitle(
+                    primaryLeadingLabel: "Match: ",
+                    primaryTrailingLabel: matchName,
+                    secondaryLeadingLabel: "organized by: ",
+                    secondaryTrailingLabel:
+                        playerPreferencesController.currentPlayerNickname,
+                  );
+                }),
+            SizedBox(
+              height: SpacingConstants.xLarge,
             ),
             MatchCreateBasicInputs(
               sectionLabelStyle: sectionLabelStyle.copyWith(
@@ -132,7 +142,7 @@ class MatchCreateScreenView extends ConsumerWidget {
                 // TODO revert this
                 if (matchId == null) return;
 
-// TODO test
+                // TODO revert this
                 // context.pushReplacementNamed(
                 //   AppRoutes.matchInfoScreenRouteValue.name,
                 //   pathParameters: {

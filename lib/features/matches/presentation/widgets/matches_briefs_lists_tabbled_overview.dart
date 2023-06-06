@@ -68,14 +68,8 @@ class MatchesBriefsListsTabbedOverview extends StatelessWidget {
                 children: matchesLists.map((ml) {
                   return MatchBriefsList(
                     matches: ml,
-                    title: "",
                   );
                 }).toList(),
-
-                // TODO old
-                // children: matchesLists.map((matchesList) {
-                //   return MatchBriefsList(matches: matchesList);
-                // }).toList(),
               ),
             ),
           ),

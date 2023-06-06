@@ -2,9 +2,11 @@ import 'package:five_on_four_flutter_tdd/features/core/domain/repository_interfa
 import 'package:five_on_four_flutter_tdd/features/core/domain/values/location/value.dart';
 
 abstract class PlayerPreferencesController {
-// TOOD temp, we will see how it goes
+// TOOD temp, we will see how it goes - probably dont need this
   Stream<int> get regionSizeStream;
   Stream<LocationValue?> get currentLocationStream;
+
+  String get currentPlayerNickname;
 
   void onChangeRegionSize(int regionSize);
   // TODO not sure if this will be here

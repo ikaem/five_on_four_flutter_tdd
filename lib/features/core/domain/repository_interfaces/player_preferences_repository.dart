@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:five_on_four_flutter_tdd/features/core/domain/values/location/value.dart';
+import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 
 abstract class PlayerPreferencesRepository {
 // FUTURE when switch to isar to keep preferences, the repo can somehow connect to isar - possibly via a stream provided by preferences data source or somehting?
@@ -17,10 +18,18 @@ abstract class PlayerPreferencesRepository {
   int? get playerRegionSize;
   LocationValue? get playerCurrentLocation;
 
+  // TOOD test
+  String? get playerNickname;
+
+// TOOD lot of this not needed
   void setAvatarUrl(String avatarUrl);
   void setPlayerTeam(TeamModel team);
-  void setPlayerCurrentLocation(LocationValue? location);
   void setPlayerRegionSize(int? regionSize);
+
+  // TODO this might be needed
+  void setPlayerCurrentLocation(LocationValue? location);
+
+  void setCurrentPlayer(PlayerModel? player);
 
   // getters - not sure if this should be streams or real values
 
