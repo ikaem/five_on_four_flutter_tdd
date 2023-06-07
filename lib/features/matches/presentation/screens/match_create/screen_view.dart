@@ -38,7 +38,7 @@ class MatchCreateScreenView extends ConsumerWidget {
     final ThemeData theme = Theme.of(context);
     final TextTheme themeText = theme.textTheme;
 
-    final TextStyle sectionLabelStyle = themeText.labelMedium!.copyWith(
+    final TextStyle sectionLabelStyle = themeText.titleMedium!.copyWith(
       fontWeight: FontWeight.bold,
     );
 
@@ -66,6 +66,9 @@ class MatchCreateScreenView extends ConsumerWidget {
         padding: EdgeInsets.all(SpacingConstants.small),
         child: ListView(
           children: [
+            SizedBox(
+              height: SpacingConstants.mediumLarge,
+            ),
             // TODO make widget out of this
             StreamBuilder<String>(
                 stream: matchCreateController.nameValidationStream,
@@ -110,7 +113,7 @@ class MatchCreateScreenView extends ConsumerWidget {
               onJoinMatchChange: matchCreateController.onJoinMatchChange,
             ),
             SizedBox(
-              height: SpacingConstants.small,
+              height: SpacingConstants.large,
             ),
             MatchCreatePlayersInviteInputs(
               sectionLabelStyle: sectionLabelStyle.copyWith(

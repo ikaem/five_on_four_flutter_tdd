@@ -25,6 +25,10 @@ class StreamedTimeField extends StatelessWidget {
       builder: (context, snapshot) {
         final bool hasError = snapshot.hasError;
         return TextField(
+          style: TextStyle(
+            // TODO this should be done better, globally somehow
+            color: ColorConstants.grey1,
+          ),
           readOnly: true,
           controller: fieldController,
           decoration: InputDecoration(
@@ -38,6 +42,7 @@ class StreamedTimeField extends StatelessWidget {
             ),
           ),
           onTap: () async {
+            // TODO extract to function
             final TimeOfDay timeOfDay = TimeOfDay.now();
 
             final TimeOfDay? pickedTime = await showTimePicker(

@@ -23,6 +23,10 @@ class StreamedDateField extends StatelessWidget {
         final bool hasError = snapshot.hasError;
 
         return TextField(
+          style: TextStyle(
+            // TODO this should be done better, globally somehow
+            color: ColorConstants.grey1,
+          ),
           readOnly: true,
           controller: fieldController,
           decoration: InputDecoration(
@@ -36,6 +40,7 @@ class StreamedDateField extends StatelessWidget {
             ),
           ),
           onTap: () async {
+            // FUTURE extract to function
             final DateTime dateNow = DateTime.now();
 
             final DateTime? pickedDate = await showDatePicker(
