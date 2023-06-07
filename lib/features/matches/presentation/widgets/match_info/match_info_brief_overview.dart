@@ -1,4 +1,6 @@
+import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/icon_with_text.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/constants/app_constants.dart';
+import 'package:five_on_four_flutter_tdd/features/core/utils/extensions/date_time_extension.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match_info/model.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/domain/models/weather/model.dart';
@@ -55,70 +57,74 @@ class MatchInfoBriefOverview extends StatelessWidget {
           color: ColorConstants.greenDark,
           borderRadius: BorderRadius.circular(DimensionsConstants.d10),
         ),
-        padding: EdgeInsets.all(SpacingConstants.medium),
+        padding: EdgeInsets.all(SpacingConstants.mediumLarge),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'My next match',
-              style: textTheme.titleSmall!.copyWith(
+              style: textTheme.titleMedium!.copyWith(
                 color: ColorConstants.yellow,
               ),
             ),
             SizedBox(
-              height: SpacingConstants.medium,
+              height: SpacingConstants.small,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Divider(
+              color: ColorConstants.grey4,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        match.name,
-                        style: textTheme.bodyMedium!.copyWith(
-                          color: ColorConstants.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(
-                        height: SpacingConstants.medium,
-                      ),
-                      Text(
-                        // TODO this needs to be properly formatted
-                        match.date.toIso8601String(),
-                        style: textTheme.bodySmall!.copyWith(
-                          color: ColorConstants.white,
-                        ),
-                      ),
-                      Text(
-                        match.location.locationName,
-                        style: textTheme.bodySmall!.copyWith(
-                          color: ColorConstants.white,
-                        ),
-                      ),
-                      SizedBox(
-                        height: SpacingConstants.medium,
-                      ),
-                      Text(
-                        '${match.joinedParticipants.length} player(s) arriving',
-                        style: textTheme.bodySmall!.copyWith(
-                          color: ColorConstants.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                Text(
+                  match.name,
+                  style: textTheme.displayLarge!.copyWith(
+                    color: ColorConstants.white,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                // TODO make this a separate widget in weather feature
-                if (weather != null)
-                  Expanded(
-                    child: WeatherBriefInfo(
-                      weather: weather,
-                      orientation: Axis.vertical,
-                    ),
+                SizedBox(
+                  height: SpacingConstants.mediumLarge,
+                ),
+                IconWithText(
+                  icon: Icons.schedule,
+                  iconColor: ColorConstants.yellow,
+                  text: match.date.asDateTimeInformatlFormattedString,
+                  textStyle: textTheme.bodyLarge!.copyWith(
+                    color: ColorConstants.grey1,
+                    fontWeight: FontWeight.bold,
                   ),
+                ),
+                SizedBox(
+                  height: SpacingConstants.small,
+                ),
+                IconWithText(
+                  icon: Icons.location_on,
+                  iconColor: ColorConstants.yellow,
+                  text: match.location.locationName,
+                  textStyle: textTheme.bodyLarge!.copyWith(
+                    color: ColorConstants.grey1,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: SpacingConstants.small,
+                ),
+                IconWithText(
+                  icon: Icons.group,
+                  iconColor: ColorConstants.yellow,
+                  text: '${match.joinedParticipants.length} player(s) arriving',
+                  textStyle: textTheme.bodyLarge!.copyWith(
+                    color: ColorConstants.grey1,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: SpacingConstants.mediumLarge,
+                ),
+                WeatherBriefInfo(
+                  weather: weather,
+                )
               ],
             ),
           ],

@@ -2,7 +2,7 @@ import 'package:five_on_four_flutter_tdd/features/weather/domain/models/weather/
 import 'package:flutter/material.dart';
 
 extension WeatherModelExtension on WeatherModel {
-  IconData getWeatherIcon() {
+  IconData get normalizedWeatherIcon {
     switch (weatherDescription) {
       case 'Sunny':
         {
@@ -90,7 +90,7 @@ extension WeatherModelExtension on WeatherModel {
     }
   }
 
-  String getWeatherDescription() {
+  String get normalizedWeatherDescription {
     switch (weatherDescription) {
       case 'Sunny':
         {

@@ -13,12 +13,6 @@ class MatchInfoVenueOverview extends StatelessWidget {
     required this.match,
   });
 
-// TODO all of this we need - we will have this later
-  // final LocationModel location;
-  // final WeatherModel weather;
-  // TODO add extensions on datetime to format it as we need it here
-  // final DateTime startsAt;
-
   final WeatherModel? weather;
   final MatchModel match;
 
@@ -32,7 +26,7 @@ class MatchInfoVenueOverview extends StatelessWidget {
         color: ColorConstants.greenDark,
         borderRadius: BorderRadius.circular(DimensionsConstants.d10),
       ),
-      padding: EdgeInsets.all(SpacingConstants.medium),
+      padding: EdgeInsets.all(SpacingConstants.mediumLarge),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -41,7 +35,7 @@ class MatchInfoVenueOverview extends StatelessWidget {
             children: [
               Text(
                 "Location:",
-                style: textTheme.titleSmall!.copyWith(
+                style: textTheme.titleMedium!.copyWith(
                   color: ColorConstants.yellow,
                 ),
               ),
@@ -54,6 +48,9 @@ class MatchInfoVenueOverview extends StatelessWidget {
                   color: ColorConstants.white,
                   fontWeight: FontWeight.bold,
                 ),
+              ),
+              SizedBox(
+                height: SpacingConstants.xSmall,
               ),
               Text(
                 match.location.locationAddress,
@@ -77,7 +74,7 @@ class MatchInfoVenueOverview extends StatelessWidget {
             children: [
               Text(
                 "Date:",
-                style: textTheme.titleSmall!.copyWith(
+                style: textTheme.titleMedium!.copyWith(
                   color: ColorConstants.yellow,
                 ),
               ),
@@ -101,7 +98,7 @@ class MatchInfoVenueOverview extends StatelessWidget {
             children: [
               Text(
                 "Weather:",
-                style: textTheme.titleSmall!.copyWith(
+                style: textTheme.titleMedium!.copyWith(
                   color: ColorConstants.yellow,
                 ),
               ),
@@ -110,18 +107,8 @@ class MatchInfoVenueOverview extends StatelessWidget {
               ),
               WeatherBriefInfo(
                 weather: weather,
-                orientation: Axis.horizontal,
+                // orientation: Axis.horizontal,
               ),
-              // Row(
-              //   children: [
-              //     Text("Sunny"),
-              //     Icon(
-              //       Icons.sunny,
-              //       size: FontSizeConstants.xxxLarge,
-              //       color: ColorConstants.white,
-              //     ),
-              //   ],
-              // )
             ],
           ),
         ],

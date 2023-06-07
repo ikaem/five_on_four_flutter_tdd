@@ -1,6 +1,8 @@
+import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/icon_with_text.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match_participant/model.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/constants.dart';
+import 'package:five_on_four_flutter_tdd/theme/constants/font_size_constants.dart';
 import 'package:flutter/material.dart';
 
 class MatchParticipantBriefCard extends StatelessWidget {
@@ -9,13 +11,12 @@ class MatchParticipantBriefCard extends StatelessWidget {
     required this.matchParticipant,
   });
 
-// TODO not sure if i should have a brief model here
   final MatchParticipantModel matchParticipant;
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final TextTheme themeText = theme.textTheme;
+    final TextTheme textTheme = theme.textTheme;
 
     return Container(
       padding: EdgeInsets.all(
@@ -25,20 +26,43 @@ class MatchParticipantBriefCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(
           DimensionsConstants.d10,
         ),
-        color: ColorConstants.red,
+        color: ColorConstants.yellow,
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            matchParticipant.nickname,
-            style: themeText.bodySmall,
+          Row(
+            children: [
+              Text(
+                matchParticipant.nickname,
+                style: textTheme.titleLarge!.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: ColorConstants.black,
+                ),
+              ),
+              SizedBox(
+                width: SpacingConstants.small,
+              ),
+              GestureDetector(
+                child: Icon(
+                  Icons.info,
+                  color: ColorConstants.red,
+                ),
+                // FUTURE: implement onTap
+              ),
+            ],
           ),
           SizedBox(
-            width: SpacingConstants.medium,
+            height: SpacingConstants.medium,
           ),
-          GestureDetector(
-            child: Icon(
-              Icons.info,
+          IconWithText(
+            icon: Icons.checkroom,
+            iconColor: ColorConstants.grey5,
+            iconSize: FontSizeConstants.medium,
+            text: "Some team",
+            textStyle: textTheme.titleSmall!.copyWith(
+              color: ColorConstants.grey5,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ],

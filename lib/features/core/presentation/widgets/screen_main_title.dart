@@ -23,6 +23,7 @@ class ScreenMainTitle extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: Column(
@@ -30,7 +31,7 @@ class ScreenMainTitle extends StatelessWidget {
             children: [
               Text.rich(
                 TextSpan(
-                  style: textTheme.bodyLarge,
+                  style: textTheme.displayMedium,
                   children: <TextSpan>[
                     TextSpan(
                       text: primaryLeadingLabel,
@@ -53,7 +54,7 @@ class ScreenMainTitle extends StatelessWidget {
               ),
               Text.rich(
                 TextSpan(
-                  style: textTheme.bodySmall,
+                  style: textTheme.titleMedium,
                   children: <TextSpan>[
                     TextSpan(
                       text: secondaryLeadingLabel,
@@ -76,9 +77,12 @@ class ScreenMainTitle extends StatelessWidget {
         ),
         // TODO make and use MediaModel, to be used everywhere for media
         // TODO tests will fail because of media fetching
+        SizedBox(
+          width: SpacingConstants.medium,
+        ),
         Container(
-          width: DimensionsConstants.d50,
-          height: DimensionsConstants.d50,
+          width: DimensionsConstants.d60,
+          height: DimensionsConstants.d60,
           decoration: BoxDecoration(
             color: ColorConstants.red,
             borderRadius: BorderRadius.circular(DimensionsConstants.d10),

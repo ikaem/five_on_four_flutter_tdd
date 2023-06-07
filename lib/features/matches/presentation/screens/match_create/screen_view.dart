@@ -1,4 +1,8 @@
+import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/player_preferences/controller.dart';
+import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/player_preferences/provider/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/inputs/streamed_icon_button.dart';
+import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/screen_main_title.dart';
+import 'package:five_on_four_flutter_tdd/features/core/utils/constants/app_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/extensions/build_context_extension.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/match_create/controller.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/match_create/providers/provider.dart';
@@ -11,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+// FUTURE create content widget for this
 class MatchCreateScreenView extends ConsumerWidget {
   const MatchCreateScreenView();
 
@@ -19,9 +24,14 @@ class MatchCreateScreenView extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    // TODO this will also need to disable all inputs somehow while loading
+    // FUTURE this will also need to disable all inputs somehow while loading
     final MatchCreateController matchCreateController =
         ref.read(matchCreateAppControllerProvider.notifier);
+
+    final PlayerPreferencesController playerPreferencesController = ref.read(
+      playerPreferencesAppControllerProvider.notifier,
+    );
+
     final AsyncValue<String?> matchCreateValue =
         ref.watch(matchCreateAppControllerProvider);
 
@@ -31,7 +41,7 @@ class MatchCreateScreenView extends ConsumerWidget {
     final ThemeData theme = Theme.of(context);
     final TextTheme themeText = theme.textTheme;
 
-    final TextStyle sectionLabelStyle = themeText.labelMedium!.copyWith(
+    final TextStyle sectionLabelStyle = themeText.titleMedium!.copyWith(
       fontWeight: FontWeight.bold,
     );
 
@@ -59,18 +69,24 @@ class MatchCreateScreenView extends ConsumerWidget {
         padding: EdgeInsets.all(SpacingConstants.small),
         child: ListView(
           children: [
-            Text(
-                "Some match info  that will be wrapped in a stream of match name value"),
-            TextButton(
-              onPressed: () {
-                context.pushNamed(
-                  AppRoutes.errorScreenRouteValue.name,
-                  pathParameters: {
-                    "error_message": "",
-                  },
-                );
-              },
-              child: Text("Go to error page"),
+            SizedBox(
+              height: SpacingConstants.mediumLarge,
+            ),
+            // TODO make widget out of this
+            StreamBuilder<String>(
+                stream: matchCreateController.nameValidationStream,
+                builder: (context, snapshot) {
+                  final String matchName = snapshot.data ?? "...";
+                  return ScreenMainTitle(
+                    primaryLeadingLabel: "Match: ",
+                    primaryTrailingLabel: matchName,
+                    secondaryLeadingLabel: "organized by: ",
+                    secondaryTrailingLabel:
+                        playerPreferencesController.currentPlayerNickname,
+                  );
+                }),
+            SizedBox(
+              height: SpacingConstants.xLarge,
             ),
             MatchCreateBasicInputs(
               sectionLabelStyle: sectionLabelStyle.copyWith(
@@ -100,7 +116,7 @@ class MatchCreateScreenView extends ConsumerWidget {
               onJoinMatchChange: matchCreateController.onJoinMatchChange,
             ),
             SizedBox(
-              height: SpacingConstants.small,
+              height: SpacingConstants.large,
             ),
             MatchCreatePlayersInviteInputs(
               sectionLabelStyle: sectionLabelStyle.copyWith(
@@ -132,13 +148,13 @@ class MatchCreateScreenView extends ConsumerWidget {
                 // TODO revert this
                 if (matchId == null) return;
 
-// TODO test
-                // context.pushReplacementNamed(
-                //   AppRoutes.matchInfoScreenRouteValue.name,
-                //   pathParameters: {
-                //     AppConstants.idKey: matchId,
-                //   },
-                // );
+                // TODO revert this
+                context.pushReplacementNamed(
+                  AppRoutes.matchInfoScreenRouteValue.name,
+                  pathParameters: {
+                    AppConstants.idKey: matchId,
+                  },
+                );
               },
               error: (error, stackTrace) => context
                   .showSnackBarMessage("There was an issue creating the match"),

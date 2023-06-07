@@ -124,7 +124,7 @@ class _PreferencesRegionAreaSection extends StatelessWidget {
             ],
           ),
           style: textTheme.bodySmall!.copyWith(
-            color: ColorConstants.greyDark,
+            color: ColorConstants.grey4,
           ),
         ),
         SizedBox(
@@ -247,7 +247,7 @@ class _PreferencesTeamSection extends StatelessWidget {
             ],
           ),
           style: textTheme.bodySmall!.copyWith(
-            color: ColorConstants.greyDark,
+            color: ColorConstants.grey4,
           ),
         ),
         SizedBox(
@@ -303,7 +303,7 @@ class _PreferencesAvatarSection extends StatelessWidget {
             Container(
               height: DimensionsConstants.d108,
               width: DimensionsConstants.d108,
-              color: ColorConstants.grey,
+              color: ColorConstants.grey3,
             ),
             SizedBox(
               width: SpacingConstants.small,

@@ -23,6 +23,11 @@ class PlayerPreferencesAppController extends _$PlayerPreferencesAppController
   Stream<LocationValue?> get currentLocationStream =>
       throw UnimplementedError();
 
+  @override
+  // TODO: implement currentPlayerNickname
+  String get currentPlayerNickname =>
+      _playerPreferencesService.currentPlayerNickname ?? "Superstar";
+
 // TODO this is direct stream from the service, but we might want to do some debouncing, so will implement buffered one here
   // @override
   // // TODO: implement regionSizeStream
