@@ -7,33 +7,37 @@ class StreamedCheckbox extends StatelessWidget {
     required this.stream,
     required this.onChanged,
     required this.labelText,
+    required this.labelStyle,
   });
 
   final Stream<bool> stream;
   final ValueSetter<bool?> onChanged;
   final String labelText;
+  final TextStyle labelStyle;
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    final TextTheme themeText = theme.textTheme;
-
     return StreamBuilder<bool>(
       builder: (context, snapshot) {
         final bool hasError = snapshot.hasError;
         final bool? data = snapshot.data;
 
+        final TextStyle style = hasError
+            ? labelStyle.copyWith(color: ColorConstants.red)
+            : labelStyle;
+
         return Row(
           children: [
             Text(
               labelText,
-              style: themeText.bodySmall!.copyWith(
-                  color: hasError ? ColorConstants.red : ColorConstants.white),
+              style: style,
             ),
             Checkbox(
-              value: data ?? false,
-              onChanged: onChanged,
-            ),
+                value: data ?? false,
+                onChanged: onChanged,
+                side: BorderSide(
+                  color: hasError ? ColorConstants.red : ColorConstants.white,
+                )),
           ],
         );
       },

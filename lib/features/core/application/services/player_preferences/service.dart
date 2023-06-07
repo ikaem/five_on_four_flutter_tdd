@@ -10,6 +10,8 @@ abstract class PlayerPreferencesService {
 
   int? get regionSize;
   LocationValue? get currentLocation;
+  // TOOD test
+  String? get currentPlayerNickname;
 
 // TODO for now, it will only get current location
   Future<void> initialize();

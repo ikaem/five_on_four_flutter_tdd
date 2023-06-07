@@ -20,26 +20,20 @@ class PlayersRemoteAppDataSource implements PlayersRemoteDataSource {
     required PlayersSearchOptions options,
     required String currentPlayerId,
   }) async {
+    final String searchTerm = filters.searchTerm.toLowerCase();
+    if (searchTerm.isEmpty) return [];
+
     Query<Map<String, dynamic>> searchQuery = _firebaseFirestoreWrapper.db
         .collection(PlayersFirebaseConstants.collectionPlayers)
         .where(
           PlayersFirebaseConstants.fieldNickname,
-          // FUTURE make this more flexible
-          // isEqualTo: filters.searchTerm,
-          isGreaterThanOrEqualTo: filters.searchTerm.toLowerCase(),
+          isGreaterThanOrEqualTo: searchTerm,
         )
         .where(
           PlayersFirebaseConstants.fieldNickname,
-          isLessThanOrEqualTo: filters.searchTerm.toLowerCase() +
-              FirebaseConstants.highPrivateSearchSurrogate,
+          isLessThanOrEqualTo:
+              searchTerm + FirebaseConstants.highPrivateSearchSurrogate,
         );
-
-    if (!options.shouldSearchCurrentUser) {
-      searchQuery = searchQuery.where(
-        PlayersFirebaseConstants.fieldDocumentId,
-        isNotEqualTo: currentPlayerId,
-      );
-    }
 
     final QuerySnapshot<Map<String, dynamic>> querySnapshot =
         await searchQuery.get();
@@ -54,6 +48,11 @@ class PlayersRemoteAppDataSource implements PlayersRemoteDataSource {
 
       return playerRemoteDTO;
     }).toList();
+
+// FUTURE have to filter this way because firestore does not support equality filtering on multiple fields
+    if (!options.shouldSearchCurrentUser) {
+      searchResults.removeWhere((player) => player.id == currentPlayerId);
+    }
 
     return searchResults;
   }

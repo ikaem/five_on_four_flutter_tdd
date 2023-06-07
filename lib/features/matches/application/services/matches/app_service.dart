@@ -91,7 +91,6 @@ class MatchesAppService extends MatchesService
 
     final String id = await _matchesRepository.createMatch(
       matchData: matchData,
-      // currentPlayer: currentPlayer.player,
       playerId: auth.id,
       playerNickname: auth.nickname,
     );
@@ -152,8 +151,6 @@ class MatchesAppService extends MatchesService
       // FUTURE: maybe logout, but maybe is not needed
       throw "Something";
     }
-
-    // final PlayerModel currentPlayer = auth.player;
     final allParticipants = match.allParticipants;
 
     final bool isCurrentPlayerParticipating =
@@ -171,8 +168,6 @@ class MatchesAppService extends MatchesService
   Future<List<MatchModel>> handleSearchMatches(
     MatchesSearchFiltersValue filters,
   ) async {
-// TOOD here we will calculate boundaties
-// so get location for current user
     final LocationValue? currentUserLocation =
         _playerPreferencesRepository.playerCurrentLocation;
     final int? regionSize = _playerPreferencesRepository.playerRegionSize;

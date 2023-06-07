@@ -30,11 +30,11 @@ class MatchCreatePlayersInviteInputs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.all(SpacingConstants.mediumLarge),
       decoration: BoxDecoration(
         color: ColorConstants.white,
         borderRadius: BorderRadius.circular(DimensionsConstants.d10),
       ),
-      padding: EdgeInsets.all(SpacingConstants.medium),
       child: Column(
         children: [
           Row(
@@ -43,17 +43,26 @@ class MatchCreatePlayersInviteInputs extends StatelessWidget {
                 "Invited players",
                 style: sectionLabelStyle,
               ),
-              IconButton(
-                onPressed: _onOpenInvitationDialog(
+              SizedBox(
+                width: SpacingConstants.small,
+              ),
+              GestureDetector(
+                onTap: _onOpenInvitationDialog(
                   context: context,
                   participantsInvitationsStream: participantsInvitationsStream,
                 ),
-                icon: Icon(
+                child: Icon(
                   Icons.add_circle,
                   color: ColorConstants.red,
                 ),
               ),
             ],
+          ),
+          SizedBox(
+            height: SpacingConstants.small,
+          ),
+          Divider(
+            color: ColorConstants.grey4,
           ),
           StreamBuilder<List<MatchParticipationValue>>(
               stream: participantsInvitationsStream,

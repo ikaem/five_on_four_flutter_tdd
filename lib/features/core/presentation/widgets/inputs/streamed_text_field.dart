@@ -32,10 +32,14 @@ class StreamedTextField extends StatelessWidget {
           onChanged: (value) {
             onChanged(value);
           },
+          style: TextStyle(
+            // TODO this should be done better, globally somehow
+            color: ColorConstants.grey1,
+          ),
           decoration: InputDecoration(
             labelText: labelText,
             labelStyle: TextStyle(
-              color: hasError ? ColorConstants.red : ColorConstants.grey,
+              color: hasError ? ColorConstants.red : ColorConstants.grey3,
             ),
           ),
         );
