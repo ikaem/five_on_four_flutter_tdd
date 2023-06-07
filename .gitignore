@@ -127,3 +127,7 @@ app.*.map.json
 
 # env
 .env
+
+# js
+node_modules/
+functions/lib
