@@ -2,15 +2,18 @@ import 'package:five_on_four_flutter_tdd/features/core/presentation/state/contro
 import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/player_preferences/provider/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/inputs/streamed_icon_button.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/screen_main_title.dart';
+import 'package:five_on_four_flutter_tdd/features/core/utils/constants/app_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/extensions/build_context_extension.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/match_create/controller.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/match_create/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_create/basic_inputs.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_create/players_invite_inputs.dart';
+import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/spacing_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 // FUTURE create content widget for this
 class MatchCreateScreenView extends ConsumerWidget {
@@ -146,12 +149,12 @@ class MatchCreateScreenView extends ConsumerWidget {
                 if (matchId == null) return;
 
                 // TODO revert this
-                // context.pushReplacementNamed(
-                //   AppRoutes.matchInfoScreenRouteValue.name,
-                //   pathParameters: {
-                //     AppConstants.idKey: matchId,
-                //   },
-                // );
+                context.pushReplacementNamed(
+                  AppRoutes.matchInfoScreenRouteValue.name,
+                  pathParameters: {
+                    AppConstants.idKey: matchId,
+                  },
+                );
               },
               error: (error, stackTrace) => context
                   .showSnackBarMessage("There was an issue creating the match"),
