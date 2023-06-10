@@ -20,4 +20,4 @@ functions-deploy:
 	firebase deploy --only functions
 
 generate-icons: 
-	flutter pub run flutter_launcher_icons
+	flutter pub run flutter_launcher_icons:main
