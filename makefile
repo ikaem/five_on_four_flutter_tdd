@@ -20,4 +20,7 @@ functions-deploy:
 	firebase deploy --only functions
 
 generate-icons: 
-	flutter pub run flutter_launcher_icons:main
+	flutter pub run flutter_launcher_icons
+
+build-prod:
+	flutter build appbundle --flavor=production --target=lib/main_production.dart

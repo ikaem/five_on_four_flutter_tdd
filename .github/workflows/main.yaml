@@ -1,5 +1,7 @@
 name: five_on_four_flutter_tdd
 
+# TODO this came with very good cli
+
 concurrency:
   group: $-$
   cancel-in-progress: true
