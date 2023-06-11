@@ -116,6 +116,6 @@ jobs:
           serviceAccountJson: ${{ secrets.PLAYSTORE_SERVICE_ACCOUNT_KEY }}
           packageName: xyz.imkaem.five_on_four_flutter
           # releaseFiles: app-production-release.aab
-          releaseFiles: ${{ github.workspace }}/appbundle/app-production-release.aab
+          releaseFiles: appbundle/app-production-release.aab
           track: alpha
           status: completed
