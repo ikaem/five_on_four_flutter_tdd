@@ -109,6 +109,10 @@ jobs:
         with:
           name: appbundle
 
+      # TODO just testing
+      - name: List artifact contents
+        run: ls -R ${{ github.workspace }}/appbundle
+
         # and release to internal track for some reason
       - name: Release build to internal track
         uses: r0adkll/upload-google-play@v1.1.1
@@ -116,6 +120,6 @@ jobs:
           serviceAccountJsonPlainText: ${{ secrets.PLAYSTORE_SERVICE_ACCOUNT_KEY }}
           packageName: xyz.imkaem.five_on_four_flutter
           # releaseFiles: app-production-release.aab
-          releaseFiles: /appbundle/app-production-release.aab
+          releaseFiles: appbundle/app-production-release.aab
           track: alpha
           status: completed
