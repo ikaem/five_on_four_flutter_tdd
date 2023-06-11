@@ -1,0 +1,52 @@
+name: learn-github-actions
+on:
+  push:
+    branches:
+      # - master
+      # - release # i like having branch only for release
+      - chore/deploy-ci-cd # just for test
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # this is checkout out the repository
+      - uses: actions/checkout@v3
+
+      # create env file
+      - name: Create .env file
+        run: |
+          touch .env
+
+      - uses: actions/setup-java@v3 # this is plugin for settup up java
+        # TODO leave out for now
+        with:
+          #   distribution: "zulu"
+          java-version: "12.x"
+        #   #  TODO we should also probably cache java
+        #   cache: "gradle"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.10.3"
+          # channel: "stable"
+          # TODO we should also probably cache flutter
+          # cache: true
+
+      - run: flutter pub get
+      # - run: flutter test # not for now
+
+      # TODO possibly not needed this - not that this will build --debug version?
+      - run: flutter build apk --flavor=production --target=lib/main_production.dart --debug --split-per-abi
+
+      # now send to play store
+      - name: Push to release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/flutter-apk/*"
+          tag: v1.0.${{ github.run_number }}
+          token: ${{ secrets.GH_TOKEN }} # this could be provided by github
+
+
+      # - run: flutter build appbundle --flavor=production --target=lib/main_production.dart
+# TODO we should maybe handle automatic versioing - or manual is good?
