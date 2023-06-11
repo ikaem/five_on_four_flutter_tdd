@@ -84,4 +84,4 @@ jobs:
       # TODO use this later
       - name: Build app bundle
         # run: flutter build appbundle --flavor=production --target=lib/main_production.dart --debug
-        run: flutter build appbundle --flavor=production --target=lib/main_production.dart --debug
+        run: flutter build appbundle --flavor=production --target=lib/main_production.dart
