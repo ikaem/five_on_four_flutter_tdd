@@ -24,6 +24,7 @@ jobs:
           distribution: "zulu"
           java-version: "12.x"
         #   #  TODO we should also probably cache java
+        # TODO i had issues with caching enabled - wouldnt build
         # cache: "gradle"
 
       - uses: subosito/flutter-action@v2
@@ -31,6 +32,7 @@ jobs:
           flutter-version: "3.10.3"
           # channel: "stable"
           # TODO we should also probably cache flutter
+          # TODO i had issues with caching enabled - wouldnt build
           # cache: true
 
       - run: flutter pub get
@@ -45,7 +47,9 @@ jobs:
         with:
           artifacts: "build/app/outputs/flutter-apk/*"
           tag: v1.0.${{ github.run_number }}
-          token: ${{ secrets.GH_TOKEN }} # this could be provided by github
+          # TODO maybe we dont need gh token
+          # token: ${{ secrets.GH_TOKEN }} # this could be provided by github
+          token: ${{ secrets.GITHUB_TOKEN }} # this could be provided by github
 
 
       # - run: flutter build appbundle --flavor=production --target=lib/main_production.dart
