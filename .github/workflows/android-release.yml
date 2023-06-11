@@ -59,7 +59,8 @@ jobs:
       # TODO possibly not needed this - app bundle might be better in future
       # TODO not that this will build --debug version?
       - name: Build APK
-        run: flutter build apk --flavor=production --target=lib/main_production.dart --debug --split-per-abi
+        # run: flutter build apk --flavor=production --target=lib/main_production.dart --debug --split-per-abi
+        run: flutter build apk --flavor=production --target=lib/main_production.dart --split-per-abi
 
       # build app bundle
       # TODO use this later
