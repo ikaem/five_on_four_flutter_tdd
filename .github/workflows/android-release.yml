@@ -92,3 +92,29 @@ jobs:
         with:
           name: appbundle
           path: build/app/outputs/bundle/productionRelease/app-production-release.aab
+
+  # publishing the app
+  deploy:
+    name: Deploy Android build
+
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # get the previouslly built appbundle
+      - name: Get Android build from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: appbundle
+
+        # and release to internal track for some reason
+      - name: Release build to internal track
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: ${{ secrets.PLAYSTORE_SERVICE_ACCOUNT_KEY }}
+          packageName: xyz.imkaem.five_on_four_flutter
+          releaseFiles: app-production-release.aab
+          track: alpha
+          status: completed
