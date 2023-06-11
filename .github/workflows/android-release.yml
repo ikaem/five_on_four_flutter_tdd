@@ -36,6 +36,7 @@ jobs:
           distribution: "zulu"
           java-version: "12.x"
           # TODO might be good to cache this, but it might fail bc of it
+          cache: "gradle"
 
       # set up flutter
       - name: Set up Flutter
@@ -44,6 +45,7 @@ jobs:
           flutter-version: "3.10.3"
           channel: "stable"
           # TODO might be good to cache this, but it might fail bc of it
+          cache: true
 
       # install dependencies
       - name: Install dependencies
