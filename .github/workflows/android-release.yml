@@ -109,9 +109,10 @@ jobs:
         with:
           name: appbundle
 
-      # TODO just testing
+      # TODO just testing - list the contents of the artifact
       - name: List artifact contents
-        run: ls -R ${{ github.workspace }}/appbundle
+        # run: ls -R ${{ github.workspace }}/appbundle
+        run: ls -R ${{ github.workspace }}
 
         # and release to internal track for some reason
       - name: Release build to internal track
