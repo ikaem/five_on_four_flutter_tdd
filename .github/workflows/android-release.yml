@@ -85,3 +85,10 @@ jobs:
       - name: Build app bundle
         # run: flutter build appbundle --flavor=production --target=lib/main_production.dart --debug
         run: flutter build appbundle --flavor=production --target=lib/main_production.dart
+
+      # uploading appbundle to gi8thub?
+      - name: Upload Android release
+        uses: actions/upload-artifact@v2
+        with:
+          name: appbundle
+          path: build/app/outputs/bundle/productionRelease/app-production-release.aab
