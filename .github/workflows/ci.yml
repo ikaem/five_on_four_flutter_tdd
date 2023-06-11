@@ -7,25 +7,36 @@ on:
       - chore/deploy-ci-cd # just for test
 
 jobs:
-  # what is this check bats version
+  # what is this check bats version - maybe this can go away - or name it differents
   check-bats-version:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
+      # create env file
+      - name: Create .env file
+        run: |
+          touch .env
+
       - uses: actions/setup-java@v3 # this is plugin for settup up java
         with:
           distribution: "zulu"
           java-version: "12.x"
+          #  TODO we should also probably cache java
+          cache: "gradle"
 
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.10.4"
           channel: "stable"
+          # TODO we should also probably cache flutter
+          cache: true
 
       - run: flutter pub get
       # - run: flutter test # not for now
 
-      - run: flutter build apk --flavor=production --target=lib/main_production.dart
+      # TODO possibly not needed this
+      # - run: flutter build apk --flavor=production --target=lib/main_production.dart
 
       - run: flutter build appbundle --flavor=production --target=lib/main_production.dart
+# TODO we should maybe handle automatic versioing - or manual is good?
