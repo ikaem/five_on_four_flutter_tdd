@@ -1,0 +1,126 @@
+name: Android release
+
+# define triggers
+on:
+  push:
+    branches:
+      - chore/deploy-v2
+  # TODO we can do pull laster
+  # pull_request:
+  #   branches:
+  #     - main
+  # TODO i dont know what this is
+  workflow_dispatch:
+
+# define jobs
+jobs:
+  # building the app
+  # define name for the job
+  build:
+    runs-on: ubuntu-latest
+
+    # lets define steps
+    steps:
+      # checkout the code
+      - uses: actions/checkout@v3
+
+      # create .env file, because we are not pushing it to the repo
+      - name: Create .env file
+        run: |
+          touch .env
+
+      # create keystore file, because we are not pushing it to the repo
+      - name: Create upload-keystore.jks file
+        id: android_keystore
+        uses: timheuer/base64-to-file@v1.0.3
+        with:
+          # TODO note that this will be in the root - can we put it to android/app? - check the documentation
+          file-name: upload-keystore.jks
+          encodedString: ${{ secrets.ANDROID_KEYSTORE_BASE_64 }}
+
+      # create key.properties file, because we are not pushing it to the repo
+      # TODO note that we get filepath of the keystore file from the previous step
+      - name: Create key.properties file
+        run: |
+          echo "storeFile=${{ steps.android_keystore.outputs.filePath }}" > android/key.properties
+          echo "storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
+
+      # set up java
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: "12.x"
+          # TODO might be good to cache this, but it might fail bc of it
+          cache: "gradle"
+
+      # set up flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.10.3"
+          channel: "stable"
+          # TODO might be good to cache this, but it might fail bc of it
+          cache: true
+
+      # install dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # run tests
+      # - name: Run tests
+      #   run: flutter test
+
+      # build apk
+      # TODO possibly not needed this - app bundle might be better in future
+      # TODO not that this will build --debug version?
+      # - name: Build APK
+      #   # run: flutter build apk --flavor=production --target=lib/main_production.dart --debug --split-per-abi
+      #   run: flutter build apk --flavor=production --target=lib/main_production.dart --split-per-abi
+
+      # build app bundle
+      # TODO use this later
+      - name: Build app bundle
+        # run: flutter build appbundle --flavor=production --target=lib/main_production.dart --debug
+        run: flutter build appbundle --flavor=production --target=lib/main_production.dart
+
+      # uploading appbundle to gi8thub?
+      - name: Upload Android release
+        uses: actions/upload-artifact@v2
+        with:
+          name: appbundle
+          path: build/app/outputs/bundle/productionRelease/app-production-release.aab
+
+  # publishing the app
+  deploy:
+    name: Deploy Android build
+
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # get the previouslly built appbundle
+      - name: Get Android build from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: appbundle
+
+      # TODO just testing - list the contents of the artifact
+      - name: List artifact contents
+        # run: ls -R ${{ github.workspace }}/appbundle
+        run: ls -R ${{ github.workspace }}
+
+        # and release to internal track for some reason
+      - name: Release build to internal track
+        uses: r0adkll/upload-google-play@v1.1.1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAYSTORE_SERVICE_ACCOUNT_KEY }}
+          packageName: xyz.imkaem.five_on_four_flutter
+          # releaseFiles: app-production-release.aab
+          releaseFiles: app-production-release.aab
+          track: alpha
+          status: completed

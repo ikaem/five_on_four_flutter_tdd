@@ -61,20 +61,28 @@ android {
     }
 
     signingConfigs {
-        if (System.getenv("ANDROID_KEYSTORE_PATH")) {
-            release {
-                storeFile file(System.getenv("ANDROID_KEYSTORE_PATH"))
-                keyAlias System.getenv("ANDROID_KEYSTORE_ALIAS")
-                keyPassword System.getenv("ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
-                storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
-            }
-        } else {
-            release {
-                keyAlias keystoreProperties['keyAlias']
-                keyPassword keystoreProperties['keyPassword']
-                storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-                storePassword keystoreProperties['storePassword']
-            }
+        // TODO this came default by very_good_cli
+        // if (System.getenv("ANDROID_KEYSTORE_PATH")) {
+        //     release {
+        //         storeFile file(System.getenv("ANDROID_KEYSTORE_PATH"))
+        //         keyAlias System.getenv("ANDROID_KEYSTORE_ALIAS")
+        //         keyPassword System.getenv("ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
+        //         storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+        //     }
+        // } else {
+        //     release {
+        //         keyAlias keystoreProperties['keyAlias']
+        //         keyPassword keystoreProperties['keyPassword']
+        //         storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+        //         storePassword keystoreProperties['storePassword']
+        //     }
+        // }
+
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
         }
     }
 
@@ -116,3 +124,5 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
+
+
