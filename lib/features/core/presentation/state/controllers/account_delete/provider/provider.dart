@@ -15,7 +15,8 @@ class AccountDeleteAppController extends _$AccountDeleteAppController
 
   @override
   AsyncValue<void> build() {
-    return const AsyncValue.data(null);
+    // return const AsyncData(null);
+    return AsyncValue.error("", StackTrace.current);
   }
 
   @override
@@ -24,6 +25,7 @@ class AccountDeleteAppController extends _$AccountDeleteAppController
 
     try {
       await _playerPreferencesService.handleDeleteAccount();
+      // TODO this should probably return true or false or something, just se we can tell difference in ui dialog for delete
       state = AsyncValue.data(null);
     } catch (e) {
 // TODO we can specify which error happened maybe?
@@ -34,4 +36,9 @@ class AccountDeleteAppController extends _$AccountDeleteAppController
 // TODO not sure we need this
   @override
   void dispose() {}
+
+  @override
+  void onResetState() {
+    state = const AsyncValue.data(null);
+  }
 }

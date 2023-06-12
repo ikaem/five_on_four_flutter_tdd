@@ -5,7 +5,6 @@ import 'package:five_on_four_flutter_tdd/features/core/presentation/state/contro
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/app_bar_more_actions.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/icon_with_text.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/screen_main_title.dart';
-import 'package:five_on_four_flutter_tdd/features/core/utils/extensions/build_context_extension.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/dimensions_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/font_size_constants.dart';
@@ -27,64 +26,62 @@ class PreferencesScreen extends ConsumerWidget {
     final PlayerPreferencesController _playerPreferencesController = ref.read(
       playerPreferencesAppControllerProvider.notifier,
     );
-    final AccountDeleteController _accountDeleteController =
-        ref.read(accountDeleteAppControllerProvider.notifier);
 
     final AsyncValue<void> preferencesState =
         ref.watch(playerPreferencesAppControllerProvider);
 
-    ref.listen(accountDeleteAppControllerProvider, (
-      AsyncValue<void>? previous,
-      AsyncValue<void> next,
-    ) {
-// TODO make function out of this
+//     ref.listen(accountDeleteAppControllerProvider, (
+//       AsyncValue<void>? previous,
+//       AsyncValue<void> next,
+//     ) {
+// // TODO make function out of this
 
-      next.when(
-        data: (data) {
-          // TOOD here we would navigate to logout
-        },
-        error: (error, stackTrace) {
-          // TODO here shown some message that thing failed
-          context.showSnackBarMessage(
-            "There was an error deleting your account",
-            SnackBarVariant.error,
-          );
+//       next.when(
+//         data: (data) {
+//           // TOOD here we would navigate to logout
+//         },
+//         error: (error, stackTrace) {
+//           // TODO here shown some message that thing failed
+//           context.showSnackBarMessage(
+//             "There was an error deleting your account",
+//             SnackBarVariant.error,
+//           );
 
-          // but still logout with auth controller
-          // TODO but still go to logout
-        },
-        loading: () async {
-          await showDialog<void>(
-            context: context,
-            barrierDismissible: false,
-            builder: (
-              context,
-            ) {
-              return Dialog(
-                child: Container(
-                  padding: EdgeInsets.all(SpacingConstants.medium),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        "Loading...",
-                        style: textTheme.titleLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(
-                        height: SpacingConstants.medium,
-                      ),
-                      CircularProgressIndicator(),
-                    ],
-                  ),
-                ),
-              );
-            },
-          );
-        },
-      );
-    });
+//           // but still logout with auth controller
+//           // TODO but still go to logout
+//         },
+//         loading: () async {
+//           await showDialog<void>(
+//             context: context,
+//             barrierDismissible: false,
+//             builder: (
+//               context,
+//             ) {
+//               return Dialog(
+//                 child: Container(
+//                   padding: EdgeInsets.all(SpacingConstants.medium),
+//                   child: Column(
+//                     mainAxisSize: MainAxisSize.min,
+//                     children: [
+//                       Text(
+//                         "Loading...",
+//                         style: textTheme.titleLarge!.copyWith(
+//                           fontWeight: FontWeight.bold,
+//                         ),
+//                       ),
+//                       SizedBox(
+//                         height: SpacingConstants.medium,
+//                       ),
+//                       CircularProgressIndicator(),
+//                     ],
+//                   ),
+//                 ),
+//               );
+//             },
+//           );
+//         },
+//       );
+//     });
 
 // TODO test this is not good here
     // ref.listen(playerPreferencesAppControllerProvider, (
@@ -202,12 +199,7 @@ class PreferencesScreen extends ConsumerWidget {
                   SizedBox(
                     height: SpacingConstants.small,
                   ),
-                  _PreferencesDangerZoneSection(
-                    regionSizeStream:
-                        _playerPreferencesController.regionSizeStream,
-                    onRegionSizeChanged:
-                        _playerPreferencesController.onChangeRegionSize,
-                  )
+                  _PreferencesDangerZoneSection()
                 ],
               ),
             ),
@@ -218,18 +210,14 @@ class PreferencesScreen extends ConsumerWidget {
   }
 }
 
-class _PreferencesDangerZoneSection extends StatelessWidget {
-  const _PreferencesDangerZoneSection({
-    required Stream<int> regionSizeStream,
-    required ValueSetter<int> onRegionSizeChanged,
-  })  : _regionSizeStream = regionSizeStream,
-        _onRegionSizeChanged = onRegionSizeChanged;
-
-  final Stream<int> _regionSizeStream;
-  final ValueSetter<int> _onRegionSizeChanged;
+class _PreferencesDangerZoneSection extends ConsumerWidget {
+  const _PreferencesDangerZoneSection();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+    WidgetRef ref,
+  ) {
     final ThemeData theme = Theme.of(context);
     final TextTheme textTheme = theme.textTheme;
 
@@ -278,7 +266,9 @@ class _PreferencesDangerZoneSection extends StatelessWidget {
   }
 
   // TODO test
-  Future<void> Function() _onTapDeleteAccount(BuildContext context) =>
+  Future<void> Function() _onTapDeleteAccount(
+    BuildContext context,
+  ) =>
       () async {
         // TODO show a dialog
 
@@ -287,64 +277,252 @@ class _PreferencesDangerZoneSection extends StatelessWidget {
         final ThemeData theme = Theme.of(context);
         final TextTheme textTheme = theme.textTheme;
 
-        final bool? shouldDeleteAccount = await showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              actionsAlignment: MainAxisAlignment.spaceBetween,
-              contentPadding: EdgeInsets.all(SpacingConstants.medium),
-              title: Text(
-                "Delete account",
-                textAlign: TextAlign.center,
-              ),
-              content: Container(
-                padding: EdgeInsets.all(SpacingConstants.medium),
-                decoration: BoxDecoration(
-                  color: ColorConstants.yellow,
-                  borderRadius: BorderRadius.circular(DimensionsConstants.d10),
-                ),
-                child: Text(
-                  "Deleting your account will remove you from all matches where you are registered as a participant.\n\nYour created matches will still be available for others, but you will be removed as the organizer.",
-                  style: textTheme.bodySmall!.copyWith(
-                    color: ColorConstants.grey5,
-                  ),
-                ),
-              ),
-              actions: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop(false);
-                    },
-                    child: Text("Cancel"),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: ColorConstants.black,
-                      side: BorderSide(
-                        color: ColorConstants.black,
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorConstants.red,
-                      foregroundColor: ColorConstants.white,
-                    ),
-                    onPressed: () {
-                      // Navigator.of(context).pop(true);
-                    },
-                    child: Text("Delete"),
-                  ),
-                ),
-              ],
-            );
-          },
-        );
+        await showDialog<void>(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return Dialog(
+                child: Consumer(
+                  // TODO move to a function
+                  builder: (context, ref, child) {
+                    final AccountDeleteController accountDeleteController =
+                        ref.read(accountDeleteAppControllerProvider.notifier);
+                    final AsyncValue<void> accountDeleteState =
+                        ref.watch(accountDeleteAppControllerProvider);
 
-        if (shouldDeleteAccount != true) {
-          return;
-        }
+                    return Container(
+                      padding: EdgeInsets.all(SpacingConstants.medium),
+                      child: accountDeleteState.when(
+                        loading: () {
+                          return _AccountDeleteLoadingView(
+                              textTheme: textTheme);
+                        },
+                        error: (error, stackTrace) {
+                          return _AccountDeleteErrorView(textTheme: textTheme);
+                        },
+                        data: (data) {
+                          return _AccountDeleteConfirmView(
+                            textTheme: textTheme,
+                            onDeleteAccount:
+                                accountDeleteController.onDeleteAccount,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              );
+
+              // return Dialog(
+              //   child: Builder(
+              //     builder: (context) {
+              //       final AccountDeleteController accountDeleteController =
+              //           ref.read(accountDeleteAppControllerProvider.notifier);
+              //       final AsyncValue<void> accountDeleteState =
+              //           ref.watch(accountDeleteAppControllerProvider);
+
+              //       // return Text("Hello");
+
+              //       return Column(
+              //         children: [
+              //           // Text("Hello"),
+              //           accountDeleteState.when(
+              //             data: (data) => Text("Data"),
+              //             loading: () => Text("Loading"),
+              //             error: (error, stackTrace) => Text("Error"),
+              //           ),
+              //           OutlinedButton(
+              //             onPressed: () {
+              //               accountDeleteController.onDeleteAccount();
+              //             },
+              //             child: Text("Delete"),
+              //             style: OutlinedButton.styleFrom(
+              //               foregroundColor: ColorConstants.black,
+              //               side: BorderSide(
+              //                 color: ColorConstants.black,
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       );
+              //     },
+              //   ),
+              //   // actions: [
+              //   //   Expanded(
+              //   //     child: OutlinedButton(
+              //   //       onPressed: () {
+              //   //         // Navigator.of(context).pop(false);
+              //   //         Navigator.of(context).pop();
+              //   //       },
+              //   //       child: Text("Cancel"),
+              //   //       style: OutlinedButton.styleFrom(
+              //   //         foregroundColor: ColorConstants.black,
+              //   //         side: BorderSide(
+              //   //           color: ColorConstants.black,
+              //   //         ),
+              //   //       ),
+              //   //     ),
+              //   //   ),
+              //   //   Expanded(
+              //   //     child: ElevatedButton(
+              //   //       style: ElevatedButton.styleFrom(
+              //   //         backgroundColor: ColorConstants.red,
+              //   //         foregroundColor: ColorConstants.white,
+              //   //       ),
+              //   //       onPressed: () {
+              //   //         // Navigator.of(context).pop(true);
+              //   //         // here we call delete - we dont want to pop
+              //   //         accountDeleteController.onDeleteAccount();
+              //   //       },
+              //   //       child: Text("Delete"),
+              //   //     ),
+              //   //   ),
+              //   // ],
+              // );
+
+              // final AsyncValue<void> accountDeleteState =
+              //     ref.watch(accountDeleteAppControllerProvider);
+              // return accountDeleteState.when(
+              //   loading: () {
+              //     // TODO possibly make this its own widget, just for simpliciy - in the same file is fine
+              //     return _AccountDeleteLoadingView(textTheme: textTheme);
+              //   },
+              //   error: (error, stackTrace) {
+              //     return _AccountDeleteErrorView(textTheme: textTheme);
+              //   },
+              //   data: (data) {
+              //     return _AccountDeleteConfirmView(
+              //         textTheme: textTheme,
+              //         accountDeleteController: accountDeleteController);
+              //   },
+              // );
+            }
+
+            // return Consumer(
+            //   builder: (context, consumerRef, child) {
+            //     final AccountDeleteController accountDeleteController =
+            //         consumerRef
+            //             .read(accountDeleteAppControllerProvider.notifier);
+            //     final AsyncValue<void> accountDeleteState =
+            //         consumerRef.watch(accountDeleteAppControllerProvider);
+
+            //     return Dialog(
+            //       child: Column(
+            //         children: [
+            //           // Text("Hello"),
+            //           accountDeleteState.when(
+            //             data: (data) => Text("Data"),
+            //             loading: () => Text("Loading"),
+            //             error: (error, stackTrace) => Text("Error"),
+            //           ),
+            //           OutlinedButton(
+            //             onPressed: () {
+            //               accountDeleteController.onDeleteAccount();
+            //             },
+            //             child: Text("Delete"),
+            //             style: OutlinedButton.styleFrom(
+            //               foregroundColor: ColorConstants.black,
+            //               side: BorderSide(
+            //                 color: ColorConstants.black,
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     );
+            //   },
+            // );
+
+            // return Dialog(
+            //   child: Builder(
+            //     builder: (context) {
+            //       final AccountDeleteController accountDeleteController =
+            //           ref.read(accountDeleteAppControllerProvider.notifier);
+            //       final AsyncValue<void> accountDeleteState =
+            //           ref.watch(accountDeleteAppControllerProvider);
+
+            //       // return Text("Hello");
+
+            //       return Column(
+            //         children: [
+            //           // Text("Hello"),
+            //           accountDeleteState.when(
+            //             data: (data) => Text("Data"),
+            //             loading: () => Text("Loading"),
+            //             error: (error, stackTrace) => Text("Error"),
+            //           ),
+            //           OutlinedButton(
+            //             onPressed: () {
+            //               accountDeleteController.onDeleteAccount();
+            //             },
+            //             child: Text("Delete"),
+            //             style: OutlinedButton.styleFrom(
+            //               foregroundColor: ColorConstants.black,
+            //               side: BorderSide(
+            //                 color: ColorConstants.black,
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       );
+            //     },
+            //   ),
+            //   // actions: [
+            //   //   Expanded(
+            //   //     child: OutlinedButton(
+            //   //       onPressed: () {
+            //   //         // Navigator.of(context).pop(false);
+            //   //         Navigator.of(context).pop();
+            //   //       },
+            //   //       child: Text("Cancel"),
+            //   //       style: OutlinedButton.styleFrom(
+            //   //         foregroundColor: ColorConstants.black,
+            //   //         side: BorderSide(
+            //   //           color: ColorConstants.black,
+            //   //         ),
+            //   //       ),
+            //   //     ),
+            //   //   ),
+            //   //   Expanded(
+            //   //     child: ElevatedButton(
+            //   //       style: ElevatedButton.styleFrom(
+            //   //         backgroundColor: ColorConstants.red,
+            //   //         foregroundColor: ColorConstants.white,
+            //   //       ),
+            //   //       onPressed: () {
+            //   //         // Navigator.of(context).pop(true);
+            //   //         // here we call delete - we dont want to pop
+            //   //         accountDeleteController.onDeleteAccount();
+            //   //       },
+            //   //       child: Text("Delete"),
+            //   //     ),
+            //   //   ),
+            //   // ],
+            // );
+
+            // final AsyncValue<void> accountDeleteState =
+            //     ref.watch(accountDeleteAppControllerProvider);
+            // return accountDeleteState.when(
+            //   loading: () {
+            //     // TODO possibly make this its own widget, just for simpliciy - in the same file is fine
+            //     return _AccountDeleteLoadingView(textTheme: textTheme);
+            //   },
+            //   error: (error, stackTrace) {
+            //     return _AccountDeleteErrorView(textTheme: textTheme);
+            //   },
+            //   data: (data) {
+            //     return _AccountDeleteConfirmView(
+            //         textTheme: textTheme,
+            //         accountDeleteController: accountDeleteController);
+            //   },
+            // );
+            // },
+            );
+
+// TODO test this is not good because of async gaps
+        // if (shouldDeleteAccount != true) {
+        //   return;
+        // }
         // TODO if they cancel, do nothing
 
         // TODO if they confirm, delete the account
@@ -353,6 +531,195 @@ class _PreferencesDangerZoneSection extends StatelessWidget {
         // TODO call function here
         // we could show another dialog here, with a loading indicator
       };
+}
+
+class _AccountDeleteConfirmView extends StatelessWidget {
+  const _AccountDeleteConfirmView({
+    required this.textTheme,
+    required this.onDeleteAccount,
+  });
+
+  final TextTheme textTheme;
+  final VoidCallback onDeleteAccount;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          children: [
+            Text(
+              "Delete account",
+              style: textTheme.titleMedium,
+            ),
+            Spacer(),
+            GestureDetector(
+              onTap: () {
+                // TODO this needs to be disabled during loading - or maybe it will not be here
+                Navigator.of(context).pop();
+              },
+              child: Icon(Icons.close),
+            ),
+          ],
+        ),
+        SizedBox(height: SpacingConstants.medium),
+        Container(
+          padding: EdgeInsets.all(SpacingConstants.medium),
+          decoration: BoxDecoration(
+            color: ColorConstants.yellow,
+            borderRadius: BorderRadius.circular(DimensionsConstants.d10),
+          ),
+          child: Text(
+            "Deleting your account will remove you from all matches where you are registered as a participant.\n\nYour created matches will still be available for others, but you will be removed as the organizer.",
+            style: textTheme.bodySmall!.copyWith(
+              color: ColorConstants.grey5,
+            ),
+          ),
+        ),
+        SizedBox(height: SpacingConstants.medium),
+        Row(
+          children: [
+            Expanded(
+              child: OutlinedButton(
+                onPressed: () {
+                  // Navigator.of(context).pop(false);
+                  Navigator.of(context).pop();
+                },
+                child: Text("Cancel"),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: ColorConstants.black,
+                  side: BorderSide(
+                    color: ColorConstants.black,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(width: SpacingConstants.medium),
+            Expanded(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorConstants.red,
+                  foregroundColor: ColorConstants.white,
+                ),
+                onPressed: onDeleteAccount,
+                child: Text("Delete"),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _AccountDeleteErrorView extends StatelessWidget {
+  const _AccountDeleteErrorView({
+    required this.textTheme,
+    required this.onResetDeleteState,
+  });
+
+  final TextTheme textTheme;
+  final VoidCallback onResetDeleteState;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          children: [
+            Text(
+              "Delete account",
+              style: textTheme.titleMedium,
+            ),
+            Spacer(),
+            GestureDetector(
+              onTap: () {
+                // TODO this needs to be disabled during loading - or maybe it will not be here
+                Navigator.of(context).pop();
+              },
+              child: Icon(Icons.close),
+            ),
+          ],
+        ),
+        SizedBox(height: SpacingConstants.medium),
+        Container(
+          padding: EdgeInsets.all(SpacingConstants.medium),
+          decoration: BoxDecoration(
+            color: ColorConstants.red,
+            borderRadius: BorderRadius.circular(DimensionsConstants.d10),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Center(
+                child: Icon(
+                  Icons.error,
+                ),
+              ),
+              SizedBox(
+                height: SpacingConstants.medium,
+              ),
+              Text(
+                // TODO might be better to actually send user to logout, because we dont know what failed
+                // TODO ALSO, make sure to submit exact error message
+                "There was an error deleting your account.\nPlease contact us at support@five-on-4.xyz to resolve the issue.",
+                style: textTheme.bodySmall!.copyWith(
+                  color: ColorConstants.grey1,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: SpacingConstants.medium),
+        OutlinedButton(
+          onPressed: () {
+            // Navigator.of(context).pop(false);
+            onResetDeleteState();
+            Navigator.of(context).pop();
+          },
+          child: Text("Close"),
+          style: OutlinedButton.styleFrom(
+            foregroundColor: ColorConstants.black,
+            side: BorderSide(
+              color: ColorConstants.black,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _AccountDeleteLoadingView extends StatelessWidget {
+  const _AccountDeleteLoadingView({
+    required this.textTheme,
+  });
+
+  final TextTheme textTheme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(SpacingConstants.medium),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            "Loading...",
+            style: textTheme.titleLarge!.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(
+            height: SpacingConstants.medium,
+          ),
+          CircularProgressIndicator(),
+        ],
+      ),
+    );
+  }
 }
 
 // TODO create view
