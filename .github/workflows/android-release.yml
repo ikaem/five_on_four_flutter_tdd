@@ -32,7 +32,7 @@ jobs:
       # create keystore file, because we are not pushing it to the repo
       - name: Create upload-keystore.jks file
         id: android_keystore
-        uses: timheuer/base64-to-file@v1.0.3
+        uses: timheuer/base64-to-file@v1.2.3
         with:
           # TODO note that this will be in the root - can we put it to android/app? - check the documentation
           file-name: upload-keystore.jks
