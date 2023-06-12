@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/player_preferences/controller.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/player_preferences/provider/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/app_bar_more_actions.dart';
+import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/icon_with_text.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/screen_main_title.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/dimensions_constants.dart';
+import 'package:five_on_four_flutter_tdd/theme/constants/font_size_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/spacing_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,10 +26,54 @@ class PreferencesScreen extends ConsumerWidget {
     );
 
 // TODO test - i need to find something to listen on
-    ref.watch(playerPreferencesAppControllerProvider);
+    // ref.watch(playerPreferencesAppControllerProvider);
 
     final ThemeData theme = Theme.of(context);
     final TextTheme textTheme = theme.textTheme;
+
+    ref.listen(playerPreferencesAppControllerProvider, (
+      AsyncValue<void>? prevState,
+      AsyncValue<void> nextState,
+    ) async {
+      int some = 3;
+      nextState.maybeWhen(
+        orElse: () {
+          // TOOD test
+          log("nextState.maybeWhen orElse");
+        },
+        loading: () async {
+          some = 2;
+          await showDialog<void>(
+            context: context,
+            barrierDismissible: false,
+            builder: (
+              context,
+            ) {
+              return Dialog(
+                child: Container(
+                  padding: EdgeInsets.all(SpacingConstants.medium),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Loading...",
+                        style: textTheme.titleLarge!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: SpacingConstants.medium,
+                      ),
+                      CircularProgressIndicator(),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      );
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -62,18 +110,33 @@ class PreferencesScreen extends ConsumerWidget {
                   // TODO maybe good to separate these sections into their own widgets
                   _PreferencesAvatarSection(),
                   SizedBox(
-                    height: SpacingConstants.large,
+                    height: SpacingConstants.small,
                   ),
+                  Divider(),
                   _PreferencesTeamSection(),
                   SizedBox(
-                    height: SpacingConstants.large,
+                    height: SpacingConstants.small,
                   ),
+                  Divider(),
                   _PreferencesRegionAreaSection(
                     regionSizeStream:
                         _playerPreferencesController.regionSizeStream,
                     onRegionSizeChanged:
                         _playerPreferencesController.onChangeRegionSize,
                   ),
+                  SizedBox(
+                    height: SpacingConstants.small,
+                  ),
+                  Divider(),
+                  SizedBox(
+                    height: SpacingConstants.small,
+                  ),
+                  _PreferencesDangerZoneSection(
+                    regionSizeStream:
+                        _playerPreferencesController.regionSizeStream,
+                    onRegionSizeChanged:
+                        _playerPreferencesController.onChangeRegionSize,
+                  )
                 ],
               ),
             ),
@@ -83,6 +146,140 @@ class PreferencesScreen extends ConsumerWidget {
     );
   }
 }
+
+class _PreferencesDangerZoneSection extends StatelessWidget {
+  const _PreferencesDangerZoneSection({
+    required Stream<int> regionSizeStream,
+    required ValueSetter<int> onRegionSizeChanged,
+  })  : _regionSizeStream = regionSizeStream,
+        _onRegionSizeChanged = onRegionSizeChanged;
+
+  final Stream<int> _regionSizeStream;
+  final ValueSetter<int> _onRegionSizeChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final TextTheme textTheme = theme.textTheme;
+
+    return Container(
+      padding: const EdgeInsets.all(SpacingConstants.medium),
+      decoration: BoxDecoration(
+        color: ColorConstants.black,
+        borderRadius: BorderRadius.circular(
+          DimensionsConstants.d10,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            'Danger Zone',
+            style: textTheme.titleMedium!.copyWith(
+              color: ColorConstants.white,
+            ),
+          ),
+          SizedBox(
+            height: SpacingConstants.small,
+          ),
+          Divider(
+            color: ColorConstants.grey4,
+          ),
+          GestureDetector(
+            onTap: _onTapDeleteAccount(context),
+            // onTap: () {
+            //   // TODO test
+            // },
+            child: IconWithText(
+              icon: Icons.delete,
+              iconSize: FontSizeConstants.mediumLarge,
+              iconColor: ColorConstants.red,
+              text: "Delete account",
+              textStyle: textTheme.bodySmall!.copyWith(
+                color: ColorConstants.grey1,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // TODO test
+  Future<void> Function() _onTapDeleteAccount(BuildContext context) =>
+      () async {
+        // TODO show a dialog
+
+        final ThemeData theme = Theme.of(context);
+        final TextTheme textTheme = theme.textTheme;
+
+        final bool? shouldDeleteAccount = await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              actionsAlignment: MainAxisAlignment.spaceBetween,
+              contentPadding: EdgeInsets.all(SpacingConstants.medium),
+              title: Text(
+                "Delete account",
+                textAlign: TextAlign.center,
+              ),
+              content: Container(
+                padding: EdgeInsets.all(SpacingConstants.medium),
+                decoration: BoxDecoration(
+                  color: ColorConstants.yellow,
+                  borderRadius: BorderRadius.circular(DimensionsConstants.d10),
+                ),
+                child: Text(
+                  "Deleting your account will remove you from all matches where you are registered as a participant.\n\nYour created matches will still be available for others, but you will be removed as the organizer.",
+                  style: textTheme.bodySmall!.copyWith(
+                    color: ColorConstants.grey5,
+                  ),
+                ),
+              ),
+              actions: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                    child: Text("Cancel"),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: ColorConstants.black,
+                      side: BorderSide(
+                        color: ColorConstants.black,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorConstants.red,
+                      foregroundColor: ColorConstants.white,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                    child: Text("Delete"),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+
+        if (shouldDeleteAccount != true) {
+          return;
+        }
+        // TODO if they cancel, do nothing
+
+        // TODO if they confirm, delete the account
+        // call controller function for this - and then possible also show some kind of loading indicator
+      };
+}
+
+// TOOD make all of these sections into their own files
 
 class _PreferencesRegionAreaSection extends StatelessWidget {
   const _PreferencesRegionAreaSection({
@@ -263,9 +460,7 @@ class _PreferencesTeamSection extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
-          height: SpacingConstants.small,
-        ),
+        SizedBox(height: SpacingConstants.xxSmall),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,

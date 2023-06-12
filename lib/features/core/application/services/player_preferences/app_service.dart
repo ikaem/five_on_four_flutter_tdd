@@ -86,6 +86,20 @@ class PlayerPreferencesAppService extends PlayerPreferencesService {
   }
 
   @override
+  Future<void> handleDeleteAccount() async {
+// TODO test
+    await Future.delayed(Duration(seconds: 2));
+
+    // remove all match participations
+
+    // remove user from all matches that they organized - make it null
+
+    // remove player entry
+
+    // remote auth entry - the account
+  }
+
+  @override
   Future<void> handleChangedRegionSize(
     int regionSize,
   ) async {
