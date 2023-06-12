@@ -1,10 +1,11 @@
-import 'dart:developer';
-
+import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/account_delete/controller.dart';
+import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/account_delete/provider/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/player_preferences/controller.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/player_preferences/provider/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/app_bar_more_actions.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/icon_with_text.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/screen_main_title.dart';
+import 'package:five_on_four_flutter_tdd/features/core/utils/extensions/build_context_extension.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/dimensions_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/font_size_constants.dart';
@@ -20,29 +21,39 @@ class PreferencesScreen extends ConsumerWidget {
 // TODO this will need to get the preferences controller
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final ThemeData theme = Theme.of(context);
+    final TextTheme textTheme = theme.textTheme;
 // TOOD test
     final PlayerPreferencesController _playerPreferencesController = ref.read(
       playerPreferencesAppControllerProvider.notifier,
     );
+    final AccountDeleteController _accountDeleteController =
+        ref.read(accountDeleteAppControllerProvider.notifier);
 
-// TODO test - i need to find something to listen on
-    // ref.watch(playerPreferencesAppControllerProvider);
+    final AsyncValue<void> preferencesState =
+        ref.watch(playerPreferencesAppControllerProvider);
 
-    final ThemeData theme = Theme.of(context);
-    final TextTheme textTheme = theme.textTheme;
+    ref.listen(accountDeleteAppControllerProvider, (
+      AsyncValue<void>? previous,
+      AsyncValue<void> next,
+    ) {
+// TODO make function out of this
 
-    ref.listen(playerPreferencesAppControllerProvider, (
-      AsyncValue<void>? prevState,
-      AsyncValue<void> nextState,
-    ) async {
-      int some = 3;
-      nextState.maybeWhen(
-        orElse: () {
-          // TOOD test
-          log("nextState.maybeWhen orElse");
+      next.when(
+        data: (data) {
+          // TOOD here we would navigate to logout
+        },
+        error: (error, stackTrace) {
+          // TODO here shown some message that thing failed
+          context.showSnackBarMessage(
+            "There was an error deleting your account",
+            SnackBarVariant.error,
+          );
+
+          // but still logout with auth controller
+          // TODO but still go to logout
         },
         loading: () async {
-          some = 2;
           await showDialog<void>(
             context: context,
             barrierDismissible: false,
@@ -75,10 +86,70 @@ class PreferencesScreen extends ConsumerWidget {
       );
     });
 
+// TODO test this is not good here
+    // ref.listen(playerPreferencesAppControllerProvider, (
+    //   AsyncValue<void>? prevState,
+    //   AsyncValue<void> nextState,
+    // ) async {
+    //   int some = 3;
+    //   nextState.maybeWhen(
+    //     orElse: () {
+    //       // TOOD test
+    //       log("nextState.maybeWhen orElse");
+    //     },
+    //     loading: () async {
+    //       some = 2;
+    //       await showDialog<void>(
+    //         context: context,
+    //         barrierDismissible: false,
+    //         builder: (
+    //           context,
+    //         ) {
+    //           return Dialog(
+    //             child: Container(
+    //               padding: EdgeInsets.all(SpacingConstants.medium),
+    //               child: Column(
+    //                 mainAxisSize: MainAxisSize.min,
+    //                 children: [
+    //                   Text(
+    //                     "Loading...",
+    //                     style: textTheme.titleLarge!.copyWith(
+    //                       fontWeight: FontWeight.bold,
+    //                     ),
+    //                   ),
+    //                   SizedBox(
+    //                     height: SpacingConstants.medium,
+    //                   ),
+    //                   CircularProgressIndicator(),
+    //                 ],
+    //               ),
+    //             ),
+    //           );
+    //         },
+    //       );
+    //     },
+    //   );
+    // });
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Let's set you up"),
         actions: [
+          preferencesState.maybeWhen(
+            orElse: () => SizedBox.shrink(),
+            loading: () {
+              return Center(
+                child: SizedBox(
+                  height: DimensionsConstants.d20,
+                  width: DimensionsConstants.d20,
+                  child: CircularProgressIndicator(
+                    color: ColorConstants.grey4,
+                    strokeWidth: 3,
+                  ),
+                ),
+              );
+            },
+          ),
           AppBarMoreActions(),
         ],
       ),
@@ -211,6 +282,8 @@ class _PreferencesDangerZoneSection extends StatelessWidget {
       () async {
         // TODO show a dialog
 
+        // TODO this could actually conditionally render some dialog based on the state
+
         final ThemeData theme = Theme.of(context);
         final TextTheme textTheme = theme.textTheme;
 
@@ -259,7 +332,7 @@ class _PreferencesDangerZoneSection extends StatelessWidget {
                       foregroundColor: ColorConstants.white,
                     ),
                     onPressed: () {
-                      Navigator.of(context).pop(true);
+                      // Navigator.of(context).pop(true);
                     },
                     child: Text("Delete"),
                   ),
@@ -276,8 +349,13 @@ class _PreferencesDangerZoneSection extends StatelessWidget {
 
         // TODO if they confirm, delete the account
         // call controller function for this - and then possible also show some kind of loading indicator
+
+        // TODO call function here
+        // we could show another dialog here, with a loading indicator
       };
 }
+
+// TODO create view
 
 // TOOD make all of these sections into their own files
 

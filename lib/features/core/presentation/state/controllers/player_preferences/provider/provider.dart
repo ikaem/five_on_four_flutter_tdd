@@ -57,6 +57,7 @@ class PlayerPreferencesAppController extends _$PlayerPreferencesAppController
     });
   }
 
+// TODO remove this from here
   @override
   Future<void> onDeleteAccount() async {
     state = AsyncValue.loading();

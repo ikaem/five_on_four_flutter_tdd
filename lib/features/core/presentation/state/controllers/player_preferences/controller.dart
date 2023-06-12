@@ -8,7 +8,7 @@ abstract class PlayerPreferencesController {
 
   String get currentPlayerNickname;
 
-  // TODO test
+  // TODO test - remove from here
   Future<void> onDeleteAccount();
 
   void onChangeRegionSize(int regionSize);
