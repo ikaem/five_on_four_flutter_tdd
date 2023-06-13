@@ -38,4 +38,5 @@ abstract class MatchesRepository {
 
   // TODO test
   Future<void> deletePlayerMatchParticipations(String playerId);
+  Future<void> removePlayerAsMatchesOrganizer(String playerId);
 }

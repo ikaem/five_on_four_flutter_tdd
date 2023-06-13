@@ -100,7 +100,10 @@ class MatchesRemoteAppDataSource extends MatchesRemoteDataSource
     required String playerNickname,
   }) async {
     final FirestoreMatchDataValue matchFirestoreData =
-        matchData.toFirestoreMatchData();
+        matchData.toFirestoreMatchData(
+      organizerId: playerId,
+      organizerNickname: playerNickname,
+    );
     final Map<String, dynamic> matchMap = matchFirestoreData.matchDataMap;
     final List<Map<String, dynamic>> participationsMaps =
         matchFirestoreData.participationsDataMaps;

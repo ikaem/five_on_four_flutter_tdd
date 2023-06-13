@@ -7,7 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$accountDeleteAppControllerHash() =>
-    r'a48d4d1c6191ccf1ac5d4edd1195a9afe1d79b8a';
+    r'99ed3eb81a6d0bb9a73b5e1572bd46fb644bbe95';
 
 /// See also [AccountDeleteAppController].
 @ProviderFor(AccountDeleteAppController)

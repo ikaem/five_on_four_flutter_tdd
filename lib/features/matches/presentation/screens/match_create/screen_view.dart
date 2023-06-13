@@ -48,21 +48,28 @@ class MatchCreateScreenView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          matchCreateValue.when(
-            loading: () => Center(child: CircularProgressIndicator()),
-            error: (e, st) => SizedBox.shrink(),
-            data: (String? matchId) {
-              // TODO revert this
-              // if (matchId != null) return SizedBox.shrink();
-
-              return StreamedIconButton(
-                enabledStateStream:
-                    matchCreateController.inputsValidationStream,
-                onPressed: matchCreateController.onSubmit,
-                icon: Icons.check,
-              );
-            },
+          StreamedIconButton(
+            enabledStateStream: matchCreateController.inputsValidationStream,
+            onPressed: matchCreateController.onSubmit,
+            icon: Icons.check,
           ),
+
+          // TODO revert this
+          // matchCreateValue.when(
+          //   loading: () => Center(child: CircularProgressIndicator()),
+          //   error: (e, st) => SizedBox.shrink(),
+          //   data: (String? matchId) {
+          //     // TODO revert this
+          //     // if (matchId != null) return SizedBox.shrink();
+
+          //     return StreamedIconButton(
+          //       enabledStateStream:
+          //           matchCreateController.inputsValidationStream,
+          //       onPressed: matchCreateController.onSubmit,
+          //       icon: Icons.check,
+          //     );
+          //   },
+          // ),
         ],
       ),
       body: Padding(

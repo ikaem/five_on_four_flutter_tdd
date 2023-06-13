@@ -59,8 +59,8 @@ class AuthRemoteFakeDataSource implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> deleteAccount(String userId) {
-    // TODO: implement deleteAccount
+  Future<void> deleteCurrentUser() {
+    // TODO: implement deleteCurrentUser
     throw UnimplementedError();
   }
 }

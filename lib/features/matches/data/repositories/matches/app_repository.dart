@@ -124,4 +124,11 @@ class MatchesAppRepository implements MatchesRepository {
   Future<void> deletePlayerMatchParticipations(String playerId) async {
     await _remoteDataSource.deletePlayerMatchParticipations(playerId);
   }
+
+  // TODO add player organizer to matches
+
+  @override
+  Future<void> removePlayerAsMatchesOrganizer(String playerId) async {
+    await _remoteDataSource.removePlayerAsMatchesOrganizer(playerId);
+  }
 }

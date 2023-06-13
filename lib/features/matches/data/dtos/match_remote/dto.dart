@@ -15,12 +15,15 @@ class MatchRemoteDTO with _$MatchRemoteDTO {
     required int date,
     required MatchRemoteLocationDTO location,
     required List<MatchParticipantRemoteDTO> participants,
+    required String? organizerId,
+    required String? organizerNickname,
   }) = _MatchRemoteDTO;
 
   // TODO needed only for dev
   factory MatchRemoteDTO.fromNewMatchValue({
     required String matchId,
     required String organizerId,
+    required String organizerNickname,
     required NewMatchValue matchValue,
   }) {
     final List<MatchParticipantRemoteDTO> participants =
@@ -53,6 +56,8 @@ class MatchRemoteDTO with _$MatchRemoteDTO {
         locationCountry: "Croatia",
         locationCity: "Zagreb",
       ),
+      organizerId: organizerId,
+      organizerNickname: organizerNickname,
     );
 
     return dto;
@@ -93,6 +98,8 @@ class MatchRemoteDTO with _$MatchRemoteDTO {
       date: matchDate,
       participants: participantsDtos,
       location: matchLocation,
+      organizerId: matchData['organizerId'] as String?,
+      organizerNickname: matchData['organizerNickname'] as String?,
     );
 
     return matchDto;

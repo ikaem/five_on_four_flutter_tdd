@@ -3,7 +3,6 @@ import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfa
 import 'package:five_on_four_flutter_tdd/features/core/domain/models/coordinates/model.dart';
 import 'package:five_on_four_flutter_tdd/features/core/domain/repository_interfaces/player_preferences_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/core/domain/values/location/value.dart';
-import 'package:five_on_four_flutter_tdd/features/core/utils/constants/firebase_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service_mixin.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/enums/match_participant_status.dart';
@@ -16,6 +15,7 @@ import 'package:five_on_four_flutter_tdd/features/matches/domain/values/new_matc
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/controllers/matches_all/providers/provider.dart';
 
 import 'package:five_on_four_flutter_tdd/features/matches/utils/extensions/match_model_extension.dart';
+import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/domain/models/weather/model.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/domain/repositories_interfaces/weather_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/utils/mixins/weather_mixin.dart';
@@ -72,55 +72,71 @@ class MatchesAppService extends MatchesService
   @override
   Future<String> handleCreateMatch(NewMatchValue data) async {
     NewMatchValue matchData = data;
-    final AuthModel? auth = _authStatusRepository.getAuthStatus();
-    if (auth == null) {
+
+    final PlayerModel? player = _playerPreferencesRepository.currentPlayer;
+    if (player == null) {
       // FUTURE: throw proper exception
       // FUTURE: maybe logout, but maybe is not needed
       throw "Something";
     }
 
+    // final AuthModel? auth = _authStatusRepository.getAuthStatus();
+    // if (auth == null) {
+    //   // FUTURE: throw proper exception
+    //   // FUTURE: maybe logout, but maybe is not needed
+    //   throw "Something";
+    // }
+
     if (data.isOrganizerJoined) {
       final MatchParticipationValue participation = MatchParticipationValue(
-        playerId: auth.id,
-        nickname: auth.nickname,
+        playerId: player.id,
+        nickname: player.nickname,
         status: MatchParticipantStatus.joined,
       );
 
+// TODO this is not good i think
       matchData = data.addParticipation(participation);
     }
 
     final String id = await _matchesRepository.createMatch(
       matchData: matchData,
-      playerId: auth.id,
-      playerNickname: auth.nickname,
+      playerId: player.id,
+      playerNickname: player.nickname,
     );
 
     final List<MatchParticipationValue> matchInvitations = data.invitedPlayers;
     final String matchName = data.name;
 
-    await sendMatchInvitationNotifications(
-      matchId: id,
-      matchInvitations: matchInvitations,
-      functionName: FirebaseConstants.functionSendMatchInvitationNotifications,
-      matchName: matchName,
-      firebaseFunctionsWrapper: _firebaseFunctionsWrapper,
-    );
+// TODO test this later - fails again
+    // await sendMatchInvitationNotifications(
+    //   matchId: id,
+    //   matchInvitations: matchInvitations,
+    //   functionName: FirebaseConstants.functionSendMatchInvitationNotifications,
+    //   matchName: matchName,
+    //   firebaseFunctionsWrapper: _firebaseFunctionsWrapper,
+    // );
 
     return id;
   }
 
   Future<void> handleJoinMatch(MatchModel match) async {
-    final AuthModel? auth = await _authStatusRepository.getAuthStatus();
-    if (auth == null) {
+    final PlayerModel? player = _playerPreferencesRepository.currentPlayer;
+    if (player == null) {
       // FUTURE: throw proper exception
       // FUTURE: maybe logout, but maybe is not needed
       throw "Something";
     }
+    // final AuthModel? auth = await _authStatusRepository.getAuthStatus();
+    // if (auth == null) {
+    //   // FUTURE: throw proper exception
+    //   // FUTURE: maybe logout, but maybe is not needed
+    //   throw "Something";
+    // }
 
     final bool hasPlayerJoinedMatch = checkHasPlayerJoinedMatch(match);
     final MatchParticipationValue participation = MatchParticipationValue(
-      playerId: auth.id,
-      nickname: auth.nickname,
+      playerId: player.id,
+      nickname: player.nickname,
       status: hasPlayerJoinedMatch
           ? MatchParticipantStatus.unjoined
           : MatchParticipantStatus.joined,

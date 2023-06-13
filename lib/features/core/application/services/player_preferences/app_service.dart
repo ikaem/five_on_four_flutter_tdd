@@ -50,8 +50,11 @@ class PlayerPreferencesAppService extends PlayerPreferencesService {
 
   @override
   // TODO: implement currentPlayerNickname
+  // String? get currentPlayerNickname =>
+  //     _playerPreferencesRepository.playerNickname;
+
   String? get currentPlayerNickname =>
-      _playerPreferencesRepository.playerNickname;
+      _playerPreferencesRepository.currentPlayer?.nickname;
 
   // @override
   // Stream<int?> get regionSizeStream =>
@@ -95,6 +98,7 @@ class PlayerPreferencesAppService extends PlayerPreferencesService {
 
   @override
   Future<void> handleDeleteAccount() async {
+    // TODO this should probably use some kind of transaction - maybe via functions on firebase for now
 // TODO test
     // await Future.delayed(Duration(seconds: 2));
 
@@ -109,15 +113,18 @@ class PlayerPreferencesAppService extends PlayerPreferencesService {
     await _matchesRepository.deletePlayerMatchParticipations(auth.id);
 
     // remove user from all matches that they organized - make it null
+    await _matchesRepository.removePlayerAsMatchesOrganizer(auth.id);
 
     // remove player entry
+    await _playersRepository.deletePlayer(auth.id);
 
     // remote auth entry - the account
+    await _authRepository.deleteCurrentUser();
 
     // TODO logout
 
-    // await _authRepository.logout();
-    // _authStatusRepository.setAuth(null);
+    await _authRepository.logout();
+    _authStatusRepository.setAuth(null);
   }
 
   @override

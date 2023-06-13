@@ -34,10 +34,7 @@ class AuthRemoteAppDataSource implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> deleteAccount(
-    // TODO might not need this
-    String userId,
-  ) async {
+  Future<void> deleteCurrentUser() async {
     await _firebaseAuthWrapper.deleteUser();
   }
 }

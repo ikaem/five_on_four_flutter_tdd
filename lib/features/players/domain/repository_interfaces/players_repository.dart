@@ -27,6 +27,8 @@ abstract class PlayersRepository {
     required int regionSize,
   });
 
+  Future<void> deletePlayer(String playerId);
+
 // will replace by specialized
   // Future<void> updatePlayerField({
   //   required String playerId,

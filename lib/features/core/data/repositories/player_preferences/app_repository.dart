@@ -33,7 +33,15 @@ class PlayerPreferencesAppRepository implements PlayerPreferencesRepository {
   int? get playerRegionSize => _playerRegionSizeSubject.valueOrNull;
 
   @override
-  String? get playerNickname => _playerSubject.valueOrNull?.nickname;
+  // TODO: implement currentPlayer
+  PlayerModel? get currentPlayer => _playerSubject.valueOrNull;
+
+  // @override
+  // String? get playerNickname => _playerSubject.valueOrNull?.nickname;
+
+  // @override
+  // // TODO: implement playerId
+  // String? get playerId => _playerSubject.valueOrNull?.id;
 
   @override
   // TODO: implement playerCurrentLocation
