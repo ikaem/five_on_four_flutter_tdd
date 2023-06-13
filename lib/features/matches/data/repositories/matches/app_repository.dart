@@ -10,15 +10,15 @@ import 'package:five_on_four_flutter_tdd/features/matches/presentation/state/con
 
 class MatchesAppRepository implements MatchesRepository {
   const MatchesAppRepository({
-    required this.remoteDataSource,
-  });
+    required MatchesRemoteDataSource remoteDataSource,
+  }) : _remoteDataSource = remoteDataSource;
 
-  final MatchesRemoteDataSource remoteDataSource;
+  final MatchesRemoteDataSource _remoteDataSource;
 
   @override
   Future<List<MatchModel>> getPlayerInvitedMatches(String playerId) async {
     final List<MatchRemoteDTO> remoteMatches =
-        await remoteDataSource.getInvitedMatchesForPlayer(playerId);
+        await _remoteDataSource.getInvitedMatchesForPlayer(playerId);
 
     return remoteMatches.map((dto) => MatchModel.fromRemoteDto(dto)).toList();
   }
@@ -26,7 +26,7 @@ class MatchesAppRepository implements MatchesRepository {
   @override
   Future<List<MatchModel>> getPlayerJoinedMatches(String playerId) async {
     final List<MatchRemoteDTO> remoteMatches =
-        await remoteDataSource.getJoinedMatchesForPlayer(playerId);
+        await _remoteDataSource.getJoinedMatchesForPlayer(playerId);
 
     return remoteMatches.map((dto) => MatchModel.fromRemoteDto(dto)).toList();
   }
@@ -43,7 +43,7 @@ class MatchesAppRepository implements MatchesRepository {
 
   @override
   Future<MatchModel> getMatch(String matchId) async {
-    final MatchRemoteDTO remoteDTO = await remoteDataSource.getMatch(matchId);
+    final MatchRemoteDTO remoteDTO = await _remoteDataSource.getMatch(matchId);
 
     final MatchModel match = MatchModel.fromRemoteDto(remoteDTO);
 
@@ -57,7 +57,7 @@ class MatchesAppRepository implements MatchesRepository {
     required String playerId,
     required String playerNickname,
   }) async {
-    final String id = await remoteDataSource.createMatch(
+    final String id = await _remoteDataSource.createMatch(
       matchData: matchData,
       // currentPlayer: currentPlayer,
       playerId: playerId,
@@ -72,7 +72,7 @@ class MatchesAppRepository implements MatchesRepository {
     required String matchId,
     required MatchParticipationValue matchParticipation,
   }) async {
-    await remoteDataSource.joinMatch(
+    await _remoteDataSource.joinMatch(
       matchId: matchId,
       matchParticipation: matchParticipation,
     );
@@ -82,7 +82,7 @@ class MatchesAppRepository implements MatchesRepository {
     required String matchId,
     required MatchParticipationValue matchParticipation,
   }) async {
-    await remoteDataSource.unjoinMatch(
+    await _remoteDataSource.unjoinMatch(
       matchId: matchId,
       matchParticipation: matchParticipation,
     );
@@ -94,7 +94,7 @@ class MatchesAppRepository implements MatchesRepository {
     RegionCoordinatesBoundariesValue coordinatesBoundaries,
   ) async {
     final List<MatchRemoteDTO> dtoResults =
-        await remoteDataSource.getSearchedMatches(
+        await _remoteDataSource.getSearchedMatches(
       filters,
       coordinatesBoundaries,
     );
@@ -110,7 +110,7 @@ class MatchesAppRepository implements MatchesRepository {
     RegionCoordinatesBoundariesValue coordinatesBoundaries,
   ) async {
     final List<MatchRemoteDTO> dtoResults =
-        await remoteDataSource.getAllMatches(
+        await _remoteDataSource.getAllMatches(
       coordinatesBoundaries,
     );
 
@@ -120,17 +120,8 @@ class MatchesAppRepository implements MatchesRepository {
     return matches;
   }
 
-  // TODO not needed
-
-  // @override
-  // Future<List<MatchModel>> getMatchesInRegion(
-  //     RegionCoordinatesBoundariesValue boundaries) async {
-  //   final List<MatchRemoteDTO> dtoResults =
-  //       await remoteDataSource.getMatchesInRegion(boundaries);
-
-  //   final List<MatchModel> matches =
-  //       dtoResults.map((e) => MatchModel.fromRemoteDto(e)).toList();
-
-  //   return matches;
-  // }
+  @override
+  Future<void> deletePlayerMatchParticipations(String playerId) async {
+    await _remoteDataSource.deletePlayerMatchParticipations(playerId);
+  }
 }

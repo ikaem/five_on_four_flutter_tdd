@@ -80,6 +80,17 @@ class FirebaseAuthWrapper {
     return authRemoteDTO;
   }
 
+  Future<void> deleteUser() async {
+    final User? user = _auth.currentUser;
+
+    if (user == null) {
+      throw AuthExceptionUnauthorized(
+          message: "Unable to delete unauthorized user");
+    }
+
+    await user.delete();
+  }
+
   Future<void> logout() async {
     await _auth.signOut();
   }

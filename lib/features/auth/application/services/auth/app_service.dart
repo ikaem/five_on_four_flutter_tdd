@@ -112,6 +112,7 @@ class AuthAppService implements AuthService {
 
   @override
   Future<void> logout() async {
+    // TODO this should be unified somewhere - somehow or not
     await _authRepository.logout();
     _authStatusRepository.setAuth(null);
   }

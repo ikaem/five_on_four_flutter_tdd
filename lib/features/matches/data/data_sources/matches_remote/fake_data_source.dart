@@ -242,6 +242,18 @@ class MatchesRemoteFakeDataSource implements MatchesRemoteDataSource {
     throw UnimplementedError();
   }
 
+  @override
+  Future<void> deletePlayerMatchParticipations(String playerId) {
+    // TODO: implement deletePlayerMatchParticipations
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> removePlayerAsMatchesOrganizer(String playerId) {
+    // TODO: implement removePlayerAsMatchesOrganizer
+    throw UnimplementedError();
+  }
+
   // @override
   // Future<List<MatchRemoteDTO>> getSearchedMatches(
   //     MatchesSearchFiltersValue filters,

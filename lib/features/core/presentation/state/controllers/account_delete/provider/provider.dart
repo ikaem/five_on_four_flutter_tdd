@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:five_on_four_flutter_tdd/features/core/application/services/player_preferences/provider/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/core/application/services/player_preferences/service.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/account_delete/controller.dart';
@@ -15,8 +17,8 @@ class AccountDeleteAppController extends _$AccountDeleteAppController
 
   @override
   AsyncValue<void> build() {
-    // return const AsyncData(null);
-    return AsyncValue.error("", StackTrace.current);
+    return const AsyncData(null);
+    // return AsyncValue.error("", StackTrace.current);
   }
 
   @override
@@ -27,18 +29,20 @@ class AccountDeleteAppController extends _$AccountDeleteAppController
       await _playerPreferencesService.handleDeleteAccount();
       // TODO this should probably return true or false or something, just se we can tell difference in ui dialog for delete
       state = AsyncValue.data(null);
+      // state = AsyncValue.error("", StackTrace.current);
     } catch (e) {
+      log("Error deleting account", error: e);
 // TODO we can specify which error happened maybe?
       state = AsyncValue.error(e, StackTrace.current);
     }
   }
 
-// TODO not sure we need this
-  @override
-  void dispose() {}
-
   @override
   void onResetState() {
     state = const AsyncValue.data(null);
   }
+
+// TODO not sure we need this
+  @override
+  void dispose() {}
 }

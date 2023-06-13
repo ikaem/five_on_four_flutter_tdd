@@ -30,104 +30,6 @@ class PreferencesScreen extends ConsumerWidget {
     final AsyncValue<void> preferencesState =
         ref.watch(playerPreferencesAppControllerProvider);
 
-//     ref.listen(accountDeleteAppControllerProvider, (
-//       AsyncValue<void>? previous,
-//       AsyncValue<void> next,
-//     ) {
-// // TODO make function out of this
-
-//       next.when(
-//         data: (data) {
-//           // TOOD here we would navigate to logout
-//         },
-//         error: (error, stackTrace) {
-//           // TODO here shown some message that thing failed
-//           context.showSnackBarMessage(
-//             "There was an error deleting your account",
-//             SnackBarVariant.error,
-//           );
-
-//           // but still logout with auth controller
-//           // TODO but still go to logout
-//         },
-//         loading: () async {
-//           await showDialog<void>(
-//             context: context,
-//             barrierDismissible: false,
-//             builder: (
-//               context,
-//             ) {
-//               return Dialog(
-//                 child: Container(
-//                   padding: EdgeInsets.all(SpacingConstants.medium),
-//                   child: Column(
-//                     mainAxisSize: MainAxisSize.min,
-//                     children: [
-//                       Text(
-//                         "Loading...",
-//                         style: textTheme.titleLarge!.copyWith(
-//                           fontWeight: FontWeight.bold,
-//                         ),
-//                       ),
-//                       SizedBox(
-//                         height: SpacingConstants.medium,
-//                       ),
-//                       CircularProgressIndicator(),
-//                     ],
-//                   ),
-//                 ),
-//               );
-//             },
-//           );
-//         },
-//       );
-//     });
-
-// TODO test this is not good here
-    // ref.listen(playerPreferencesAppControllerProvider, (
-    //   AsyncValue<void>? prevState,
-    //   AsyncValue<void> nextState,
-    // ) async {
-    //   int some = 3;
-    //   nextState.maybeWhen(
-    //     orElse: () {
-    //       // TOOD test
-    //       log("nextState.maybeWhen orElse");
-    //     },
-    //     loading: () async {
-    //       some = 2;
-    //       await showDialog<void>(
-    //         context: context,
-    //         barrierDismissible: false,
-    //         builder: (
-    //           context,
-    //         ) {
-    //           return Dialog(
-    //             child: Container(
-    //               padding: EdgeInsets.all(SpacingConstants.medium),
-    //               child: Column(
-    //                 mainAxisSize: MainAxisSize.min,
-    //                 children: [
-    //                   Text(
-    //                     "Loading...",
-    //                     style: textTheme.titleLarge!.copyWith(
-    //                       fontWeight: FontWeight.bold,
-    //                     ),
-    //                   ),
-    //                   SizedBox(
-    //                     height: SpacingConstants.medium,
-    //                   ),
-    //                   CircularProgressIndicator(),
-    //                 ],
-    //               ),
-    //             ),
-    //           );
-    //         },
-    //       );
-    //     },
-    //   );
-    // });
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Let's set you up"),
@@ -245,7 +147,7 @@ class _PreferencesDangerZoneSection extends ConsumerWidget {
             color: ColorConstants.grey4,
           ),
           GestureDetector(
-            onTap: _onTapDeleteAccount(context),
+            onTap: _onTapDeleteAccount(context, ref),
             // onTap: () {
             //   // TODO test
             // },
@@ -268,11 +170,13 @@ class _PreferencesDangerZoneSection extends ConsumerWidget {
   // TODO test
   Future<void> Function() _onTapDeleteAccount(
     BuildContext context,
+    WidgetRef ref,
   ) =>
       () async {
         // TODO show a dialog
 
         // TODO this could actually conditionally render some dialog based on the state
+        // final AccountDeleteController accountDeleteController =
 
         final ThemeData theme = Theme.of(context);
         final TextTheme textTheme = theme.textTheme;
@@ -284,11 +188,12 @@ class _PreferencesDangerZoneSection extends ConsumerWidget {
               return Dialog(
                 child: Consumer(
                   // TODO move to a function
-                  builder: (context, ref, child) {
+                  builder: (context, consumerRef, child) {
                     final AccountDeleteController accountDeleteController =
-                        ref.read(accountDeleteAppControllerProvider.notifier);
+                        consumerRef
+                            .read(accountDeleteAppControllerProvider.notifier);
                     final AsyncValue<void> accountDeleteState =
-                        ref.watch(accountDeleteAppControllerProvider);
+                        consumerRef.watch(accountDeleteAppControllerProvider);
 
                     return Container(
                       padding: EdgeInsets.all(SpacingConstants.medium),
@@ -298,11 +203,15 @@ class _PreferencesDangerZoneSection extends ConsumerWidget {
                               textTheme: textTheme);
                         },
                         error: (error, stackTrace) {
-                          return _AccountDeleteErrorView(textTheme: textTheme);
+                          return _AccountDeleteErrorView(
+                            textTheme: textTheme,
+                            onClose: accountDeleteController.onResetState,
+                          );
                         },
                         data: (data) {
                           return _AccountDeleteConfirmView(
                             textTheme: textTheme,
+                            onCancel: accountDeleteController.onResetState,
                             onDeleteAccount:
                                 accountDeleteController.onDeleteAccount,
                           );
@@ -312,224 +221,8 @@ class _PreferencesDangerZoneSection extends ConsumerWidget {
                   },
                 ),
               );
-
-              // return Dialog(
-              //   child: Builder(
-              //     builder: (context) {
-              //       final AccountDeleteController accountDeleteController =
-              //           ref.read(accountDeleteAppControllerProvider.notifier);
-              //       final AsyncValue<void> accountDeleteState =
-              //           ref.watch(accountDeleteAppControllerProvider);
-
-              //       // return Text("Hello");
-
-              //       return Column(
-              //         children: [
-              //           // Text("Hello"),
-              //           accountDeleteState.when(
-              //             data: (data) => Text("Data"),
-              //             loading: () => Text("Loading"),
-              //             error: (error, stackTrace) => Text("Error"),
-              //           ),
-              //           OutlinedButton(
-              //             onPressed: () {
-              //               accountDeleteController.onDeleteAccount();
-              //             },
-              //             child: Text("Delete"),
-              //             style: OutlinedButton.styleFrom(
-              //               foregroundColor: ColorConstants.black,
-              //               side: BorderSide(
-              //                 color: ColorConstants.black,
-              //               ),
-              //             ),
-              //           ),
-              //         ],
-              //       );
-              //     },
-              //   ),
-              //   // actions: [
-              //   //   Expanded(
-              //   //     child: OutlinedButton(
-              //   //       onPressed: () {
-              //   //         // Navigator.of(context).pop(false);
-              //   //         Navigator.of(context).pop();
-              //   //       },
-              //   //       child: Text("Cancel"),
-              //   //       style: OutlinedButton.styleFrom(
-              //   //         foregroundColor: ColorConstants.black,
-              //   //         side: BorderSide(
-              //   //           color: ColorConstants.black,
-              //   //         ),
-              //   //       ),
-              //   //     ),
-              //   //   ),
-              //   //   Expanded(
-              //   //     child: ElevatedButton(
-              //   //       style: ElevatedButton.styleFrom(
-              //   //         backgroundColor: ColorConstants.red,
-              //   //         foregroundColor: ColorConstants.white,
-              //   //       ),
-              //   //       onPressed: () {
-              //   //         // Navigator.of(context).pop(true);
-              //   //         // here we call delete - we dont want to pop
-              //   //         accountDeleteController.onDeleteAccount();
-              //   //       },
-              //   //       child: Text("Delete"),
-              //   //     ),
-              //   //   ),
-              //   // ],
-              // );
-
-              // final AsyncValue<void> accountDeleteState =
-              //     ref.watch(accountDeleteAppControllerProvider);
-              // return accountDeleteState.when(
-              //   loading: () {
-              //     // TODO possibly make this its own widget, just for simpliciy - in the same file is fine
-              //     return _AccountDeleteLoadingView(textTheme: textTheme);
-              //   },
-              //   error: (error, stackTrace) {
-              //     return _AccountDeleteErrorView(textTheme: textTheme);
-              //   },
-              //   data: (data) {
-              //     return _AccountDeleteConfirmView(
-              //         textTheme: textTheme,
-              //         accountDeleteController: accountDeleteController);
-              //   },
-              // );
-            }
-
-            // return Consumer(
-            //   builder: (context, consumerRef, child) {
-            //     final AccountDeleteController accountDeleteController =
-            //         consumerRef
-            //             .read(accountDeleteAppControllerProvider.notifier);
-            //     final AsyncValue<void> accountDeleteState =
-            //         consumerRef.watch(accountDeleteAppControllerProvider);
-
-            //     return Dialog(
-            //       child: Column(
-            //         children: [
-            //           // Text("Hello"),
-            //           accountDeleteState.when(
-            //             data: (data) => Text("Data"),
-            //             loading: () => Text("Loading"),
-            //             error: (error, stackTrace) => Text("Error"),
-            //           ),
-            //           OutlinedButton(
-            //             onPressed: () {
-            //               accountDeleteController.onDeleteAccount();
-            //             },
-            //             child: Text("Delete"),
-            //             style: OutlinedButton.styleFrom(
-            //               foregroundColor: ColorConstants.black,
-            //               side: BorderSide(
-            //                 color: ColorConstants.black,
-            //               ),
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     );
-            //   },
-            // );
-
-            // return Dialog(
-            //   child: Builder(
-            //     builder: (context) {
-            //       final AccountDeleteController accountDeleteController =
-            //           ref.read(accountDeleteAppControllerProvider.notifier);
-            //       final AsyncValue<void> accountDeleteState =
-            //           ref.watch(accountDeleteAppControllerProvider);
-
-            //       // return Text("Hello");
-
-            //       return Column(
-            //         children: [
-            //           // Text("Hello"),
-            //           accountDeleteState.when(
-            //             data: (data) => Text("Data"),
-            //             loading: () => Text("Loading"),
-            //             error: (error, stackTrace) => Text("Error"),
-            //           ),
-            //           OutlinedButton(
-            //             onPressed: () {
-            //               accountDeleteController.onDeleteAccount();
-            //             },
-            //             child: Text("Delete"),
-            //             style: OutlinedButton.styleFrom(
-            //               foregroundColor: ColorConstants.black,
-            //               side: BorderSide(
-            //                 color: ColorConstants.black,
-            //               ),
-            //             ),
-            //           ),
-            //         ],
-            //       );
-            //     },
-            //   ),
-            //   // actions: [
-            //   //   Expanded(
-            //   //     child: OutlinedButton(
-            //   //       onPressed: () {
-            //   //         // Navigator.of(context).pop(false);
-            //   //         Navigator.of(context).pop();
-            //   //       },
-            //   //       child: Text("Cancel"),
-            //   //       style: OutlinedButton.styleFrom(
-            //   //         foregroundColor: ColorConstants.black,
-            //   //         side: BorderSide(
-            //   //           color: ColorConstants.black,
-            //   //         ),
-            //   //       ),
-            //   //     ),
-            //   //   ),
-            //   //   Expanded(
-            //   //     child: ElevatedButton(
-            //   //       style: ElevatedButton.styleFrom(
-            //   //         backgroundColor: ColorConstants.red,
-            //   //         foregroundColor: ColorConstants.white,
-            //   //       ),
-            //   //       onPressed: () {
-            //   //         // Navigator.of(context).pop(true);
-            //   //         // here we call delete - we dont want to pop
-            //   //         accountDeleteController.onDeleteAccount();
-            //   //       },
-            //   //       child: Text("Delete"),
-            //   //     ),
-            //   //   ),
-            //   // ],
-            // );
-
-            // final AsyncValue<void> accountDeleteState =
-            //     ref.watch(accountDeleteAppControllerProvider);
-            // return accountDeleteState.when(
-            //   loading: () {
-            //     // TODO possibly make this its own widget, just for simpliciy - in the same file is fine
-            //     return _AccountDeleteLoadingView(textTheme: textTheme);
-            //   },
-            //   error: (error, stackTrace) {
-            //     return _AccountDeleteErrorView(textTheme: textTheme);
-            //   },
-            //   data: (data) {
-            //     return _AccountDeleteConfirmView(
-            //         textTheme: textTheme,
-            //         accountDeleteController: accountDeleteController);
-            //   },
-            // );
-            // },
-            );
-
-// TODO test this is not good because of async gaps
-        // if (shouldDeleteAccount != true) {
-        //   return;
-        // }
-        // TODO if they cancel, do nothing
-
-        // TODO if they confirm, delete the account
-        // call controller function for this - and then possible also show some kind of loading indicator
-
-        // TODO call function here
-        // we could show another dialog here, with a loading indicator
+            });
+        ref.read(accountDeleteAppControllerProvider.notifier).onResetState();
       };
 }
 
@@ -537,10 +230,12 @@ class _AccountDeleteConfirmView extends StatelessWidget {
   const _AccountDeleteConfirmView({
     required this.textTheme,
     required this.onDeleteAccount,
+    required this.onCancel,
   });
 
   final TextTheme textTheme;
   final VoidCallback onDeleteAccount;
+  final VoidCallback onCancel;
 
   @override
   Widget build(BuildContext context) {
@@ -585,6 +280,7 @@ class _AccountDeleteConfirmView extends StatelessWidget {
                 onPressed: () {
                   // Navigator.of(context).pop(false);
                   Navigator.of(context).pop();
+                  // onCancel();
                 },
                 child: Text("Cancel"),
                 style: OutlinedButton.styleFrom(
@@ -616,11 +312,11 @@ class _AccountDeleteConfirmView extends StatelessWidget {
 class _AccountDeleteErrorView extends StatelessWidget {
   const _AccountDeleteErrorView({
     required this.textTheme,
-    required this.onResetDeleteState,
+    required this.onClose,
   });
 
   final TextTheme textTheme;
-  final VoidCallback onResetDeleteState;
+  final VoidCallback onClose;
 
   @override
   Widget build(BuildContext context) {
@@ -638,6 +334,7 @@ class _AccountDeleteErrorView extends StatelessWidget {
               onTap: () {
                 // TODO this needs to be disabled during loading - or maybe it will not be here
                 Navigator.of(context).pop();
+                // onClose();
               },
               child: Icon(Icons.close),
             ),
@@ -676,8 +373,8 @@ class _AccountDeleteErrorView extends StatelessWidget {
         OutlinedButton(
           onPressed: () {
             // Navigator.of(context).pop(false);
-            onResetDeleteState();
             Navigator.of(context).pop();
+            // onClose();
           },
           child: Text("Close"),
           style: OutlinedButton.styleFrom(

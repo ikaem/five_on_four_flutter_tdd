@@ -19,4 +19,6 @@ abstract class PlayersRemoteDataSource {
     required String fieldName,
     required dynamic fieldValue,
   });
+
+  Future<void> deletePlayer(String playerId);
 }

@@ -1,10 +1,12 @@
 import 'package:five_on_four_flutter_tdd/features/auth/domain/models/auth/model.dart';
+import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfaces/auth_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfaces/auth_status_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/core/application/services/player_preferences/service.dart';
 import 'package:five_on_four_flutter_tdd/features/core/domain/models/coordinates/model.dart';
 import 'package:five_on_four_flutter_tdd/features/core/domain/repository_interfaces/player_preferences_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/core/domain/values/location/value.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/helpers/value_from_env.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/domain/repositories_interfaces/matches_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/repository_interfaces/players_repository.dart';
 import 'package:five_on_four_flutter_tdd/libraries/geocoding/geocoding_wrapper.dart';
 import 'package:five_on_four_flutter_tdd/libraries/geolocator/geolocator_wrapper.dart';
@@ -17,10 +19,14 @@ class PlayerPreferencesAppService extends PlayerPreferencesService {
     required PlayerPreferencesRepository playerPreferencesRepository,
     required AuthStatusRepository authStatusRepository,
     required PlayersRepository playersRepository,
+    required MatchesRepository matchesRepository,
+    required AuthRepository authRepository,
   })  : _geocodingWrapper = geocodingWrapper,
         _geolocatorWrapper = geolocatorWrapper,
         _authStatusRepository = authStatusRepository,
         _playersRepository = playersRepository,
+        _matchesRepository = matchesRepository,
+        _authRepository = authRepository,
         _playerPreferencesRepository = playerPreferencesRepository;
 
   final GeocodingWrapper _geocodingWrapper;
@@ -28,6 +34,8 @@ class PlayerPreferencesAppService extends PlayerPreferencesService {
   final PlayerPreferencesRepository _playerPreferencesRepository;
   final AuthStatusRepository _authStatusRepository;
   final PlayersRepository _playersRepository;
+  final MatchesRepository _matchesRepository;
+  final AuthRepository _authRepository;
 
 // TODO not sure i will need this as a stream
   // @override
@@ -88,15 +96,28 @@ class PlayerPreferencesAppService extends PlayerPreferencesService {
   @override
   Future<void> handleDeleteAccount() async {
 // TODO test
-    await Future.delayed(Duration(seconds: 2));
+    // await Future.delayed(Duration(seconds: 2));
+
+    final AuthModel? auth = _authStatusRepository.getAuthStatus();
+    if (auth == null) {
+      // FUTURE: throw proper exception
+      // FUTURE: maybe logout, but maybe is not needed
+      throw "Something";
+    }
 
     // remove all match participations
+    await _matchesRepository.deletePlayerMatchParticipations(auth.id);
 
     // remove user from all matches that they organized - make it null
 
     // remove player entry
 
     // remote auth entry - the account
+
+    // TODO logout
+
+    // await _authRepository.logout();
+    // _authStatusRepository.setAuth(null);
   }
 
   @override
