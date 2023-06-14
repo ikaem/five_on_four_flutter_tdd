@@ -96,10 +96,10 @@ class MatchesRemoteFakeDataSource implements MatchesRemoteDataSource {
       );
 
     final MatchRemoteDTO newMatch = MatchRemoteDTO.fromNewMatchValue(
-      matchId: matchId,
-      organizerId: playerId,
-      matchValue: matchData,
-    );
+        matchId: matchId,
+        organizerId: playerId,
+        matchValue: matchData,
+        organizerNickname: playerNickname);
 
     combinedMatches.add(newMatch);
 
@@ -283,6 +283,7 @@ final List<MatchRemoteDTO> combinedMatches = [
       locationCountry: "Croatia",
       locationCity: "Zagreb",
     ),
+    organizer: null,
     participants: [
       MatchParticipantRemoteDTO(
         id: "1",
@@ -316,6 +317,7 @@ final List<MatchRemoteDTO> combinedMatches = [
       locationCountry: "Croatia",
       locationCity: "Zagreb",
     ),
+    organizer: null,
     participants: [
       MatchParticipantRemoteDTO(
         id: "3",
@@ -349,6 +351,7 @@ final List<MatchRemoteDTO> combinedMatches = [
       locationCountry: "Croatia",
       locationCity: "Zagreb",
     ),
+    organizer: null,
     participants: [
       MatchParticipantRemoteDTO(
         id: "5",
@@ -382,6 +385,7 @@ final List<MatchRemoteDTO> combinedMatches = [
       locationCountry: "Croatia",
       locationCity: "Zagreb",
     ),
+    organizer: null,
     participants: [
       MatchParticipantRemoteDTO(
         id: "7",

@@ -57,8 +57,10 @@ extension NewMatchValueExtension on NewMatchValue {
       },
       "date": matchTimestamp,
       'isOrganizerJoined': isOrganizerJoined,
-      'organizerId': organizerId,
-      'organizerNickname': organizerNickname,
+      "organizer": {
+        'organizerId': organizerId,
+        'organizerNickname': organizerNickname,
+      }
     };
 
     final List<Map<String, dynamic>> matchParticipantsMaps =

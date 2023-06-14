@@ -15,8 +15,9 @@ class MatchRemoteDTO with _$MatchRemoteDTO {
     required int date,
     required MatchRemoteLocationDTO location,
     required List<MatchParticipantRemoteDTO> participants,
-    required String? organizerId,
-    required String? organizerNickname,
+    // required String? organizerId,
+    // required String? organizerNickname,
+    required MatchRemoteOrganizerDTO? organizer,
   }) = _MatchRemoteDTO;
 
   // TODO needed only for dev
@@ -56,8 +57,12 @@ class MatchRemoteDTO with _$MatchRemoteDTO {
         locationCountry: "Croatia",
         locationCity: "Zagreb",
       ),
-      organizerId: organizerId,
-      organizerNickname: organizerNickname,
+      // organizerId: organizerId,
+      // organizerNickname: organizerNickname,
+      organizer: MatchRemoteOrganizerDTO(
+        organizerId: organizerId,
+        organizerNickname: organizerNickname,
+      ),
     );
 
     return dto;
@@ -92,14 +97,24 @@ class MatchRemoteDTO with _$MatchRemoteDTO {
       matchData["location"] as Map<String, dynamic>,
     );
 
+    final Map<String, dynamic>? matchOrganizerData =
+        matchData["organizer"] as Map<String, dynamic>?;
+
+    final MatchRemoteOrganizerDTO? matchOrganizer = matchOrganizerData == null
+        ? null
+        : MatchRemoteOrganizerDTO.fromFirestoreMap(
+            matchData["organizer"] as Map<String, dynamic>,
+          );
+
     final MatchRemoteDTO matchDto = MatchRemoteDTO(
       id: matchDoc.id,
       name: matchData['name'] as String,
       date: matchDate,
       participants: participantsDtos,
       location: matchLocation,
-      organizerId: matchData['organizerId'] as String?,
-      organizerNickname: matchData['organizerNickname'] as String?,
+      // organizerId: matchData['organizerId'] as String?,
+      // organizerNickname: matchData['organizerNickname'] as String?,
+      organizer: matchOrganizer,
     );
 
     return matchDto;
@@ -147,4 +162,32 @@ class MatchRemoteLocationDTO {
   final String locationName;
   final String locationCountry;
   final String locationCity;
+}
+
+// TODO move to its own dto
+
+// TODO keep simple for now - might need to be moved in the future
+// TODO maybe will need to be generated with freezed
+@immutable
+class MatchRemoteOrganizerDTO {
+  const MatchRemoteOrganizerDTO({
+    required this.organizerId,
+    required this.organizerNickname,
+  });
+
+  factory MatchRemoteOrganizerDTO.fromFirestoreMap(
+    Map<String, dynamic> organizerMap,
+  ) {
+    final String organizerId = organizerMap["organizerId"] as String;
+    final String organizerNickname =
+        organizerMap["organizerNickname"] as String;
+
+    return MatchRemoteOrganizerDTO(
+      organizerId: organizerId,
+      organizerNickname: organizerNickname,
+    );
+  }
+
+  final String organizerId;
+  final String organizerNickname;
 }

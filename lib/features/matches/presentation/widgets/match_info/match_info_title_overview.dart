@@ -5,9 +5,11 @@ class MatchInfoTitleOverview extends StatelessWidget {
   const MatchInfoTitleOverview({
     super.key,
     required this.title,
+    required this.organizerNickname,
   });
 
   final String title;
+  final String organizerNickname;
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +17,7 @@ class MatchInfoTitleOverview extends StatelessWidget {
       primaryLeadingLabel: "Match: ",
       primaryTrailingLabel: title,
       secondaryLeadingLabel: "organized by: ",
-      // FUTURE need organizer
-      secondaryTrailingLabel: "Miki Rapaić",
+      secondaryTrailingLabel: organizerNickname,
     );
   }
 }

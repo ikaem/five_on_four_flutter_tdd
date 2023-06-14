@@ -48,10 +48,19 @@ class AuthStatusNewAppController extends ChangeNotifier
   }
 
   Future<void> _checkAuth() async {
-    await authService.checkAuth();
+    try {
+      await authService.checkAuth();
 
-    // TODO test only - remove in production
-    final authToken = await FirebaseAuth.instance.currentUser?.getIdToken();
-    log(authToken ?? "");
+      // TODO test only - remove in production
+      final authToken = await FirebaseAuth.instance.currentUser?.getIdToken();
+      log(authToken ?? "");
+    } catch (e) {
+      // TODO this should now also redirect to login page
+      _isLoading = false;
+      _auth = null;
+      notifyListeners();
+      log("Error checking auth", error: e);
+      // TODO this should inform user that something went wrong - no user for isntance
+    }
   }
 }
