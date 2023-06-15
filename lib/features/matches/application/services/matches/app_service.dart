@@ -56,9 +56,10 @@ class MatchesAppService extends MatchesService
     );
 
     final WeatherModel? weather = shouldWeatherBeRetrieved
-        ? await _weatherRepository.getWeatherForCoordinates(
+        ? await _weatherRepository.getWeatherForCoordinatesAndDate(
             latitude: match.location.cityLatitude,
             longitude: match.location.cityLongitude,
+            date: match.date,
           )
         : null;
 

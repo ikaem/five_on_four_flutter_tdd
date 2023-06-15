@@ -14,7 +14,7 @@ extension TimeOfDayExtension on TimeOfDay {
     return date;
   }
 
-// TODO maybe these should be extending datetime instead
+// FUTURE maybe these should be extending datetime instead
   DateTime toCustomDateTime(DateTime customDateTime) {
     final DateTime date = DateTime(
       customDateTime.year,

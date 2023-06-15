@@ -11,19 +11,11 @@ class HttpClientInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) {
-// find the route
     final String routeAuthority = options.uri.authority;
 
     if (routeAuthority == WeatherConstants.baseUrl) {
       final String googleServicesApiKey = ValueFromEnv.weatherApiKey;
       ;
-
-      // TODO not sure that this should not be used
-      // final Uri updatedUri = options.uri.replace(
-      //   queryParameters: {
-      //     "key": googleServicesApiKey,
-      //   },
-      // );
 
       final RequestOptions updatedOptions = options.copyWith(
         queryParameters: {

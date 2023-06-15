@@ -10,21 +10,6 @@ export 'package:firebase_auth/firebase_auth.dart'
 class FirebaseAuthWrapper {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-// TODO i dont want this - i want to retrieve data from locally secure storage
-  // Future<AuthRemoteDTO?> checkAuth() async {
-  //   final User? auth = _auth.currentUser;
-
-  //   if (auth == null) return null;
-
-  //   final AuthRemoteDTO authRemoteDTO = AuthRemoteDTO(
-  //     id: id,
-  //     nickname: nickname,
-  //     email: email,
-  //     loggedInAt: loggedInAt,
-  //   );
-  //   return null;
-  // }
-
   Future<AuthRemoteDTO> registerWithUsernameAndPassword(
     RegisterCredentialsArgs credentialsArgs,
   ) async {
@@ -71,7 +56,6 @@ class FirebaseAuthWrapper {
 
     final AuthRemoteDTO authRemoteDTO = AuthRemoteDTO(
       id: user.uid,
-      // TODO not sure what is this displayName
       nickname: user.displayName!,
       email: user.email ?? credentialsArgs.email,
       loggedInAt: DateTime.now().millisecondsSinceEpoch,

@@ -9,7 +9,6 @@ class WeatherModel with _$WeatherModel {
   const factory WeatherModel({
     required String locationName,
     required double temperatureCelsius,
-    // TODO make enum eventually
     required String weatherDescription,
   }) = _WeatherModel;
 
@@ -18,7 +17,6 @@ class WeatherModel with _$WeatherModel {
   ) {
     final String locationName = dto.location.name;
 
-// TODO what if there is nothing in the list
     final WeatherHourRemoteDTO hourForecast =
         dto.forecast.forecastday.first.hour.first;
     final double temperatureCelsius = hourForecast.tempC;

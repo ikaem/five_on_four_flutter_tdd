@@ -12,27 +12,13 @@ class FirebaseFunctionsWrapper {
 
   Future<void> sendNotifications({
     required String functionName,
-    // TODO this should be a single map
-    // required List<Map<String, dynamic>> notificationsData,
     required Map<String, dynamic> notificationsData,
   }) async {
-    final HttpsCallable callable =
-        _firebaseFunctions.httpsCallable("sendMatchInvitationNotifications");
+    final HttpsCallable callable = _firebaseFunctions.httpsCallable(
+        FirebaseConstants.functionSendMatchInvitationNotifications);
 
-    // TODO test
-    final HttpsCallableResult<Map<String, dynamic>> result =
-        await callable.call<Map<String, dynamic>>(
+    await callable.call<Map<String, dynamic>>(
       notificationsData,
-
-      // {
-      //   "invitations": [
-      //     {
-      //       "playerId": "cENcRb7sx0PxKDDFS8CV0hoEaLx1",
-      //       "matchName": "test",
-      //       "matchId": "s"
-      //     }
-      //   ]
-      // },
     );
   }
 }

@@ -72,7 +72,6 @@ class InitialDataAppService implements InitialDataService {
         final DateTime previousDate = previous.date;
         final DateTime currentDate = current.date;
 
-        // sort by date, so that closest match is first
         return previousDate.compareTo(currentDate);
       });
 
@@ -84,10 +83,11 @@ class InitialDataAppService implements InitialDataService {
     );
 
     final WeatherModel? weather = shouldWeatherBeRetrieved
-        ? await _weatherRepository.getWeatherForCoordinates(
+        ? await _weatherRepository.getWeatherForCoordinatesAndDate(
             // TODO make this non-nullable
             latitude: nextMatch.location.cityLatitude,
             longitude: nextMatch.location.cityLongitude,
+            date: nextMatch.date,
           )
         : null;
 

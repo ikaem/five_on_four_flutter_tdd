@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:five_on_four_flutter_tdd/features/core/domain/models/coordinates/model.dart';
 import 'package:five_on_four_flutter_tdd/features/core/domain/values/location/value.dart';
 import 'package:geocoding/geocoding.dart';
@@ -7,7 +9,6 @@ class GeocodingWrapper {
     required String address,
     required String city,
   }) async {
-    // TODO implement this better with possibly other tool that can handle more flexible address formats
     try {
       final List<Location> locationResults = await locationFromAddress(city);
 
@@ -16,7 +17,7 @@ class GeocodingWrapper {
 
       return location;
     } catch (e) {
-// TODO log error in the caller
+      log("Error getting coordinates for place: $e");
       return null;
     }
   }
@@ -31,9 +32,8 @@ class GeocodingWrapper {
     );
 
     if (placemarks.isEmpty) {
-      // TODO log error in the caller
       return LocationValue(
-        name: "",
+        name: "Unknown",
         coordinates: CoordinatesModel(
           latitude: latitude,
           longitude: longitude,
@@ -46,7 +46,7 @@ class GeocodingWrapper {
         placemark.subAdministrativeArea ??
         placemark.administrativeArea ??
         placemark.country ??
-        "";
+        "Unknown";
 
     return LocationValue(
       name: placeName,

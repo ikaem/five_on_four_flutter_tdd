@@ -89,7 +89,7 @@ class MatchInfoBriefOverview extends StatelessWidget {
                 IconWithText(
                   icon: Icons.schedule,
                   iconColor: ColorConstants.yellow,
-                  text: match.date.asDateTimeInformatlFormattedString,
+                  text: match.date.asDateTimeInformalFormattedString,
                   textStyle: textTheme.bodyLarge!.copyWith(
                     color: ColorConstants.grey1,
                     fontWeight: FontWeight.bold,

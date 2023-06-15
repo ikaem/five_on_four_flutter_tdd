@@ -27,3 +27,11 @@ class AuthExceptionRegisterFailure extends AuthException {
   const AuthExceptionRegisterFailure({required String message})
       : super(message: message);
 }
+
+@immutable
+class AuthExceptionNotLoggedInLocally extends AuthException {
+  AuthExceptionNotLoggedInLocally({required super.message});
+
+  @override
+  String toString() => "AuthExceptionNotLoggedInLocally: ";
+}

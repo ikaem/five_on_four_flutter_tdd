@@ -2,8 +2,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/notifications_listener/providers/provider.dart';
 
 class FirebaseMessagingWrapper {
-  // FUTURE use permission handler later to request permission on initialization
-
   late final FirebaseMessaging _firebaseMessaging;
   FirebaseMessaging get firebaseMessaging => _firebaseMessaging;
 
@@ -12,7 +10,6 @@ class FirebaseMessagingWrapper {
 
   Future<void> initialize() async {
     _firebaseMessaging = FirebaseMessaging.instance;
-    // TODO careful with this - permission can be denied while app is being used
     final NotificationSettings notificationSettings =
         await _firebaseMessaging.requestPermission(
       alert: true,
@@ -34,9 +31,7 @@ class FirebaseMessagingWrapper {
   }
 
   Stream<NotificationEntity> getReceivedNotificationsStream() {
-    // FUTURE make sure this is caught by the ui controller
     if (!_isPermissionGranted) {
-      // FUTURE make better error
       throw Exception("Permission not granted");
     }
 

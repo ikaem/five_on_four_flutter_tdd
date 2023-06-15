@@ -1,5 +1,3 @@
-// TODO this should stay alive when provided
-
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -9,9 +7,6 @@ import 'package:five_on_four_flutter_tdd/features/core/domain/values/http_reques
 import 'package:five_on_four_flutter_tdd/libraries/dio/http_client_interceptor.dart';
 
 class HttpClientWrapper {
-// TODO setup interceptors
-// TODO inside interceptors, check if go for weather, and set appropriate headers
-
   HttpClientWrapper() {
     _dio.interceptors.add(HttpClientInterceptor());
   }
@@ -47,14 +42,12 @@ class HttpClientWrapper {
     return data;
   }
 
-// TODO not sure i need genertic type here
   Future<Response<T>> _makeRequest<T>({
     required HttpRequestArgsValue args,
   }) async {
     try {
       final Response<T> response = await _dio.requestUri<T>(
         args.uri,
-        // TODO not sure if i should include data here
         data: args.data,
         options: Options(
           method: args.method.name,
@@ -69,8 +62,6 @@ class HttpClientWrapper {
       }
 
       return response;
-
-      // TODO there will need to be more complex check here
     } catch (e) {
       final HttpRequestException fallbackException = HttpRequestException(
         statusCode: HttpStatus.internalServerError,
