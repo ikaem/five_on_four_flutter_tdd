@@ -3,6 +3,7 @@ import 'package:five_on_four_flutter_tdd/features/auth/domain/repository_interfa
 import 'package:five_on_four_flutter_tdd/features/core/domain/models/coordinates/model.dart';
 import 'package:five_on_four_flutter_tdd/features/core/domain/repository_interfaces/player_preferences_repository.dart';
 import 'package:five_on_four_flutter_tdd/features/core/domain/values/location/value.dart';
+import 'package:five_on_four_flutter_tdd/features/core/utils/constants/firebase_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/application/services/matches/service_mixin.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/enums/match_participant_status.dart';
@@ -108,13 +109,13 @@ class MatchesAppService extends MatchesService
     final String matchName = data.name;
 
 // TODO test this later - fails again
-    // await sendMatchInvitationNotifications(
-    //   matchId: id,
-    //   matchInvitations: matchInvitations,
-    //   functionName: FirebaseConstants.functionSendMatchInvitationNotifications,
-    //   matchName: matchName,
-    //   firebaseFunctionsWrapper: _firebaseFunctionsWrapper,
-    // );
+    await sendMatchInvitationNotifications(
+      matchId: id,
+      matchInvitations: matchInvitations,
+      functionName: FirebaseConstants.functionSendMatchInvitationNotifications,
+      matchName: matchName,
+      firebaseFunctionsWrapper: _firebaseFunctionsWrapper,
+    );
 
     return id;
   }

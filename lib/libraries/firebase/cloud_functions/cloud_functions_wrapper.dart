@@ -21,14 +21,18 @@ class FirebaseFunctionsWrapper {
 
     // TODO test
     final HttpsCallableResult<Map<String, dynamic>> result =
-        await callable.call<Map<String, dynamic>>({
-      "invitations": [
-        {
-          "playerId": "cENcRb7sx0PxKDDFS8CV0hoEaLx1",
-          "matchName": "test",
-          "matchId": "s"
-        }
-      ]
-    });
+        await callable.call<Map<String, dynamic>>(
+      notificationsData,
+
+      // {
+      //   "invitations": [
+      //     {
+      //       "playerId": "cENcRb7sx0PxKDDFS8CV0hoEaLx1",
+      //       "matchName": "test",
+      //       "matchId": "s"
+      //     }
+      //   ]
+      // },
+    );
   }
 }
