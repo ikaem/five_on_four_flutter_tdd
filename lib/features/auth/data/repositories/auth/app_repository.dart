@@ -66,4 +66,10 @@ class AuthAppRepository implements AuthRepository {
 
     return authModel;
   }
+
+  @override
+  Future<void> deleteCurrentUser() async {
+    await remoteDataSource.deleteCurrentUser();
+    await localDataSource.deleteAuth();
+  }
 }

@@ -16,6 +16,7 @@ class MatchModel with _$MatchModel {
     required List<MatchParticipantModel> joinedParticipants,
     required List<MatchParticipantModel> invitedParticipants,
     required MatchLocationModel location,
+    required MatchOrganizerModel? organizer,
   }) = _MatchModel;
 
   factory MatchModel.fromRemoteDto(MatchRemoteDTO remoteDto) {
@@ -42,6 +43,10 @@ class MatchModel with _$MatchModel {
       remoteDto.location,
     );
 
+    final MatchOrganizerModel? matchOrganizer = remoteDto.organizer != null
+        ? MatchOrganizerModel.fromRemoteDto(remoteDto.organizer!)
+        : null;
+
     final MatchModel match = MatchModel(
       id: remoteDto.id,
       name: remoteDto.name,
@@ -49,6 +54,7 @@ class MatchModel with _$MatchModel {
       invitedParticipants: matchInvitedParticipants,
       date: matchDate,
       location: matchLocation,
+      organizer: matchOrganizer,
     );
 
     return match;
@@ -74,8 +80,36 @@ class MatchModel with _$MatchModel {
         locationCountry: "Croatia",
         locationCity: "Zagreb",
       ),
+      organizer: MatchOrganizerModel(
+        organizerId: '1',
+        organizerNickname: 'Some organizer nickname',
+      ),
     );
   }
+}
+
+// TODO this possibly also generate with freezed
+
+@immutable
+class MatchOrganizerModel {
+  const MatchOrganizerModel({
+    required this.organizerId,
+    required this.organizerNickname,
+  });
+
+  factory MatchOrganizerModel.fromRemoteDto(
+    MatchRemoteOrganizerDTO remoteDto,
+  ) {
+    final MatchOrganizerModel model = MatchOrganizerModel(
+      organizerId: remoteDto.organizerId,
+      organizerNickname: remoteDto.organizerNickname,
+    );
+
+    return model;
+  }
+
+  final String organizerId;
+  final String organizerNickname;
 }
 
 // TODO this possibly also generate with freezed

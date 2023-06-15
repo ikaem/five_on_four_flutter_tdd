@@ -36,7 +36,10 @@ extension NewMatchValueExtension on NewMatchValue {
     return copyWith(invitedPlayers: newInvitedPlayers);
   }
 
-  FirestoreMatchDataValue toFirestoreMatchData() {
+  FirestoreMatchDataValue toFirestoreMatchData({
+    required String organizerId,
+    required String organizerNickname,
+  }) {
     final DateTime matchDate = time.toCustomDateTime(date);
     final Timestamp matchTimestamp = Timestamp.fromDate(matchDate);
 
@@ -54,6 +57,10 @@ extension NewMatchValueExtension on NewMatchValue {
       },
       "date": matchTimestamp,
       'isOrganizerJoined': isOrganizerJoined,
+      "organizer": {
+        'organizerId': organizerId,
+        'organizerNickname': organizerNickname,
+      }
     };
 
     final List<Map<String, dynamic>> matchParticipantsMaps =

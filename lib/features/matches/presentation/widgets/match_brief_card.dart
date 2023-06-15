@@ -37,10 +37,11 @@ class MatchBriefCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(SpacingConstants.medium),
         decoration: BoxDecoration(
-            color: ColorConstants.greenDark,
-            borderRadius: BorderRadius.circular(
-              DimensionsConstants.d10,
-            )),
+          color: ColorConstants.greenDark,
+          borderRadius: BorderRadius.circular(
+            DimensionsConstants.d10,
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

@@ -19,6 +19,9 @@ class MatchOverview extends StatelessWidget {
       children: [
         MatchInfoTitleOverview(
           title: currentMatchInfo.match.name,
+          organizerNickname:
+              currentMatchInfo.match.organizer?.organizerNickname ??
+                  "a fellow player",
         ),
         SizedBox(
           height: SpacingConstants.xLarge,

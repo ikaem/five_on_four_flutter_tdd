@@ -25,6 +25,7 @@ mixin _$MatchModel {
   List<MatchParticipantModel> get invitedParticipants =>
       throw _privateConstructorUsedError;
   MatchLocationModel get location => throw _privateConstructorUsedError;
+  MatchOrganizerModel? get organizer => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MatchModelCopyWith<MatchModel> get copyWith =>
@@ -43,7 +44,8 @@ abstract class $MatchModelCopyWith<$Res> {
       DateTime date,
       List<MatchParticipantModel> joinedParticipants,
       List<MatchParticipantModel> invitedParticipants,
-      MatchLocationModel location});
+      MatchLocationModel location,
+      MatchOrganizerModel? organizer});
 }
 
 /// @nodoc
@@ -65,6 +67,7 @@ class _$MatchModelCopyWithImpl<$Res, $Val extends MatchModel>
     Object? joinedParticipants = null,
     Object? invitedParticipants = null,
     Object? location = null,
+    Object? organizer = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -91,6 +94,10 @@ class _$MatchModelCopyWithImpl<$Res, $Val extends MatchModel>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as MatchLocationModel,
+      organizer: freezed == organizer
+          ? _value.organizer
+          : organizer // ignore: cast_nullable_to_non_nullable
+              as MatchOrganizerModel?,
     ) as $Val);
   }
 }
@@ -109,7 +116,8 @@ abstract class _$$_MatchModelCopyWith<$Res>
       DateTime date,
       List<MatchParticipantModel> joinedParticipants,
       List<MatchParticipantModel> invitedParticipants,
-      MatchLocationModel location});
+      MatchLocationModel location,
+      MatchOrganizerModel? organizer});
 }
 
 /// @nodoc
@@ -129,6 +137,7 @@ class __$$_MatchModelCopyWithImpl<$Res>
     Object? joinedParticipants = null,
     Object? invitedParticipants = null,
     Object? location = null,
+    Object? organizer = freezed,
   }) {
     return _then(_$_MatchModel(
       id: null == id
@@ -155,6 +164,10 @@ class __$$_MatchModelCopyWithImpl<$Res>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as MatchLocationModel,
+      organizer: freezed == organizer
+          ? _value.organizer
+          : organizer // ignore: cast_nullable_to_non_nullable
+              as MatchOrganizerModel?,
     ));
   }
 }
@@ -168,7 +181,8 @@ class _$_MatchModel implements _MatchModel {
       required this.date,
       required final List<MatchParticipantModel> joinedParticipants,
       required final List<MatchParticipantModel> invitedParticipants,
-      required this.location})
+      required this.location,
+      required this.organizer})
       : _joinedParticipants = joinedParticipants,
         _invitedParticipants = invitedParticipants;
 
@@ -199,10 +213,12 @@ class _$_MatchModel implements _MatchModel {
 
   @override
   final MatchLocationModel location;
+  @override
+  final MatchOrganizerModel? organizer;
 
   @override
   String toString() {
-    return 'MatchModel(id: $id, name: $name, date: $date, joinedParticipants: $joinedParticipants, invitedParticipants: $invitedParticipants, location: $location)';
+    return 'MatchModel(id: $id, name: $name, date: $date, joinedParticipants: $joinedParticipants, invitedParticipants: $invitedParticipants, location: $location, organizer: $organizer)';
   }
 
   @override
@@ -218,7 +234,9 @@ class _$_MatchModel implements _MatchModel {
             const DeepCollectionEquality()
                 .equals(other._invitedParticipants, _invitedParticipants) &&
             (identical(other.location, location) ||
-                other.location == location));
+                other.location == location) &&
+            (identical(other.organizer, organizer) ||
+                other.organizer == organizer));
   }
 
   @override
@@ -229,7 +247,8 @@ class _$_MatchModel implements _MatchModel {
       date,
       const DeepCollectionEquality().hash(_joinedParticipants),
       const DeepCollectionEquality().hash(_invitedParticipants),
-      location);
+      location,
+      organizer);
 
   @JsonKey(ignore: true)
   @override
@@ -245,7 +264,8 @@ abstract class _MatchModel implements MatchModel {
       required final DateTime date,
       required final List<MatchParticipantModel> joinedParticipants,
       required final List<MatchParticipantModel> invitedParticipants,
-      required final MatchLocationModel location}) = _$_MatchModel;
+      required final MatchLocationModel location,
+      required final MatchOrganizerModel? organizer}) = _$_MatchModel;
 
   @override
   String get id;
@@ -259,6 +279,8 @@ abstract class _MatchModel implements MatchModel {
   List<MatchParticipantModel> get invitedParticipants;
   @override
   MatchLocationModel get location;
+  @override
+  MatchOrganizerModel? get organizer;
   @override
   @JsonKey(ignore: true)
   _$$_MatchModelCopyWith<_$_MatchModel> get copyWith =>

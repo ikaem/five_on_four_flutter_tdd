@@ -115,4 +115,15 @@ class PlayersRemoteAppDataSource implements PlayersRemoteDataSource {
       fieldName: fieldValue,
     });
   }
+
+  @override
+  Future<void> deletePlayer(String playerId) async {
+    // find player and delete them autoamtically
+    final DocumentReference<Map<String, dynamic>> playerReference =
+        _firebaseFirestoreWrapper.db
+            .collection(PlayersFirebaseConstants.collectionPlayers)
+            .doc(playerId);
+
+    await playerReference.delete();
+  }
 }

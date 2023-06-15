@@ -19,10 +19,7 @@ mixin _$AuthModel {
 // TODO test only
 // required PlayerModel player,
   int get loggedInAt => throw _privateConstructorUsedError; // TODO test new
-  String get id =>
-      throw _privateConstructorUsedError; // TODO these two might not be needed eventually
-  String get nickname => throw _privateConstructorUsedError;
-  String get email => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AuthModelCopyWith<AuthModel> get copyWith =>
@@ -34,7 +31,7 @@ abstract class $AuthModelCopyWith<$Res> {
   factory $AuthModelCopyWith(AuthModel value, $Res Function(AuthModel) then) =
       _$AuthModelCopyWithImpl<$Res, AuthModel>;
   @useResult
-  $Res call({int loggedInAt, String id, String nickname, String email});
+  $Res call({int loggedInAt, String id});
 }
 
 /// @nodoc
@@ -52,8 +49,6 @@ class _$AuthModelCopyWithImpl<$Res, $Val extends AuthModel>
   $Res call({
     Object? loggedInAt = null,
     Object? id = null,
-    Object? nickname = null,
-    Object? email = null,
   }) {
     return _then(_value.copyWith(
       loggedInAt: null == loggedInAt
@@ -63,14 +58,6 @@ class _$AuthModelCopyWithImpl<$Res, $Val extends AuthModel>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      nickname: null == nickname
-          ? _value.nickname
-          : nickname // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -83,7 +70,7 @@ abstract class _$$_AuthModelCopyWith<$Res> implements $AuthModelCopyWith<$Res> {
       __$$_AuthModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int loggedInAt, String id, String nickname, String email});
+  $Res call({int loggedInAt, String id});
 }
 
 /// @nodoc
@@ -99,8 +86,6 @@ class __$$_AuthModelCopyWithImpl<$Res>
   $Res call({
     Object? loggedInAt = null,
     Object? id = null,
-    Object? nickname = null,
-    Object? email = null,
   }) {
     return _then(_$_AuthModel(
       loggedInAt: null == loggedInAt
@@ -111,14 +96,6 @@ class __$$_AuthModelCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      nickname: null == nickname
-          ? _value.nickname
-          : nickname // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }
@@ -126,11 +103,7 @@ class __$$_AuthModelCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_AuthModel implements _AuthModel {
-  const _$_AuthModel(
-      {required this.loggedInAt,
-      required this.id,
-      required this.nickname,
-      required this.email});
+  const _$_AuthModel({required this.loggedInAt, required this.id});
 
 // TODO test only
 // required PlayerModel player,
@@ -139,15 +112,10 @@ class _$_AuthModel implements _AuthModel {
 // TODO test new
   @override
   final String id;
-// TODO these two might not be needed eventually
-  @override
-  final String nickname;
-  @override
-  final String email;
 
   @override
   String toString() {
-    return 'AuthModel(loggedInAt: $loggedInAt, id: $id, nickname: $nickname, email: $email)';
+    return 'AuthModel(loggedInAt: $loggedInAt, id: $id)';
   }
 
   @override
@@ -157,14 +125,11 @@ class _$_AuthModel implements _AuthModel {
             other is _$_AuthModel &&
             (identical(other.loggedInAt, loggedInAt) ||
                 other.loggedInAt == loggedInAt) &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.nickname, nickname) ||
-                other.nickname == nickname) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.id, id) || other.id == id));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, loggedInAt, id, nickname, email);
+  int get hashCode => Object.hash(runtimeType, loggedInAt, id);
 
   @JsonKey(ignore: true)
   @override
@@ -175,20 +140,13 @@ class _$_AuthModel implements _AuthModel {
 
 abstract class _AuthModel implements AuthModel {
   const factory _AuthModel(
-      {required final int loggedInAt,
-      required final String id,
-      required final String nickname,
-      required final String email}) = _$_AuthModel;
+      {required final int loggedInAt, required final String id}) = _$_AuthModel;
 
   @override // TODO test only
 // required PlayerModel player,
   int get loggedInAt;
   @override // TODO test new
   String get id;
-  @override // TODO these two might not be needed eventually
-  String get nickname;
-  @override
-  String get email;
   @override
   @JsonKey(ignore: true)
   _$$_AuthModelCopyWith<_$_AuthModel> get copyWith =>

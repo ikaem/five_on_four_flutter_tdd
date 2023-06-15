@@ -77,6 +77,11 @@ class PlayersAppRepository implements PlayersRepository {
     );
   }
 
+  @override
+  Future<void> deletePlayer(String playerId) async {
+    await _playersRemoteDataSource.deletePlayer(playerId);
+  }
+
 // TODO not needed
   // @override
   // Future<void> updatePlayerField({

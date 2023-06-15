@@ -12,8 +12,9 @@ class AuthModel with _$AuthModel {
     // TODO test new
     required String id,
     // TODO these two might not be needed eventually
-    required String nickname,
-    required String email,
+    // required String nickname,
+    // required String email,
+    // TODO the only thing that should ever be needed is the id and possibly a token - or other way around
   }) = _AuthModel;
 
   factory AuthModel.fromLocalDTO(AuthLocalDTO localDTO) {
@@ -27,8 +28,8 @@ class AuthModel with _$AuthModel {
       // player: player,
       loggedInAt: localDTO.loggedInAt,
       id: localDTO.id,
-      nickname: localDTO.nickname,
-      email: localDTO.email,
+      // nickname: localDTO.nickname,
+      // email: localDTO.email,
     );
   }
 }

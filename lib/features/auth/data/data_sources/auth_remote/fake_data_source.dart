@@ -57,6 +57,12 @@ class AuthRemoteFakeDataSource implements AuthRemoteDataSource {
     // TODO: implement registerUserDevice
     throw UnimplementedError();
   }
+
+  @override
+  Future<void> deleteCurrentUser() {
+    // TODO: implement deleteCurrentUser
+    throw UnimplementedError();
+  }
 }
 
 List<AuthRemoteDTO> _authRemoteDTOList = [

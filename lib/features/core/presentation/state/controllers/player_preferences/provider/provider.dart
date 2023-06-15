@@ -11,6 +11,7 @@ import 'package:rxdart/rxdart.dart';
 part "provider.g.dart";
 
 // SETTING OF PREFERENCES BY user can only be done via this controller
+// FUTURE possibly move delete functionality to separate controller for better feedback to user
 @riverpod
 class PlayerPreferencesAppController extends _$PlayerPreferencesAppController
     implements PlayerPreferencesController {
@@ -56,6 +57,20 @@ class PlayerPreferencesAppController extends _$PlayerPreferencesAppController
     });
   }
 
+// TODO remove this from here
+  @override
+  Future<void> onDeleteAccount() async {
+    state = AsyncValue.loading();
+
+    try {
+      await _playerPreferencesService.handleDeleteAccount();
+      state = AsyncValue.data(null);
+    } catch (e) {
+// TODO we can specify which error happened maybe?
+      state = AsyncValue.error("deleteAccount", StackTrace.current);
+    }
+  }
+
   @override
   onChangeRegionSize(int regionSize) {
     _regionSizeSink.add(regionSize);
@@ -99,6 +114,7 @@ class PlayerPreferencesAppController extends _$PlayerPreferencesAppController
 
     try {
       await _playerPreferencesService.handleChangedRegionSize(regionSize);
+      state = AsyncValue.data(null);
     } catch (e) {
 // TODO we can specify which error happened maybe?
       state = AsyncValue.error("regionSize", StackTrace.current);

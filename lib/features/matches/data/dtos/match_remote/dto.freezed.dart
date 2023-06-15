@@ -21,7 +21,9 @@ mixin _$MatchRemoteDTO {
   int get date => throw _privateConstructorUsedError;
   MatchRemoteLocationDTO get location => throw _privateConstructorUsedError;
   List<MatchParticipantRemoteDTO> get participants =>
-      throw _privateConstructorUsedError;
+      throw _privateConstructorUsedError; // required String? organizerId,
+// required String? organizerNickname,
+  MatchRemoteOrganizerDTO? get organizer => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MatchRemoteDTOCopyWith<MatchRemoteDTO> get copyWith =>
@@ -39,7 +41,8 @@ abstract class $MatchRemoteDTOCopyWith<$Res> {
       String name,
       int date,
       MatchRemoteLocationDTO location,
-      List<MatchParticipantRemoteDTO> participants});
+      List<MatchParticipantRemoteDTO> participants,
+      MatchRemoteOrganizerDTO? organizer});
 }
 
 /// @nodoc
@@ -60,6 +63,7 @@ class _$MatchRemoteDTOCopyWithImpl<$Res, $Val extends MatchRemoteDTO>
     Object? date = null,
     Object? location = null,
     Object? participants = null,
+    Object? organizer = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -82,6 +86,10 @@ class _$MatchRemoteDTOCopyWithImpl<$Res, $Val extends MatchRemoteDTO>
           ? _value.participants
           : participants // ignore: cast_nullable_to_non_nullable
               as List<MatchParticipantRemoteDTO>,
+      organizer: freezed == organizer
+          ? _value.organizer
+          : organizer // ignore: cast_nullable_to_non_nullable
+              as MatchRemoteOrganizerDTO?,
     ) as $Val);
   }
 }
@@ -99,7 +107,8 @@ abstract class _$$_MatchRemoteDTOCopyWith<$Res>
       String name,
       int date,
       MatchRemoteLocationDTO location,
-      List<MatchParticipantRemoteDTO> participants});
+      List<MatchParticipantRemoteDTO> participants,
+      MatchRemoteOrganizerDTO? organizer});
 }
 
 /// @nodoc
@@ -118,6 +127,7 @@ class __$$_MatchRemoteDTOCopyWithImpl<$Res>
     Object? date = null,
     Object? location = null,
     Object? participants = null,
+    Object? organizer = freezed,
   }) {
     return _then(_$_MatchRemoteDTO(
       id: null == id
@@ -140,6 +150,10 @@ class __$$_MatchRemoteDTOCopyWithImpl<$Res>
           ? _value._participants
           : participants // ignore: cast_nullable_to_non_nullable
               as List<MatchParticipantRemoteDTO>,
+      organizer: freezed == organizer
+          ? _value.organizer
+          : organizer // ignore: cast_nullable_to_non_nullable
+              as MatchRemoteOrganizerDTO?,
     ));
   }
 }
@@ -152,7 +166,8 @@ class _$_MatchRemoteDTO implements _MatchRemoteDTO {
       required this.name,
       required this.date,
       required this.location,
-      required final List<MatchParticipantRemoteDTO> participants})
+      required final List<MatchParticipantRemoteDTO> participants,
+      required this.organizer})
       : _participants = participants;
 
   @override
@@ -171,9 +186,14 @@ class _$_MatchRemoteDTO implements _MatchRemoteDTO {
     return EqualUnmodifiableListView(_participants);
   }
 
+// required String? organizerId,
+// required String? organizerNickname,
+  @override
+  final MatchRemoteOrganizerDTO? organizer;
+
   @override
   String toString() {
-    return 'MatchRemoteDTO(id: $id, name: $name, date: $date, location: $location, participants: $participants)';
+    return 'MatchRemoteDTO(id: $id, name: $name, date: $date, location: $location, participants: $participants, organizer: $organizer)';
   }
 
   @override
@@ -187,12 +207,14 @@ class _$_MatchRemoteDTO implements _MatchRemoteDTO {
             (identical(other.location, location) ||
                 other.location == location) &&
             const DeepCollectionEquality()
-                .equals(other._participants, _participants));
+                .equals(other._participants, _participants) &&
+            (identical(other.organizer, organizer) ||
+                other.organizer == organizer));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, id, name, date, location,
-      const DeepCollectionEquality().hash(_participants));
+      const DeepCollectionEquality().hash(_participants), organizer);
 
   @JsonKey(ignore: true)
   @override
@@ -203,12 +225,12 @@ class _$_MatchRemoteDTO implements _MatchRemoteDTO {
 
 abstract class _MatchRemoteDTO implements MatchRemoteDTO {
   const factory _MatchRemoteDTO(
-          {required final String id,
-          required final String name,
-          required final int date,
-          required final MatchRemoteLocationDTO location,
-          required final List<MatchParticipantRemoteDTO> participants}) =
-      _$_MatchRemoteDTO;
+      {required final String id,
+      required final String name,
+      required final int date,
+      required final MatchRemoteLocationDTO location,
+      required final List<MatchParticipantRemoteDTO> participants,
+      required final MatchRemoteOrganizerDTO? organizer}) = _$_MatchRemoteDTO;
 
   @override
   String get id;
@@ -220,6 +242,9 @@ abstract class _MatchRemoteDTO implements MatchRemoteDTO {
   MatchRemoteLocationDTO get location;
   @override
   List<MatchParticipantRemoteDTO> get participants;
+  @override // required String? organizerId,
+// required String? organizerNickname,
+  MatchRemoteOrganizerDTO? get organizer;
   @override
   @JsonKey(ignore: true)
   _$$_MatchRemoteDTOCopyWith<_$_MatchRemoteDTO> get copyWith =>

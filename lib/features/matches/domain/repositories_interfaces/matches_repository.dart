@@ -9,23 +9,19 @@ abstract class MatchesRepository {
   // Future<MatchModel> getPlayerNextMatch(String playerId);
 
   Future<List<MatchModel>> getPlayerJoinedMatches(String playerId);
-
   Future<List<MatchModel>> getPlayerInvitedMatches(String playerId);
 
   Future<MatchModel> getMatch(String matchId);
-
   Future<String> createMatch({
     required NewMatchValue matchData,
     // required PlayerModel currentPlayer,
     required String playerId,
     required String playerNickname,
   });
-
   Future<void> joinMatch({
     required String matchId,
     required MatchParticipationValue matchParticipation,
   });
-
   Future<void> unjoinMatch({
     required String matchId,
     required MatchParticipationValue matchParticipation,
@@ -36,13 +32,11 @@ abstract class MatchesRepository {
     // TODO test
     RegionCoordinatesBoundariesValue coordinatesBoundaries,
   );
-
   Future<List<MatchModel>> getAllMatches(
     RegionCoordinatesBoundariesValue coordinatesBoundaries,
   );
 
-// TODO not needed
-  // Future<List<MatchModel>> getMatchesInRegion(
-  //   RegionCoordinatesBoundariesValue boundaries,
-  // );
+  // TODO test
+  Future<void> deletePlayerMatchParticipations(String playerId);
+  Future<void> removePlayerAsMatchesOrganizer(String playerId);
 }

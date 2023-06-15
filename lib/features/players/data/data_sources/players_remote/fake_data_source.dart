@@ -43,6 +43,12 @@ class PlayersRemoteFakeDataSource implements PlayersRemoteDataSource {
     // TODO: implement updatePlayerField
     throw UnimplementedError();
   }
+
+  @override
+  Future<void> deletePlayer(String playerId) {
+    // TODO: implement deletePlayer
+    throw UnimplementedError();
+  }
 }
 
 final List<PlayerRemoteDTO> _players = [

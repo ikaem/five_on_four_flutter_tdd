@@ -100,7 +100,10 @@ class MatchesRemoteAppDataSource extends MatchesRemoteDataSource
     required String playerNickname,
   }) async {
     final FirestoreMatchDataValue matchFirestoreData =
-        matchData.toFirestoreMatchData();
+        matchData.toFirestoreMatchData(
+      organizerId: playerId,
+      organizerNickname: playerNickname,
+    );
     final Map<String, dynamic> matchMap = matchFirestoreData.matchDataMap;
     final List<Map<String, dynamic>> participationsMaps =
         matchFirestoreData.participationsDataMaps;
@@ -251,6 +254,65 @@ class MatchesRemoteAppDataSource extends MatchesRemoteDataSource
     );
 
     return matchesInRegion;
+  }
+
+// TOOD get this in mixins
+  @override
+  Future<void> deletePlayerMatchParticipations(String playerId) async {
+    // find all participations for this player
+    final QuerySnapshot<Map<String, dynamic>> participationsQuerySnapshot =
+        await _firebaseFirestoreWrapper.db
+            .collectionGroup(
+              MatchesFirebaseConstants.firestoreMatchSubcollectionParticipants,
+            )
+            .where(
+              MatchesFirebaseConstants.firestoreMatchParticipantFieldPlayerId,
+              isEqualTo: playerId,
+            )
+            .get();
+
+    final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =
+        participationsQuerySnapshot.docs;
+
+    final WriteBatch batch = _firebaseFirestoreWrapper.db.batch();
+
+    for (final doc in docs) {
+      batch.delete(doc.reference);
+    }
+
+    await batch.commit();
+  }
+
+  @override
+  Future<void> removePlayerAsMatchesOrganizer(String playerId) async {
+    // find all matches where this player is organizer
+    final QuerySnapshot<Map<String, dynamic>> matchesQuerySnapshot =
+        await _firebaseFirestoreWrapper.db
+            .collection(
+              MatchesFirebaseConstants.firestoreCollectionMatches,
+            )
+            .where(
+              MatchesFirebaseConstants.firestoreMatchFieldOrganizerId,
+              isEqualTo: playerId,
+            )
+            .get();
+
+    // on each match, update organizer to null
+    final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs =
+        matchesQuerySnapshot.docs;
+
+    final WriteBatch batch = _firebaseFirestoreWrapper.db.batch();
+
+    for (final doc in docs) {
+      batch.update(
+        doc.reference,
+        {
+          MatchesFirebaseConstants.firestoreMatchFieldOrganizerId: null,
+        },
+      );
+    }
+
+    await batch.commit();
   }
 
   // TODO this should be part of a mixin

@@ -32,4 +32,9 @@ class AuthRemoteAppDataSource implements AuthRemoteDataSource {
 
     return authRemoteDTO;
   }
+
+  @override
+  Future<void> deleteCurrentUser() async {
+    await _firebaseAuthWrapper.deleteUser();
+  }
 }

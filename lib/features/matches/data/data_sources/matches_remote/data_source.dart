@@ -48,6 +48,9 @@ abstract class MatchesRemoteDataSource {
     RegionCoordinatesBoundariesValue coordinatesBoundaries,
   );
 
+  Future<void> deletePlayerMatchParticipations(String playerId);
+  Future<void> removePlayerAsMatchesOrganizer(String playerId);
+
 // TODO not needed
   // Future<List<MatchRemoteDTO>> getMatchesInRegion(
   //   RegionCoordinatesBoundariesValue coordinatesBoundaries,

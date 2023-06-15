@@ -36,48 +36,55 @@ class AuthAppService implements AuthService {
 
   @override
   Future<void> checkAuth() async {
-    final AuthModel? auth = await _authRepository.checkAuth();
+// TODO test
+    try {
+      final AuthModel? auth = await _authRepository.checkAuth();
 
-    final String? deviceToken =
-        await _firebaseMessagingWrapper.getDeviceToken();
+      final String? deviceToken =
+          await _firebaseMessagingWrapper.getDeviceToken();
 
-    final bool shouldUpdateDeviceToken = auth != null && deviceToken != null;
-    if (shouldUpdateDeviceToken) {
-      final String playerId = auth.id;
+      final bool shouldUpdateDeviceToken = auth != null && deviceToken != null;
+      if (shouldUpdateDeviceToken) {
+        final String playerId = auth.id;
 
-      await _playersRepository.updatePlayerDeviceToken(
-        playerId: playerId,
-        deviceToken: deviceToken,
-      );
-    }
+        await _playersRepository.updatePlayerDeviceToken(
+          playerId: playerId,
+          deviceToken: deviceToken,
+        );
+      }
 
-    // TODO getting full user here to make sure we can extract preferences from them
-    final bool shouldFetchFullUser = auth != null;
-    if (shouldFetchFullUser) {
-      final String playerId = auth.id;
-      final PlayerModel player = await _playersRepository.getPlayer(playerId);
+      // TODO getting full user here to make sure we can extract preferences from them
+      final bool shouldFetchFullUser = auth != null;
+      if (shouldFetchFullUser) {
+        final String playerId = auth.id;
+        final PlayerModel player = await _playersRepository.getPlayer(playerId);
 
-      final whatIsThisPlayer = player.email;
+        final whatIsThisPlayer = player.email;
 
-      final PlayerPreferencesModel playerPreferences = player.preferences;
-      // TODO this would be greate to have
-      // FUTURE implement one function to set all preferences if possible - not all preferencs will be avaialble from here
-      // _playerPreferencesRepository.setPlayerPreferences(playerPreferences);
-      // TODO this wont be needed later
-      _playerPreferencesRepository
-          .setPlayerRegionSize(playerPreferences.regionSize);
-      _playerPreferencesRepository.setCurrentPlayer(player);
+        final PlayerPreferencesModel playerPreferences = player.preferences;
+        // TODO this would be greate to have
+        // FUTURE implement one function to set all preferences if possible - not all preferencs will be avaialble from here
+        // _playerPreferencesRepository.setPlayerPreferences(playerPreferences);
+        // TODO this wont be needed later
+        _playerPreferencesRepository
+            .setPlayerRegionSize(playerPreferences.regionSize);
+        _playerPreferencesRepository.setCurrentPlayer(player);
 
 // TODO we have a better logger
-      log("This is email: $whatIsThisPlayer");
+        log("This is email: $whatIsThisPlayer");
 
-      // fina
+        // fina
 
-      // now we can set all preferences initially from the player
-    }
+        // now we can set all preferences initially from the player
+      }
 
 // FUTURE auth should only be auth info - not actual player info
-    _authStatusRepository.setAuth(auth);
+      _authStatusRepository.setAuth(auth);
+    } catch (e) {
+      // FUTURE this is not the best - it wont redirect to login page automatically
+      _authRepository.logout();
+      rethrow;
+    }
   }
 
   @override
@@ -112,6 +119,7 @@ class AuthAppService implements AuthService {
 
   @override
   Future<void> logout() async {
+    // TODO this should be unified somewhere - somehow or not
     await _authRepository.logout();
     _authStatusRepository.setAuth(null);
   }

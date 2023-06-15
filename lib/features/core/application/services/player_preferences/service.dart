@@ -16,4 +16,5 @@ abstract class PlayerPreferencesService {
 // TODO for now, it will only get current location
   Future<void> initialize();
   Future<void> handleChangedRegionSize(int regionSize);
+  Future<void> handleDeleteAccount();
 }

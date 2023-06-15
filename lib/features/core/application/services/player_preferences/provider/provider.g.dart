@@ -7,7 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$playerPreferencesServiceHash() =>
-    r'729c5b9cc444572786b63040122f7918eff89b91';
+    r'5d07946766fa40126ca7637f0d2aa25a339c48ee';
 
 /// See also [playerPreferencesService].
 @ProviderFor(playerPreferencesService)

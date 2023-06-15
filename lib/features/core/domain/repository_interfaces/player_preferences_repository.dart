@@ -18,8 +18,11 @@ abstract class PlayerPreferencesRepository {
   int? get playerRegionSize;
   LocationValue? get playerCurrentLocation;
 
-  // TOOD test
-  String? get playerNickname;
+  // TOOD test - maybe not needed
+  // String? get playerNickname;
+  // String? get playerId;
+
+  PlayerModel? get currentPlayer;
 
 // TOOD lot of this not needed
   void setAvatarUrl(String avatarUrl);
