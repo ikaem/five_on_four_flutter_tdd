@@ -35,7 +35,7 @@ class AuthAppService implements AuthService {
       _authStatusRepository.observeAuthStatus();
 
   @override
-  Future<void> checkAuth() async {
+  Future<AuthModel?> checkAuth() async {
 // TODO test
     try {
       final AuthModel? auth = await _authRepository.checkAuth();
@@ -80,6 +80,7 @@ class AuthAppService implements AuthService {
 
 // FUTURE auth should only be auth info - not actual player info
       _authStatusRepository.setAuth(auth);
+      return auth;
     } catch (e) {
       // FUTURE this is not the best - it wont redirect to login page automatically
       _authRepository.logout();

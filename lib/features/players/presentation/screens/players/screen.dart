@@ -1,15 +1,12 @@
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/search/search_filters_container.dart';
-import 'package:five_on_four_flutter_tdd/features/core/utils/constants/app_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/constants/widget_keys_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/players/domain/models/player/model.dart';
 import 'package:five_on_four_flutter_tdd/features/players/presentation/state/controllers/players_search/providers/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/players/presentation/widgets/players_search/search_results_players.dart';
-import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class PlayersScreen extends ConsumerWidget {
   PlayersScreen({super.key});
@@ -103,11 +100,11 @@ class PlayersScreen extends ConsumerWidget {
     required BuildContext context,
     required PlayerModel playerModel,
   }) {
-    context.pushNamed(
-      AppRoutes.playerInfoScreenRouteValue.name,
-      pathParameters: {
-        AppConstants.idKey: playerModel.id,
-      },
-    );
+    // context.pushNamed(
+    //   AppRoutes.playerInfoScreenRouteValue.name,
+    //   pathParameters: {
+    //     AppConstants.idKey: playerModel.id,
+    //   },
+    // );
   }
 }

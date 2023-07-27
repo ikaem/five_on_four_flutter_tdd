@@ -5,12 +5,10 @@ import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/inpu
 import 'package:five_on_four_flutter_tdd/features/core/utils/constants/assets_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/constants/widget_keys_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/extensions/build_context_extension.dart';
-import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 
 class RegisterScreenView extends ConsumerWidget {
   const RegisterScreenView({super.key});
@@ -64,10 +62,10 @@ class RegisterScreenView extends ConsumerWidget {
                 SizedBox(
                   height: SpacingConstants.medium,
                 ),
-                TextButton(
-                    onPressed: () =>
-                        context.pushNamed(AppRoutes.loginScreenRouteValue.name),
-                    child: Text("Login?"))
+                // TextButton(
+                //     onPressed: () =>
+                //         context.pushNamed(AppRoutes.loginScreenRouteValue.name),
+                //     child: Text("Login?"))
               ],
             ),
           ),

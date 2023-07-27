@@ -5,10 +5,9 @@ import 'package:five_on_four_flutter_tdd/features/core/presentation/state/contro
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/app_bar_more_actions.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/home_screen/home_screen_view_content.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/constants/widget_keys_constants.dart';
-import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 // TODO this needs a view, too
 class HomeScreen extends ConsumerStatefulWidget {
@@ -52,9 +51,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           Icons.sports_soccer,
         ),
         onPressed: () {
-          context.pushNamed(
-            AppRoutes.matchCreateScreenRouteValue.name,
-          );
+          // context.pushNamed(
+          //   AppRoutes.matchCreateScreenRouteValue.name,
+          // );
+          // TOD move this to extension
+          // Routemaster.of(context).push(Routes.matchCreateScreenRoute.path);
+          // TODO test sentry
+
+          // TODO make wrapper for this - also make this more seamless somehow - catch these only in domain layer
+
+          try {
+            throw "anything";
+          } catch (e, s) {
+            Sentry.captureException(e, stackTrace: s);
+          }
         },
       ),
       body: initialDataValue.when(

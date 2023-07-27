@@ -1,16 +1,13 @@
 import 'package:five_on_four_flutter_tdd/features/core/presentation/widgets/icon_with_text.dart';
-import 'package:five_on_four_flutter_tdd/features/core/utils/constants/app_constants.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/extensions/date_time_extension.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match/model.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/domain/models/match_info/model.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/domain/models/weather/model.dart';
 import 'package:five_on_four_flutter_tdd/features/weather/presentation/widgets/weather_brief_info.dart';
-import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/color_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/dimensions_constants.dart';
 import 'package:five_on_four_flutter_tdd/theme/constants/spacing_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class MatchInfoBriefOverview extends StatelessWidget {
   const MatchInfoBriefOverview({
@@ -45,12 +42,12 @@ class MatchInfoBriefOverview extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        context.pushNamed(
-          AppRoutes.matchInfoScreenRouteValue.name,
-          pathParameters: {
-            AppConstants.idKey: match.id,
-          },
-        );
+        // context.pushNamed(
+        //   AppRoutes.matchInfoScreenRouteValue.name,
+        //   pathParameters: {
+        //     AppConstants.idKey: match.id,
+        //   },
+        // );
       },
       child: Container(
         decoration: BoxDecoration(

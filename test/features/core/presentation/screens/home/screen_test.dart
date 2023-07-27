@@ -2,8 +2,8 @@ import 'package:five_on_four_flutter_tdd/features/core/application/services/init
 import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/initial_data/controller.dart';
 import 'package:five_on_four_flutter_tdd/features/core/presentation/state/controllers/initial_data/providers/app_controller/provider.dart';
 import 'package:five_on_four_flutter_tdd/features/core/utils/constants/widget_keys_constants.dart';
+import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/match_info/match_info_brief_overview.dart';
 import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/matches_briefs_lists_tabbled_overview.dart';
-import 'package:five_on_four_flutter_tdd/features/matches/presentation/widgets/widgets.dart';
 import 'package:five_on_four_flutter_tdd/features/players/presentation/widgets/widgets.dart';
 import 'package:five_on_four_flutter_tdd/routing/app_routes.dart';
 import 'package:flutter/material.dart';
